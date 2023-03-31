@@ -1,43 +1,87 @@
-
 <div class="card h-full">
-
-  <div class="grid grid-cols-3 ">
-      <a class="flex space-x-3 col-span-2" routerLink="{{route}}">
-          <div class="rounded-lg-white">
-              <svg-icon svgClass="w-6" [name]="card.mainIcon" *ngIf="card.mainIcon" ></svg-icon>
-          </div>
-          <div class="flex flex-col justify-center">
-              <div >
-                  <span class="text-sm font-semibold w-32 " *ngIf="card.primaryTitle1">{{card.primaryTitle1}}</span>
-                  <span class="text-sm font-semibold ml-2 w-32   {{textColor}} " *ngIf="card.primaryTitle2">{{card.primaryTitle2}}</span>
-              </div>
-              <span class="text-gray-2 whitespace-nowrap" *ngIf="card.secondaryTitle" >{{card.secondaryTitle}}</span>
-          </div>
-      </a>
-
-      <div class="flex items-center justify-self-end">
-          <!-- <app-drop-menu type="edit" size = "xs" [for]="for" [data]="data" (refreshListPage)="refreshListPage.emit()"></app-drop-menu> -->
+  <div class="grid grid-cols-3">
+    <div class="flex space-x-3 col-span-2">
+      <div class="rounded-lg-white">
+        <svg-icon
+          svgClass="w-6"
+          [name]="card.mainIcon"
+          *ngIf="card.mainIcon"
+        ></svg-icon>
       </div>
-
-  </div>
-  <div *ngIf="card.paragraph">
-      <p class="text-gray-2 text-justify">
-          {{card.paragraph}}
-      </p>
-  </div>
-  <div class="space-y-1" *ngIf="card.secondaryData">
-      <div class="flex space-x-2" *ngFor="let element of card.secondaryData ">
-          <span class="rounded-full-white" >
-              <svg-icon svgClass="w-3" [name]="element.icon"></svg-icon>
-          </span>
-          <span class="flex items-center">{{element.data}}</span>
+      <div class="flex flex-col justify-center">
+        <div>
+          <span class="text-sm font-semibold w-32" *ngIf="card.primaryTitle1">{{
+            card.primaryTitle1
+          }}</span>
+          <span
+            class="text-sm font-semibold ml-2 w-32   {{ textColor }} "
+            *ngIf="card.primaryTitle2"
+            >{{ card.primaryTitle2 }}</span
+          >
+        </div>
+        <span
+          class="text-gray-2 whitespace-nowrap"
+          *ngIf="card.secondaryTitle"
+          >{{ card.secondaryTitle }}</span
+        >
       </div>
+    </div>
+
+    <div class="flex items-center justify-self-end relative">
+      <!-- <ng-content select="[dropmenu]"></ng-content> -->
+      <button class="common-btn-white " (click)="toggleDropMenu()">
+        <svg-icon name="3dots" svgClass="w-4"></svg-icon>
+      </button>
+      <div class="drop-menu" *ngIf="open">
+          <button
+            class="item-menu-{{ size }}"
+            typeM="showModal"
+            (click)="openModel('show',card.id)"
+          >
+            <svg-icon name="add" svgClass="w-4"></svg-icon>
+            <span>{{ "DROP_MENU.EDIT.V" | translate }}</span>
+          </button>
+          <button
+            class="item-menu-{{ size }}"
+            typeM="editModal"
+            href="#"
+            (click)="openModel('edit',card.id)"
+          >
+            <svg-icon name="edit" svgClass="w-4"></svg-icon>
+            <span>{{ "DROP_MENU.EDIT.M" | translate }}</span>
+          </button>
+          <button
+            class="item-menu-{{ size }}"
+            href="#"
+            (click)="openModel('delete', card.id)"
+          >
+            <svg-icon name="delete" svgClass="w-4"></svg-icon>
+            <span>{{ "DROP_MENU.EDIT.SP" | translate }}</span>
+          </button>
+      </div>
+    </div>
   </div>
-  <div class="flex space-x-1" *ngIf="this.card.keyWord">
-
-
-      <span class="rounded-full-black" *ngFor="let word of card.keyWord | slice:0:3 ">{{word}}</span>
-      <span class="rounded-full-black" *ngIf="card.keyWord.length > 3">+{{card.keyWord.length-3}}</span>
+</div>
+<div *ngIf="card.paragraph">
+  <p class="text-gray-2 text-justify">
+    {{ card.paragraph }}
+  </p>
+</div>
+<div class="space-y-1" *ngIf="card.secondaryData">
+  <div class="flex space-x-2" *ngFor="let element of card.secondaryData">
+    <span class="rounded-full-white">
+      <svg-icon svgClass="w-3" [name]="element.icon"></svg-icon>
+    </span>
+    <span class="flex items-center">{{ element.data }}</span>
   </div>
-
+</div>
+<div class="flex space-x-1" *ngIf="this.card.keyWord">
+  <span
+    class="rounded-full-black"
+    *ngFor="let word of card.keyWord | slice : 0 : 3"
+    >{{ word }}</span
+  >
+  <span class="rounded-full-black" *ngIf="card.keyWord.length > 3"
+    >+{{ card.keyWord.length - 3 }}</span
+  >
 </div>

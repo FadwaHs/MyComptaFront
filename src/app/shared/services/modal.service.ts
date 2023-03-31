@@ -4,23 +4,34 @@ import { Injectable } from '@angular/core';
   providedIn:'root'
 })
 export class ModalService {
-  private modal: any
+  // coco   private modal: any
+  private modals: any[] = [];
 
   add(modal: any) {
       // add modal to array of active modals
-      this.modal = modal;
+      // coco this.modal = modal;
+
+      this.modals.push(modal);
+
   }
 
-  open() {
+  remove(id: string) {
+    // remove modal from array of active modals
+    this.modals = this.modals.filter(x => x.id !== id);
+}
+
+  open(id: string) {
       // open modal specified by id
-
-      this.modal.open();
+      let modal: any = this.modals.filter(x => x.id === id)[0];
+        modal.open();
+     // coco this.modal.open();
   }
 
-  close() {
+  close(id: string) {
       // close modal specified by id
-
-      this.modal.close();
+      let modal: any = this.modals.filter(x => x.id === id)[0];
+      modal.close();
+    // coco  this.modal.close();
   }
 
   // destroy(){

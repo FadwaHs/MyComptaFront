@@ -37,12 +37,12 @@ export class EnvironmentComponent implements OnInit{
         card.primaryTitle1 = e.nom
         this.cards.push(card)
       })
-     
+
   }
 
-  openModel() {
-    this.modalService.open()
-  }
+  // openModel() {
+  //   this.modalService.open()
+  // }
 
 
 

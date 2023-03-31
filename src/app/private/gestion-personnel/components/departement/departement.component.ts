@@ -4,8 +4,12 @@ import { ModalComponent } from './../../../../shared/directives/modal.components
 import { ModalService } from './../../../../shared/services/modal.service';
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { FilterService } from 'src/app/shared/services/filter.service';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Subject, Subscriber, Subscription } from 'rxjs';
 import { Card } from 'src/app/shared/models/card';
+import type {ModalTypes, Optional, Modes} from './types'
+
+
+
 
 @Component({
   selector: 'app-departement',
@@ -15,7 +19,8 @@ import { Card } from 'src/app/shared/models/card';
 export class DepartementComponent implements OnInit{
 
   cards : Card[] = []
-  departements :Array<Departement> = []
+  departements :Array<Departement> = [];
+  selected: Optional<Departement> = undefined;
   isEmpty : boolean = false;
 
 
@@ -25,6 +30,14 @@ export class DepartementComponent implements OnInit{
   page :number = 1;
   count :number = 0;
   pageSize :number = 8;
+
+  selectSubject = new Subject<{mode: Modes, id: number}>();
+  subscriber: Subscription;
+
+
+  mode: Modes = 'delete';
+
+
 
 
   constructor(private modalService : ModalService,private filterService : FilterService, private departementService:DepartementService)
@@ -40,6 +53,17 @@ export class DepartementComponent implements OnInit{
       await this.setAllDepts();
       this.setCards()
       if(this.departements.length == 0) this.isEmpty = true
+
+
+     this.subscriber = this.selectSubject.subscribe(({id, mode}) => {
+        this.selected = this.departements.find(d => d.id === id);
+      this.mode = mode;
+      })
+
+    }
+
+    ngOnDestroy(): void {
+      this.subscriber.unsubscribe();
     }
 
 
@@ -67,7 +91,8 @@ export class DepartementComponent implements OnInit{
         card.mainIcon= 'societes'
         card.primaryTitle1 = departement.nom
         card.secondaryTitle = '#'+departement.designation
-        // card.paragraph = departement.description
+        card.secondaryData = []
+        card.secondaryData.push({icon : 'par',data : 'Chef Mohamed'})
         this.cards.push(card)
       })
 
@@ -111,8 +136,16 @@ export class DepartementComponent implements OnInit{
     }
 
 
-  openModel() {
-    this.modalService.open()
+  openModel(id :string) {
+    this.modalService.open(id)
+  }
+
+  handleClose() {
+    console.log('modal close event')
+  }
+
+  closeDeleteModal() {
+    this.mode = 'none';
   }
 
 }

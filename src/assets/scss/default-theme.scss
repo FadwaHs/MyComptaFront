@@ -80,7 +80,9 @@
     // END BUTTONS
 
 
-
+    .text{
+      @apply py-1 px-4 text-sm bg-gray-1 focus:outline-none border border-red rounded-2xl w-full text-gray-2 overflow-hidden ;
+  }
 
     // START INPUTS STYLE
 

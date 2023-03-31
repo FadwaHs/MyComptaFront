@@ -6,6 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./drop-menu-global.component.scss']
 })
 export class DropMenuGlobalComponent {
+
+  
+
   dropMenu:boolean=false
 
   toggleDropMenu(){

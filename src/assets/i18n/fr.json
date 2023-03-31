@@ -21,7 +21,9 @@
     "ESP": "Ajouter un espace",
     "ENV": "Environnements",
     "DP" :"Départements",
-    "DPA": "Ajouter un déparetement"
+    "DPA": "Ajouter un déparetement",
+    "DPM": "Modifier Déparetement",
+    "DPS": "Supprimer Déparetement"
   },
   "FORM": {
     "TITLE": {
@@ -125,7 +127,9 @@
       "EN": "Enregistrer",
       "AL" : "Ajouter une ligne",
       "AJ": "Ajouter",
-      "AU": "Autre espace"
+      "AU": "Autre espace",
+      "MAJ": "Mettre à jour",
+      "S" : "Supprimer"
     },
     "TEXT":{
       "THT": "Total HT",
@@ -141,7 +145,9 @@
       "MIN" : "Doit être supérieur ou égal à",
       "CMP" : "Votre format n'est pas unique ! Vous devez impérativement inclure le compteur (<cmp>).",
       "AA" : "Votre format n'est pas unique ! Avec une réinitialisation du compteur annuelle vous devez impérativement inclure dans le format l'année (<aaaa> ou <aa>).",
-      "DOC" : "Votre format n'est pas unique ! Vous devez impérativement inclure le type de document (<doc> ou <facture|devis|avoir|acompte>)."
+      "DOC" : "Votre format n'est pas unique ! Vous devez impérativement inclure le type de document (<doc> ou <facture|devis|avoir|acompte>).",
+      "R" : "Remarque : Suppression / anticipant une désignation va supprimer tous les Employés qui lui associé"
+
     }
   },
   "EMPTY_DATA_MESSAGE": {
@@ -211,7 +217,8 @@
       }
       ,
       "DP" :{
-        "L1" : "Nouveau département"
+        "L1" : "Nouveau département",
+        "L2" : "Exporter les départements"
       }
     },
     "EDIT":{
@@ -235,7 +242,8 @@
       "CF": "Créer une facture",
       "CFA": "Créer une facture d'acompte",
       "DD" : "Dupliquer le devis",
-      "DF" : "Dupliquer en facture"
+      "DF" : "Dupliquer en facture",
+      "V" : "voir"
     },
     "SETTINGS" :{
       "P" : "Préférences",

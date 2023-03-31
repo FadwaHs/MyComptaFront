@@ -4,12 +4,12 @@
         <div class="flex gap-4">
             <!-- 3dots menu | edit| list | show -->
             <!-- <app-drop-menu-global ></app-drop-menu-global> -->
-            <app-drop-menu-per for="DP" (addClicked)="openModel()"></app-drop-menu-per>
+            <app-drop-menu-per for="DP" type="list" (addClicked)="openModel('addModal')"></app-drop-menu-per>
         </div>
     </div>
 
     <div class="flex justify-center items-center " *ngIf="isEmpty">
-      <app-empty-data-message for="DP" (btnClicked)="openModel()"></app-empty-data-message>
+      <app-empty-data-message for="DP" (btnClicked)="openModel('addModal')"></app-empty-data-message>
     </div>
 
     <!-- <button class="common-btn-black" (click)="openModel()"> test</button> -->
@@ -20,7 +20,11 @@
             itemsPerPage: pageSize,
             currentPage: page,
             totalItems: count
-          }"></app-card-global>
+          }"
+          [selector]="selectSubject"
+          >
+          <app-drop-menu-per for="DP" size="xs" type="edit" dropmenu></app-drop-menu-per>
+          </app-card-global>
     </div>
 
 <app-pagination (pageChange)="pageChange($event)" (pageSizeChange)="pageSizeChange($event)"></app-pagination>
@@ -28,7 +32,10 @@
 </section>
 
 
-<app-add-edit-dept-modal ></app-add-edit-dept-modal>
+<app-add-edit-dept-modal *ngIf="selected" ></app-add-edit-dept-modal>
+
+<department-delete-modal *ngIf="mode == 'delete'" [selectedDepartment]="selected" (onClose)="closeDeleteModal()" />
+<app-dept-delete-modal *ngIf="mode=='delete'" ></app-dept-delete-modal>
 
 
 

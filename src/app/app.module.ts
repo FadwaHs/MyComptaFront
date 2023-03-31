@@ -51,7 +51,7 @@ function getCurrentLocal(){
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,

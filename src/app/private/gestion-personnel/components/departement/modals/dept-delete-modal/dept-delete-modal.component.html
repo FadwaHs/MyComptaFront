@@ -1,0 +1,6 @@
+<modal [isOpen]="isOpen" (onClose)="handleClose()">
+  <h1 class="secondary-title text-base">{{'TITLE.DPS'| translate}} </h1>
+  <div (click)="$event.stopImmediatePropagation()">
+      {{selectedDepartment?.nom}}
+  </div>
+<modal>
