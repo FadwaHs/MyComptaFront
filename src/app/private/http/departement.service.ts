@@ -17,6 +17,9 @@ export class DepartementService {
     return this.http.get<Departement>(`${this.api}/${id}`);
   }
 
+  findDepartementByName(nom :string):Observable<Departement>{
+    return this.http.get<Departement>(`${this.api}/find/${nom}`);
+  }
   getAllDepartements(): Observable<Departement[]>{
     return this.http.get<Departement[]>(`${this.api}`)
   }
@@ -36,9 +39,14 @@ export class DepartementService {
    return this.http.delete(`${this.api}/${id}`,{ responseType: 'text'});
   }
 
+  // deleteDepartementById(id :number):Observable<any>{
+  //   return this.http.delete(`${this.api}/${id}`);
+  //  }
 
-  // getDepartementByName(): Observable<Departement[]>{
-  //   return this.http.get<Departement[]>(`${this.api}/recipient`)
-  // }
+  getDepartementsByName(): Observable<Departement[]>{
+    // return this.http.get<Departement[]>(`${this.api}/recipient`)
+        return this.http.get<Departement[]>(`${this.api}/recipient`)
+
+  }
 
 }

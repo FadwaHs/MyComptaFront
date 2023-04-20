@@ -8,6 +8,8 @@ import { DropMenuPerComponent } from './shared-per/components/drop-menu-per/drop
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SharedPerModule } from './shared-per/shared-per.module';
 
+import { MatDialogModule,MatDialogConfig,MatDialog, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -18,9 +20,27 @@ import { SharedPerModule } from './shared-per/shared-per.module';
     CommonModule,
     GestionPersonnelRoutingModule,
     DepartementModule,
-    SharedPerModule
+    SharedPerModule,
+    MatDialogModule,
+
+
+
+
+
   ],
+  providers: [
+    MatDialogConfig,
+    {provide: MatDialogRef, useValue: {} },
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
+  ],
+
+
+
   exports:[
+
+      MatDialogModule,
+
   ]
+
 })
 export class GestionPersonnelModule { }

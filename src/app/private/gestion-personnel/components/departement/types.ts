@@ -3,4 +3,4 @@ export type ModalTypes =
 
 export type Optional<T> = T | undefined;
 
-export type Modes = 'edit' | 'delete' | 'show' | 'none';
+export type Modes = 'edit' | 'delete' | 'show' | 'add' |'none';

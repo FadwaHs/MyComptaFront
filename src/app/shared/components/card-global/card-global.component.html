@@ -1,4 +1,4 @@
-<div class="card h-full">
+<div class="card h-full" clickOutside (clickOutside)="closeMenu()">
   <div class="grid grid-cols-3">
     <div class="flex space-x-3 col-span-2">
       <div class="rounded-lg-white">
@@ -27,7 +27,7 @@
       </div>
     </div>
 
-    <div class="flex items-center justify-self-end relative">
+    <div class="flex items-center justify-self-end relative" selected >
       <!-- <ng-content select="[dropmenu]"></ng-content> -->
       <button class="common-btn-white " (click)="toggleDropMenu()">
         <svg-icon name="3dots" svgClass="w-4"></svg-icon>
@@ -44,7 +44,6 @@
           <button
             class="item-menu-{{ size }}"
             typeM="editModal"
-            href="#"
             (click)="openModel('edit',card.id)"
           >
             <svg-icon name="edit" svgClass="w-4"></svg-icon>
@@ -52,7 +51,6 @@
           </button>
           <button
             class="item-menu-{{ size }}"
-            href="#"
             (click)="openModel('delete', card.id)"
           >
             <svg-icon name="delete" svgClass="w-4"></svg-icon>

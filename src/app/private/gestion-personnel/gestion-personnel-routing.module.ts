@@ -5,7 +5,9 @@ import { GestionPersonnelComponent } from './gestion-personnel.component';
 
 const routes: Routes = [
   { path: '', component: GestionPersonnelComponent },
-  { path: 'departements', component: DepartementComponent }
+  { path: 'departements', component: DepartementComponent },
+
+
 
 
 ];

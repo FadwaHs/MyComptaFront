@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Subject } from 'rxjs';
 import { ModalService } from 'src/app/shared/services/modal.service';
+import { Modes } from '../../../components/departement/types';
 
 @Component({
   selector: 'app-drop-menu-per',
@@ -14,7 +16,7 @@ export class DropMenuPerComponent {
   for : 'DP'
 
   @Input()
-  type : 'list'|'edit'|'show'
+  type : 'list'|'edit'|'show'|'add'
 
   @Input()
   typeM: 'addModal'|'showModal'|'editModal'|'delModal'
@@ -24,6 +26,8 @@ export class DropMenuPerComponent {
 
   @Output()
   addClicked : EventEmitter<void> = new EventEmitter()
+
+  @Input() selector: Subject<{id: number; mode: Modes}>;
 
   dropMenu:boolean=false
 

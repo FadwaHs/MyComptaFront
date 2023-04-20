@@ -12,6 +12,10 @@ export class NavigateService {
   public readonly environmentListPath = '/environments'
   public readonly environmentPath = '/environment/1'
   public readonly personnelPath = this.environmentPath+'/personnel'
+
+  public readonly departementsPath = this.personnelPath+'/departements'
+
+
   public readonly facturationPath = this.environmentPath+'/facturation'
 
   // Start of routes of Espace Facturation

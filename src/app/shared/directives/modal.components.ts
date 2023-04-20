@@ -37,16 +37,16 @@ export class ModalComponent implements OnInit, OnDestroy {
 
     constructor(private modalService: ModalService, private el: ElementRef) {
         this.element = el.nativeElement;
-        console.log(this.element)
+        // console.log(this.element)
     }
 
     ngOnInit(): void {
         let modal = this;
         //ensure id attribute exists
-        if (!this.id) {
-          console.error('modal must have an id');
-          return;
-        }
+        // if (!this.id) {
+        //   console.error('modal must have an id');
+        //   return;
+        // }
         // move element to bottom of page (just before </body>) so it can be displayed above everything else
         document.body.appendChild(this.element);
 
@@ -72,7 +72,7 @@ export class ModalComponent implements OnInit, OnDestroy {
     // open modal
     open(): void {
 
-      this.isOpen = true
+      // this.isOpen = true
          this.element.style.display = 'block';
          document.body.classList.add('modal-open');
     }
@@ -80,7 +80,7 @@ export class ModalComponent implements OnInit, OnDestroy {
     // close modal
     close(): void {
 
-      this.isOpen = false
+      // this.isOpen = false
          this.element.style.display = 'none';
          document.body.classList.remove('modal-open');
     }

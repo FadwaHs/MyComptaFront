@@ -44,7 +44,8 @@
       "NE": "Nom d’espace ",
       "O": "(Optionel)",
       "I": "Inviter ",
-      "DP" :"Département"
+      "DP" :"Département",
+      "EM" :"Employés"
     },
     "INPUT": {
       "NS": "Nom de la société",
@@ -146,7 +147,12 @@
       "CMP" : "Votre format n'est pas unique ! Vous devez impérativement inclure le compteur (<cmp>).",
       "AA" : "Votre format n'est pas unique ! Avec une réinitialisation du compteur annuelle vous devez impérativement inclure dans le format l'année (<aaaa> ou <aa>).",
       "DOC" : "Votre format n'est pas unique ! Vous devez impérativement inclure le type de document (<doc> ou <facture|devis|avoir|acompte>).",
-      "R" : "Remarque : Suppression / anticipant une désignation va supprimer tous les Employés qui lui associé"
+      "R" : {
+        "L1" : "Remarque :",
+        "L2" : " Suppression / anticipant une désignation va supprimer tous les",
+        "L3" : " qui lui associé"
+
+      }
 
     }
   },

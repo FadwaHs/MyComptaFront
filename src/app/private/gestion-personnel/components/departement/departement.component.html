@@ -1,41 +1,186 @@
-<section>
-    <div class="flex justify-between mb-5">
+<section >
+  <div class="flex justify-between mb-5">
         <span class="primary-title" >{{'TITLE.DP' | translate}}</span>
         <div class="flex gap-4">
             <!-- 3dots menu | edit| list | show -->
-            <!-- <app-drop-menu-global ></app-drop-menu-global> -->
-            <app-drop-menu-per for="DP" type="list" (addClicked)="openModel('addModal')"></app-drop-menu-per>
-        </div>
+            <div class="relative flex gap-5" clickOutside (clickOutside)="closeMenu()">
+              <button class="common-btn-gray" (click)="toggleDropMenu()" >
+                  <svg-icon name="3dots" svgClass="w-5"></svg-icon>
+              </button>
+              <div class="drop-menu" *ngIf="dropMenu  ">
+                  <button class="item-menu-sm"  mode ='add' (click)="open(content)"(onClose)="handleClose()">
+                      <svg-icon name="add" svgClass="w-4"></svg-icon>
+                      <span >{{'DROP_MENU.LIST.DP.L1' |translate}}</span>
+                  </button>
+                  <a class="item-menu-sm" href="#">
+                    <svg-icon name="export" svgClass="w-4"></svg-icon>
+                    <span >{{'DROP_MENU.LIST.DP.L2' |translate}}</span>
+                  </a>
+              </div>
+
+          </div>
     </div>
+  </div>
+  <div class="flex justify-center items-center " *ngIf="isEmpty">
+      <app-empty-data-message for="DP" mode="add" (btnClicked)="open(content)"(onClose)="handleClose()"></app-empty-data-message>
 
-    <div class="flex justify-center items-center " *ngIf="isEmpty">
-      <app-empty-data-message for="DP" (btnClicked)="openModel('addModal')"></app-empty-data-message>
-    </div>
+  </div>
 
-    <!-- <button class="common-btn-black" (click)="openModel()"> test</button> -->
-
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 auto-rows-fr p-3"  >
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 auto-rows-fr p-3"  >
         <app-card-global  [card]="card" *ngFor="let card of cards| paginate : {
             itemsPerPage: pageSize,
             currentPage: page,
             totalItems: count
           }"
           [selector]="selectSubject"
+          (cardClicked)="onCardClicked($event)"
           >
-          <app-drop-menu-per for="DP" size="xs" type="edit" dropmenu></app-drop-menu-per>
           </app-card-global>
-    </div>
+  </div>
 
-<app-pagination (pageChange)="pageChange($event)" (pageSizeChange)="pageSizeChange($event)"></app-pagination>
+  <app-pagination (pageChange)="pageChange($event)" (pageSizeChange)="pageChange($event)"></app-pagination>
+
+  <!-- <button mode="add" (click)="open(content)"(onClose)="handleClose()">Open Modal</button> -->
 
 </section>
 
 
-<app-add-edit-dept-modal *ngIf="selected" ></app-add-edit-dept-modal>
 
-<department-delete-modal *ngIf="mode == 'delete'" [selectedDepartment]="selected" (onClose)="closeDeleteModal()" />
-<app-dept-delete-modal *ngIf="mode=='delete'" ></app-dept-delete-modal>
+<ng-template #content let-modal >
 
+  <div class="space-y-5">
+    <form [formGroup]="deptForm"  >
+      <div class="p-5">
+              <span class="secondary-title text-base" >
+            {{'TITLE.DPA'| translate}}
+          </span>
+      </div>
 
+          <div class=" text-sm grid grid-cols-1 gap-3 ">
+            <div class="flex flex-col gap-8">
 
+              <app-custom-input  type="text" color="white" [control]="deptForm.controls['nom']"
+              placeholder="{{'FORM.INPUT.NDP' | translate}} *" ></app-custom-input>
+              <app-custom-input  type="textarea" color="white" [control]="deptForm.controls['description']"
+              placeholder="{{'FORM.INPUT.D' | translate}}" ></app-custom-input>
+              <app-custom-input  type="text" color="white" [control]="deptForm.controls['designation']"
+              placeholder="{{'FORM.INPUT.DD' | translate}} *" ></app-custom-input>
+
+              <div  class="my-dialog-actions" >
+              <button class=" common-btn-black col-span-2" data-dismiss="modal" appDebounceClick (debounceClick)="onSubmit()">
+                 {{'FORM.BUTTON.AJ' | translate}}
+                </button>
+              <button class=" common-btn-gray-3 " (click)="modal.dismiss('Cross click')"  >
+                   <span>{{'FORM.BUTTON.A' | translate}} </span>
+              </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+</ng-template>
+
+<div *ngIf="isModalVisible" class="modal-overlay">
+  <ng-container *ngTemplateOutlet="selectedModalTemplate; context: { cardId: selectedCardId, closeModal: onCloseModal }"></ng-container>
+</div>
+
+<ng-template #showContent let-modal  >
+
+  <div class="space-y-5" >
+      <div class="flex flex-col-2 gap-x-64" >
+        <span class="secondary-title text-base">{{'DATA_NAME.DP'| translate}}  </span>
+        <button class="drop-btn-white" (click)="modal.dismiss('Cross click')">
+              <span><svg-icon name="add" svgClass="w-4" ></svg-icon></span>
+        </button>
+    </div>
+
+        <div class=" text-sm grid grid-cols-1 gap-3 ">
+          <div class="flex flex-col gap-2">
+            <label  type="text" >{{'FORM.INPUT.NDP' | translate}} </label>
+              <input type="text" class="common-input-white" value="{{selected!.nom}}" disabled/>
+            <label   type="textarea" >{{'FORM.INPUT.D' | translate}}</label>
+               <input type="textarea" class="common-textarea-white" value="{{selected!.description}}" disabled/>
+            <label  type="text" >{{'FORM.INPUT.DD' | translate}} </label>
+              <input type="text" class="common-input-white"  value="{{selected!.designation}}" disabled/>
+
+          </div>
+          <div class="flex flex-row-reverse gap-2 mt-5">
+              <button class="drop-btn-white" (click)="openDelete(deleteContent)" >
+                <span><svg-icon name="delete" svgClass="w-4" ></svg-icon></span>
+              </button>
+              <button class="drop-btn-white" (click)=" openEdit(editContent)">
+                  <span><svg-icon name="edit" svgClass="w-4" ></svg-icon></span>
+              </button>
+            </div>
+          </div>
+      </div>
+</ng-template>
+
+<ng-template #deleteContent let-modal  >
+
+  <div class="space-y-5" >
+      <div class="flex flex-col-2 gap-x-64" >
+        <span class="secondary-title text-base">{{'TITLE.DPS'| translate}}  </span>
+     </div>
+        <div class=" text-sm grid grid-cols-1 gap-3 ">
+          <div class="flex flex-col gap-8">
+
+            <label > {{'FORM.TITLE.DP' | translate}} *</label>
+            <input type="text" class="common-input-white" value="{{selected!.nom}}" disabled/>
+
+            <div type="text" color="gray"  rows="3" class="text">
+              <span style="font: bold; color: red;">{{'FORM.VALIDATION_MESSAGE.R.L1' | translate}}</span>
+              <span >{{'FORM.VALIDATION_MESSAGE.R.L2' | translate}} </span>
+              <span style="font: bold;color: black;">{{'FORM.TITLE.EM' | translate}}</span>
+              <span >{{'FORM.VALIDATION_MESSAGE.R.L3' | translate}}</span>
+            </div>
+
+          </div>
+          <div class="flex flex-row-reverse gap-2 mt-5">
+
+            <div class="grid grid-cols-3 text-sm gap-3 mt-5">
+              <button class=" common-btn-black col-span-2" appDebounceClick (debounceClick)="removeDept()">
+                 <span >{{'FORM.BUTTON.S' | translate}}</span>
+              </button>
+              <button class=" common-btn-gray-3 " (click)="modal.dismiss('Cross click') ">
+                   <span>{{'FORM.BUTTON.A' | translate}}</span>
+              </button>
+          </div>
+          </div>
+      </div>
+  </div>
+</ng-template>
+
+<ng-template #editContent let-modal >
+  <div class="space-y-5">
+     <form [formGroup]="deptForm" >
+      <div class="p-5">
+        <span class="secondary-title text-base" >
+          {{'TITLE.DPM'| translate}}
+        </span>
+      </div>
+          <div class=" text-sm grid grid-cols-1 gap-3 ">
+            <div class="flex flex-col gap-3">
+
+              <app-custom-input  type="text" color="white" [control]="deptForm.controls['nom']"
+              placeholder="{{'FORM.INPUT.NDP' | translate}} *" ></app-custom-input>
+              <app-custom-input  type="textarea" color="white" [control]="deptForm.controls['description']"
+              placeholder="{{'FORM.INPUT.D' | translate}}" ></app-custom-input>
+              <app-custom-input  type="text" color="white" [control]="deptForm.controls['designation']"
+              placeholder="{{'FORM.INPUT.DD' | translate}} *" ></app-custom-input>
+
+           <div  class="my-dialog-actions" >
+              <button class=" common-btn-black col-span-2" data-dismiss="modal" appDebounceClick (debounceClick)="updateDept()">
+                 {{'FORM.BUTTON.MAJ' | translate}}
+                </button>
+              <button class=" common-btn-gray-3 " (click)="modal.dismiss('Cross click')"  >
+                   <span>{{'FORM.BUTTON.A' | translate}} </span>
+              </button>
+           </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+</ng-template>

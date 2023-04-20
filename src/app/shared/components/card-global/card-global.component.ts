@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Card } from '../../models/card';
 import { ModalService } from '../../services/modal.service';
+import { Departement } from 'src/app/private/models/departement';
 
 @Component({
   selector: 'app-card-global',
@@ -11,9 +12,6 @@ import { ModalService } from '../../services/modal.service';
 })
 export class CardGlobalComponent {
   open = false;
-
-
-
 
   @Input()
   card: Card = {} as Card;
@@ -29,31 +27,43 @@ export class CardGlobalComponent {
   @Input()
   size: 'xs' | 'sm' = 'xs'
 
-  @Output()
-  addClicked : EventEmitter<void> = new EventEmitter();
-@Input() selector: Subject<{id: number; mode: Modes}>;
+  // @Output()
+  // addClicked : EventEmitter<void> = new EventEmitter();
 
-  dropMenu:boolean=false;
+  @Input() selector: Subject<{id: number; mode: Modes}>;
 
-  constructor(private modalService : ModalService){}
+  // @Input() item:any
+
+  @Output() cardClicked = new EventEmitter<{mode: Modes, id: number}>();
+
+
+  constructor(private modalService : ModalService){
+
+  }
 
 
   toggleDropMenu(){
     this.open = !this.open
   }
   closeMenu(){
-    this.dropMenu = false
+    this.open=false
+
   }
 
-  onClicked(){
-    this.dropMenu = false
-    this.addClicked.emit()
-  }
 
-  openModel(mode: Modes,id: string) {
+  // onClicked(){
+  //   this.open = false
+  //   // this.addClicked.emit()
+  // }
+
+   openModel(mode: Modes,id: string) {
     const did = +id.split('-')[0];
-    this.selector.next({mode, id:did});
-    // this.modalService.open(id)
+    const did2 = Number(did);
+    this.cardClicked.emit({mode, id:did2});
+    this.closeMenu()
+    this.selector.next({id:did2, mode:mode});
+
+
   }
 
   closeModal(id: string) {

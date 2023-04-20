@@ -53,7 +53,11 @@
         }
     }
 
+    .drop-btn-white{
+      @apply bg-white-1 rounded-full p-1 hover:ring-1 hover:ring-black-1 focus:ring-1 focus:ring-black-1;
 
+
+    }
 
     .common-btn-white{
         @apply bg-white-1 rounded-full p-2 hover:ring-1 hover:ring-black-1 focus:ring-1 focus:ring-black-1;
@@ -81,7 +85,7 @@
 
 
     .text{
-      @apply py-1 px-4 text-sm bg-gray-1 focus:outline-none border border-red rounded-2xl w-full text-gray-2 overflow-hidden ;
+      @apply py-1 px-4 text-sm bg-gray-1 focus:outline-none border-[2px] border-red rounded-2xl w-full text-gray-2 overflow-hidden  ;
   }
 
     // START INPUTS STYLE
@@ -278,7 +282,10 @@
 
 
 
+   // modal material
 
+
+   
 
     // End Table Style
 }
