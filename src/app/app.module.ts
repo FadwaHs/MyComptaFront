@@ -16,6 +16,7 @@ import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import localeEn from '@angular/common/locales/en';
 import { MatDialog } from '@angular/material/dialog';
+import { FacturesModule } from './private/gestion-facturation/components/factures/factures.module';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -72,6 +73,7 @@ function getCurrentLocal(){
       },
       defaultLanguage: defaultLang(),
     }),
+    FacturesModule,
 
   ],
   providers: [

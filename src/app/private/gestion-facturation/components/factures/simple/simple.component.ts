@@ -1,28 +1,29 @@
 import { Component } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { FilterService } from 'src/app/shared/services/filter.service';
-import { FactureAvoirStatus } from '../../../enums/facture-avoir-status';
-import { FactureAvoirService } from '../../../http/facture-avoir.service';
-import { FactureAvoir } from '../../../models/facture-avoir';
+import { FactureSimpleStatus } from '../../../enums/facture-simple-status';
+import { FactureSimpleService } from '../../../http/facture-simple.service';
+import { FactureSimple } from '../../../models/facture-simple';
 
 @Component({
-  selector: 'app-avoir',
-  templateUrl: './avoir.component.html',
-  styleUrls: ['./avoir.component.scss']
+  selector: 'app-simple',
+  templateUrl: './simple.component.html',
+  styleUrls: ['./simple.component.scss']
 })
-export class AvoirComponent {
-  factureAvoirs :FactureAvoir[] = [];
+export class SimpleComponent {
+
+  factureSimples :FactureSimple[] = [];
   isEmpty : boolean = false;
 
-  currentFactureAvoir: FactureAvoir = new FactureAvoir();
+  currentFactureSimple: FactureSimple = new FactureSimple();
   currentIndex = -1;
   data :string = '';
   page :number = 1;
-  filterStatus :FactureAvoirStatus ;
+  filterStatus :FactureSimpleStatus ;
   count :number = 0;
   pageSize :number = 8;
 
-  constructor(private factureAvoirService : FactureAvoirService, private filterService : FilterService) {
+  constructor(private factureSimpleService : FactureSimpleService, private filterService : FilterService) {
     this.filterService.methodSearchCalled$.subscribe(
       (res) => {
         this.data = res
@@ -40,21 +41,21 @@ export class AvoirComponent {
   }
 
   async ngOnInit(): Promise<void> {
-    await this.setAllFactureAvoir();
-    if(this.factureAvoirs.length == 0) this.isEmpty = true
+    await this.setAllFactureSimple();
+    if(this.factureSimples.length == 0) this.isEmpty = true
   }
 
   onRefresh(){
-    this.setAllFactureAvoir();
+    this.setAllFactureSimple();
   }
 
 
-  async setAllFactureAvoir(){
+  async setAllFactureSimple(){
     const params = this.getRequestParams(this.filterStatus,this.data, this.page, this.pageSize);
-    await firstValueFrom(this.factureAvoirService.getFactureAvoirList(params))
+    await firstValueFrom(this.factureSimpleService.getFactureSimpleList(params))
     .then(res => {
-      const { factureAvoirs, totalItems } = res;
-      this.factureAvoirs = factureAvoirs;
+      const { factureSimples, totalItems } = res;
+      this.factureSimples = factureSimples;
       this.count = totalItems;
     }
     )
@@ -63,7 +64,7 @@ export class AvoirComponent {
   }
 
 
-  getRequestParams(filterStatus : FactureAvoirStatus,searchData: string, page: number, pageSize: number): any {
+  getRequestParams(filterStatus : FactureSimpleStatus,searchData: string, page: number, pageSize: number): any {
     let params: any = {};
 
     if(filterStatus){
@@ -89,17 +90,17 @@ export class AvoirComponent {
 
   pageChange(page: number): void {
     this.page = page;
-    this.setAllFactureAvoir();
+    this.setAllFactureSimple();
   }
 
   pageSizeChange(pageSize: number): void {
     this.pageSize = pageSize;
     this.page = 1;
-    this.setAllFactureAvoir();
+    this.setAllFactureSimple();
   }
 
   searchData(): void {
     this.page = 1;
-    this.setAllFactureAvoir();
+    this.setAllFactureSimple();
   }
 }

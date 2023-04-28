@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { GestionFacturationComponent } from './gestion-facturation.component';
+import { FacturesModule } from './components/factures/factures.module';
 
 const routes: Routes = [
   {
@@ -27,34 +28,9 @@ const routes: Routes = [
   },
   {
     path : 'factures',
-    children:[
-      {
-        path: 'simple',
-        loadChildren: () =>
-          import('./components/facture/simple/simple.module').then(
-            (m) => m.SimpleModule
-          ),
-      },
-      {
-        path: 'avoir',
-        loadChildren: () =>
-          import('./components/facture/avoir/avoir.module').then(
-            (m) => m.AvoirModule
-          ),
-      },
-      {
-        path: 'acompte',
-        loadChildren: () =>
-          import('./components/facture/acompte/acompte.module').then(
-            (m) => m.AcompteModule
-          ),
-      },
-      {
-        path: '',
-        redirectTo:'simple',
-        pathMatch:'full'
-      }
-    ]
+    loadChildren: () =>
+    import('./components/factures/factures.module').then((m) => m.FacturesModule),
+
   },
   {
     path: 'settings',

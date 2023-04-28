@@ -1,6 +1,7 @@
 import { MotCle } from "./mot-cle"
 
 export class Facture{
+
     id: number
     slug: string
     code: string

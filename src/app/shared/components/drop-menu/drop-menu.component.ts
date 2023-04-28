@@ -34,6 +34,8 @@ export class DropMenuComponent implements OnInit {
   dropMenu :boolean = false;
   DevisStatus = DevisStatus;
   statusActive: DevisStatus | null = null;
+  dates: string[] = ["Trier Par : Date De Création " , "Trier Par : Date De Finalisation ","Trier Par : Date De Paiement "]
+  selectedDate = this.dates[0];
 
   constructor(
     private alertify : AlertifyService,

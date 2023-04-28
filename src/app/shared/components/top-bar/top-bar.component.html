@@ -27,7 +27,7 @@
 
 
         <!-- Filter menu  -->
-        <app-drop-menu [for]="for" type="filter" *ngIf="type == 'list' && (for == 'D' || for == 'F')  "></app-drop-menu>
+        <app-drop-menu [for]="for" type="filter" *ngIf="type == 'list' && (for == 'D' || for == 'F' || for == 'FA'|| for == 'A' )  "></app-drop-menu>
 
         <!-- 3dots menu | edit| list | show -->
         <app-drop-menu [type]="type" [size]="sizeMenu" [for]="for" [data]="data" *ngIf ="type !== 'add'"></app-drop-menu>

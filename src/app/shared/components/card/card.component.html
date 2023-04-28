@@ -1,4 +1,4 @@
-<div class="card h-full flex-col  ">
+<div class="card h-full flex-col" style="display: inline-block">
 
   <div class="grid grid-cols-3 ">
     <a class="flex space-x-3 col-span-2" [routerLink]="navigate.toShowPath(for,data.id,data.slug)">
@@ -41,12 +41,23 @@
     <span class="rounded-full-black" *ngIf="card.keyWord.length > 3">+{{card.keyWord.length-3}}</span>
   </div>
 
-  <div class="grow flex flex-col justify-end">
 
-    <div class=" flex flex-col gap-4 " *ngIf="card.primaryData && card.primaryData.length">
+  <div class="grow flex flex-col justify-end  ">
+    <!-- <div class=" flex flex-col gap-4 bg-red" *ngIf="card.primaryData && card.primaryData.length">
       <hr class="drop-menu-line" *ngIf="this.card.line">
       <div class="flex flex-col gap-2 sm:flex-col sm-md:flex-row lg:flex-col ">
         <div class="flex gap-2 text-gray-2 items-center" *ngFor="let e of card.primaryData ">
+          <svg-icon [name]="e.icon" svgClass="w-4"></svg-icon>
+          <span class="font-bold">{{e.data1}}</span>
+          <span>{{e.data2}}</span>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="flex flex-col gap-4 " *ngIf="card.primaryData && card.primaryData.length">
+      <hr class="drop-menu-line" *ngIf="this.card.line">
+      <div class="flex items-center gap-2 text-gray-2 " style="width: 500px;">
+        <div class="flex items-center gap-2 " *ngFor="let e of card.primaryData " >
           <svg-icon [name]="e.icon" svgClass="w-4"></svg-icon>
           <span class="font-bold">{{e.data1}}</span>
           <span>{{e.data2}}</span>

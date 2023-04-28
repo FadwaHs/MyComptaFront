@@ -4,7 +4,7 @@
 
   <div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 auto-rows-fr p-3">
+    <div class=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
           <app-card *ngFor="let factureSimple of factureSimples | paginate : {
               itemsPerPage: pageSize,
               currentPage: page,
@@ -12,7 +12,6 @@
             }; let i = index"
           for="F" [data]="factureSimple" (refreshListPage)="onRefresh()"></app-card>
       </div>
-
 
       <app-pagination (pageChange)="pageChange($event)" (pageSizeChange)="pageSizeChange($event)"></app-pagination>
 

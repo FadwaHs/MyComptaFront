@@ -23,6 +23,8 @@ export class ConstantUrl {
     public readonly factureSimpleUrl : string = this.baseUrl+"factures-simple";
     public readonly factureAvoirUrl : string = this.baseUrl+"factures-avoir";
     public readonly factureAcompteUrl : string = this.baseUrl+"factures-acompte";
+    public readonly factureUrl : string = this.baseUrl+"factures";
+
 
 
 }

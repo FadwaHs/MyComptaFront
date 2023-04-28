@@ -57,6 +57,15 @@ export class TopBarComponent implements OnInit {
         var societe : Societe = this.data as Societe
         this.showData[0] = societe.name
       }
+
+      else if(this.for == 'D'){
+        var devis : Devis = this.data as Devis
+        this.showData[0] = devis.code
+      }
+      else if(this.for == 'F'){
+        var facture : Facture = this.data as Facture
+        this.showData[0] = facture.code
+      }
     }
 
   }

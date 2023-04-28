@@ -136,6 +136,30 @@
             </a>
         </ng-container>
 
+
+        <ng-container *ngIf="for == 'F'">
+
+          <hr class="drop-menu-line">
+
+          <a  class="text-gray-2 mt-10 text-[10px]" href="#">
+            <span>{{'DROP_MENU.EDIT.PF' |translate}}</span>
+        </a>
+          <a class="item-menu-{{size}}" href="#">
+              <span>{{'DROP_MENU.EDIT.CAV' |translate}}</span>
+          </a>
+
+          <hr class="drop-menu-line">
+          <a class="item-menu-{{size}}" href="#">
+              <span>{{'DROP_MENU.EDIT.DF' |translate}}</span>
+          </a>
+          <a class="item-menu-{{size}}" href="#">
+              <span>{{'DROP_MENU.EDIT.DD' |translate}}</span>
+          </a>
+          <a class="item-menu-{{size}}" href="#">
+            <span>{{'DROP_MENU.EDIT.DO' |translate}}</span>
+        </a>
+      </ng-container>
+
     </div>
 
 
@@ -190,4 +214,32 @@
                 }}</button>
         </div>
     </ng-container>
+
+
+        <!-- drop menu Filter -->
+        <ng-container *ngIf="(for == 'F' || for == 'FA'|| for == 'A' ) && type == 'filter'">
+
+          <div class="hidden sm:flex sm:gap-2 sm:text-sm">
+
+            <ng-select class="custom-select-gray" [items]="dates" [(ngModel)]="selectedDate" >
+            </ng-select>
+
+              <button class="common-btn-gray" (click)="changeFilterStatus(null)"
+                  [class.common-btn-gray-active]="!statusActive">{{ 'STATUS.TE' |translate}}</button>
+              <button class="common-btn-gray" (click)="changeFilterStatus(DevisStatus.PROVISIONAL)"
+                  [class.common-btn-gray-active]="statusActive == DevisStatus.PROVISIONAL">{{ 'STATUS.PROVISIONAL'
+                  |translate
+                  }}</button>
+              <button class="common-btn-gray" (click)="changeFilterStatus(DevisStatus.FINALIZED)"
+                  [class.common-btn-gray-active]="statusActive == DevisStatus.FINALIZED">{{ 'STATUS.FINALIZED' |translate
+                  }}</button>
+              <button class="common-btn-gray" (click)="changeFilterStatus(DevisStatus.SIGNED)"
+                  [class.common-btn-gray-active]="statusActive == DevisStatus.SIGNED">{{ 'STATUS.PAYEDF' |translate
+                  }}</button>
+              <button class="common-btn-gray" (click)="changeFilterStatus(DevisStatus.REFUSED)"
+                  [class.common-btn-gray-active]="statusActive == DevisStatus.REFUSED">{{ 'STATUS.APAYEDF' |translate
+                  }}</button>
+          </div>
+
+      </ng-container>
 </div>

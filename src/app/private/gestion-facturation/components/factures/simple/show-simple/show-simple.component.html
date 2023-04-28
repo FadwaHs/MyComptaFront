@@ -1,6 +1,6 @@
-<p>show-devis works!</p>
+<p>show-simple works!</p>
 
-<app-top-bar for="D" type="show" sizeMenu="sm" [data]="this.devis" ></app-top-bar>
+<app-top-bar for="F" type="show" sizeMenu="sm" [data]="this.facture" ></app-top-bar>
 
 <section class="grid grid-cols-1 md:grid-cols-2 gap-24 mt-11">
 	<!-- Informations column -->
@@ -11,14 +11,13 @@
 		</div>
 		<div class="flex flex-col space-y-8 " >
 
-			<div class="flex flex-col space-y-3 " *ngIf="devis.code" >
+			<div class="flex flex-col space-y-3 " *ngIf="facture.status" >
 				<div class=" grid grid-cols-4 gap-4">
-					<span class="text-gray-2">{{'FORM.INPUT.D' | translate}} :</span>
-          <div class="col-span-3">{{devis.code}}</div>				</div>
+					<span class="text-gray-2">{{'FORM.INPUT.F' | translate}} :</span>
+          <div class="col-span-3">{{facture.status}}</div>				</div>
 				<hr>
 			</div>
-
 		</div>
-
 	</div>
 </section>
+

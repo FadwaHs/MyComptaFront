@@ -1,13 +1,13 @@
 <div class="flex  space-x-3 mb-4">
     <div *ngFor="let language of languageList" class=" " >
-        
+
           <div (click)="changeLang(language.code)" >
             <button class="common-btn-black">{{language.label}}</button>
           </div>
-        
+
     </div>
   </div>
-  
+
   <span class="text-xl font-black">{{'TITLE.S' | translate}}</span>
-  
-  
+
+

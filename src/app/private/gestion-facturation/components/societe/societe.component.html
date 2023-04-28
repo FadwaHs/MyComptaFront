@@ -4,7 +4,7 @@
 
     <div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 auto-rows-fr p-3">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 auto-rows-fr p-1"  >
             <app-card *ngFor="let societe of societes | paginate : {
                 itemsPerPage: pageSize,
                 currentPage: page,
@@ -12,12 +12,10 @@
               };
             let i = index" for="S" [data]="societe"></app-card>
         </div>
-
-        
         <app-pagination (pageChange)="pageChange($event)" (pageSizeChange)="pageSizeChange($event)"></app-pagination>
-        
+
 
     </div>
-    
+
 
 </section>

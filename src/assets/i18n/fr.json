@@ -246,9 +246,11 @@
       "CA": "Créer une activité",
       "CD": "Créer un devis",
       "CF": "Créer une facture",
+      "CAV": "Cérer un avoir",
       "CFA": "Créer une facture d'acompte",
       "DD" : "Dupliquer le devis",
-      "DF" : "Dupliquer en facture",
+      "DF" : "Dupliquer la facture",
+      "DO" : "Dupliquer en opportunité",
       "V" : "voir"
     },
     "SETTINGS" :{
@@ -289,13 +291,16 @@
   },
   "STATUS" :{
     "T" :"Tous",
+    "TE": "Toutes",
     "NOT_DESTINED" : "Aucun destinataire",
-    "PROVISIONAL" : "PROVISOIRE",
-    "SIGNED" : "SIGNÉ",
-    "FINALIZED" : "FINALISÉ",
-    "REFUSED" : "REFUSÉ",
-    "PAYED" : "PAYÉE",
-    "REFUNDED" : "REMBOURSÉ"
+    "PROVISIONAL" : "Provisoire",
+    "SIGNED" : "Signé",
+    "FINALIZED" : "Finalisé",
+    "REFUSED" : "Refusé",
+    "PAYED" : "Payé",
+    "PAYEDF" : "Payées",
+    "APAYEDF" : "À Payées",
+    "REFUNDED" : "Remboursé"
   },
   "DOCUMENTATION":{
     "N" : {

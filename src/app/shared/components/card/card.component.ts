@@ -40,7 +40,7 @@ export class CardComponent implements OnInit {
   refreshListPage : EventEmitter<void> = new EventEmitter();
 
   @Input()
-  data: Societe | Client | Devis | FactureSimple | FactureAvoir | FactureAcompte;
+  data: Societe | Client | Devis | FactureSimple | FactureAvoir | FactureAcompte|Facture;
 
   @Input()
   for: 'C' | 'S' | 'D' | 'F'|'A'|'FA';
@@ -80,6 +80,7 @@ export class CardComponent implements OnInit {
     this.setStatusToCard(factureAcompte.status);
     this.card.line = true
     this.card.primaryData = [];
+    this.card.paragraph= factureAcompte.textIntro
     this.setHTAndTTC(factureAcompte.totalHT,factureAcompte.totalTTC);
     this.setDate(factureAcompte.date)
   }
@@ -93,6 +94,7 @@ export class CardComponent implements OnInit {
     this.setStatusToCard(factureAvoir.status);
     this.card.line = true
     this.card.primaryData = [];
+    this.card.paragraph= factureAvoir.textIntro
     this.setHTAndTTC(factureAvoir.totalHT,factureAvoir.totalTTC);
     this.setDate(factureAvoir.date)
 
@@ -103,8 +105,8 @@ export class CardComponent implements OnInit {
     console.log(factureSimple)
     this.card.mainIcon = 'factures'
     this.card.primaryTitle1 = factureSimple.code
-    this.card.primaryTitle1 = factureSimple.code
     this.card.primaryTitle2 = factureSimple.status
+    this.card.paragraph= factureSimple.textIntro
     this.setRecipientToCard(factureSimple.client , factureSimple.societe)
     this.setStatusToCard(factureSimple.status);
     this.card.line = true

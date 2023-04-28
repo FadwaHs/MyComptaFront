@@ -4,7 +4,7 @@ import { MotCle } from "./mot-cle"
 import { Phone } from "./phone"
 
 export class Societe {
-    
+
     id : number
     slug :string
     name : string

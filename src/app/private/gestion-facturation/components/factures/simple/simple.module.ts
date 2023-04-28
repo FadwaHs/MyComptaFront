@@ -6,6 +6,7 @@ import { SimpleComponent } from './simple.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AddEditSimpleComponent } from './add-edit-simple/add-edit-simple.component';
 import { ShowSimpleComponent } from './show-simple/show-simple.component';
+import { FacturesModule } from '../factures.module';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { ShowSimpleComponent } from './show-simple/show-simple.component';
   imports: [
     CommonModule,
     SimpleRoutingModule,
-    SharedModule
+    SharedModule,
+    FacturesModule
   ]
 })
 export class SimpleModule { }

@@ -201,14 +201,14 @@
 
     // END DROP MENU STYLE
 
-
-
-
     // START CARD STYLE
 
     .card{
         @apply text-xs p-7 space-y-4  bg-gray-1 rounded-lg shadow-sm flex flex-col;
     }
+    .card2{
+      @apply text-xs p-7 space-y-4  bg-gray-1 rounded-lg shadow-sm flex flex-col;
+  }
     .type-client-card{
         @apply w-72 h-56 flex flex-col gap-3 p-7  bg-gray-1 rounded-lg shadow-sm hover:ring-1 hover:ring-black-1 focus:ring-1 focus:ring-black-1;
     }
@@ -282,10 +282,10 @@
 
 
 
-   // modal material
 
 
-   
+
+
 
     // End Table Style
 }
