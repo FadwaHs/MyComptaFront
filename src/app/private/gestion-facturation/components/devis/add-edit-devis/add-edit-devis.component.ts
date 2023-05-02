@@ -48,6 +48,7 @@ export class AddEditDevisComponent implements OnInit {
   currentCurrency : string
   isArticleFormValid : boolean = false
   isProvisional : boolean = true
+
   constructor(
     private formBuilder: FormBuilder,
     private devisService: DevisService,
@@ -55,6 +56,7 @@ export class AddEditDevisComponent implements OnInit {
     private route: ActivatedRoute,
     protected navigate : NavigateService
   ) {}
+
 
   async ngOnInit(): Promise<void> {
     this.initializeForms();
@@ -146,6 +148,16 @@ export class AddEditDevisComponent implements OnInit {
       complete: () => {
         this.submitOtherForms();
       },
+    });
+
+  }
+
+
+  createNewDevis2() {
+    this.devisService.addDevis(this.devis).subscribe({
+      next: (data) => (this.devis = data),
+      error: (e) => console.log(e),
+
     });
 
   }

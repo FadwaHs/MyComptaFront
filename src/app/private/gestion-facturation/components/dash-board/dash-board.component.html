@@ -1,0 +1,41 @@
+
+<div class="flex justify-end items-center space-x-2 text-sm">
+
+  <!-- [class.common-btn-gray-active]="activeButton === 'statistique'" :
+  is an attribute binding in Angular.
+  It adds a class called "common-btn-gray-active" to the button element
+  if the activeButton variable is equal to "statistique". -->
+
+  <button class="common-btn-gray" routerLink="statistique"
+  [class.common-btn-gray-active]="activeButton === 'statistique'"
+    (click)="activeButton = 'statistique'">Statistiques</button>
+
+  <button class="common-btn-gray" routerLink="activites"
+  [class.common-btn-gray-active]="activeButton === 'activites'"
+    (click)="activeButton = 'activites'">Activités</button>
+  <button class="common-btn-gray" routerLink="documents"
+  [class.common-btn-gray-active]="activeButton === 'documents'"
+    (click)="activeButton = 'documents'">Documents Générés</button>
+  <button class="common-btn-gray" routerLink="chiffre"
+  [class.common-btn-gray-active]="activeButton === 'chiffre'"
+    (click)="activeButton = 'chiffre'">Chiffre d’Affaires</button>
+  <button class="common-btn-gray" routerLink="debours"
+  [class.common-btn-gray-active]="activeButton === 'debours'"
+    (click)="activeButton = 'debours'">Débours</button>
+
+  <ng-select class="custom-select-white" [items]="item" style="border: 1px solid black;" [(ngModel)]="selecteditem"></ng-select>
+</div>
+
+
+ <!-- Le composant parent -->
+<div class="container">
+  <div class="content">
+    <router-outlet>
+
+    </router-outlet>
+  </div>
+</div>
+
+
+
+

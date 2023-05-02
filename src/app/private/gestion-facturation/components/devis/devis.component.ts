@@ -19,10 +19,10 @@ export class DevisComponent implements OnInit {
   currentIndex = -1;
   data :string = '';
   page :number = 1;
-  filterStatus :DevisStatus ; 
+  filterStatus :DevisStatus ;
   count :number = 0;
   pageSize :number = 8;
-  
+
   constructor(private devisService : DevisService, private filterService : FilterService) {
     this.filterService.methodSearchCalled$.subscribe(
       (res) => {
@@ -30,16 +30,16 @@ export class DevisComponent implements OnInit {
         this.searchData()
       }
     );
-    
+
     this.filterService.methodFilterStatusCalled$.subscribe(
       (res) => {
         this.filterStatus = res
         this.searchData()
       }
     );
-    
+
   }
-  
+
   async ngOnInit(): Promise<void> {
     await this.setAllDevis();
     if(this.devis.length == 0) this.isEmpty = true
@@ -86,7 +86,7 @@ export class DevisComponent implements OnInit {
     return params;
   }
 
- 
+
 
   pageChange(page: number): void {
     this.page = page;
@@ -102,6 +102,9 @@ export class DevisComponent implements OnInit {
   searchData(): void {
     this.page = 1;
     this.setAllDevis();
+
+
   }
+
 
 }

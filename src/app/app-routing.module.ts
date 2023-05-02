@@ -7,8 +7,24 @@ const routes: Routes = [
     loadChildren: () =>
       import('./private/private.module').then((m) => m.PrivateModule),
   },
-  { path: 'departement', loadChildren: () => import('./private/gestion-personnel/components/departement/departement.module').then(m => m.DepartementModule) },
-  { path: 'factures', loadChildren: () => import('./private/gestion-facturation/components/factures/factures.module').then(m => m.FacturesModule) },
+  {
+     path: 'departement',
+     loadChildren: () =>
+      import('./private/gestion-personnel/components/departement/departement.module').then(m => m.DepartementModule)
+
+  },
+  {
+    path: 'factures',
+    loadChildren: () =>
+       import('./private/gestion-facturation/components/factures/factures.module').then(m => m.FacturesModule)
+  },
+  {
+    path: 'DashBoard',
+    loadChildren: () =>
+     import('./private/gestion-facturation/components/dash-board/dash-board.module').then(m => m.DashBoardModule)
+
+  },
+  { path: 'opportunite', loadChildren: () => import('./private/gestion-facturation/components/opportunite/opportunite.module').then(m => m.OpportuniteModule) },
 ];
 
 @NgModule({

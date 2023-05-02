@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { DashboardComponent } from './components/dash-board/dashboard/dashboard.component';
 import { GestionFacturationComponent } from './gestion-facturation.component';
 import { FacturesModule } from './components/factures/factures.module';
 
@@ -40,10 +40,21 @@ const routes: Routes = [
       ),
   },
   {
-    path: '',
-    redirectTo: 'dashboard',
-    pathMatch: 'full',
+    path: 'dashboard',
+    loadChildren: () =>
+      import('./components/dash-board/dash-board.module').then(
+        (m) => m.DashBoardModule
+      ),
   },
+  {
+    path: 'opportunites',
+    loadChildren: () =>
+      import('./components/opportunite/opportunite.module').then(
+        (m) => m.OpportuniteModule
+      ),
+  },
+
+
 ];
 
 @NgModule({

@@ -7,6 +7,7 @@ import { Injectable } from "@angular/core";
     providedIn: "root"
 })
 export class ConstantUrl {
+
     public readonly baseUrl :string = "http://localhost:8082/api/";
     public readonly societeUrl :string = this.baseUrl+"societes";
     public readonly clientUrl :string = this.baseUrl+"clients";
@@ -24,6 +25,7 @@ export class ConstantUrl {
     public readonly factureAvoirUrl : string = this.baseUrl+"factures-avoir";
     public readonly factureAcompteUrl : string = this.baseUrl+"factures-acompte";
     public readonly factureUrl : string = this.baseUrl+"factures";
+    public readonly opportuniteUrl : string = this.baseUrl+"opportunites";
 
 
 

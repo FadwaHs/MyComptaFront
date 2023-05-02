@@ -1,7 +1,6 @@
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-// import { MatLegacyCard} from '@angular/material/legacy-card'
 import { MatCardModule } from '@angular/material/card';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,6 +16,7 @@ import localeFr from '@angular/common/locales/fr';
 import localeEn from '@angular/common/locales/en';
 import { MatDialog } from '@angular/material/dialog';
 import { FacturesModule } from './private/gestion-facturation/components/factures/factures.module';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -74,6 +74,7 @@ function getCurrentLocal(){
       defaultLanguage: defaultLang(),
     }),
     FacturesModule,
+    NgSelectModule,
 
   ],
   providers: [
@@ -81,4 +82,5 @@ function getCurrentLocal(){
   ],
   bootstrap: [AppComponent],
 })
+
 export class AppModule { }
