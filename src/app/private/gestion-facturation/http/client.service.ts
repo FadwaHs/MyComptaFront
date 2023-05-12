@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { concatMap, from, Observable } from 'rxjs';
 import { ConstantUrl } from 'src/app/shared/config/constant-url';
 import { Client } from '../models/client';
+import { Opportunite } from '../models/opportunite';
+import { Devis } from '../models/devis';
 @Injectable({
   providedIn: 'root'
 })
@@ -25,7 +27,7 @@ export class ClientService {
   addClient(client: Client): Observable<any> {
     return this.http.post(`${this.constant.clientUrl}`, client);
   }
-  
+
   updateClientById( id :number, client: Client) :Observable<Client>{
     return this.http.put<Client>(`${this.constant.clientUrl}/${id}`,client);
   }
@@ -43,5 +45,12 @@ export class ClientService {
 
   getClientsByFirstNameAndLastName(): Observable<Client[]>{
     return this.http.get<Client[]>(`${this.constant.clientUrl}/recipient`)
+  }
+
+  getOpportunitesForClient(id :number):Observable<Opportunite[]>{
+    return this.http.get<Opportunite[]>(`${this.constant.clientOppUrl}/${id}`);
+  }
+  getDevisForClient(id :number):Observable<Devis[]>{
+    return this.http.get<Devis[]>(`${this.constant.clientDevisUrl}/${id}`);
   }
 }

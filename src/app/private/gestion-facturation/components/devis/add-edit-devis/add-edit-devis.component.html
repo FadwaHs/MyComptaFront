@@ -5,7 +5,7 @@
         <div class="flex flex-col gap-6" >
             <app-select-recipient (selected)="isSelected = true" for="D"></app-select-recipient>
 
-            <div class="flex flex-col gap-6" [ngClass]="isSelected || !isAddMode ? 'visible' : 'invisible' ">
+            <div class="flex flex-col gap-6" [ngClass]="isSelected || !isAddMode ||this.opportunite ? 'visible' : 'invisible' ">
                 <span class="secondary-title">{{'FORM.TITLE.INF' | translate}}</span>
                 <div class="flex flex-col gap-6">
                     <div class="relative flex gap-4 items-center">
@@ -43,7 +43,7 @@
 
         </div>
 
-        <div class="flex flex-col gap-6  md:col-span-2" [ngClass]="isSelected || !isAddMode ? 'visible' : 'invisible' ">
+        <div class="flex flex-col gap-6  md:col-span-2" [ngClass]="isSelected || !isAddMode ||this.opportunite ? 'visible' : 'invisible' ">
 
             <app-article-panel for="D" (isFormValid)="setValidationArticleForm($event)"></app-article-panel>
 

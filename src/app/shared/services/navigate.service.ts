@@ -22,6 +22,8 @@ export class NavigateService {
   public readonly f_societePath = this.facturationPath+'/societes'
   public readonly f_clientPath = this.facturationPath+'/clients'
   public readonly f_devisPath = this.facturationPath+'/devis'
+  public readonly f_opportunitePath = this.facturationPath+'/opportunites'
+
 
   public readonly f_facturePath = this.facturationPath+'/factures'
   public readonly f_simplePath = this.f_facturePath+'/simple'
@@ -39,7 +41,7 @@ export class NavigateService {
   constructor(){ }
 
 
-  toAddPath(from : 'C'|'S'|'D'|'F'|'A'|'FA') : string {
+  toAddPath(from : 'C'|'S'|'D'|'F'|'A'|'FA'|'O') : string {
 
     if(from == 'C') return this.f_clientPath+this.addPath
 
@@ -53,10 +55,13 @@ export class NavigateService {
 
     else if(from == 'FA') return this.f_acomptePath+this.addPath
 
+    else if(from == 'O') return this.f_opportunitePath+this.addPath
+
+
     else return ''
   }
 
-  toEditPath(from : 'C'|'S'|'D'|'F'|'A'|'FA' , id : number ,slug : string) : string {
+  toEditPath(from : 'C'|'S'|'D'|'F'|'A'|'FA'|'O' , id : number ,slug : string) : string {
 
     if(from == 'C') return this.f_clientPath+this.editPath+id+'-'+slug
 
@@ -70,10 +75,13 @@ export class NavigateService {
 
     else if(from == 'FA') return this.f_avoirPath+this.editPath+id+'-'+slug
 
+    else if(from == 'O') return this.f_opportunitePath+this.editPath+id+'-'+slug
+
+
     else return ''
   }
 
-   toShowPath(from : 'C'|'S'|'D'|'F'|'A'|'FA', id : number ,slug : string) : string {
+   toShowPath(from : 'C'|'S'|'D'|'F'|'A'|'FA'|'O', id : number ,slug : string) : string {
 
     if(from == 'C')  return this.f_clientPath+this.showPath+id+'-'+slug
 
@@ -83,9 +91,11 @@ export class NavigateService {
 
     else if(from == 'F') return this.f_simplePath+this.showPath+id+'-'+slug
 
-    else if(from == 'A') return this.f_acomptePath+this.editPath+id+'-'+slug
+    else if(from == 'A') return this.f_acomptePath+this.showPath+id+'-'+slug
 
-    else if(from == 'FA') return this.f_avoirPath+this.editPath+id+'-'+slug
+    else if(from == 'FA') return this.f_avoirPath+this.showPath+id+'-'+slug
+
+    else if(from == 'O') return this.f_opportunitePath+this.showPath+id+'-'+slug
 
     else return ''
   }

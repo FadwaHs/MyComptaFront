@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { OppStatus } from 'src/app/private/gestion-facturation/enums/OppStatus';
 import { DevisStatus } from 'src/app/private/gestion-facturation/enums/devis-status';
 import { FactureSimpleStatus } from 'src/app/private/gestion-facturation/enums/facture-simple-status';
 
@@ -19,7 +20,7 @@ export class FilterService {
     this.callMethodSearchSource.next(data);
   }
 
-  callMethodFilterStatus(filterStatus : DevisStatus | null | FactureSimpleStatus ){
+  callMethodFilterStatus(filterStatus : DevisStatus | null | FactureSimpleStatus | OppStatus ){
     this.callMethodFilterStatusSource.next(filterStatus);
   }
 }

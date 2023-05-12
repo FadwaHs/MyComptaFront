@@ -7,6 +7,7 @@
         <span class="primary-title" *ngIf="for == 'F' " >{{'TITLE.F' | translate}}</span>
         <span class="primary-title" *ngIf="for == 'A' " >{{'TITLE.A' | translate}}</span>
         <span class="primary-title" *ngIf="for == 'FA' " >{{'TITLE.FA' | translate}}</span>
+        <span class="primary-title" *ngIf="for == 'O' " >{{'TITLE.O' | translate}}</span>
 
     </ng-container>
 
@@ -27,7 +28,7 @@
 
 
         <!-- Filter menu  -->
-        <app-drop-menu [for]="for" type="filter" *ngIf="type == 'list' && (for == 'D' || for == 'F' || for == 'FA'|| for == 'A' )  "></app-drop-menu>
+        <app-drop-menu [for]="for" type="filter" *ngIf="type == 'list' && (for == 'D' || for == 'F' || for == 'FA'|| for == 'A'||  for == 'O' )  "></app-drop-menu>
 
         <!-- 3dots menu | edit| list | show -->
         <app-drop-menu [type]="type" [size]="sizeMenu" [for]="for" [data]="data" *ngIf ="type !== 'add'"></app-drop-menu>

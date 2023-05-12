@@ -87,6 +87,7 @@ export class ArticlePanelComponent implements OnInit {
   }
 
   setRemiseForm(data : any) {
+
       if(data.remIsPercentage) this.remiseForm.controls['remiseType'].setValue(this.reductionType[0])
       else this.remiseForm.controls['remiseType'].setValue(this.reductionType[1])
       this.remiseForm.controls['remise'].setValue(data.remise)
@@ -284,7 +285,7 @@ export class ArticlePanelComponent implements OnInit {
         else if (this.for == 'F') article.factureSimple = data as FactureSimple;
         else if (this.for == 'A') article.factureAvoir = data as FactureAvoir;
         else return
-        
+
         this.articleService.addArticle(article).subscribe({
           next: (res) => article = res,
           error: (e) => console.log(e),

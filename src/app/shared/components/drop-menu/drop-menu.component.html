@@ -25,17 +25,6 @@
 
     </div>
 
-    <div class="drop-menu" *ngIf="dropMenu && type === 'list' ">
-        <a class="item-menu-sm" routerLink="add">
-            <svg-icon name="add" svgClass="w-4"></svg-icon>
-            <span>{{'DROP_MENU.LIST.'+for+'.L1' |translate}}</span>
-        </a>
-        <a href="#" class="item-menu-sm ">
-            <svg-icon name="export" svgClass="w-4"></svg-icon>
-            <span>{{'DROP_MENU.LIST.'+for+'.L2' |translate}}</span>
-        </a>
-    </div>
-
     <!-- drop menu edit -->
     <div class="drop-menu" *ngIf="dropMenu  && (type == 'edit' || type == 'show') ">
 
@@ -82,7 +71,7 @@
 
       </ng-container>
 
-        <ng-container *ngIf="for == 'C' || for == 'S' || for == 'D' || for=='F' ">
+        <ng-container *ngIf="for == 'C' || for == 'S' || for == 'D' || for=='F' || for=='O'">
 
             <a class="item-menu-{{size}} " [routerLink]="'edit/'+data.id+'-'+data.slug">
                 <svg-icon name="edit" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
@@ -92,7 +81,7 @@
                 <ng-template #modifyMotCle><span>{{'DROP_MENU.EDIT.M' |translate}}</span></ng-template>
             </a>
 
-            <button class="item-menu-{{size}}" (click)="delete(data.id)" *ngIf="for == 'C' || for == 'S' ||
+            <button class="item-menu-{{size}}" (click)="delete(data.id)" *ngIf="for == 'C' || for == 'O' || for == 'S' ||
             (for == 'D'  && $any(data).status  == DevisStatus.PROVISIONAL )">
                 <svg-icon name="delete" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
                 <span>{{'DROP_MENU.EDIT.SP' |translate}}</span>
@@ -106,6 +95,7 @@
             <span class="text-gray-2 mt-10 text-[10px]" *ngIf="for =='S'">{{'DROP_MENU.EDIT.PS' |translate}}</span>
             <span class="text-gray-2 mt-10 text-[10px]" *ngIf="for =='D'">{{'DROP_MENU.EDIT.PD' |translate}}</span>
             <span class="text-gray-2 mt-10 text-[10px]" *ngIf="for =='F'">{{'DROP_MENU.EDIT.PF' |translate}}</span>
+            <span class="text-gray-2 mt-10 text-[10px]" *ngIf="for =='O'">{{'DROP_MENU.EDIT.PO' |translate}}</span>
         </div>
 
         <ng-container *ngIf=" for == 'D' || for == 'F' ">
@@ -163,7 +153,7 @@
         </ng-container>
 
 
-        <ng-container *ngIf="for == 'F'">
+      <ng-container *ngIf="for == 'F'">
 
           <hr class="drop-menu-line">
 
@@ -185,6 +175,18 @@
             <span>{{'DROP_MENU.EDIT.DO' |translate}}</span>
         </a>
       </ng-container>
+
+
+      <ng-container *ngIf="for == 'O'">
+
+        <a class="item-menu-{{size}}"  [routerLink]="['/environment/1/facturation/devis/add']" [queryParams]="{ id: data.id }" >
+            <span>{{'DROP_MENU.EDIT.CD' |translate}}</span>
+        </a>
+        <a class="item-menu-{{size}}" href="#">
+            <span>{{'DROP_MENU.EDIT.CF' |translate}}</span>
+        </a>
+
+    </ng-container>
 
     </div>
 
@@ -271,4 +273,35 @@
           </div>
 
       </ng-container>
+
+
+    <!-- drop menu Filter  For OPP -->
+    <ng-container *ngIf="(for == 'O' ) && type == 'filter'">
+
+      <div class="hidden sm:flex sm:gap-2 sm:text-sm">
+
+          <button class="common-btn-gray" (click)="changeFilterOpportunite(null)"
+              [class.common-btn-gray-active]="!statusActiveOpp">{{ 'STATUS.TE' |translate}}</button>
+          <button class="common-btn-gray" (click)="changeFilterOpportunite(OppStatus.INPROGRESS)"
+              [class.common-btn-gray-active]="statusActiveOpp == OppStatus.INPROGRESS">{{ 'STATUS.INPROGRESS'
+              |translate
+              }}</button>
+          <button class="common-btn-gray" (click)="changeFilterOpportunite(OppStatus.WON)"
+              [class.common-btn-gray-active]="statusActiveOpp == OppStatus.WON">{{ 'STATUS.WON' |translate
+              }}</button>
+          <button class="common-btn-gray" (click)="changeFilterOpportunite(OppStatus.LOST)"
+              [class.common-btn-gray-active]="statusActiveOpp == OppStatus.LOST">{{ 'STATUS.LOST' |translate
+              }}</button>
+          <button class="common-btn-gray" (click)="changeFilterOpportunite(OppStatus.CANCLED)"
+              [class.common-btn-gray-active]="statusActiveOpp == OppStatus.CANCLED">{{ 'STATUS.CANCLED' |translate
+              }}</button>
+          <button class="common-btn-gray" (click)="changeFilterOpportunite(OppStatus.CLOSED)"
+              [class.common-btn-gray-active]="statusActiveOpp == OppStatus.CLOSED">{{ 'STATUS.CLOSED' |translate
+              }}</button>
+          <button class="common-btn-gray" (click)="changeFilterOpportunite(OppStatus.LATE)"
+              [class.common-btn-gray-active]="statusActiveOpp == OppStatus.LATE">{{ 'STATUS.LATE' |translate
+              }}</button>
+      </div>
+
+  </ng-container>
 </div>

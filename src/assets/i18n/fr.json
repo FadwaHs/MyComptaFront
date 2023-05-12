@@ -16,6 +16,7 @@
     "F": "Factures",
     "A": "Avoirs",
     "FA": "Factures d'acompte",
+    "O": "Opportunités",
     "P": "Paramètres",
     "PN" : "Préférences pour la numérotation",
     "ESP": "Ajouter un espace",
@@ -46,6 +47,7 @@
       "I": "Inviter ",
       "DP" :"Département",
       "EM" :"Employés"
+
     },
     "INPUT": {
       "NS": "Nom de la société",
@@ -92,6 +94,7 @@
       "DCD" : "Débutter le compteur pour les devis à",
       "DCF" : "Débutter le compteur pour les factures à",
       "DCA" : "Débutter le compteur pour les avoirs à",
+      "IT":"Intitulé",
       "DCFA" : "Débutter le compteur pour les factures d’acompte à",
       "NE": "Nom d’espace",
       "NOE" : "@nom ou email",
@@ -179,7 +182,7 @@
       "M2": "Ajouter un avoir"
     },
     "FA": {
-      "M1": "Aucun facture d'acompte à afficher",
+      "M1": "Aucune facture d'acompte à afficher",
       "M2": "Ajouter une facture d'acompte"
     },
     "ESP": {
@@ -190,6 +193,11 @@
     "DP": {
       "M1": "Aucun département à afficher",
       "M2": "Ajouter un nouveau département"
+    }
+    ,
+    "O": {
+      "M1": "Aucune Opportunité à afficher",
+      "M2": "Ajouter une nouvelle Opportunité"
     }
   },
   "DROP_MENU":{
@@ -226,6 +234,11 @@
         "L1" : "Nouveau département",
         "L2" : "Exporter les départements"
       }
+      ,
+      "O" :{
+        "L1" : "Nouvelle Opportunité",
+        "L2" : "Exporter les Opportunitées"
+      }
     },
     "EDIT":{
       "M": "Modifier",
@@ -244,6 +257,7 @@
       "PS": "POUR CETTE SOCIETE :",
       "PD": "POUR CE DEVIS :",
       "PF": "POUR CETTE FACTURE :",
+      "PO": "POUR CETTE OPPORTUNITE :",
       "CA": "Créer une activité",
       "CD": "Créer un devis",
       "CF": "Créer une facture",
@@ -302,7 +316,14 @@
     "PAYED" : "Payé",
     "PAYEDF" : "Payées",
     "APAYEDF" : "À Payées",
-    "REFUNDED" : "Remboursé"
+    "REFUNDED" : "Remboursé",
+    "INPROGRESS":"En Cours",
+    "WON":"Remportées",
+    "LOST": "Perdues",
+    "CANCLED" : "Annulées",
+    "CLOSED" :"Fermées",
+    "LATE" :"En Retard"
+
   },
   "DOCUMENTATION":{
     "N" : {

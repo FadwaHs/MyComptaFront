@@ -15,6 +15,7 @@ import { NavigateService } from '../../services/navigate.service';
 
 
 interface Recipient {
+
   data : Client | Societe
   type: 'C'| 'S'
 }
@@ -37,7 +38,7 @@ export class SelectRecipientComponent implements OnInit {
   selected : EventEmitter<void>  = new EventEmitter()
 
   @Input()
-  for : 'D'|'F'|'A'|'FA'
+  for : 'D'|'F'|'A'|'FA'|'O'
 
   items : Item[] = []
   clients : Client[]
@@ -71,8 +72,6 @@ export class SelectRecipientComponent implements OnInit {
     })
 
   }
-
-
 
   async setRecipients() {
 
@@ -109,6 +108,7 @@ export class SelectRecipientComponent implements OnInit {
   }
 
   async selectChange(event :Item){
+
     if(event.name == await firstValueFrom(this.translate.get('FORM.SELECT.NC')))
     this.router.navigateByUrl(this.navigate.toAddPath('C'))
     else if(event.name == await firstValueFrom(this.translate.get('FORM.SELECT.NS')))
@@ -117,7 +117,7 @@ export class SelectRecipientComponent implements OnInit {
   }
 
   getRecipient(data : any) : any{
-    if(this.for == 'D'|| this.for === 'F' || this.for === 'A'){
+    if(this.for == 'D'|| this.for === 'F' || this.for === 'A' || this.for === 'O'){
       if(this.recipient.type == 'C'){
         data.client = this.recipient.data as Client
         data.societe = null
@@ -138,7 +138,7 @@ export class SelectRecipientComponent implements OnInit {
 
   setRecipient(data : any) {
 
-    if(this.for == 'D' || this.for === 'F' || this.for === 'A'){
+    if(this.for == 'D' || this.for === 'F' || this.for === 'A' || this.for === 'O'){
       var recipient : Recipient  = {} as Recipient
       if(data.client){
         recipient.data = data.client as Client

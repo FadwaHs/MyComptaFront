@@ -13,6 +13,10 @@ import { FactureSimple } from 'src/app/private/gestion-facturation/models/factur
 import { FactureSimpleService } from 'src/app/private/gestion-facturation/http/facture-simple.service';
 import { ClientService } from 'src/app/private/gestion-facturation/http/client.service';
 import { SocieteService } from 'src/app/private/gestion-facturation/http/societe.service';
+import { Opportunite } from 'src/app/private/gestion-facturation/models/opportunite';
+import { OppStatus } from 'src/app/private/gestion-facturation/enums/OppStatus';
+import { OpportuniteService } from 'src/app/private/gestion-facturation/http/opportunite.service';
+import { NavigateService } from '../../services/navigate.service';
 
 @Component({
   selector: 'app-drop-menu',
@@ -25,7 +29,7 @@ export class DropMenuComponent implements OnInit {
   refreshListPage : EventEmitter<void> = new EventEmitter();
 
   @Input()
-  data: Societe | Client | Devis | Facture | FactureSimple;
+  data: Societe | Client | Devis | Facture | FactureSimple|Opportunite;
 
   @Input()
   type :'list'|'edit'|'show'|'filter'
@@ -34,15 +38,18 @@ export class DropMenuComponent implements OnInit {
   size : 'sm'|'xs'
 
   @Input()
-  for: 'C'|'S'|'D'|'F'|'A'|'FA'
+  for: 'C'|'S'|'D'|'F'|'A'|'FA'|'O'
 
   dropMenu :boolean = false;
   DevisStatus = DevisStatus;
   //Facture:
   FactureSimpleStatus = FactureSimpleStatus;
+  // Opportunite:
+  OppStatus = OppStatus;
 
   statusActive: DevisStatus | null = null;
   statusActiveFacture : FactureSimpleStatus | null = null;
+  statusActiveOpp : OppStatus | null=null;
 
 
   dates: string[] = ["Trier Par : Date De Création " , "Trier Par : Date De Finalisation ","Trier Par : Date De Paiement "]
@@ -52,6 +59,7 @@ export class DropMenuComponent implements OnInit {
     private router: Router,
     private alertify : AlertifyService,
     private filterService : FilterService,
+    public navigate: NavigateService,
     //DevisService:
     private devisService : DevisService,
     //Facture Service:
@@ -60,7 +68,8 @@ export class DropMenuComponent implements OnInit {
     private clientService : ClientService,
     // SocieteService:
     private societeService : SocieteService,
-
+    // opportuniteService:
+    private opportuniteService : OpportuniteService
 
   ){
   }
@@ -76,7 +85,14 @@ export class DropMenuComponent implements OnInit {
     this.filterService.callMethodFilterStatus(status);
   }
 
-  // facture simple
+  // Opportunite Status
+  changeFilterOpportunite(status:  OppStatus | null ){
+      this.dropMenu = false
+      this.statusActiveOpp = status
+      this.filterService.callMethodFilterStatus(status);
+   }
+
+  // facture simple status
   changeFilterStatusFacture(status:  FactureSimpleStatus | null ){
     this.dropMenu = false
     this.statusActiveFacture = status
@@ -96,10 +112,8 @@ export class DropMenuComponent implements OnInit {
     if(this.for == 'C') this.deleteClient(id)
     if(this.for == 'S') this.deleteSociete(id)
     if(this.for == 'D') this.deleteDevisprovisoire(id)
-
-
+    if(this.for == 'O') this.deleteOppotunite(id)
   }
-
 
 
   finalizeIt(){
@@ -175,6 +189,18 @@ export class DropMenuComponent implements OnInit {
 
      })
 
+  }
+
+  deleteOppotunite(id: number) {
+
+    this.opportuniteService.deleteOpportuniteById(id).subscribe({
+      error: e => console.log(e),
+        complete: () => {
+          // reload the current route
+          location.reload();
+        }
+
+     })
   }
 
 

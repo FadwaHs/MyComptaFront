@@ -12,6 +12,9 @@ import { KeyWordFormComponent } from 'src/app/shared/components/key-word-form/ke
 import { Devis } from '../../../models/devis';
 import { DevisService } from '../../../http/devis.service';
 import { NavigateService } from 'src/app/shared/services/navigate.service';
+import { OpportuniteService } from '../../../http/opportunite.service';
+import { Opportunite } from '../../../models/opportunite';
+
 @Component({
   selector: 'app-add-edit-devis',
   templateUrl: './add-edit-devis.component.html',
@@ -34,13 +37,13 @@ export class AddEditDevisComponent implements OnInit {
   @ViewChild(KeyWordFormComponent)
   childKeyWord: KeyWordFormComponent;
 
-
-
+  oppId: string | null;
   id: number;
   slug: string;
   languages: string[] = ['Français', 'English'];
   defaultLang: string = 'Français';
   devis: Devis = new Devis();
+  devistmp: Devis = new Devis();
   devisForm: FormGroup;
   isAddMode: boolean = true;
   isSelected : boolean = false
@@ -48,24 +51,46 @@ export class AddEditDevisComponent implements OnInit {
   currentCurrency : string
   isArticleFormValid : boolean = false
   isProvisional : boolean = true
+  opportunite: Opportunite
 
   constructor(
     private formBuilder: FormBuilder,
     private devisService: DevisService,
     private router: Router,
     private route: ActivatedRoute,
-    protected navigate : NavigateService
-  ) {}
+    protected navigate : NavigateService,
+    private opportuniteService:OpportuniteService) {
+  }
 
 
   async ngOnInit(): Promise<void> {
-    this.initializeForms();
+
+
+     await this.initializeForms();
+
+     // Oppotunite ID for Create Devis
+     this.oppId = this.route.snapshot.queryParamMap.get('id');
+
+     if(this.oppId){
+
+       var idopp = parseInt(this.oppId, 10);
+       this.opportuniteService.getOpportuniteById(idopp).subscribe({
+         next: (data) => (this.opportunite = data),
+         error: (e) => console.log(e),
+         complete: () => {
+
+             this.setformforopportunite(this.opportunite)
+         },
+       });
+     }
+
 
     if (this.route.snapshot.url[0].path == 'edit') {
       this.isAddMode = false;
       this.verifyRouteAndGetDevis();
     }
   }
+
 
   async verifyRouteAndGetDevis() {
     [this.id, this.slug] = await this.route.snapshot.params['id-slug'].split(
@@ -101,11 +126,13 @@ export class AddEditDevisComponent implements OnInit {
   }
 
   initializeForms() {
+
     this.devisForm = this.formBuilder.group({
       validationDuration: null,
       devise: [this.currencies[0].name_symbol, Validators.required],
-      tvaNotApplicable: false
+      tvaNotApplicable: false,
     });
+
   }
 
   tvaApplicableChanged(){
@@ -187,6 +214,7 @@ export class AddEditDevisComponent implements OnInit {
   }
 
   getFormValues() {
+
     this.devis.validationDuration = this.devisForm.controls['validationDuration'].value;
     this.devis.devise = this.devisForm.controls['devise'].value;
     this.devis.totalHT = this.childArticlePanel.totals.totalHTF
@@ -195,6 +223,10 @@ export class AddEditDevisComponent implements OnInit {
     this.devis = this.childArticlePanel.getRemiseForm(this.devis) as Devis
     this.devis = this.childSelectRecipient.getRecipient(this.devis) as Devis
     this.devis = this.childReglementForm.getReglementForm(this.devis) as Devis
+    if(this.opportunite)
+    {
+      this.devis.opportunite = this.opportunite
+    }
 
   }
 
@@ -205,6 +237,13 @@ export class AddEditDevisComponent implements OnInit {
     this.childArticlePanel.setRemiseForm(this.devis)
     this.childSelectRecipient.setRecipient(this.devis)
     this.childReglementForm.setReglementForm(this.devis)
+  }
+
+
+  setformforopportunite(opportunite: Opportunite) {
+
+    this.childSelectRecipient.setRecipient(this.opportunite)
+
   }
 
   currencyChanged(event : any){

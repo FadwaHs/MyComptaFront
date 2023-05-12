@@ -15,6 +15,7 @@ import { Societe } from 'src/app/private/gestion-facturation/models/societe';
 import { NavigateService } from 'src/app/shared/services/navigate.service';
 import { AlertifyService } from '../../services/alertify.service';
 import { DatePipe, DecimalPipe } from '@angular/common';
+import { Opportunite } from 'src/app/private/gestion-facturation/models/opportunite';
 
 interface Card {
   mainIcon: string;
@@ -40,10 +41,10 @@ export class CardComponent implements OnInit {
   refreshListPage : EventEmitter<void> = new EventEmitter();
 
   @Input()
-  data: Societe | Client | Devis | FactureSimple | FactureAvoir | FactureAcompte|Facture;
+  data: Societe | Client | Devis | FactureSimple | FactureAvoir | FactureAcompte|Facture|Opportunite;
 
   @Input()
-  for: 'C' | 'S' | 'D' | 'F'|'A'|'FA';
+  for: 'C' | 'S' | 'D' | 'F'|'A'|'FA'|'O';
 
   card: Card = {} as Card;
   textColor: string = 'text-green'
@@ -69,7 +70,10 @@ export class CardComponent implements OnInit {
     else if (this.for =='F') this.getFromFactureSimple()
     else if (this.for =='A') this.getFromFactureAvoir()
     else if (this.for =='FA') this.getFromFactureAcompte()
+    else if (this.for =='O') this.getFromOpportunite()
+
   }
+
 
   getFromFactureAcompte() {
     var factureAcompte : FactureAcompte = this.data as FactureAcompte
@@ -167,6 +171,22 @@ export class CardComponent implements OnInit {
 
   }
 
+   getFromOpportunite() {
+
+    var opportunite : Opportunite = this.data as Opportunite
+    this.card.mainIcon = 'opp'
+    this.card.primaryTitle1 = opportunite.intitule
+    this.card.primaryTitle2 = opportunite.oppStatus
+    this.card.paragraph= opportunite.note
+    this.setRecipientToCard(opportunite.client , opportunite.societe)
+    this.setStatusToCard(opportunite.oppStatus);
+    this.card.line = true
+    this.card.primaryData = [];
+    this.setHTAndPrp(opportunite.mantantHT,opportunite.probabilite);
+    this.setDate(opportunite.datecreation)
+  }
+
+
   setDate(date : Date ){
     this.card.primaryData.push({
       icon: 'time',
@@ -186,6 +206,15 @@ export class CardComponent implements OnInit {
       data2: this.decimalPipe.transform(ttc , '.2-2')!+ ' TTC'
     })
   }
+
+  setHTAndPrp(ht:number , pro : number){
+    this.card.primaryData.push({
+      icon: 'chart',
+      data1: this.decimalPipe.transform(ht, '.2-2')!+ ' €',
+      data2: this.decimalPipe.transform(pro , '.2-2')!+ '%'
+    })
+  }
+
 
   setMotCleToCard(motCleList: MotCle[]) {
     if (motCleList.length != 0) {

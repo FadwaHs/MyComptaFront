@@ -29,14 +29,6 @@ export class OpportuniteService {
     return this.http.post(`${this.constant.opportuniteUrl}`, opportunite);
   }
 
-  // addOpportunite(opportunite: Opportunite): Observable<any> {
-  //   const httpOptions = {
-  //     headers: new HttpHeaders({
-  //       'Content-Type': 'application/json'
-  //     })
-  //   };
-  //   return this.http.post(this.constant.opportuniteUrl, opportunite, httpOptions);
-  // }
 
   updateOpportuniteById( id :number, opportunite: Opportunite) :Observable<Opportunite>{
     return this.http.put<Opportunite>(`${this.constant.opportuniteUrl}/${id}`,opportunite);

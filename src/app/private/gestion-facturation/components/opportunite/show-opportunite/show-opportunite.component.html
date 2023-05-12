@@ -1,0 +1,21 @@
+
+<app-top-bar for="O" type="show" sizeMenu="sm" [data]="this.opportunite" ></app-top-bar>
+
+<section class="grid grid-cols-1 md:grid-cols-2 gap-24 mt-11">
+	<!-- Informations column -->
+
+	<div class="flex flex-col gap-6 text-sm">
+		<div>
+			<span class="secondary-title text-base">{{'FORM.TITLE.INF'|translate}}</span>
+		</div>
+		<div class="flex flex-col space-y-8 " >
+
+			<div class="flex flex-col space-y-3 " *ngIf="opportunite.oppStatus" >
+				<div class=" grid grid-cols-4 gap-4">
+					<span class="text-gray-2">{{'FORM.INPUT.F' | translate}} :</span>
+          <div class="col-span-3">{{opportunite.oppStatus}}</div>				</div>
+				<hr>
+			</div>
+		</div>
+	</div>
+</section>

@@ -6,6 +6,7 @@ import { Facture } from 'src/app/private/gestion-facturation/models/facture';
 import { Societe } from 'src/app/private/gestion-facturation/models/societe';
 import { NavigateService } from 'src/app/shared/services/navigate.service';
 import { FilterService } from '../../services/filter.service';
+import { Opportunite } from 'src/app/private/gestion-facturation/models/opportunite';
 
 @Component({
   selector: 'app-top-bar',
@@ -16,10 +17,10 @@ export class TopBarComponent implements OnInit {
   dropMenuAdd : boolean = false
 
   @Input()
-  data: Societe | Client | Devis | Facture;
+  data: Societe | Client | Devis | Facture | Opportunite;
 
   @Input()
-  for: 'C'|'S'|'D'|'F'|'A'|'FA'
+  for: 'C'|'S'|'D'|'F'|'A'|'FA'|'O'
 
   @Input()
   type : 'add'|'edit'|'show'|'list'
@@ -60,7 +61,9 @@ export class TopBarComponent implements OnInit {
 
       else if(this.for == 'D'){
         var devis : Devis = this.data as Devis
-        this.showData[0] = devis.code
+        this.showData[0] = "Devis"
+        this.showData[1] = devis.code
+
       }
       else if(this.for == 'F'){
         var facture : Facture = this.data as Facture

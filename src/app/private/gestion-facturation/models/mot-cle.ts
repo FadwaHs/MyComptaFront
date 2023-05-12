@@ -4,6 +4,7 @@ import { Facture } from "./facture"
 import { FactureAcompte } from "./facture-acompte"
 import { FactureAvoir } from "./facture-avoir"
 import { FactureSimple } from "./facture-simple"
+import { Opportunite } from "./opportunite"
 import { Societe } from "./societe"
 
 export class MotCle{
@@ -16,4 +17,5 @@ export class MotCle{
     factureSimple : FactureSimple
     factureAvoir : FactureAvoir
     factureAcompte : FactureAcompte
+    opportunite :Opportunite
 }

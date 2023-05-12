@@ -40,7 +40,9 @@ const listIconsvg: string[] = [
   'per',
   'rh',
   'recrute',
-  'people'
+  'people',
+  'opportunites',
+  'opp'
 ];
 
 @Component({

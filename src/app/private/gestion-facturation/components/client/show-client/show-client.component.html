@@ -124,7 +124,25 @@
 	<!-- Activites column -->
 	<app-activity-panel></app-activity-panel>
 
-</section>
+
+
+
+
+</section><br><br>
+
+<span style="margin-top: 30px;">{{'TITLE.D' | translate}} ({{devisList.length}})</span>
+<div style="margin-top: 30px; margin-bottom: 30px;">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
+        <app-card  for="D" [data]="devis" *ngFor="let devis of devisList let i = index"></app-card>
+      </div>
+</div>
+
+<span class="mt-11">{{'TITLE.O' | translate}} ({{opportuniteList.length}})</span>
+<div style="margin-top: 30px; margin-bottom: 30px; ">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
+        <app-card  for="O" [data]="opp" *ngFor="let opp of opportuniteList let i = index"></app-card>
+      </div>
+</div>
 
 
 

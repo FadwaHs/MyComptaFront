@@ -7,6 +7,7 @@ import { ModeReglement } from "./mode-reglement"
 import { Interet } from "./interet"
 import { Article } from "./article"
 import { DevisStatus } from "../enums/devis-status"
+import { Opportunite } from "./opportunite"
 
 export class Devis{
     id: number
@@ -28,7 +29,7 @@ export class Devis{
     motCleList : MotCle[]
     societe : Societe | null
     client : Client | null
-
+    opportunite : Opportunite | null
     conditionReglement: ConditionReglement
     modeReglement : ModeReglement
     interet : Interet

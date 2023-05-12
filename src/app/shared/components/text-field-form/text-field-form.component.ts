@@ -11,7 +11,7 @@ import { Facture } from 'src/app/private/gestion-facturation/models/facture';
 export class TextFieldFormComponent implements OnInit {
 
   @Input()
-  for : 'D'|'F'|'A'|'FA'
+  for : 'D'|'F'|'A'|'FA'|'O'
 
   textForm :FormGroup
   constructor(

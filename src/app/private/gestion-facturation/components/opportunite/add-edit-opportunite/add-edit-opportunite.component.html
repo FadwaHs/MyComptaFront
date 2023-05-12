@@ -1,0 +1,136 @@
+<section>
+<app-top-bar for="O" type="add"></app-top-bar>
+
+<form [formGroup]="oppForm" class="flex flex-col gap-9 md:grid-cols-3"  oninput="probabilite.value = slider.value">
+
+  <div class="flex flex-col gap-6 w-96" >
+      <app-select-recipient (selected)="isSelected = true" for="O"></app-select-recipient>
+  </div>
+  <div class="flex flex-col-3 gap-6 w-full">
+      <div class="flex flex-col gap-6 w-full " [ngClass]="isSelected || !isAddMode ? 'visible' : 'invisible' ">
+          <span class="secondary-title">{{'FORM.TITLE.INF' | translate}}</span>
+
+        <div class="grid grid-cols-3  gap-16" style="margin-bottom: 60px;"  >
+
+          <div class="flex flex-col gap-6">
+              <div class="relative flex gap-4 items-center">
+                  <input type="text" placeholder="{{'FORM.INPUT.IT' | translate}} *" class="common-input"
+                    formControlName="intitule" required>
+              </div>
+
+              <div class="relative flex gap-4 items-center">
+                <input type="text" placeholder="Mantant HT * " class="common-input"
+                    formControlName="mantantHT" required>
+              </div>
+
+            <div class="relative">
+                <label class="common-label">{{'FORM.INPUT.DS' | translate}}</label>
+                <ng-select class="custom-select-gray" placeholder="{{'FORM.INPUT.DS' | translate}}" [items]="currencies"
+                    bindLabel="name_symbol" bindValue="name_symbol" [clearable]="false"
+                    formControlName="devise" >
+
+                    <ng-template ng-option-tmp let-item="item">
+                        <div class="flex gap-2 items-center">
+                            <span>{{item.name}}</span>
+                            <span class="text-gray-2">({{item.symbol}})</span>
+                        </div>
+                    </ng-template>
+
+                </ng-select>
+            </div>
+
+            <div class="relative flex gap-4 items-center">
+              <label class="common-label">Date d‘échéance</label>
+              <input type="date" class="common-input" formControlName="dateFin">
+            </div>
+
+          </div>
+
+          <div class="flex flex-col gap-9">
+
+            <div class="grid grid-cols-2 gap-2" style="display: flex; align-items: center;">
+
+              <label  for="slider" class="text-xs py-0.5 px-2 text-gray-2 ">Probabilité</label>
+              <div class="flex">
+                <input type="range" formControlName="probabilite" id="slider" name="slider" min="0" max="100" step="1" value="50">
+                <div class="common-input-div">
+                  <output  name="probabilite" for="slider" >50</output>
+                  <span>%</span>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="relative">
+              <label class="common-label">Pipeline</label>
+              <ng-select class="custom-select-gray text-xs"  [items]="pipeline" bindLabel="name" formControlName="pipeline"
+               (change)="onPipelineSelected($event)  ">
+              </ng-select>
+
+            </div>
+            <div class="relative">
+              <label class="common-label">Etape</label>
+              <ng-select class="custom-select-gray text-xs"  [items]="etapepipeline" bindLabel="etapename" formControlName="etapepipeline"
+              (change)="onEtapeSelected($event)">
+
+              <ng-template ng-option-tmp let-item="item">
+                <div class="flex gap-2 items-center">
+                    <span>{{item.etapename}}</span>
+                    <span class="text-gray-2">({{item.probabilite}}%)</span>
+                </div>
+              </ng-template>
+
+              </ng-select>
+            </div>
+
+            <div class="relative">
+              <label class="common-label">Source</label>
+              <ng-select class="custom-select-gray text-xs"  [items]="source"  formControlName="source">
+             </ng-select>
+
+            </div>
+
+          </div>
+
+          <div class="flex flex-col gap-6 ">
+
+            <div class="relative flex gap-4 items-center">
+              <span class="secondary-title">Note</span>
+            </div>
+
+            <div class="relative flex gap-4 items-center" >
+
+              <textarea class="common-textarea resize-none " placeholder="Note" rows="5"
+              formControlName="note"></textarea>
+
+            </div>
+
+
+            <div class="relative flex gap-4 items-center">
+              <div class="grid grid-cols-1 ">
+               <app-key-word-form for="O"></app-key-word-form>
+              </div>
+            </div>
+
+          <div class="sm:col-start-2 grid grid-cols-3 gap-5 w-full" style="margin-top: 40px;">
+              <button class="common-btn-black col-span-2 " [disabled]="oppForm.invalid || (!isSelected && isAddMode) " appDebounceClick
+              (debounceClick)="onSubmit()" >
+                  <ng-container *ngIf="isAddMode  else editButton">{{'FORM.BUTTON.C' | translate}}</ng-container>
+                  <ng-template #editButton>{{'FORM.BUTTON.E' | translate}}</ng-template>
+              </button>
+              <button #add class="common-btn-gray" routerLink="">{{'FORM.BUTTON.A' | translate}}</button>
+          </div>
+
+          </div>
+
+        </div>
+
+      </div>
+  </div>
+
+
+</form>
+
+
+
+</section>
