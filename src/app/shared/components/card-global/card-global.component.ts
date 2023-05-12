@@ -50,12 +50,6 @@ export class CardGlobalComponent {
 
   }
 
-
-  // onClicked(){
-  //   this.open = false
-  //   // this.addClicked.emit()
-  // }
-
    openModel(mode: Modes,id: string) {
     const did = +id.split('-')[0];
     const did2 = Number(did);
