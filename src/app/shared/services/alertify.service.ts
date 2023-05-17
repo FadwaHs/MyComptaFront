@@ -11,7 +11,7 @@ import { NavigateService } from './navigate.service';
 
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AlertifyService {
   constructor(

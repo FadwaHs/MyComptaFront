@@ -1,6 +1,6 @@
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
@@ -13,6 +13,9 @@ import { PrivateComponent } from './private/private.component';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import localeEn from '@angular/common/locales/en';
+// import { MatDrawerModule } from '@angular/material/drawer';
+import {MatSidenavModule} from '@angular/material/sidenav';
+
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -52,11 +55,14 @@ function getCurrentLocal(){
 @NgModule({
   declarations: [
     AppComponent,
+
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
+    MatSidenavModule,
     FormsModule,
     AngularSvgIconModule.forRoot(),
     TranslateModule.forRoot({
@@ -68,6 +74,7 @@ function getCurrentLocal(){
       defaultLanguage: defaultLang(),
     }),
   ],
+
   providers: [
     { provide: LOCALE_ID, useValue: getCurrentLocal() },
   ],

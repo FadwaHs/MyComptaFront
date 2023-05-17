@@ -1,7 +1,18 @@
 <section>
-    <app-navbar></app-navbar>
-    <div class="main-container">
-        <router-outlet></router-outlet>
+  <app-navbar></app-navbar>
+  <div class="flex flex-col-2">
+    <div [ngClass]="isSidenavOpen ? 'slider-open' : 'slider-close'">
+      <app-slider (sidenavOpenChange)="onSidenavOpenChange($event)">
+      </app-slider>
     </div>
-</section>
 
+    <div
+      [ngClass]="{
+        'main-container': true,
+        'opacity-50': isSmallScreen && isSidenavOpen
+      }"
+    >
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</section>

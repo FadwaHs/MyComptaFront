@@ -18,7 +18,8 @@ import { SharedPerModule } from './shared-per/shared-per.module';
     CommonModule,
     GestionPersonnelRoutingModule,
     DepartementModule,
-    SharedPerModule
+    SharedPerModule,
+    SharedModule
   ],
   exports:[
   ]

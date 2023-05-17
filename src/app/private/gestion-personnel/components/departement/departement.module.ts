@@ -27,6 +27,7 @@ import { AddEditDeptModalComponent } from './add-edit-dept-modal/add-edit-dept-m
         CommonModule,
         DepartementRoutingModule,
         SharedPerModule,
+        SharedModule
       ]
 })
 export class DepartementModule { }

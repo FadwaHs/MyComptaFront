@@ -32,6 +32,12 @@ import { TextFieldFormComponent } from './components/text-field-form/text-field-
 import { CustomInputComponent } from './components/custom-input/custom-input.component';
 import { DropMenuGlobalComponent } from './components/drop-menu-global/drop-menu-global.component';
 import { CardGlobalComponent } from './components/card-global/card-global.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import {MatListModule} from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+import { OverlayModule } from '@angular/cdk/overlay';
 
 
 
@@ -71,7 +77,13 @@ import { CardGlobalComponent } from './components/card-global/card-global.compon
     FormsModule,
     ReactiveFormsModule,
     NgSelectModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    MatSidenavModule,
+    MatButtonModule,
+    MatListModule,
+    MatMenuModule,
+    MatIconModule,
+    OverlayModule
   ],
   exports : [
     AddressFormComponent,
@@ -104,7 +116,13 @@ import { CardGlobalComponent } from './components/card-global/card-global.compon
     DropMenuGlobalComponent,
     ModalComponent,
     CardGlobalComponent,
-    IvyCarouselModule
+    IvyCarouselModule,
+    MatSidenavModule,
+    MatButtonModule,
+    MatListModule,
+    MatMenuModule,
+    MatIconModule,
+    OverlayModule
   ],
   providers :[
     LanguageService,

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
+
 
 @Component({
   selector: 'app-private',
@@ -6,10 +7,32 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./private.component.scss']
 })
 export class PrivateComponent implements OnInit {
+  // @ViewChild('sliderRef') sliderRef: ElementRef;
 
-  constructor() { }
+  isSidenavOpen: boolean = true;
+  isSmallScreen: boolean;
+  constructor() {
+    this.checkScreenSize();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.checkScreenSize();
+  }
+
+  checkScreenSize() {
+    this.isSmallScreen = window.innerWidth <= 696;
+  }
 
   ngOnInit(): void {
   }
+
+  onSidenavOpenChange(value: boolean) {
+    this.isSidenavOpen = value;
+    console.log('isSidenavOpen:', value);
+
+  }
+
+
 
 }

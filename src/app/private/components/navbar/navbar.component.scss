@@ -26,13 +26,13 @@ $stroke-color: theme('colors.gray[2]');
             visibility: visible;
             opacity: 1;
             transition: visibility 1s linear 0s, opacity 300ms;
-            
+
         }
         .icon-facture {
             visibility: visible;
             opacity: 1;
             transition: visibility 1s linear 0s, opacity 300ms;
-            
+
         }
 
 
@@ -41,13 +41,13 @@ $stroke-color: theme('colors.gray[2]');
     .icon-btn{
         @apply rounded-full w-8 h-8 px-2 focus:outline-none focus:ring-2 focus:ring-black-1 hover:outline-none hover:ring-2 hover:ring-black-1;
     }
-    
+
 
     .profile-btn{
         @apply space-x-3 flex rounded-full  hover:outline-none hover:ring-2 hover:ring-black-1 focus:outline-none focus:ring-2 focus:ring-black-1 ;
         padding: 3px;
     }
-    
+
     .drop-menu-profile{
         @apply absolute space-y-2 p-3 pt-5 right-0 top-11 origin-top-right rounded-lg bg-white-1  shadow-lg ring-1 ring-black-1;
     }
@@ -64,10 +64,10 @@ $stroke-color: theme('colors.gray[2]');
         }
         &:focus > svg-icon{
             @apply stroke-white-1;
-            
+
         }
 
-        
+
     }
 }
 
@@ -97,7 +97,7 @@ input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-results-button,
 input[type="search"]::-webkit-search-results-decoration {
   display: none;
-  
+
 }
 
 
@@ -109,11 +109,11 @@ input[type="search"]::-webkit-search-results-decoration {
 
 
 // .icon-btn{
-    
+
 //     &:hover,&:focus{
 //         background-color: $normal-color;
 //     }
-    
+
 // }
 
 .span-text,.icon-facture{
@@ -128,39 +128,40 @@ input[type="search"]::-webkit-search-results-decoration {
     max-width: fit-content;
     transition: width 0.8s ease-in-out;
     transition-delay: -300ms;
-    
+
     &:focus{
         transition-delay: 1s;
-        width: 300px;
+        width: 100%;
         max-width: fit-content;
-        transition: width 0.8s ease-in-out;
-        
-        
+        transition: width 1s ease-in-out;
+
+
     }
 
     &:focus > .span-text {
         visibility: visible;
         opacity: 1;
         transition: visibility 1s linear 0s, opacity 1s;
-        
+
     }
     &:focus > .icon-facture {
         visibility: visible;
         opacity: 1;
         transition: visibility 1s linear 0s, opacity 1s;
-        
+
     }
 
     &:focus > svg-icon{
             stroke: $normal-color ;
         }
-    
+
 
     &:hover >  svg-icon{
             stroke: $normal-color;
     }
-    
-    
+
+
 }
 
-  
+
+

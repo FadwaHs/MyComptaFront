@@ -40,7 +40,26 @@ const listIconsvg: string[] = [
   'per',
   'rh',
   'recrute',
-  'people'
+  'people',
+  'facturation',
+  'abonnements',
+  'achats',
+  'arrowleft',
+  'arrowright',
+  'assistante',
+  'banque',
+  'catalog',
+  'comptabilite',
+  'deconnexion',
+  'dropup',
+  'dropdown',
+  'editeur',
+  'exporter',
+  'fichiers',
+  'opportunites',
+  'rapports',
+  'tresorerie',
+  'sidebarEffect'
 ];
 
 @Component({
