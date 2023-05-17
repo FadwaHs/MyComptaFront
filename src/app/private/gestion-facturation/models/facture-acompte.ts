@@ -8,4 +8,5 @@ export class FactureAcompte extends Facture{
   status : FactureAcompteStatus
   compteBanc : CompteBanc
   devis : Devis
+  date_paiement :Date
 }

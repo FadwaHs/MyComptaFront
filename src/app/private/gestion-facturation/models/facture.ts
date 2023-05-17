@@ -14,5 +14,7 @@ export class Facture{
     totalTTC: number
     totalHT : number
     motCleList: MotCle[]
+    date_finalisation:Date
+    
 }
 

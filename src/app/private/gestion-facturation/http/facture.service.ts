@@ -16,4 +16,8 @@ export class FactureService {
     return this.http.get<Facture[]>(`${this.constant.factureUrl}`)
   }
 
+  getFactureList(params: any): Observable<any> {
+    return this.http.get<any>(`${this.constant.factureUrl}/pagination`, { params });
+  }
+
 }

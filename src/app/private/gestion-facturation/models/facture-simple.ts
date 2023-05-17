@@ -13,4 +13,5 @@ export class FactureSimple extends Facture{
   client : Client | null
   articleList : Article[]
   debours : Debours[]
+  date_paiement :Date
 }

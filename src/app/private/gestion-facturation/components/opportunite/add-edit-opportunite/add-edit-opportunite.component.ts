@@ -13,6 +13,7 @@ import { firstValueFrom } from 'rxjs';
 import { Etape } from '../../../models/etape';
 import { EtapeService } from '../../../http/etape.service';
 import { HttpHeaders } from '@angular/common/http';
+import { OppStatus } from '../../../enums/OppStatus';
 
 @Component({
   selector: 'app-add-edit-opportunite',
@@ -78,12 +79,13 @@ export class AddEditOpportuniteComponent  implements OnInit{
   async onPipelineSelected(event: any) {
 
     var pip = this.oppForm.controls['pipeline'].value as Pipeline;
-    this.etapepipeline = await firstValueFrom(this.pipelineService.getEtapeForPipeline(pip.id));
+    this.etapepipeline = (await firstValueFrom(this.pipelineService.getEtapeForPipeline(pip.id))).sort((a, b) => a.id - b.id);
   }
 
   async onEtapeSelected( event: any) {
+
     var etape = this.oppForm.controls['etapepipeline'].value as Etape;
-    console.log(etape,'viewEtape')
+
   }
 
 
@@ -146,6 +148,7 @@ export class AddEditOpportuniteComponent  implements OnInit{
 
     if (this.oppForm.valid && ( this.isSelected || !this.isAddMode)) {
       this.getFormValues();
+      this.checkstatus();
       if (this.isAddMode) {
         this.createNewOPP();
       } else {
@@ -155,6 +158,7 @@ export class AddEditOpportuniteComponent  implements OnInit{
       console.log('Invalid Form');
      }
   }
+
 
 
   updateOPP() {
@@ -214,6 +218,36 @@ export class AddEditOpportuniteComponent  implements OnInit{
     this.oppForm.controls['source'].setValue(this.opportunite.source)
     this.oppForm.controls['etapepipeline'].setValue(this.opportunite.etape)
     this.oppForm.controls['pipeline'].setValue(this.opportunite.etape.pipeline)
+  }
+
+
+  // Status Update Note Globale
+  checkstatus() {
+
+    if(this.opportunite.etape.etapename === "Affaire conclue" )
+    {
+           this.opportunite.oppStatus = OppStatus.WON
+
+           const dateAujourdhui = new Date();
+           const dateFin = new Date(this.opportunite.dateFin);
+
+             if (dateFin.toDateString() === dateAujourdhui.toDateString())
+             {
+                this.opportunite.oppStatus = OppStatus.CLOSED
+             }
+     }
+     else
+     {
+         const dateAujourdhui = new Date();
+         const dateFin = new Date(this.opportunite.dateFin);
+
+         if (dateFin.toDateString() === dateAujourdhui.toDateString())
+          {
+             this.opportunite.oppStatus = OppStatus.LATE
+           }
+
+
+     }
   }
 
 

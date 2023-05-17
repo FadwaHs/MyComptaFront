@@ -7,13 +7,17 @@
     "DP" :"Département",
     "A": "Avoir",
     "FA": "Facture d'acompte",
-    "ESP":"Espace"
+    "ESP":"Espace",
+    "FS": "Simples",
+    "AC": "Acomptes"
+
   },
   "TITLE": {
     "S": "Sociétés",
     "C": "Clients",
     "D": "Devis",
     "F": "Factures",
+    "FS": "Factures Simples",
     "A": "Avoirs",
     "FA": "Factures d'acompte",
     "O": "Opportunités",
@@ -162,7 +166,7 @@
   "EMPTY_DATA_MESSAGE": {
     "COMMON": "Cliquez sur le bouton pour l'ajouter",
     "S": {
-      "M1": "Aucun société à afficher",
+      "M1": "Aucune société à afficher",
       "M2": "Ajouter une société"
     },
     "C": {
@@ -174,8 +178,12 @@
       "M2": "Ajouter un devis"
     },
     "F": {
-      "M1": "Aucun facture à afficher",
-      "M2": "Ajouter une facture"
+      "M1": "Aucune facture à afficher",
+      "M2": "Ajouter une facture simple"
+    },
+    "FG": {
+      "M1": "Aucune facture à afficher",
+      "M2": "Ajouter une facture simple"
     },
     "A": {
       "M1": "Aucun avoir à afficher",
@@ -218,6 +226,9 @@
         "L1" : "Ajouter une facture",
         "L2" : "Exporter les factures"
       },
+      "FG" :{
+        "L2" : "Exporter les factures"
+      },
       "A" :{
         "L1" : "Ajouter un avoir",
         "L2" : "Exporter les avoires"
@@ -248,7 +259,10 @@
       "MCS" : "Marquer comme signé",
       "MCP" : "Marquer comme Payé",
       "MCR" : "Marquer comme refusé",
+      "MCRM" : "Marquer comme remboursé",
       "AS" : "Annuler La signature",
+      "MCA" : "Marquer comme Annullée",
+      "MCPR" : "Marquer comme Perdue",
       "AR" : "Annuler le refus",
       "T" : "Télécharger",
       "EPE" : "Envoyer par email",
@@ -258,6 +272,7 @@
       "PD": "POUR CE DEVIS :",
       "PF": "POUR CETTE FACTURE :",
       "PO": "POUR CETTE OPPORTUNITE :",
+      "PA": "POUR CET AVOIR :",
       "CA": "Créer une activité",
       "CD": "Créer un devis",
       "CF": "Créer une facture",
@@ -314,15 +329,27 @@
     "FINALIZED" : "Finalisé",
     "REFUSED" : "Refusé",
     "PAYED" : "Payé",
-    "PAYEDF" : "Payées",
-    "APAYEDF" : "À Payées",
-    "REFUNDED" : "Remboursé",
+    "PAYEDF" : "Payée",
+    "APAYEDF" : "À Payée",
+    "REFUNDED" : "Remboursée",
     "INPROGRESS":"En Cours",
     "WON":"Remportées",
     "LOST": "Perdues",
     "CANCLED" : "Annulées",
     "CLOSED" :"Fermées",
     "LATE" :"En Retard"
+
+  },
+  "MODAL":{
+   "TITLE" : {
+    "REM" : "Date de remboursemt",
+    "PAY" :"Date de paiement"
+
+
+   },
+   "INPUT" :{
+     "REM" : "Date de remboursemt"
+   }
 
   },
   "DOCUMENTATION":{

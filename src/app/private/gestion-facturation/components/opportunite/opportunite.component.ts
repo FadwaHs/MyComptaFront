@@ -16,35 +16,62 @@ export class OpportuniteComponent implements OnInit {
   isEmpty : boolean = false;
   filterStatus :OppStatus ;
 
-
   currentIndex = -1;
   data :string = '';
   page :number = 1;
   count :number = 0;
   pageSize :number = 8;
+  originalOpportunite: Opportunite[];
+
 
 constructor(private opportuniteService :OpportuniteService ,  private filterService : FilterService){
 
   this.filterService.methodSearchCalled$.subscribe(
     (res) => {
       this.data = res
-      // this.searchData()
+     // this.searchData()
     }
   );
 
-  this.filterService.methodFilterStatusCalled$.subscribe(
-    (res) => {
-      this.filterStatus = res
-      // this.searchData()
-    }
-  );
 }
 
 
   ngOnInit(): any {
 
-   this.getAllOpportunite();
+  // For Filter
+  this.opportuniteService.getAllOpportunites().subscribe({
 
+    next: (opportuniteList) => {
+      this.opportunite = opportuniteList;
+      this.originalOpportunite = opportuniteList; // initialize originalOpportunite here
+    },
+    error: (error) => {
+      console.log(error);
+    },
+  });
+
+  // to retrieve the filter status and then she know which opportunities to display.
+  /* In the OpportuniteComponent, the getOppStatusFilter() method of the filterService is being subscribed to.
+   This means that whenever there is a change to the oppStatusFilterSubject,
+   the OpportuniteComponent will be notified of the change and can take appropriate action.*/
+  this.filterService.getOppStatusFilter().subscribe((status) => {
+    if (status) {
+
+      /*  filters the originalOpportunite array to only include items with a matching oppStatus value
+          and assigns the filtered array to the data property of the component*/
+      this.opportunite = this.originalOpportunite.filter(
+        (item) => item.oppStatus === status
+      );
+    } else {
+      // If status is falsy, assigns the entire originalOpportunite array to the data property of the component.
+
+      this.opportunite = this.originalOpportunite; // reset opportunite to originalOpportunite here
+    }
+  });
+
+  // For Filter end
+
+   this.getAllOpportunite();
 }
 
 
@@ -57,14 +84,6 @@ constructor(private opportuniteService :OpportuniteService ,  private filterServ
   }
   )
 }
-
-
-
-
-
-
-
-
 
 
 }

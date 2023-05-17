@@ -7,20 +7,35 @@ import { Societe } from 'src/app/private/gestion-facturation/models/societe';
 import { NavigateService } from 'src/app/shared/services/navigate.service';
 import { FilterService } from '../../services/filter.service';
 import { Opportunite } from 'src/app/private/gestion-facturation/models/opportunite';
+import { Router } from '@angular/router';
+
+
+interface TopTitle{
+  name: string
+  link :string
+  isActive :boolean;
+
+ }
+
 
 @Component({
   selector: 'app-top-bar',
   templateUrl: './top-bar.component.html',
   styleUrls: ['./top-bar.component.scss']
 })
+
+
 export class TopBarComponent implements OnInit {
   dropMenuAdd : boolean = false
+
+  items : TopTitle[]
+
 
   @Input()
   data: Societe | Client | Devis | Facture | Opportunite;
 
   @Input()
-  for: 'C'|'S'|'D'|'F'|'A'|'FA'|'O'
+  for: 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'FG'
 
   @Input()
   type : 'add'|'edit'|'show'|'list'
@@ -35,9 +50,17 @@ export class TopBarComponent implements OnInit {
   constructor(
     protected navigate : NavigateService,
     private filterService : FilterService,
+    private route :Router
   ) { }
 
   ngOnInit(): void {
+
+    this.checkTopTitle()
+
+  }
+
+
+  checkTopTitle() {
 
   }
 

@@ -1,0 +1,88 @@
+<section>
+  <app-top-bar for="A" type="add"></app-top-bar>
+  <form [formGroup]="factureAvoirForm" class="grid grid-cols-1 gap-9 md:grid-cols-3 "  *ngIf="isProvisional ; else isNotProvisional" >
+
+      <div class="flex flex-col gap-6" >
+          <app-select-recipient (selected)="isSelected = true" for="A"></app-select-recipient>
+
+          <div class="flex flex-col gap-6" [ngClass]="isSelected || !isAddMode ? 'visible' : 'invisible' ">
+              <span class="secondary-title">{{'FORM.TITLE.INF' | translate}}</span>
+              <div class="flex flex-col gap-6">
+
+                  <div class="relative">
+                      <label class="common-label">{{'FORM.INPUT.DS' | translate}}</label>
+                      <ng-select class="custom-select-gray" placeholder="{{'FORM.INPUT.DS' | translate}}" [items]="currencies"
+                          bindLabel="name_symbol" bindValue="name_symbol" [clearable]="false"
+                          formControlName="devise" (change)="currencyChanged($event) ">
+
+                          <ng-template ng-option-tmp let-item="item">
+                              <div class="flex gap-2 items-center">
+                                  <span>{{item.name}}</span>
+                                  <span class="text-gray-2">({{item.symbol}})</span>
+                              </div>
+                          </ng-template>
+
+                      </ng-select>
+                  </div>
+
+                  <div class="flex gap-3 items-center w-fit cursor-pointer"
+                      (click)="factureAvoirForm.controls['tvaNotApplicable'].setValue(!factureAvoirForm.controls['tvaNotApplicable'].value) ">
+                      <input type="checkbox" class="w-4 h-4 accent-black-1 cursor-pointer"
+                          (ngModelChange)="tvaApplicableChanged()" formControlName="tvaNotApplicable">
+                      <label class="cursor-pointer text-sm">{{'FORM.INPUT.TNA' | translate}}</label>
+                  </div>
+              </div>
+          </div>
+
+      </div>
+
+      <div class="flex flex-col gap-6  md:col-span-2" [ngClass]="isSelected || !isAddMode ? 'visible' : 'invisible' ">
+
+          <app-article-panel for="A" (isFormValid)="setValidationArticleForm($event)"></app-article-panel>
+
+          <div class="grid sm:grid-cols-2">
+              <app-reglement-form for="A"></app-reglement-form>
+          </div>
+
+          <app-text-field-form for="A"></app-text-field-form>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2">
+              <app-key-word-form for="A"></app-key-word-form>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-10 ">
+              <div class="sm:col-start-2 grid grid-cols-3 gap-5 w-full">
+                  <button class="common-btn-black col-span-2 " [disabled]="factureAvoirForm.invalid || (!isSelected && isAddMode) || !this.isArticleFormValid" appDebounceClick
+                      (debounceClick)="onSubmit()">
+                      <ng-container *ngIf="isAddMode  else editButton">{{'FORM.BUTTON.C' | translate}}</ng-container>
+                      <ng-template #editButton>{{'FORM.BUTTON.E' | translate}}</ng-template>
+                  </button>
+                  <button #add class="common-btn-gray" routerLink="{{navigate.f_avoirPath}}">{{'FORM.BUTTON.A' | translate}}</button>
+              </div>
+          </div>
+
+      </div>
+
+  </form>
+
+  <ng-template  #isNotProvisional>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 ">
+          <div class="flex flex-col gap-16">
+
+              <app-key-word-form for="A"></app-key-word-form>
+
+              <div class="grid grid-cols-3 gap-5 ">
+                  <button class="common-btn-black col-span-2 " *ngIf="!isAddMode" appDebounceClick (debounceClick)="submitOtherForms()">
+                      {{'FORM.BUTTON.E' | translate}}
+                  </button>
+                  <button #add class="common-btn-gray" routerLink="{{navigate.f_avoirPath}}">{{'FORM.BUTTON.A' | translate}}</button>
+              </div>
+          </div>
+
+
+      </div>
+
+  </ng-template>
+
+</section>

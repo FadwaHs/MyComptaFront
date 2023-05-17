@@ -276,6 +276,7 @@ export class CardComponent implements OnInit {
   }
 
   async setStatusToCard(status : string) {
+
     if(status == "PROVISIONAL"){
       this.card.primaryTitle2 =  await firstValueFrom(this.translate.get('STATUS.PROVISIONAL'))
       this.textColor = 'text-gray-4'
@@ -300,6 +301,32 @@ export class CardComponent implements OnInit {
       this.card.primaryTitle2 =  await firstValueFrom(this.translate.get('STATUS.REFUNDED'))
       this.textColor = 'text-green'
     }
+    else if(status == "INPROGRESS"){
+      this.card.primaryTitle2 =  await firstValueFrom(this.translate.get('STATUS.INPROGRESS'))
+      this.textColor = 'text-yellow'
+    }
+    else if(status == "WON"){
+      this.card.primaryTitle2 =  await firstValueFrom(this.translate.get('STATUS.WON'))
+      this.textColor = 'text-green'
+    }
+    else if(status == "CLOSED"){
+      this.card.primaryTitle2 =  await firstValueFrom(this.translate.get('STATUS.CLOSED'))
+      this.textColor = 'text-red'
+    }
+    else if(status == "LATE"){
+      this.card.primaryTitle2 =  await firstValueFrom(this.translate.get('STATUS.LATE'))
+      this.textColor = 'text-gray-4'
+    }
+    else if(status == "LOST"){
+
+      this.card.primaryTitle2 =  await firstValueFrom(this.translate.get('STATUS.LOST'))
+      this.textColor = 'text-gray-4'
+    }
+    else if(status == "CANCLED"){
+      this.card.primaryTitle2 =  await firstValueFrom(this.translate.get('STATUS.CANCLED'))
+      this.textColor = 'text-red'
+    }
+
 
   }
 

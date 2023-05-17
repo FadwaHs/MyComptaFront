@@ -95,7 +95,7 @@ export class AddEditSimpleComponent {
   checkSlug(){
     if (this.factureSimple.slug === this.slug) {
     } else {
-      this.router.navigateByUrl(this.navigate.toEditPath('D',this.id,this.factureSimple.slug));
+      this.router.navigateByUrl(this.navigate.toEditPath('F',this.id,this.factureSimple.slug));
     }
   }
 

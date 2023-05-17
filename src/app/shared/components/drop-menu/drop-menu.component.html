@@ -14,7 +14,7 @@
 
     <div class="drop-menu" *ngIf="dropMenu && type === 'list' ">
 
-        <a class="item-menu-sm" routerLink="add">
+        <a *ngIf="for !='FG' " class="item-menu-sm" routerLink="add">
             <svg-icon name="add" svgClass="w-4"></svg-icon>
             <span>{{'DROP_MENU.LIST.'+for+'.L1' |translate}}</span>
         </a>
@@ -57,32 +57,47 @@
         </ng-container>
 
 
-      <ng-container *ngIf="for=='F' ">
-          <button class="item-menu-{{size}}" *ngIf="$any(data).status == FactureSimpleStatus.PROVISIONAL"
+      <ng-container *ngIf="for=='F' ||for=='FA' ">
+          <button class="item-menu-{{size}}" *ngIf="($any(data).status == FactureSimpleStatus.PROVISIONAL)||($any(data).status == FactureAvoirStatus.PROVISIONAL)||($any(data).status == FactureAcompteStatus.PROVISIONAL)"
               (click)="finalizeIt()">
               <svg-icon name="edit" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
               <span>{{'DROP_MENU.EDIT.FN' |translate}}</span>
           </button>
 
-          <button class="item-menu-{{size}}" *ngIf="$any(data).status == FactureSimpleStatus.FINALIZED"  (click)="PayIt()">
+          <button class="item-menu-{{size}}" *ngIf="($any(data).status == FactureSimpleStatus.FINALIZED) ||($any(data).status == FactureAcompteStatus.FINALIZED)"  (click)="PayIt()">
               <svg-icon name="money" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
               <span>{{'DROP_MENU.EDIT.MCP' |translate}}</span>
           </button>
 
       </ng-container>
 
-        <ng-container *ngIf="for == 'C' || for == 'S' || for == 'D' || for=='F' || for=='O'">
+      <ng-container *ngIf="for=='A' ">
+        <button class="item-menu-{{size}}" *ngIf="$any(data).status == FactureAvoirStatus.PROVISIONAL"
+            (click)="finalizeIt()">
+            <svg-icon name="edit" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
+            <span>{{'DROP_MENU.EDIT.FN' |translate}}</span>
+        </button>
+
+        <button class="item-menu-{{size}}" *ngIf="$any(data).status == FactureAvoirStatus.FINALIZED"  (click)="refundIt(refundPopup)">
+            <svg-icon name="money" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
+            <span>{{'DROP_MENU.EDIT.MCRM' |translate}}</span>
+        </button>
+
+    </ng-container>
+
+
+        <ng-container *ngIf="for == 'C' || for == 'S' || for == 'D' || for=='F' || for=='O' || for=='A'">
 
             <a class="item-menu-{{size}} " [routerLink]="'edit/'+data.id+'-'+data.slug">
                 <svg-icon name="edit" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
                 <span
-                    *ngIf="$any(data).status && $any(data).status != DevisStatus.PROVISIONAL ; else modifyMotCle">{{'DROP_MENU.EDIT.MMC'
-                    |translate}}</span>
+                    *ngIf="$any(data).status && ($any(data).status != DevisStatus.PROVISIONAL ||$any(data).status != FactureSimpleStatus.PROVISIONAL || $any(data).status != FactureAvoirStatus.PROVISIONAL) ; else modifyMotCle">
+                    {{'DROP_MENU.EDIT.MMC'|translate}}</span>
                 <ng-template #modifyMotCle><span>{{'DROP_MENU.EDIT.M' |translate}}</span></ng-template>
             </a>
 
             <button class="item-menu-{{size}}" (click)="delete(data.id)" *ngIf="for == 'C' || for == 'O' || for == 'S' ||
-            (for == 'D'  && $any(data).status  == DevisStatus.PROVISIONAL )">
+            (for == 'D'  && $any(data).status  == DevisStatus.PROVISIONAL )||(for == 'F'  && $any(data).status  == FactureSimpleStatus.PROVISIONAL )||(for == 'A'  && $any(data).status  == FactureAvoirStatus.PROVISIONAL )">
                 <svg-icon name="delete" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
                 <span>{{'DROP_MENU.EDIT.SP' |translate}}</span>
             </button>
@@ -96,9 +111,11 @@
             <span class="text-gray-2 mt-10 text-[10px]" *ngIf="for =='D'">{{'DROP_MENU.EDIT.PD' |translate}}</span>
             <span class="text-gray-2 mt-10 text-[10px]" *ngIf="for =='F'">{{'DROP_MENU.EDIT.PF' |translate}}</span>
             <span class="text-gray-2 mt-10 text-[10px]" *ngIf="for =='O'">{{'DROP_MENU.EDIT.PO' |translate}}</span>
+            <span class="text-gray-2 mt-10 text-[10px]" *ngIf="for =='A'">{{'DROP_MENU.EDIT.PA' |translate}}</span>
+
         </div>
 
-        <ng-container *ngIf=" for == 'D' || for == 'F' ">
+        <ng-container *ngIf=" for == 'D' || for == 'F'|| for == 'A' || for == 'FA'  ">
             <a class="item-menu-{{size}}" href="#">
               <svg-icon name="export" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
                 <span>{{'DROP_MENU.EDIT.T' |translate}}</span>
@@ -153,17 +170,17 @@
         </ng-container>
 
 
-      <ng-container *ngIf="for == 'F'">
+      <ng-container *ngIf="for == 'F'|| for=='A'">
 
-          <hr class="drop-menu-line">
-
-          <a  class="text-gray-2 mt-10 text-[10px]" href="#">
-            <span>{{'DROP_MENU.EDIT.PF' |translate}}</span>
-          </a>
-          <a class="item-menu-{{size}}" href="#">
-              <span>{{'DROP_MENU.EDIT.CAV' |translate}}</span>
-          </a>
-
+        <ng-container *ngIf="for == 'F'">
+              <hr class="drop-menu-line">
+              <a  class="text-gray-2 mt-10 text-[10px]" href="#">
+                <span>{{'DROP_MENU.EDIT.PF' |translate}}</span>
+              </a>
+              <a class="item-menu-{{size}}" href="#">
+                  <span>{{'DROP_MENU.EDIT.CAV' |translate}}</span>
+              </a>
+        </ng-container>
           <hr class="drop-menu-line">
           <a class="item-menu-{{size}}" href="#">
               <span>{{'DROP_MENU.EDIT.DF' |translate}}</span>
@@ -179,6 +196,22 @@
 
       <ng-container *ngIf="for == 'O'">
 
+        <button class="item-menu-{{size}}" (click)="Annulee()">
+
+          <span>{{'DROP_MENU.EDIT.MCA' |translate}}</span>
+        </button>
+
+       <button class="item-menu-{{size}}" (click)="Perdue()">
+
+        <span>{{'DROP_MENU.EDIT.MCPR' |translate}}</span>
+       </button>
+
+       <hr class="drop-menu-line"><br>
+
+        <a  class="text-gray-2 mt-15 text-[10px]" href="#">
+          <span>{{'DROP_MENU.EDIT.PO' |translate}}</span>
+        </a>
+
         <a class="item-menu-{{size}}"  [routerLink]="['/environment/1/facturation/devis/add']" [queryParams]="{ id: data.id }" >
             <span>{{'DROP_MENU.EDIT.CD' |translate}}</span>
         </a>
@@ -186,7 +219,12 @@
             <span>{{'DROP_MENU.EDIT.CF' |translate}}</span>
         </a>
 
-    </ng-container>
+        <a class="item-menu-{{size}}" href="#">
+          <span>{{'DROP_MENU.EDIT.DO' |translate}}</span>
+        </a>
+
+      </ng-container>
+
 
     </div>
 
@@ -248,12 +286,34 @@
 
 
     <!-- drop menu Filter  For Facture -->
-    <ng-container *ngIf="(for == 'F' || for == 'FA'|| for == 'A' ) && type == 'filter'">
 
-          <div class="hidden sm:flex sm:gap-2 sm:text-sm">
+    <ng-container *ngIf=" for == 'FG' && type == 'filter'">
 
-            <ng-select class="custom-select-gray" [items]="dates" [(ngModel)]="selectedDate" >
-            </ng-select>
+      <div class="hidden sm:flex sm:gap-2 sm:text-sm">
+
+        <!-- <ng-select class="custom-select-gray" [items]="dates" [(ngModel)]="selectedDate" >
+        </ng-select> -->
+
+          <button class="common-btn-gray" (click)="changeFilterStatusFacture(null)"
+              [class.common-btn-gray-active]="!statusActiveFacture">{{ 'STATUS.TE' |translate}}</button>
+          <button class="common-btn-gray" routerLink="{{navigate.f_simplePath}}" >{{ 'DATA_NAME.FS'|translate}}</button>
+          <button class="common-btn-gray" routerLink="{{navigate.f_avoirPath}}">{{ 'TITLE.A' |translate}}</button>
+          <button class="common-btn-gray" routerLink="{{navigate.f_acomptePath}}">{{ 'DATA_NAME.AC' |translate}}</button>
+      </div>
+
+  </ng-container>
+
+
+      <!-- drop menu Filter  For FactureSimple -->
+
+
+    <ng-container *ngIf=" for == 'F' && type == 'filter'">
+
+      <div class="hidden sm:flex sm:gap-2 sm:text-sm">
+
+        <ng-select class="custom-select-gray" [items]="dates" [(ngModel)]="selectedDate"
+        (change)="sortData(selectedDate) " >
+        </ng-select>
 
               <button class="common-btn-gray" (click)="changeFilterStatusFacture(null)"
                   [class.common-btn-gray-active]="!statusActiveFacture">{{ 'STATUS.TE' |translate}}</button>
@@ -274,6 +334,53 @@
 
       </ng-container>
 
+      <ng-container *ngIf="for == 'A' && type == 'filter'">
+
+        <div class="hidden sm:flex sm:gap-2 sm:text-sm">
+
+          <!-- <ng-select class="custom-select-gray" [items]="dates" [(ngModel)]="selectedDate" >
+          </ng-select> -->
+
+            <button class="common-btn-gray" (click)="changeFilterStatusAvoire(null)"
+                [class.common-btn-gray-active]="!statusActiveAvoire">{{ 'STATUS.TE' |translate}}</button>
+            <button class="common-btn-gray" (click)="changeFilterStatusAvoire(FactureAvoirStatus.PROVISIONAL)"
+                [class.common-btn-gray-active]="statusActiveAvoire == FactureAvoirStatus.PROVISIONAL">{{ 'STATUS.PROVISIONAL'
+                |translate
+                }}</button>
+            <button class="common-btn-gray" (click)="changeFilterStatusAvoire(FactureAvoirStatus.FINALIZED)"
+                [class.common-btn-gray-active]="statusActiveAvoire == FactureAvoirStatus.FINALIZED">{{ 'STATUS.FINALIZED' |translate
+                }}</button>
+            <button class="common-btn-gray" (click)="changeFilterStatusAvoire(FactureAvoirStatus.REFUNDED)"
+                [class.common-btn-gray-active]="statusActiveAvoire == FactureAvoirStatus.REFUNDED">{{ 'STATUS.REFUNDED' |translate
+                }}</button>
+
+        </div>
+
+    </ng-container>
+
+
+    <ng-container *ngIf="for == 'FA' && type == 'filter'">
+
+      <div class="hidden sm:flex sm:gap-2 sm:text-sm">
+
+        <!-- <ng-select class="custom-select-gray" [items]="dates" [(ngModel)]="selectedDate" >
+        </ng-select> -->
+
+          <button class="common-btn-gray" (click)="changeFilterStatusAcomte(null)"
+              [class.common-btn-gray-active]="!statusActiveAcompte">{{ 'STATUS.TE' |translate}}</button>
+          <button class="common-btn-gray" (click)="changeFilterStatusAcomte(FactureAcompteStatus.PROVISIONAL)"
+              [class.common-btn-gray-active]="statusActiveAcompte == FactureAcompteStatus.PROVISIONAL">{{ 'STATUS.PROVISIONAL'
+              |translate
+              }}</button>
+          <button class="common-btn-gray" (click)="changeFilterStatusAcomte(FactureAcompteStatus.FINALIZED)"
+              [class.common-btn-gray-active]="statusActiveAcompte == FactureAcompteStatus.FINALIZED">{{ 'STATUS.FINALIZED' |translate
+              }}</button>
+          <button class="common-btn-gray" (click)="changeFilterStatusAcomte(FactureAcompteStatus.PAYED)"
+              [class.common-btn-gray-active]="statusActiveAcompte == FactureAcompteStatus.PAYED">{{ 'STATUS.PAYEDF' |translate
+              }}</button>
+      </div>
+
+  </ng-container>
 
     <!-- drop menu Filter  For OPP -->
     <ng-container *ngIf="(for == 'O' ) && type == 'filter'">
@@ -305,3 +412,30 @@
 
   </ng-container>
 </div>
+
+<ng-template #refundPopup let-modal>
+  <div class="space-y-5" >
+    <div class="flex flex-col-2 gap-x-40" >
+      <span class="secondary-title text-base">{{'MODAL.TITLE.REM'| translate}}  </span>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+
+      <div class=" text-sm grid grid-cols-1 gap-3 ">
+        <div class="flex flex-col gap-2">
+          <label for="date_remboursement">{{'MODAL.INPUT.REM' | translate}} :</label>
+          <input type="date" class="common-input-white" id="date_remboursement" [(ngModel)]="dateRem">
+        </div>
+        <div  class="my-dialog-actions" >
+          <button class=" common-btn-black col-span-2" data-dismiss="modal" appDebounceClick (debounceClick)="refundCard($any(data), modal)">
+             {{'FORM.BUTTON.C' | translate}}
+            </button>
+          <button class=" common-btn-gray-3 " (click)="modal.dismiss('Cross click')"  >
+               <span>{{'FORM.BUTTON.A' | translate}} </span>
+          </button>
+          </div>
+        </div>
+    </div>
+
+</ng-template>

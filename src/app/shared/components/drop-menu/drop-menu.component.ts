@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { DevisStatus } from 'src/app/private/gestion-facturation/enums/devis-status';
 import { AlertifyService } from '../../services/alertify.service';
 import { FilterService } from '../../services/filter.service';
@@ -17,6 +17,14 @@ import { Opportunite } from 'src/app/private/gestion-facturation/models/opportun
 import { OppStatus } from 'src/app/private/gestion-facturation/enums/OppStatus';
 import { OpportuniteService } from 'src/app/private/gestion-facturation/http/opportunite.service';
 import { NavigateService } from '../../services/navigate.service';
+import { FactureAvoirService } from 'src/app/private/gestion-facturation/http/facture-avoir.service';
+import { FactureAvoirStatus } from 'src/app/private/gestion-facturation/enums/facture-avoir-status';
+import { FactureAvoir } from 'src/app/private/gestion-facturation/models/facture-avoir';
+import { FactureAcompteStatus } from 'src/app/private/gestion-facturation/enums/facture-acompte-status';
+import { FactureAcompteService } from 'src/app/private/gestion-facturation/http/facture-acompte.service';
+import { FactureAcompte } from 'src/app/private/gestion-facturation/models/facture-acompte';
+import { MatDialog } from '@angular/material/dialog';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-drop-menu',
@@ -25,11 +33,12 @@ import { NavigateService } from '../../services/navigate.service';
 })
 export class DropMenuComponent implements OnInit {
 
+
   @Output()
   refreshListPage : EventEmitter<void> = new EventEmitter();
 
   @Input()
-  data: Societe | Client | Devis | Facture | FactureSimple|Opportunite;
+  data: Societe | Client | Devis | Facture | FactureSimple|Opportunite | FactureAvoir;
 
   @Input()
   type :'list'|'edit'|'show'|'filter'
@@ -38,22 +47,35 @@ export class DropMenuComponent implements OnInit {
   size : 'sm'|'xs'
 
   @Input()
-  for: 'C'|'S'|'D'|'F'|'A'|'FA'|'O'
+  for: 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'FG'
 
   dropMenu :boolean = false;
   DevisStatus = DevisStatus;
-  //Facture:
+  //Factures:
   FactureSimpleStatus = FactureSimpleStatus;
+  FactureAvoirStatus = FactureAvoirStatus;
+  FactureAcompteStatus = FactureAcompteStatus;
+
   // Opportunite:
   OppStatus = OppStatus;
 
+
+
   statusActive: DevisStatus | null = null;
   statusActiveFacture : FactureSimpleStatus | null = null;
+  statusActiveAvoire : FactureAvoirStatus | null = null;
+  statusActiveAcompte : FactureAcompteStatus | null = null;
+
+
   statusActiveOpp : OppStatus | null=null;
 
 
-  dates: string[] = ["Trier Par : Date De Création " , "Trier Par : Date De Finalisation ","Trier Par : Date De Paiement "]
+  dates: string[] = ["Trier Par : Date De Finalisation","Trier Par : Date De Création","Trier Par : Date De Paiement"]
   selectedDate = this.dates[0];
+
+  dateRem : Date;
+
+  @ViewChild('refundPopup') refundPopup: TemplateRef<any>;
 
   constructor(
     private router: Router,
@@ -64,12 +86,19 @@ export class DropMenuComponent implements OnInit {
     private devisService : DevisService,
     //Facture Service:
     private factureSimpleService : FactureSimpleService,
+    //Facture Avoire Service
+    private factureAvoirService : FactureAvoirService,
+    //Facture Acompte Service
+    private factureAcompteService : FactureAcompteService,
     // Client Service :
     private clientService : ClientService,
     // SocieteService:
     private societeService : SocieteService,
     // opportuniteService:
-    private opportuniteService : OpportuniteService
+    private opportuniteService : OpportuniteService,
+
+    // private dialog: MatDialog,
+    private modalService: NgbModal
 
   ){
   }
@@ -85,12 +114,16 @@ export class DropMenuComponent implements OnInit {
     this.filterService.callMethodFilterStatus(status);
   }
 
-  // Opportunite Status
-  changeFilterOpportunite(status:  OppStatus | null ){
-      this.dropMenu = false
-      this.statusActiveOpp = status
-      this.filterService.callMethodFilterStatus(status);
-   }
+ // opp status
+ changeFilterOpportunite(status: OppStatus | null): void {
+
+  this.dropMenu = false;
+  this.statusActiveOpp = status;
+  //  is a shared service between the DropMenuComponent and OpportuniteComponent
+  // This method then emits an event to notify the OpportuniteComponent to refresh its list of opportunities based on the selected filter status.
+  this.filterService.setOppStatusFilter(status);
+  this.refreshListPage.emit();
+}
 
   // facture simple status
   changeFilterStatusFacture(status:  FactureSimpleStatus | null ){
@@ -99,6 +132,26 @@ export class DropMenuComponent implements OnInit {
     this.filterService.callMethodFilterStatus(status);
   }
 
+ //facture Avoire status
+ changeFilterStatusAvoire(status:  FactureAvoirStatus | null ){
+  this.dropMenu = false
+  this.statusActiveAvoire = status
+  this.filterService.callMethodFilterStatus(status);
+
+ }
+  //facture Acomte status
+  changeFilterStatusAcomte(status:  FactureAcompteStatus | null ){
+    this.dropMenu = false
+    this.statusActiveAcompte = status
+    this.filterService.callMethodFilterStatus(status);
+
+   }
+
+   sortData(date: string | null) : void{
+
+    this.filterService.setselectedItemSubject(date);
+    this.refreshListPage.emit();
+   }
 
   toggleDropMenu(){
     this.dropMenu = !this.dropMenu
@@ -113,13 +166,23 @@ export class DropMenuComponent implements OnInit {
     if(this.for == 'S') this.deleteSociete(id)
     if(this.for == 'D') this.deleteDevisprovisoire(id)
     if(this.for == 'O') this.deleteOppotunite(id)
+    if(this.for == 'A') this.deleteAvoire(id)
+    if(this.for == 'FA') this.deleteAvoire(id)
+
+
   }
 
 
   finalizeIt(){
     if(this.for == 'D') this.updateDevis(DevisStatus.FINALIZED)
     if(this.for == 'F') this.updateFacture(FactureSimpleStatus.FINALIZED)
+    if(this.for == 'A') this.updateFactureAvoir(FactureAvoirStatus.FINALIZED)
+    if(this.for == 'FA') this.updateFactureAcompte(FactureAcompteStatus.FINALIZED)
+
+
   }
+
+
 
   signeIt(){
     if(this.for == 'D') this.updateDevis(DevisStatus.SIGNED)
@@ -130,19 +193,96 @@ export class DropMenuComponent implements OnInit {
   }
 
   PayIt() {
-
     if(this.for == 'F') this.updateFacture(FactureSimpleStatus.PAYED)
+    if(this.for == 'FA') this.updateFactureAcompte(FactureAcompteStatus.PAYED)
+  }
+  Perdue() {
+
+    if(this.for == 'O') this.updateOpportunite(OppStatus.LOST)
+
+   }
+
+   Annulee() {
+     if(this.for == 'O') this.updateOpportunite(OppStatus.CANCLED)
+   }
+
+  toPayIt() {
+    var date = new Date()
+    if(this.for == 'F') this.updateFacture(FactureSimpleStatus.TOPAYED)
+
+  }
+
+  refundIt(refundPopup :any) {
+
+    const modalRef = this.modalService.open(refundPopup, {windowClass: 'my-modal',
+    backdropClass: 'modal-backdrop'});
+    this.closeMenu()
+    modalRef.result
+      .then((result) => {
+        if (result === 'refund') {
+          (this.data as FactureAvoir).status = FactureAvoirStatus.REFUNDED;
+          this.updateFactureAvoir(FactureAvoirStatus.REFUNDED);
+        }
+      })
+      .catch(() => {});
+}
+
+
+
+  refundCard(data: FactureAvoir, modal: any) {
+    if (this.dateRem) {
+      (this.data as FactureAvoir).date_remboursement = this.dateRem;
+      modal.close('refund');
+    }
   }
 
 
+
+
+  updateFactureAvoir(factureAvoirStatus: FactureAvoirStatus) {
+
+    (this.data as FactureAvoir).status = factureAvoirStatus
+    if(factureAvoirStatus == FactureAvoirStatus.FINALIZED)
+        (this.data as FactureAvoir).date_finalisation=  new Date()
+
+    else if (factureAvoirStatus == FactureAvoirStatus.REFUNDED)
+        (this.data as FactureAvoir).date_remboursement= this.dateRem
+
+    this.factureAvoirService.updateFactureAvoirById(this.data.id, this.data as FactureAvoir).subscribe({
+      error : e => console.log(e),
+      complete: () => this.refreshListPage.emit()
+    })
+
+  }
+
   updateFacture(FactureSimpleStatus : FactureSimpleStatus){
-    (this.data as FactureSimple).status = FactureSimpleStatus
+    (this.data as FactureSimple).status = FactureSimpleStatus;
+    (this.data as FactureSimple).date_finalisation= new Date(); // add date de finalisation
+    console.log((this.data as FactureSimple).date_finalisation,"date")
     this.factureSimpleService.updateFactureSimpleById(this.data.id, this.data as FactureSimple).subscribe({
       // next : res => this.data = res,
       error : e => console.log(e),
       complete: () => this.refreshListPage.emit()
+      // complete: () => location.reload()
     })
   }
+
+  updateFactureAcompte(factureAcompteStatus: FactureAcompteStatus) {
+
+    (this.data as FactureAcompte).status = factureAcompteStatus
+    if(factureAcompteStatus == FactureAcompteStatus.FINALIZED)
+        (this.data as FactureAcompte).date_finalisation=  new Date()
+
+    else if (factureAcompteStatus == FactureAcompteStatus.PAYED)
+        (this.data as FactureAcompte).date_paiement=  new Date()
+
+    this.factureAcompteService.updateFactureAcompteById(this.data.id, this.data as FactureAcompte).subscribe({
+      error : e => console.log(e),
+      complete: () => this.refreshListPage.emit()
+    })
+
+  }
+
 
   updateDevis(devisStatus : DevisStatus){
     (this.data as Devis).status = devisStatus
@@ -153,6 +293,16 @@ export class DropMenuComponent implements OnInit {
     })
   }
 
+  updateOpportunite(oppStatus: OppStatus) {
+    (this.data as Opportunite).oppStatus = oppStatus
+    this.opportuniteService.updateOpportuniteById(this.data.id,this.data as Opportunite).subscribe(
+      {
+        error : e => console.log(e),
+        complete: () => location.reload()
+      }
+    )
+
+  }
 
   ////// Delete /////
 
@@ -202,6 +352,18 @@ export class DropMenuComponent implements OnInit {
 
      })
   }
+
+  deleteAvoire(id: number) {
+
+      this.factureAvoirService.deleteFactureAvoirById(id).subscribe({
+        error: e => console.log(e),
+          complete: () => {
+            location.reload();
+          }
+
+       })
+  }
+
 
 
 }

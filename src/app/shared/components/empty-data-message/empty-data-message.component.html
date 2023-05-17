@@ -3,20 +3,25 @@
         <span>{{'EMPTY_DATA_MESSAGE.'+for+'.M1' | translate}}<br>{{'EMPTY_DATA_MESSAGE.COMMON'|translate}}</span>
 
         <div class="flex justify-center items-center">
-
-            <button class="common-btn-gray space-x-2 flex" routerLink="add" *ngIf="for !='ESP' && for!='DP' ; else onClick" >
+            <button class="common-btn-gray space-x-2 flex" routerLink="add" *ngIf="for !='ESP' && for!='DP' && for!='FG' ">
                 <svg-icon name="add" class="w-5 pt-0.5"></svg-icon>
                 <span>{{'EMPTY_DATA_MESSAGE.'+for+'.M2' | translate}}</span>
             </button>
 
-            <ng-template #onClick>
+
+           <div *ngIf="for =='FG'" >
+                <button class="common-btn-gray space-x-2 flex" routerLink="{{navigate.f_simplePath+'/add'}}">
+                  <svg-icon name="add" class="w-5 pt-0.5"></svg-icon>
+                  <span>{{'EMPTY_DATA_MESSAGE.'+for+'.M2' | translate}}</span>
+              </button>
+
+           </div>
+           <div *ngIf="for =='ESP'|| for=='DP'" >
               <button class="common-btn-gray space-x-2 flex" (click)="this.btnClicked.emit()" >
                 <svg-icon name="add" class="w-5 pt-0.5"></svg-icon>
                 <span>{{'EMPTY_DATA_MESSAGE.'+for+'.M2' | translate}}</span>
               </button>
-            </ng-template>
-
-
+           </div>
 
         </div>
     </div>

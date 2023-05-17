@@ -13,5 +13,9 @@ export class FactureAvoir extends Facture{
   client : Client | null
   articleList : Article[]
   debours : Debours[]
+  valid: boolean
+
+  date_remboursement:Date
+
 
 }

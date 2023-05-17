@@ -15,6 +15,8 @@ export class SimpleComponent {
   factureSimples :FactureSimple[] = [];
   isEmpty : boolean = false;
 
+  selectedDate: string = 'Trier Par : Date De Création';
+
   currentFactureSimple: FactureSimple = new FactureSimple();
   currentIndex = -1;
   data :string = '';
@@ -38,12 +40,31 @@ export class SimpleComponent {
       }
     );
 
+
   }
 
   async ngOnInit(): Promise<void> {
+
     await this.setAllFactureSimple();
     if(this.factureSimples.length == 0) this.isEmpty = true
+
+    this.filterService.getselectedItemSubject().subscribe((dateselected) => {
+
+      if (dateselected) {
+        switch (dateselected) {
+          case 'Trier Par : Date De Création':
+            this.factureSimples.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+            break;
+            case 'Trier Par : Date De Finalisation':
+              this.factureSimples.sort((a, b) => new Date(b.date_finalisation).getTime() - new Date(a.date_finalisation).getTime());
+              break;
+          default:
+            break;
+        }
+      }
+    });
   }
+
 
   onRefresh(){
     this.setAllFactureSimple();
