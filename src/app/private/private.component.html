@@ -1,6 +1,11 @@
 <section>
-  <app-navbar></app-navbar>
-  <div class="flex flex-col-2">
+  <app-navbar (dropMenu)="onDropMenu($event)"></app-navbar>
+  <!-- {{ isdropMenuMobile }} -->
+
+  <div
+    class="flex flex-col-2"
+    [ngClass]="isdropMenuMobile && isSmallScreen ? 'hidden' : ''"
+  >
     <div [ngClass]="isSidenavOpen ? 'slider-open' : 'slider-close'">
       <app-slider (sidenavOpenChange)="onSidenavOpenChange($event)">
       </app-slider>
@@ -9,7 +14,8 @@
     <div
       [ngClass]="{
         'main-container': true,
-        'opacity-50': isSmallScreen && isSidenavOpen
+        'opacity-50': isSmallScreen && isSidenavOpen,
+
       }"
     >
       <router-outlet></router-outlet>

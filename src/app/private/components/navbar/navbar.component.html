@@ -1,7 +1,7 @@
 <nav class="bg-gray-1 p-4">
   <div class="flex justify-between">
     <div class="flex gap-5 w-fit">
-      <div class="flex flex-shrink-0 items-center">
+      <div id="logo" class="flex flex-shrink-0 items-center">
         <img class="h-6" src="assets/svg/logo.svg" alt="logo" />
       </div>
     </div>
@@ -33,6 +33,7 @@
 
             <div
               class="relative inline-block container"
+              id="ajoutMenu"
               (mouseleave)="closeMenu()"
             >
               <button class="hover-button" (mouseenter)="openMenu()">
@@ -43,7 +44,7 @@
               </button>
 
               <div
-                class="menu-container absolute left-0 flex flex-col w-32 bg-white-1 ring-1 ring-black-1 rounded-md"
+                class="menu-container absolute left-0 shadow-lg flex flex-col w-32 bg-white-1 ring-1 ring-black-1 rounded-md"
                 *ngIf="isMenuOpen"
               >
                 <div class="nested-menu-container flex flex-col">
@@ -188,6 +189,128 @@
         <!-- <button type="button" class="icon-btn sm:hidden">
           <svg-icon name="search" svgClass=" myicon "></svg-icon>
         </button> -->
+        <!-- ajout menu mobile -->
+        <div class="ajout hidden">
+          <div
+            class="relative inline-block container"
+            id="ajoutMenu"
+            (mouseleave)="closeMenu()"
+          >
+            <button class="hover-button" (mouseenter)="openMenu()">
+              <a class="item-style flex space-x-2 w-30 items-center">
+                <svg-icon name="add" svgClass="w-4"></svg-icon>
+                <span class="span-text">Ajout</span>
+              </a>
+            </button>
+
+            <div
+              class="menu-container absolute left-0 shadow-lg flex flex-col w-32 bg-white-1 ring-1 ring-black-1 rounded-md"
+              *ngIf="isMenuOpen"
+            >
+              <div class="nested-menu-container flex flex-col">
+                <div class="nested-menu" (mouseleave)="closeNestedMenu1()">
+                  <button
+                    class="nested-hover-button hover:bg-gray-3 hover:rounded-md w-[119px]"
+                    (mouseenter)="openNestedMenu1()"
+                  >
+                    {{ "DATA_NAME.DCT" | translate }}
+                  </button>
+                  <div
+                    class="nested-submenu bg-white-1 ring-1 ring-black-1 rounded-md"
+                    *ngIf="isNestedMenu1Open"
+                    (mouseleave)="closeNestedMenu1()"
+                  >
+                    <div class="nested-hover-button">
+                      <button
+                        class="nested-hover-button hover:bg-gray-3 hover:rounded-md"
+                      >
+                        <a [routerLink]="navigate.toAddPath('D')">{{
+                          "DATA_NAME.D" | translate
+                        }}</a>
+                      </button>
+                      <button
+                        class="nested-hover-button hover:bg-gray-3 hover:rounded-md"
+                      >
+                        <a [routerLink]="navigate.toAddPath('F')">{{
+                          "DATA_NAME.F" | translate
+                        }}</a>
+                      </button>
+                      <button
+                        class="nested-hover-button hover:bg-gray-3 hover:rounded-md"
+                      >
+                        <a [routerLink]="navigate.toAddPath('A')">{{
+                          "DATA_NAME.A" | translate
+                        }}</a>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="nested-menu" (mouseleave)="closeNestedMenu2()">
+                  <button
+                    class="nested-hover-button hover:bg-gray-3 hover:rounded-md w-[119px]"
+                    (mouseenter)="openNestedMenu2()"
+                  >
+                    {{ "DATA_NAME.CT" | translate }}
+                  </button>
+                  <div
+                    class="nested-submenu bg-white-1 p-2 ring-1 ring-black-1 rounded-md"
+                    *ngIf="isNestedMenu2Open"
+                    (mouseleave)="closeNestedMenu2()"
+                  >
+                    <button
+                      class="nested-hover-button hover:bg-gray-3 hover:rounded-md"
+                    >
+                      <a [routerLink]="navigate.toAddPath('C')">{{
+                        "DATA_NAME.C" | translate
+                      }}</a>
+                    </button>
+                    <button
+                      class="nested-hover-button hover:bg-gray-3 hover:rounded-md"
+                    >
+                      <a [routerLink]="navigate.toAddPath('C')">{{
+                        "DATA_NAME.P" | translate
+                      }}</a>
+                    </button>
+                    <button
+                      class="nested-hover-button hover:bg-gray-3 hover:rounded-md"
+                    >
+                      <a [routerLink]="navigate.toAddPath('F')">{{
+                        "DATA_NAME.FR" | translate
+                      }}</a>
+                    </button>
+                    <button
+                      class="nested-hover-button hover:bg-gray-3 hover:rounded-md"
+                    >
+                      <a [routerLink]="navigate.toAddPath('F')">{{
+                        "DATA_NAME.CT" | translate
+                      }}</a>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="nested-button-container flex flex-col">
+                <button
+                  class="nested-hover-button hover:bg-gray-3 hover:rounded-md"
+                >
+                  {{ "DATA_NAME.OPP" | translate }}
+                </button>
+                <button
+                  class="nested-hover-button hover:bg-gray-3 hover:rounded-md"
+                >
+                  {{ "DATA_NAME.TC" | translate }}
+                </button>
+                <button
+                  class="nested-hover-button hover:bg-gray-3 hover:rounded-md"
+                >
+                  {{ "DATA_NAME.E" | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- end ajout menu -->
 
         <button type="button" class="icon-btn">
           <svg-icon name="message" svgClass="myicon"></svg-icon>
@@ -221,6 +344,7 @@
         </button>
 
         <div
+          id="dropMenu"
           class="drop-menu space-y-5 p-4"
           [ngClass]="dropMenuProfile ? 'block' : 'hidden'"
         >
@@ -233,6 +357,67 @@
             <span>Profile</span>
           </a>
 
+          <div class="mobile-menu hidden">
+            <button
+              class="flex gap-20 my-1"
+              [ngClass]="
+                isMobileLinkActive(navigate.environmentListPath)
+                  ? 'common-btn-mobile-menu-active'
+                  : 'common-btn-mobile-menu'
+              "
+            >
+              <a routerLink="" routerLinkActive="is-active">
+                <span class="">Espaces de travail </span>
+              </a>
+              <svg-icon name="arrowdown" svgClass="w-5"></svg-icon>
+            </button>
+
+            <button
+              class="flex gap-1 my-1"
+              [ngClass]="
+                isMobileLinkActive(navigate.environmentListPath)
+                  ? 'common-btn-mobile-menu-active'
+                  : 'common-btn-mobile-menu'
+              "
+            >
+              <svg-icon name="dashboard" svgClass="w-5"></svg-icon>
+              <a
+                routerLink="{{ navigate.environmentListPath }}"
+                routerLinkActive=""
+              >
+                <span class="">Dashboard</span>
+              </a>
+            </button>
+            <button
+              class="flex gap-1 my-1"
+              [ngClass]="
+                isMobileLinkActive(navigate.facturationPath)
+                  ? 'common-btn-mobile-menu-active'
+                  : 'common-btn-mobile-menu'
+              "
+            >
+              <svg-icon name="factures" svgClass="w-5"></svg-icon>
+              <a
+                routerLink="{{ navigate.facturationPath }}"
+                routerLinkActive=""
+              >
+                <span class="">Facturation</span>
+              </a>
+            </button>
+            <button
+              class="flex gap-1 my-1"
+              [ngClass]="
+                isMobileLinkActive(navigate.showPath)
+                  ? 'common-btn-mobile-menu-active'
+                  : 'common-btn-mobile-menu'
+              "
+            >
+              <svg-icon name="rh" svgClass="w-5"></svg-icon>
+              <a routerLink="" routerLinkActive="">
+                <span class="">RH</span>
+              </a>
+            </button>
+          </div>
           <hr class="dropmenu-line" />
 
           <a class="item-menu-sm" routerLink="{{ navigate.f_settingsPath }}">
@@ -312,6 +497,52 @@
     padding: 0;
   }
 </style>
+
+<!-- <div class="mobile-menu">
+  <a
+    class="item-style flex space-x-2 w-30 items-center"
+    routerLink=""
+    routerLinkActive="is-active"
+  >
+    <span class="span-text">Espaces de travail </span>
+    <svg-icon name="arrowdown" svgClass="w-4"></svg-icon>
+  </a>
+
+  <button
+    class="common-btn-black flex gap-1"
+    [ngClass]="isLinkActive('dashboard') ? 'common-btn-black-slider' : ''"
+  >
+    <svg-icon name="dashboard" svgClass="w-5"></svg-icon>
+    <a routerLink="" routerLinkActive="is-active">
+      <span class="">Dashboard</span>
+    </a>
+  </button>
+
+  <button
+    class="common-btn-black flex gap-1"
+    [ngClass]="isLinkActive('facturation') ? 'common-btn-black-slider' : ''"
+  >
+    <svg-icon name="factures" svgClass="w-5"></svg-icon>
+    <a
+      routerLink="{{ navigate.facturationPath }}"
+      routerLinkActive="is-active"
+    >
+      <span class="">Facturation</span>
+    </a>
+  </button>
+
+  <button
+    class="common-btn-black flex gap-1"
+    [ngClass]="isLinkActive('rh') ? 'common-btn-black-slider' : ''"
+  >
+    <svg-icon name="rh" svgClass="w-5"></svg-icon>
+    <a routerLink="" routerLinkActive="is-active">
+      <span class="">RH</span>
+    </a>
+  </button>
+</div>
+ -->
+
 <!-- <a
               class="item-style flex space-x-2 items-center"
               routerLink="{{ navigate.f_clientPath }}"

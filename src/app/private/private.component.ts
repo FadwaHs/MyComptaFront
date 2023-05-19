@@ -11,6 +11,7 @@ export class PrivateComponent implements OnInit {
 
   isSidenavOpen: boolean = true;
   isSmallScreen: boolean;
+  isdropMenuMobile: boolean;
   constructor() {
     this.checkScreenSize();
   }
@@ -31,6 +32,11 @@ export class PrivateComponent implements OnInit {
     this.isSidenavOpen = value;
     console.log('isSidenavOpen:', value);
 
+  }
+
+  onDropMenu(value: boolean) {
+    this.isdropMenuMobile = value;
+    console.log('isdropMenuMobile', value);
   }
 
 

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Route, Router } from '@angular/router';
 import { FilterService } from 'src/app/shared/services/filter.service';
 import { NavigateService } from '../../../shared/services/navigate.service';
@@ -15,6 +15,8 @@ import { NavigateService } from '../../../shared/services/navigate.service';
 export class NavbarComponent implements OnInit {
   // @ViewChild('menuTrigger', { static: true, read: CdkOverlayOrigin })
   // menuTrigger!: CdkOverlayOrigin;
+  @Input() isdropMenuMobile: boolean;
+  @Output() dropMenu: EventEmitter<boolean> = new EventEmitter<boolean>();
   dropMenuMobile = false;
   dropMenuProfile = false;
   dropMenuFacture = false;
@@ -58,9 +60,14 @@ export class NavbarComponent implements OnInit {
     event.preventDefault();
     if (this.dropMenuMobile) {
       this.dropMenuMobile = false;
+
     } else {
       this.dropMenuMobile = true;
+
     }
+    // this.isdropMenuMobile = this.dropMenuMobile;
+    // this.dropMenu.emit(this.isdropMenuMobile);
+    // console.log(this.isdropMenuMobile);
   }
 
   toggleDropMenuProfile(event: Event) {
@@ -70,6 +77,10 @@ export class NavbarComponent implements OnInit {
     } else {
       this.dropMenuProfile = true;
     }
+
+    this.isdropMenuMobile = this.dropMenuProfile;
+    this.dropMenu.emit(this.isdropMenuMobile);
+    console.log(this.isdropMenuMobile);
   }
 
 
@@ -107,6 +118,10 @@ closeNestedMenu2(): void {
   this.isNestedMenu2Open = false;
 }
 
+//dropdown mobile menu
+isMobileLinkActive(link: string): boolean {
+  return this.router.isActive(link, false);
+}
 
 
 

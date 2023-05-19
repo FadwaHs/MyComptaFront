@@ -52,6 +52,20 @@
           @apply stroke-black-1;
       }
   }
+  .common-btn-mobile-menu{
+    @apply bg-white-2 text-black-1 rounded-full ring-1 ring-black-1 p-2 disabled:opacity-70 disabled:ring-0 disabled:bg-white-1 disabled:text-black-1;
+    svg-icon{
+      @apply stroke-black-1;
+  }
+  }
+
+
+  .common-btn-mobile-menu-active{
+    @apply bg-black-1 text-white-1 rounded-full  p-2 disabled:opacity-70 disabled:ring-0 disabled:bg-white-1 disabled:text-black-1;
+    svg-icon{
+      @apply stroke-white-1;
+  }
+  }
 
     .common-btn-gray-active{
         @apply text-white-1 bg-black-1;
