@@ -41,6 +41,7 @@ export class CardComponent implements OnInit {
   refreshListPage : EventEmitter<void> = new EventEmitter();
 
   @Input()
+
   data: Societe | Client | Devis | FactureSimple | FactureAvoir | FactureAcompte | Fournisseur;
 
   @Input()
@@ -71,7 +72,10 @@ export class CardComponent implements OnInit {
     else if (this.for =='F') this.getFromFactureSimple()
     else if (this.for =='A') this.getFromFactureAvoir()
     else if (this.for =='FA') this.getFromFactureAcompte()
+
+
   }
+
 
   getFromFactureAcompte() {
     var factureAcompte : FactureAcompte = this.data as FactureAcompte
@@ -82,6 +86,7 @@ export class CardComponent implements OnInit {
     this.setStatusToCard(factureAcompte.status);
     this.card.line = true
     this.card.primaryData = [];
+    this.card.paragraph= factureAcompte.textIntro
     this.setHTAndTTC(factureAcompte.totalHT,factureAcompte.totalTTC);
     this.setDate(factureAcompte.date)
   }
@@ -95,6 +100,7 @@ export class CardComponent implements OnInit {
     this.setStatusToCard(factureAvoir.status);
     this.card.line = true
     this.card.primaryData = [];
+    this.card.paragraph= factureAvoir.textIntro
     this.setHTAndTTC(factureAvoir.totalHT,factureAvoir.totalTTC);
     this.setDate(factureAvoir.date)
 
@@ -105,8 +111,8 @@ export class CardComponent implements OnInit {
     console.log(factureSimple)
     this.card.mainIcon = 'factures'
     this.card.primaryTitle1 = factureSimple.code
-    this.card.primaryTitle1 = factureSimple.code
     this.card.primaryTitle2 = factureSimple.status
+    this.card.paragraph= factureSimple.textIntro
     this.setRecipientToCard(factureSimple.client , factureSimple.societe)
     this.setStatusToCard(factureSimple.status);
     this.card.line = true
@@ -189,6 +195,9 @@ export class CardComponent implements OnInit {
 
   }
 
+
+
+
   setDate(date : Date ){
     this.card.primaryData.push({
       icon: 'time',
@@ -208,6 +217,15 @@ export class CardComponent implements OnInit {
       data2: this.decimalPipe.transform(ttc , '.2-2')!+ ' TTC'
     })
   }
+
+  setHTAndPrp(ht:number , pro : number){
+    this.card.primaryData.push({
+      icon: 'chart',
+      data1: this.decimalPipe.transform(ht, '.2-2')!+ ' €',
+      data2: this.decimalPipe.transform(pro , '.2-2')!+ '%'
+    })
+  }
+
 
   setMotCleToCard(motCleList: MotCle[]) {
     if (motCleList.length != 0) {
@@ -269,6 +287,7 @@ export class CardComponent implements OnInit {
   }
 
   async setStatusToCard(status : string) {
+
     if(status == "PROVISIONAL"){
       this.card.primaryTitle2 =  await firstValueFrom(this.translate.get('STATUS.PROVISIONAL'))
       this.textColor = 'text-gray-4'
@@ -293,6 +312,32 @@ export class CardComponent implements OnInit {
       this.card.primaryTitle2 =  await firstValueFrom(this.translate.get('STATUS.REFUNDED'))
       this.textColor = 'text-green'
     }
+    else if(status == "INPROGRESS"){
+      this.card.primaryTitle2 =  await firstValueFrom(this.translate.get('STATUS.INPROGRESS'))
+      this.textColor = 'text-yellow'
+    }
+    else if(status == "WON"){
+      this.card.primaryTitle2 =  await firstValueFrom(this.translate.get('STATUS.WON'))
+      this.textColor = 'text-green'
+    }
+    else if(status == "CLOSED"){
+      this.card.primaryTitle2 =  await firstValueFrom(this.translate.get('STATUS.CLOSED'))
+      this.textColor = 'text-red'
+    }
+    else if(status == "LATE"){
+      this.card.primaryTitle2 =  await firstValueFrom(this.translate.get('STATUS.LATE'))
+      this.textColor = 'text-gray-4'
+    }
+    else if(status == "LOST"){
+
+      this.card.primaryTitle2 =  await firstValueFrom(this.translate.get('STATUS.LOST'))
+      this.textColor = 'text-gray-4'
+    }
+    else if(status == "CANCLED"){
+      this.card.primaryTitle2 =  await firstValueFrom(this.translate.get('STATUS.CANCLED'))
+      this.textColor = 'text-red'
+    }
+
 
   }
 
