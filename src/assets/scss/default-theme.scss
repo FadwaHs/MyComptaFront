@@ -120,6 +120,10 @@
     .common-input{
         @apply py-3 px-4 text-sm placeholder-gray-2 bg-gray-1 focus:outline-none rounded-full w-full  ;
     }
+
+    .common-input-social{
+      @apply py-3 px-1 text-sm placeholder-gray-2 bg-gray-1 focus:outline-none rounded-r-full w-full  ;
+  }
     .common-input-gray{
       @apply py-3 px-4 text-sm placeholder-gray-2 bg-gray-1 focus:outline-none rounded-full w-full  ;
     }

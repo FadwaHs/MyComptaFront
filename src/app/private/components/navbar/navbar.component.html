@@ -189,14 +189,14 @@
         <!-- <button type="button" class="icon-btn sm:hidden">
           <svg-icon name="search" svgClass=" myicon "></svg-icon>
         </button> -->
-        <!-- ajout menu mobile -->
+        <!-- ajout menu mobile    (click)="isMenuOpen = !isMenuOpen" -->
         <div class="ajout hidden">
           <div
             class="relative inline-block container"
             id="ajoutMenu"
             (mouseleave)="closeMenu()"
           >
-            <button class="hover-button" (mouseenter)="openMenu()">
+            <button class="hover-button ml-2" (mouseenter)="openMenu()">
               <a class="item-style flex space-x-2 w-30 items-center">
                 <svg-icon name="add" svgClass="w-4"></svg-icon>
                 <span class="span-text">Ajout</span>
@@ -321,9 +321,9 @@
         </button>
       </div>
 
-      <!-- profile Menu -->
+      <!-- profile Menu  mobile-->
       <div
-        class="relative ml-3"
+        class="relative flex items-center"
         clickOutside
         (clickOutside)="dropMenuProfile = false"
       >
@@ -369,7 +369,7 @@
               <a routerLink="" routerLinkActive="is-active">
                 <span class="">Espaces de travail </span>
               </a>
-              <svg-icon name="arrowdown" svgClass="w-5"></svg-icon>
+              <!-- <svg-icon name="arrowdown" svgClass="w-5"></svg-icon> -->
             </button>
 
             <button

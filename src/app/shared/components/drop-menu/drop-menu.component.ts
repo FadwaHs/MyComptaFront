@@ -8,6 +8,7 @@ import { Client } from 'src/app/private/gestion-facturation/models/client';
 import { Devis } from 'src/app/private/gestion-facturation/models/devis';
 import { Facture } from 'src/app/private/gestion-facturation/models/facture';
 import { Societe } from 'src/app/private/gestion-facturation/models/societe';
+import { Fournisseur } from 'src/app/private/gestion-facturation/models/fournisseur';
 
 @Component({
   selector: 'app-drop-menu',
@@ -20,7 +21,7 @@ export class DropMenuComponent implements OnInit {
   refreshListPage : EventEmitter<void> = new EventEmitter();
 
   @Input()
-  data: Societe | Client | Devis | Facture;
+  data: Societe | Client | Devis | Facture | Fournisseur;
 
   @Input()
   type :'list'|'edit'|'show'|'filter'
@@ -29,7 +30,7 @@ export class DropMenuComponent implements OnInit {
   size : 'sm'|'xs'
 
   @Input()
-  for: 'C'|'S'|'D'|'F'|'A'|'FA'
+  for: 'C'|'S'|'D'|'F'|'A'|'FA' | 'FR'
 
   dropMenu :boolean = false;
   DevisStatus = DevisStatus;

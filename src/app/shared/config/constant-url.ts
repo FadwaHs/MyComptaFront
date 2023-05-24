@@ -10,6 +10,7 @@ export class ConstantUrl {
     public readonly baseUrl :string = "http://localhost:8082/api/";
     public readonly societeUrl :string = this.baseUrl+"societes";
     public readonly clientUrl :string = this.baseUrl+"clients";
+    public readonly fournisseurUrl :string = this.baseUrl+"fournisseurs";
     public readonly phoneUrl :string = this.baseUrl+"phones";
     public readonly motCleUrl :string = this.baseUrl+"mots-cle";
     public readonly addressUrl :string = this.baseUrl+"addresses";
@@ -23,6 +24,8 @@ export class ConstantUrl {
     public readonly factureSimpleUrl : string = this.baseUrl+"factures-simple";
     public readonly factureAvoirUrl : string = this.baseUrl+"factures-avoir";
     public readonly factureAcompteUrl : string = this.baseUrl+"factures-acompte";
+    public readonly AvoirfournisseurUrl : string = this.baseUrl+"facturesfournisseur-avoir";
+    public readonly SimplefournisseurUrl : string = this.baseUrl+"facturesfournisseur-simple";
 
 
 }

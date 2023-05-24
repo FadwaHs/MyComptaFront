@@ -8,6 +8,7 @@ import { Facture } from 'src/app/private/gestion-facturation/models/facture';
 import { FactureAcompte } from 'src/app/private/gestion-facturation/models/facture-acompte';
 import { FactureAvoir } from 'src/app/private/gestion-facturation/models/facture-avoir';
 import { FactureSimple } from 'src/app/private/gestion-facturation/models/facture-simple';
+import { Fournisseur } from 'src/app/private/gestion-facturation/models/fournisseur';
 import { MotCle } from 'src/app/private/gestion-facturation/models/mot-cle';
 import { Societe } from 'src/app/private/gestion-facturation/models/societe';
 
@@ -20,7 +21,7 @@ import { Societe } from 'src/app/private/gestion-facturation/models/societe';
 export class KeyWordFormComponent implements OnInit {
 
   @Input()
-  for : 'C' | 'S' | 'D' | 'F' |'A' | 'FA'
+  for : 'C' | 'S' | 'D' | 'F' |'A' | 'FA'| 'FR' // added FR
 
   motsCle : Array<MotCle>= []
   motCleForm :FormGroup;
@@ -76,7 +77,8 @@ export class KeyWordFormComponent implements OnInit {
     this.motCleForm.controls['mots'].setValue(this.oldSelectedMotsCle)
   }
 
-  async onSubmit(data : Societe | Client | Devis | Facture, isAddMode : boolean ){
+  // added fournisseur here
+  async onSubmit(data : Societe | Client | Devis | Facture| Fournisseur, isAddMode : boolean ){
 
     if (
       this.motCleForm.controls['mots'].value  &&
@@ -90,6 +92,7 @@ export class KeyWordFormComponent implements OnInit {
       this.motCleForm.controls['mots'].value.forEach((motCle: MotCle) => {
         if(this.for == 'S') motCle.societe = data as Societe
         else if(this.for == 'C') motCle.client = data as Client
+        else if(this.for == 'FR') motCle.fournisseur = data as Fournisseur
         else if(this.for == 'D') motCle.devis = data as Devis
         else if(this.for == 'F') motCle.factureSimple = data as FactureSimple
         else if(this.for == 'A') motCle.factureAvoir = data as FactureAvoir

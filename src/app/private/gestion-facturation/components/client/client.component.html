@@ -1,21 +1,33 @@
 <section>
-    <app-top-bar for="C" type="list"></app-top-bar>
+  <app-top-bar for="C" type="list"></app-top-bar>
 
-    <div class="flex justify-center items-center " *ngIf="isEmpty">
-        <app-empty-data-message for="C"></app-empty-data-message>
+  <div class="flex justify-center items-center" *ngIf="isEmpty">
+    <app-empty-data-message for="C"></app-empty-data-message>
+  </div>
+
+  <div>
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 auto-rows-fr p-3"
+    >
+      <app-card
+        for="C"
+        [data]="client"
+        *ngFor="
+          let client of clients
+            | paginate
+              : {
+                  itemsPerPage: pageSize,
+                  currentPage: page,
+                  totalItems: count
+                };
+          let i = index
+        "
+      ></app-card>
     </div>
+  </div>
 
-    <div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 auto-rows-fr p-3"  >
-            <app-card  for="C" [data]="client" *ngFor="let client of clients | paginate : {
-                itemsPerPage: pageSize,
-                currentPage: page,
-                totalItems: count
-              };
-            let i = index"></app-card>
-        </div>
-    </div>
-
-    <app-pagination (pageChange)="pageChange($event)" (pageSizeChange)="pageSizeChange($event)"></app-pagination>
+  <app-pagination
+    (pageChange)="pageChange($event)"
+    (pageSizeChange)="pageSizeChange($event)"
+  ></app-pagination>
 </section>

@@ -6,6 +6,7 @@ import { Facture } from 'src/app/private/gestion-facturation/models/facture';
 import { Societe } from 'src/app/private/gestion-facturation/models/societe';
 import { NavigateService } from 'src/app/shared/services/navigate.service';
 import { FilterService } from '../../services/filter.service';
+import { Fournisseur } from 'src/app/private/gestion-facturation/models/fournisseur';
 
 @Component({
   selector: 'app-top-bar',
@@ -16,10 +17,10 @@ export class TopBarComponent implements OnInit {
   dropMenuAdd : boolean = false
 
   @Input()
-  data: Societe | Client | Devis | Facture;
+  data: Societe | Client | Devis | Facture | Fournisseur ; // added Fournisseur here
 
   @Input()
-  for: 'C'|'S'|'D'|'F'|'A'|'FA'
+  for: 'C'|'S'|'D'|'F'|'A'|'FA' | 'FR'
 
   @Input()
   type : 'add'|'edit'|'show'|'list'
@@ -57,6 +58,12 @@ export class TopBarComponent implements OnInit {
         var societe : Societe = this.data as Societe
         this.showData[0] = societe.name
       }
+      else if(this.for == 'FR'){
+        var fournisseur :Fournisseur = this.data as Fournisseur;
+        this.showData[0] = fournisseur.firstName+ ' ' + fournisseur.lastName
+        if(fournisseur.societe) this.showData[1] = "Professionel"
+        else this.showData[1] = "Particulier"
+      } //added fournisseur else if here as well
     }
 
   }

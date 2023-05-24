@@ -1,0 +1,20 @@
+<section>
+  <app-top-bar for="FR" type="list"></app-top-bar>
+
+  <div class="flex justify-center items-center" *ngIf="isEmpty">
+    <app-empty-data-message for="FR"></app-empty-data-message>
+  </div>
+  <div>
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 auto-rows-fr p-3"
+    >
+      <app-card
+        for="FR"
+        [data]="fournisseur"
+        *ngFor="let fournisseur of fournisseurs; let i = index"
+      ></app-card>
+    </div>
+  </div>
+
+  <app-pagination></app-pagination>
+</section>

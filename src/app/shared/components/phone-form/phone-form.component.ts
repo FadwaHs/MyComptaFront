@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { PhoneService } from 'src/app/private/gestion-facturation/http/phone.service';
 import { Client } from 'src/app/private/gestion-facturation/models/client';
+import { Fournisseur } from 'src/app/private/gestion-facturation/models/fournisseur';
 import { Phone } from 'src/app/private/gestion-facturation/models/phone';
 import { Societe } from 'src/app/private/gestion-facturation/models/societe';
 import { FormGroupService } from 'src/app/shared/services/form-group.service';
@@ -16,7 +17,7 @@ import { FormGroupService } from 'src/app/shared/services/form-group.service';
 export class PhoneFormComponent implements OnInit {
 
   @Input()
-  for: 'C' | 'S';
+  for: 'C' | 'S'| 'FR'; // added fr here
 
   phoneForm: FormGroup;
   controls: Array<string> = ['phoneNumber0'];
@@ -73,21 +74,22 @@ export class PhoneFormComponent implements OnInit {
 
     }
   }
-
-  async onSubmit(data: Societe | Client, isAddMode : boolean) {
+// added fournisseur here
+  async onSubmit(data: Societe | Client | Fournisseur, isAddMode : boolean) {
     this.phoneForm = this.formService.trimFormValues(this.phoneForm);
     if(this.formService.checkForm(this.phoneForm)){
-      
+
       if(!isAddMode && this.phones){
         await this.deleteOldPhones();
       }
-      
+
       this.getFormValue();
 
       this.phones.forEach((phone) => {
 
         if (this.for == 'S') phone.societe = data as Societe;
         else if (this.for == 'C') phone.client = data as Client;
+        else if(this.for == 'FR') phone.fournisseur = data as Fournisseur
         else return
 
         this.phoneService.addPhone(phone).subscribe({

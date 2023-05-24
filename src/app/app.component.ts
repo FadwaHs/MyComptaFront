@@ -59,7 +59,10 @@ const listIconsvg: string[] = [
   'opportunites',
   'rapports',
   'tresorerie',
-  'sidebarEffect'
+  'sidebarEffect',
+  'facebook',
+  'twitter',
+  'linkedin'
 ];
 
 @Component({

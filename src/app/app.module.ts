@@ -15,6 +15,7 @@ import localeFr from '@angular/common/locales/fr';
 import localeEn from '@angular/common/locales/en';
 // import { MatDrawerModule } from '@angular/material/drawer';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import { FournisseurRoutingModule } from './private/gestion-facturation/components/fournisseur/fournisseur-routing.module';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -73,6 +74,7 @@ function getCurrentLocal(){
       },
       defaultLanguage: defaultLang(),
     }),
+    FournisseurRoutingModule,
   ],
 
   providers: [

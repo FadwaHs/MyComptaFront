@@ -9,7 +9,7 @@ import { NavigateService } from '../../services/navigate.service';
 export class EmptyDataMessageComponent implements OnInit {
 
   @Input()
-  for: 'C'|'S'|'D'|'F'|'A'|'FA'|'ESP'|'DP'
+  for: 'C'|'S'|'D'|'F'|'A'|'FA'|'ESP'|'DP'|'FR'
 
   @Output()
   btnClicked : EventEmitter<void> = new EventEmitter()

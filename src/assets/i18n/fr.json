@@ -118,6 +118,7 @@
   "TITLE": {
     "S": "Sociétés",
     "C": "Clients",
+    "FR": "Fournisseurs",
     "D": "Devis",
     "F": "Factures",
     "A": "Avoirs",
@@ -135,11 +136,14 @@
     "TITLE": {
       "INF": "Informations",
       "CC": "Coordonnées du client",
+      "FR" : "Coordonnées du fournisseur",
       "C": "Clients",
       "MC": "Mots clés",
       "A": "Activités",
       "N" : "Notes",
+      "DC": "Données Comptables",
       "S" : "Société",
+      "SC":"Social",
       "D" : "Destinataire",
       "AR" : "Articles",
       "R": "Règlement",
@@ -161,6 +165,7 @@
       "LN" : "Nom",
       "EMAIL": "Adresse email",
       "F": "Fonction",
+      "RF": "Référence",
       "S": "Société",
       "LANG": "Langue",
       "ADD": "Adresse",
@@ -171,6 +176,11 @@
       "SI": "Site internet",
       "NT": "Numéro de téléphone",
       "N": "Écrivez votre note",
+      "TWT": "Twitter",
+      "FB": "Facebook",
+      "LI": "linkedIn",
+      "CT":"Compte tiers",
+      "CCH": "Compte de charges",
       "SPC": "Sélectionner un ou plusieurs clients",
       "ASMC": "Ajouter / Sélectionner des mots clés",
       "SS":"Sélectionner une société",
@@ -266,6 +276,10 @@
       "M1": "Aucun client à afficher",
       "M2": "Ajouter un client"
     },
+    "FR":{
+      "M1": "Aucun fournisseur à afficher",
+      "M2": "Ajouter un fournisseur"
+    },
     "D": {
       "M1": "Aucun devis à afficher",
       "M2": "Ajouter un devis"
@@ -297,6 +311,10 @@
       "C" :{
         "L1" : "Ajouter un client",
         "L2" : "Exporter les clients"
+      },
+      "FR": {
+        "L1" : "Ajouter un fournisseur",
+        "L2": "Exporter les fournisseurs"
       },
       "S" :{
         "L1" : "Ajouter une société",
@@ -384,6 +402,18 @@
       "PRO":{
         "L1" : "Professionel",
         "L2" : "Client avec société"
+      }
+    }
+  },
+  "FOURNISSEUR_CARD":{
+    "TYPE" : {
+      "PAR":{
+        "L1" : "Particulier",
+        "L2" : "Fournisseur sans société"
+      },
+      "PRO":{
+        "L1" : "Professionel",
+        "L2" : "Fournisseur avec société"
       }
     }
   },

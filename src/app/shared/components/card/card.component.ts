@@ -15,6 +15,7 @@ import { Societe } from 'src/app/private/gestion-facturation/models/societe';
 import { NavigateService } from 'src/app/shared/services/navigate.service';
 import { AlertifyService } from '../../services/alertify.service';
 import { DatePipe, DecimalPipe } from '@angular/common';
+import { Fournisseur } from 'src/app/private/gestion-facturation/models/fournisseur';
 
 interface Card {
   mainIcon: string;
@@ -40,10 +41,10 @@ export class CardComponent implements OnInit {
   refreshListPage : EventEmitter<void> = new EventEmitter();
 
   @Input()
-  data: Societe | Client | Devis | FactureSimple | FactureAvoir | FactureAcompte;
+  data: Societe | Client | Devis | FactureSimple | FactureAvoir | FactureAcompte | Fournisseur;
 
   @Input()
-  for: 'C' | 'S' | 'D' | 'F'|'A'|'FA';
+  for: 'C' | 'S' | 'D' | 'F'|'A'|'FA'|'FR'; //added fr here
 
   card: Card = {} as Card;
   textColor: string = 'text-green'
@@ -64,6 +65,7 @@ export class CardComponent implements OnInit {
 
   setCardData() {
     if (this.for == 'C') this.getFromClient()
+    else if (this.for == 'FR') this. getFromFournisseur()
     else if (this.for == 'S') this.getFromSociete();
     else if (this.for =='D') this.getFromDevis()
     else if (this.for =='F') this.getFromFactureSimple()
@@ -131,6 +133,28 @@ export class CardComponent implements OnInit {
     this.setMotCleToCard(client.motCleList);
     this.setEmailToCard(client.email)
     this.setPhoneToCard(client.phoneList)
+
+  }
+
+  // added this function
+  async getFromFournisseur() {
+    var fournisseur: Fournisseur = this.data as Fournisseur;
+    this.card.secondaryData = [];
+    this.card.primaryTitle1 = fournisseur.firstName + ' ' + fournisseur.lastName;
+    this.card.line = false;
+    this.card.paragraph = fournisseur.note
+    if(fournisseur.societe){
+      this.card.mainIcon = 'pro';
+      this.card.secondaryTitle = await firstValueFrom(this.translate.get('FOURNISSEUR_CARD.TYPE.PRO.L1')).catch(console.log)
+      this.setAddressToCard(fournisseur.societe.address)
+    }else{
+      this.card.mainIcon = 'par';
+      this.card.secondaryTitle = await firstValueFrom(this.translate.get('FOURNISSEUR_CARD.TYPE.PAR.L1')).catch(console.log)
+      this.setAddressToCard(fournisseur.address)
+    }
+    this.setMotCleToCard(fournisseur.motCleList);
+    this.setEmailToCard(fournisseur.email)
+    this.setPhoneToCard(fournisseur.phoneList)
 
   }
 

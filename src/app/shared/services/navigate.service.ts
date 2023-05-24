@@ -18,6 +18,7 @@ export class NavigateService {
   public readonly f_societePath = this.facturationPath+'/societes'
   public readonly f_clientPath = this.facturationPath+'/clients'
   public readonly f_devisPath = this.facturationPath+'/devis'
+  public readonly f_fournisseurPath = this.facturationPath+ '/fournisseurs'
 
   public readonly f_facturePath = this.facturationPath+'/factures'
   public readonly f_simplePath = this.f_facturePath+'/simple'
@@ -52,9 +53,13 @@ export class NavigateService {
     else return ''
   }
 
-  toEditPath(from : 'C'|'S'|'D'|'F'|'A'|'FA' , id : number ,slug : string) : string {
+
+// added 'FR'  here
+  toEditPath(from : 'C'|'S'|'D'|'F'|'A'|'FA'|'FR' , id : number ,slug : string) : string {
 
     if(from == 'C') return this.f_clientPath+this.editPath+id+'-'+slug
+
+    else if(from == 'FR') return this.f_fournisseurPath+this.editPath+id+'-'+slug
 
     else if(from == 'S') return this.f_societePath+this.editPath+id+'-'+slug
 
@@ -69,9 +74,11 @@ export class NavigateService {
     else return ''
   }
 
-   toShowPath(from : 'C'|'S'|'D'|'F'|'A'|'FA', id : number ,slug : string) : string {
+   toShowPath(from : 'C'|'S'|'D'|'F'|'A'|'FA'|'FR', id : number ,slug : string) : string {
 
     if(from == 'C')  return this.f_clientPath+this.showPath+id+'-'+slug
+
+    else if(from == 'FR') return this.f_fournisseurPath+this.showPath+id+'-'+slug
 
     else if(from == 'S') return this.f_societePath+this.showPath+id+'-'+slug
 
