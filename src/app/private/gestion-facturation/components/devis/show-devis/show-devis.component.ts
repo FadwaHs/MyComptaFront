@@ -1,8 +1,17 @@
+import {  DetailsService } from '../../../../../shared/services/details.service';
+import { Article } from './../../../models/article';
 import { Component, OnInit } from '@angular/core';
 import { Devis } from '../../../models/devis';
 import { DevisService } from '../../../http/devis.service';
 import { NavigateService } from 'src/app/shared/services/navigate.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DatePipe, DecimalPipe } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
+import { DevisStatus } from '../../../enums/devis-status';
+import { firstValueFrom } from 'rxjs';
+import { FactureAcompte } from '../../../models/facture-acompte';
+import currencies from 'src/assets/json/currencies.json'
+
 
 @Component({
   selector: 'app-show-devis',
@@ -11,18 +20,34 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 
 export class ShowDevisComponent implements OnInit {
+
   id: number;
   slug: string;
   devis: Devis = new Devis();
+  currentStatus :string
+  // translate: any;
+  factureAcomteList: FactureAcompte[];
+  items :any
+
+
 
   constructor(private route: ActivatedRoute,
     private router: Router,
     private devisService: DevisService,
-    protected navigate : NavigateService) { }
+    protected navigate : NavigateService,
+   //++
+    protected details :DetailsService
 
-    ngOnInit() {
-      this.checkRouteAndGetDevis();
+    ) {
+
+     }
+
+   async  ngOnInit() {
+     await  this.checkRouteAndGetDevis();
+
     }
+
+
 
     async checkRouteAndGetDevis() {
       [this.id, this.slug] = await this.route.snapshot.params['id-slug'].split(
@@ -49,4 +74,8 @@ export class ShowDevisComponent implements OnInit {
         );
       }
     }
+
+
+
+
   }

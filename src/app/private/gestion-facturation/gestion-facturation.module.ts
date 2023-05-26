@@ -16,12 +16,7 @@ import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogConfig, MatDialogModule, MatDialog
     CommonModule,
     GestionFacturationRoutingModule,
     NgSelectModule,
-
     MatDialogModule
-
-
-
-
 
   ],
   providers: [

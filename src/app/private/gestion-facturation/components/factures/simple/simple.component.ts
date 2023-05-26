@@ -55,9 +55,12 @@ export class SimpleComponent {
           case 'Trier Par : Date De Création':
             this.factureSimples.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
             break;
-            case 'Trier Par : Date De Finalisation':
+          case 'Trier Par : Date De Finalisation':
               this.factureSimples.sort((a, b) => new Date(b.date_finalisation).getTime() - new Date(a.date_finalisation).getTime());
               break;
+          case 'Trier Par : Date De Paiement':
+                this.factureSimples.sort((a, b) => new Date(b.date_paiement).getTime() - new Date(a.date_paiement).getTime());
+                break;
           default:
             break;
         }

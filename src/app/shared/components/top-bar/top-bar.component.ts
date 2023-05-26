@@ -8,6 +8,10 @@ import { NavigateService } from 'src/app/shared/services/navigate.service';
 import { FilterService } from '../../services/filter.service';
 import { Opportunite } from 'src/app/private/gestion-facturation/models/opportunite';
 import { Router } from '@angular/router';
+import { Pipeline } from 'src/app/private/gestion-facturation/models/pipeline';
+import { FactureAcompte } from 'src/app/private/gestion-facturation/models/facture-acompte';
+import { FactureAvoir } from 'src/app/private/gestion-facturation/models/facture-avoir';
+import { FactureSimple } from 'src/app/private/gestion-facturation/models/facture-simple';
 
 
 interface TopTitle{
@@ -32,10 +36,10 @@ export class TopBarComponent implements OnInit {
 
 
   @Input()
-  data: Societe | Client | Devis | Facture | Opportunite;
+  data: Societe | Client | Devis | Facture | Opportunite | Pipeline;
 
   @Input()
-  for: 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'FG'
+  for: 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'FG' |'P'
 
   @Input()
   type : 'add'|'edit'|'show'|'list'
@@ -89,9 +93,22 @@ export class TopBarComponent implements OnInit {
 
       }
       else if(this.for == 'F'){
-        var facture : Facture = this.data as Facture
-        this.showData[0] = facture.code
+        var facture : Facture = this.data as FactureSimple
+        this.showData[0] = "Facture simple"
+        this.showData[1] = facture.code
       }
+      //++
+      else if(this.for == 'A'){
+        var facture : Facture = this.data as FactureAvoir
+        this.showData[0] = "Avoir"
+        this.showData[1] = facture.code
+      }
+      else if(this.for == 'FA'){
+        var facture : Facture = this.data as FactureAcompte
+        this.showData[0] = "Facture acompte"
+        this.showData[1] = facture.code
+      }
+      //++
     }
 
   }

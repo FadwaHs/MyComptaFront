@@ -1,0 +1,46 @@
+<section>
+
+  <app-top-bar for="P" type="list"  ></app-top-bar><br>
+
+  <table class="pipeline-table">
+    <thead>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <tr>
+        <th>Défaut</th>
+        <th>Pipeline ID</th>
+        <th>Pipeline Name</th>
+        <th>Nombre d‘étapes</th>
+        <th> Nombre d‘opportunités liées</th>
+        <th>Edit</th>
+        <th>View</th>
+        <!-- Add more table headers as needed -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of pipeline">
+        <td>
+          <input type="radio" name="defaultPipeline" [value]="item.id" [(ngModel)]="selectedPipeline">
+        </td>
+        <td>{{ item.id }}</td>
+        <td>{{ item.name }}</td>
+        <td>{{item.etapeList.length}}</td>
+        <td>{{item.opportunityCount}}</td>
+        <td>
+         <a [routerLink]="'edit/'+item.id+'-'+item.slug">
+          <svg-icon name="edit" svgClass="w-4"></svg-icon>
+         </a>
+        </td>
+        <td>
+          <a class="flex space-x-3 col-span-2" [routerLink]="navigate.toShowPath('P',item.id,item.slug)">
+            <div class="view-icon"></div>
+          </a>
+        </td>
+
+        <!-- Add more table cells as needed -->
+      </tr>
+    </tbody>
+  </table>
+
+</section>
+
+

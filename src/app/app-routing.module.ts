@@ -25,6 +25,7 @@ const routes: Routes = [
 
   },
   { path: 'opportunite', loadChildren: () => import('./private/gestion-facturation/components/opportunite/opportunite.module').then(m => m.OpportuniteModule) },
+  { path: 'pipeline', loadChildren: () => import('./private/gestion-facturation/components/pipeline/pipeline.module').then(m => m.PipelineModule) },
 ];
 
 @NgModule({

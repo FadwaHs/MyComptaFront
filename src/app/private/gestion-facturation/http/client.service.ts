@@ -5,6 +5,8 @@ import { ConstantUrl } from 'src/app/shared/config/constant-url';
 import { Client } from '../models/client';
 import { Opportunite } from '../models/opportunite';
 import { Devis } from '../models/devis';
+import { Societe } from '../models/societe';
+import { Facture } from '../models/facture';
 @Injectable({
   providedIn: 'root'
 })
@@ -52,5 +54,14 @@ export class ClientService {
   }
   getDevisForClient(id :number):Observable<Devis[]>{
     return this.http.get<Devis[]>(`${this.constant.clientDevisUrl}/${id}`);
+  }
+
+   //++
+   getSocieteForClient(id: number): Observable<any> {
+    return this.http.get<Societe>(`${this.constant.clientSocieteUrl}/${id}`);
+  }
+
+  getFactureForClient(id :number):Observable<Facture[]>{
+    return this.http.get<Facture[]>(`${this.constant.clientFactureUrl}/${id}`);
   }
 }

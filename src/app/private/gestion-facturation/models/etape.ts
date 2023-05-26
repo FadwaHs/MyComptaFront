@@ -1,3 +1,4 @@
+import { Opportunite } from "./opportunite"
 import { Pipeline } from "./pipeline"
 
 export class Etape{
@@ -6,4 +7,5 @@ export class Etape{
   etapename :string
   probabilite : number
   pipeline :Pipeline
+  opportunite : Opportunite[]
 }

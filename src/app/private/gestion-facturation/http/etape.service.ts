@@ -3,6 +3,8 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { ConstantUrl } from "src/app/shared/config/constant-url";
 import { Etape } from "../models/etape";
+import { OppStatus } from "../enums/OppStatus";
+import { Opportunite } from "../models/opportunite";
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +36,10 @@ export class EtapeService {
 
   deleteEtapeById(id :number):Observable<string>{
    return this.http.delete(`${this.constant.etapeUrl}/${id}`,{ responseType: 'text'});
+  }
+
+  getOpportuniteForEtape(id :number):Observable<Opportunite[]>{
+    return this.http.get<Opportunite[]>(`${this.constant.etapOppeUrl}/${id}`);
   }
 
 

@@ -144,6 +144,36 @@ modal {
 }
 
 
+//table style !!
+
+hr{
+  @apply border-gray-3
+}
+
+tr{
+  @apply border-b border-gray-3 m-5
+ }
+
+ .description-column {
+  grid-column: span 3;
+  white-space: normal;
+  word-break: break-word;
+}
+
+ th{
+
+  @apply text-left p-3
+ }
+
+ td{
+  @apply p-3
+ }
+.alertify .ajs-footer .ajs-buttons .ajs-button.ajs-ok {
+    color: red
+}
+
+
+
 
 .alertify .ajs-footer .ajs-buttons .ajs-button.ajs-ok {
     color: red
@@ -198,18 +228,141 @@ modal {
 
 
 
-// .ng-select-container {
-//     border-radius: 100px !important;
-//     background-color: #f6f6f6 !important;
-//     border: none !important;
-// }
+.editpip
+{
+
+  display: inline-block;
+  padding: 5px 6px;
+  background-color: white;
+  color: black;
+  text-decoration: none;
+  border-radius: 4px;
+  border: 1px solid #b9b6b6;
+
+}
+.ajoutetape
+{
+  font-size: 13px;
+  display: inline-block;
+  padding: 5px 6px;
+  background-color: white;
+  color: black;
+  text-decoration: none;
+  border-radius: 8px;
+  border: 1px solid #b9b6b6;
+}
+.ajoutetape:hover
+{
+  border: 1px solid black;
+}
+
+.editpip:hover {
+  border: 1px solid black;
+}
+.removeinput
+{
+  font-size: 10px;
+}
+
+.pipeline-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 13px;
+}
+
+.pipeline-table th,
+.pipeline-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.pipeline-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.pipeline-table td {
+  text-align: left;
+}
+
+.pipeline-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+
+
+.etapes-container {
+  display: flex;
+  overflow-x: auto;
+  padding-bottom: 20px;
+}
+
+.etape-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.etape-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.etape-title {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.etape-opportunites {
+  background-color: #f0f0f0;
+  padding: 4px 10px;
+  border-radius: 4px;
+  margin-left: 10px;
+  font-size: 12px;
+}
+
+.border-div
+{
+  display: flex;
+  border-right: 1px solid #dfdede;
+  height: 60vh;
+  padding-right: 17px;
+
+}
+
+.etape-liste {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 100vh; /* Ajustez la hauteur maximale selon vos besoins */
+  overflow-y: auto;
+}
+
+.scroll-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.opportunite-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.view-icon::before {
+  font-family: "FontAwesome";
+  content: "\f06e"; /* Unicode code for eye icon */
+  font-size: 15px;
+  color: gray;
+}
 
 
 
 
 
-// html, body { height: 100%; }
-// body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 
 

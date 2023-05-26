@@ -1,0 +1,66 @@
+<section>
+  <app-top-bar for="P" type="add"></app-top-bar>
+
+  <form [formGroup]="pipForm" class="grid grid-cols-1 gap-9 md:grid-cols-3">
+
+    <div class="flex flex-col gap-6" >
+
+      <div class="flex flex-col gap-6">
+        <span class="secondary-title">Paramètres du pipeline</span>
+        <div class="flex flex-col gap-6">
+          <div class="relative">
+            <label class="common-label">Nom du pipeline</label>
+            <input type="text" class="common-input" formControlName="namepipeline" required>
+          </div>
+        </div>
+      </div><br>
+      <div class="flex flex-col gap-6">
+        <span class="secondary-title">Etapes du pipeline</span>
+        <div class="flex flex-col gap-6">
+      <form [formGroup]="etapeForm" *ngFor="let etapeForm of etapeForms; let i = index">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" style="width: 600px;">
+
+
+              <div class="relative grow">
+                <label class="common-label">Nom d'etape</label>
+                <input type="text" class="common-input" formControlName="etapename"  required>
+              </div>
+
+              <div class="relative grow">
+                <label class="common-label">Probabilité %</label>
+                <ng-select [searchable]="false" [clearable]="false" class="custom-select-gray text-sm" formControlName="probabilite" required>
+                  <ng-option *ngFor="let option of probabiliteOptions" [value]="option">{{ option }}</ng-option>
+                </ng-select>
+              </div>
+
+              <div class="relative grow">
+                 <button class="common-btn-gray rotate-45" (click)="removeAdditionalInput(i)">
+                    <svg-icon svgClass="w-3" name="delete"></svg-icon>
+                  </button>
+              </div>
+
+
+          </div>
+        </form>
+          <button class="ajoutetape" (click)="addAdditionalInput()">
+            <a>Ajouter Une autre Etape</a>
+          </button>
+
+          <div class="sm:col-start-2 grid grid-cols-3 gap-5 w-full" style="margin-top: 40px;">
+
+            <button class="common-btn-black col-span-2 " [disabled]="pipForm.invalid" appDebounceClick (debounceClick)="onSubmit()" >
+                <ng-container *ngIf="isAddMode  else editButton">{{'FORM.BUTTON.C' | translate}}</ng-container>
+                <ng-template #editButton>{{'FORM.BUTTON.E' | translate}}</ng-template>
+            </button>
+            <button #add class="common-btn-gray" routerLink="">{{'FORM.BUTTON.A' | translate}}</button>
+         </div>
+
+        </div>
+      </div>
+
+    </div>
+
+
+  </form>
+
+</section>

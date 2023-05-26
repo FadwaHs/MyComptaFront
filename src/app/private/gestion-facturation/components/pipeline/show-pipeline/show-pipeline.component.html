@@ -1,0 +1,34 @@
+<app-top-bar for="P" type="show" sizeMenu="sm" [data]="pipeline"></app-top-bar>
+
+<div class="etapes-container">
+  <ng-container *ngFor="let etape of this.etapelist">
+    <div class="etape-wrapper">
+
+      <div class="etape-header">
+        <h3 class="etape-title">{{ etape.etapename }}</h3>
+        <div class="etape-opportunites">
+          <span class="text-gray-5">{{ etape.opportunite.length }} opportunité(s)</span>
+        </div>
+      </div>
+
+
+    <div class="border-div">
+      <div class="etape-liste">
+        <div class="scroll-container">
+          <ng-container *ngIf="etape.opportunite.length > 0; else emptyOpportunite">
+            <div class="opportunite-list">
+              <app-card for="O" [data]="opportunite" *ngFor="let opportunite of etape.opportunite; let i = index"></app-card>
+            </div>
+          </ng-container>
+        </div>
+        <ng-template #emptyOpportunite>
+          <div class="justify-center items-center p-20" style="width: 300px;">
+            <span class="secondary-title text-base text-gray-4" style="visibility: hidden;">Aucune</span>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+    </div>
+  </ng-container>
+</div>

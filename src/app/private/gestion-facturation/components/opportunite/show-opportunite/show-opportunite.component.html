@@ -1,21 +1,123 @@
 
 <app-top-bar for="O" type="show" sizeMenu="sm" [data]="this.opportunite" ></app-top-bar>
 
-<section class="grid grid-cols-1 md:grid-cols-2 gap-24 mt-11">
+<section class="grid grid-cols-2 md:grid-cols-2 gap-24 mt-11">
 	<!-- Informations column -->
 
-	<div class="flex flex-col gap-6 text-sm">
+	<div class="flex flex-col gap-6 text-sm ">
+
 		<div>
 			<span class="secondary-title text-base">{{'FORM.TITLE.INF'|translate}}</span>
 		</div>
 		<div class="flex flex-col space-y-8 " >
 
-			<div class="flex flex-col space-y-3 " *ngIf="opportunite.oppStatus" >
+			<div class="flex flex-col space-y-3 " *ngIf="opportunite.intitule" >
 				<div class=" grid grid-cols-4 gap-4">
-					<span class="text-gray-2">{{'FORM.INPUT.F' | translate}} :</span>
-          <div class="col-span-3">{{opportunite.oppStatus}}</div>				</div>
+					<span class="text-gray-2">{{'FORM.INPUT.OPPN' | translate}} :</span>
+          <div class="col-span-3">{{opportunite.intitule}}</div>
+        </div>
 				<hr>
 			</div>
+
+      <div class="flex flex-col space-y-3" *ngIf="opportunite.mantantHT">
+				<div class=" grid grid-cols-4 gap-4">
+					<span class="text-gray-2">{{'FORM.INPUT.OPPM' | translate}} :</span>
+					<div class="col-span-3">{{opportunite.mantantHT}} {{opportunite.devise}}</div>
+				</div>
+        <hr>
+			</div>
+
+      <div class="flex flex-col space-y-3" *ngIf="opportunite.etape.pipeline.name">
+				<div class=" grid grid-cols-4 gap-4">
+					<span class="text-gray-2">{{'FORM.INPUT.OPPP' | translate}} :</span>
+					<div class="col-span-3">{{opportunite.etape.pipeline.name}}
+             <button class="editpip" style="margin-left: 250px;">
+              <a href="/environment/1/facturation/pipeline">Modifier</a>
+             </button>
+          </div>
+				</div>
+				<hr>
+			</div>
+
+      <div class="flex flex-col space-y-3" *ngIf="opportunite.etape.etapename">
+				<div class=" grid grid-cols-4 gap-4">
+					<span class="text-gray-2">{{'FORM.INPUT.OPPE' | translate}} :</span>
+					<div class="col-span-3">{{opportunite.etape.etapename}} ({{opportunite.etape.probabilite}}%)</div>
+				</div>
+				<hr>
+			</div>
+
+      <div class="flex flex-col space-y-3" *ngIf="opportunite.oppStatus">
+				<div class=" grid grid-cols-4 gap-4">
+					<span class="text-gray-2">{{'FORM.INPUT.OPPS' | translate}} :</span>
+					<div class="col-span-3" [ngClass]="getStatusColor(opportunite.oppStatus)">{{opportunite.oppStatus}}</div>
+				</div>
+				<hr>
+			</div>
+
 		</div>
+
 	</div>
-</section>
+
+  <div class="flex flex-col gap-6 text-sm ">
+
+    <div>
+			<span class="secondary-title text-base" style="visibility: hidden;">{{'FORM.TITLE.INF'|translate}}</span>
+		</div>
+
+		<div class="flex flex-col space-y-8 " >
+
+			<div class="flex flex-col space-y-3 " *ngIf="opportunite.code" >
+				<div class=" grid grid-cols-4 gap-4">
+					<span class="text-gray-2">{{'FORM.INPUT.OPPc' | translate}} :</span>
+          <div class="col-span-3">{{opportunite.code}}</div>
+        </div>
+				<hr>
+			</div>
+
+      <div class="flex flex-col space-y-3 " *ngIf="opportunite.dateFin" >
+				<div class=" grid grid-cols-4 gap-4">
+					<span class="text-gray-2">{{'FORM.INPUT.OPPdf' | translate}} :</span>
+          <div class="col-span-3">{{opportunite.dateFin}}</div>
+        </div>
+				<hr>
+			</div>
+
+      <div class="flex flex-col space-y-3" *ngIf="opportunite.datecreation">
+				<div class=" grid grid-cols-4 gap-4">
+					<span class="text-gray-2">{{'FORM.INPUT.OPPdc' | translate}} :</span>
+					<div class="col-span-3">{{opportunite.datecreation}}</div>
+				</div>
+        <hr>
+			</div>
+
+      <div class="flex flex-col space-y-3" *ngIf="opportunite.source">
+				<div class=" grid grid-cols-4 gap-4">
+					<span class="text-gray-2">{{'FORM.INPUT.OPPds' | translate}} :</span>
+					<div class="col-span-3">{{opportunite.source}}</div>
+				</div>
+				<hr>
+			</div>
+
+      <div class="flex flex-col space-y-3"  *ngIf="opportunite.societe || opportunite.client">
+				<div class=" grid grid-cols-4 gap-4">
+					<span class="text-gray-2">{{'FORM.INPUT.OPPd' | translate}} :</span>
+					<div class="col-span-3" >{{opportunite.societe?.name}} {{opportunite.client?.firstName}} </div>
+				</div>
+				<hr>
+			</div>
+
+		</div>
+
+	</div>
+
+
+
+</section><br><br>
+
+<span style="margin-top: 30px;">{{'TITLE.D' | translate}} ({{devisList.length}})</span>
+<div style="margin-top: 30px; margin-bottom: 30px;">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
+        <app-card  for="D" [data]="devis" *ngFor="let devis of devisList let i = index"></app-card>
+      </div>
+</div>

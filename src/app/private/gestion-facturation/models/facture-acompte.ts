@@ -5,6 +5,7 @@ import { Facture } from './facture';
 
 export class FactureAcompte extends Facture{
   montantPayed : number
+  monIsPercentage : boolean
   status : FactureAcompteStatus
   compteBanc : CompteBanc
   devis : Devis

@@ -53,6 +53,13 @@ const routes: Routes = [
         (m) => m.OpportuniteModule
       ),
   },
+  {
+    path: 'pipeline',
+    loadChildren: () =>
+      import('./components/pipeline/pipeline.module').then(
+        (m) => m.PipelineModule
+      ),
+  },
 
 
 ];

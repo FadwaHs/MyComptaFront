@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { ConstantUrl } from "src/app/shared/config/constant-url";
 import { Opportunite } from "../models/opportunite";
 import { Observable } from "rxjs";
+import { Devis } from '../models/devis';
 
 
 
@@ -36,6 +37,10 @@ export class OpportuniteService {
 
   deleteOpportuniteById(id :number):Observable<string>{
    return this.http.delete(`${this.constant.opportuniteUrl}/${id}`,{ responseType: 'text'});
+  }
+
+  getDevisForOpportunite(id :number):Observable<Devis[]>{
+    return this.http.get<Devis[]>(`${this.constant.oppDevisUrl}/${id}`);
   }
 
 

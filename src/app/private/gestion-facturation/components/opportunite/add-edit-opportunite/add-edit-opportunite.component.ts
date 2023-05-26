@@ -66,13 +66,6 @@ export class AddEditOpportuniteComponent  implements OnInit{
 
     this.pipeline  = await firstValueFrom(this.pipelineService.getAllPipelines())
 
-    // with this method i get error:
-    //  this.pipelineService.getAllPipelines().subscribe({
-    //   next: (data) => {
-    //     this.pipeline = data
-    //   },
-    //   error: (err) => console.log(err),
-    // });
   }
 
 
@@ -85,7 +78,6 @@ export class AddEditOpportuniteComponent  implements OnInit{
   async onEtapeSelected( event: any) {
 
     var etape = this.oppForm.controls['etapepipeline'].value as Etape;
-
   }
 
 
@@ -181,7 +173,7 @@ export class AddEditOpportuniteComponent  implements OnInit{
     });
   }
 
-  // for Add
+  // for Add and Edit
   async submitOtherForms() {
     var opportunite : Opportunite = new Opportunite()
     opportunite.id = this.opportunite.id

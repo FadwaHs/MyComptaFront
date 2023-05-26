@@ -23,6 +23,7 @@ export class NavigateService {
   public readonly f_clientPath = this.facturationPath+'/clients'
   public readonly f_devisPath = this.facturationPath+'/devis'
   public readonly f_opportunitePath = this.facturationPath+'/opportunites'
+  public readonly PipePath = this.facturationPath+'/pipeline'
 
 
   public readonly f_facturePath = this.facturationPath+'/factures'
@@ -61,7 +62,7 @@ export class NavigateService {
     else return ''
   }
 
-  toEditPath(from : 'C'|'S'|'D'|'F'|'A'|'FA'|'O' , id : number ,slug : string) : string {
+  toEditPath(from : 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'P' , id : number ,slug : string) : string {
 
     if(from == 'C') return this.f_clientPath+this.editPath+id+'-'+slug
 
@@ -77,11 +78,13 @@ export class NavigateService {
 
     else if(from == 'O') return this.f_opportunitePath+this.editPath+id+'-'+slug
 
+    else if(from == 'P') return this.PipePath+this.editPath+id+'-'+slug
+
 
     else return ''
   }
 
-   toShowPath(from : 'C'|'S'|'D'|'F'|'A'|'FA'|'O', id : number ,slug : string) : string {
+   toShowPath(from : 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'P', id : number ,slug : string) : string {
 
     if(from == 'C')  return this.f_clientPath+this.showPath+id+'-'+slug
 
@@ -91,11 +94,13 @@ export class NavigateService {
 
     else if(from == 'F') return this.f_simplePath+this.showPath+id+'-'+slug
 
-    else if(from == 'A') return this.f_acomptePath+this.showPath+id+'-'+slug
+    else if(from == 'FA') return this.f_acomptePath+this.showPath+id+'-'+slug
 
-    else if(from == 'FA') return this.f_avoirPath+this.showPath+id+'-'+slug
+    else if(from == 'A') return this.f_avoirPath+this.showPath+id+'-'+slug
 
     else if(from == 'O') return this.f_opportunitePath+this.showPath+id+'-'+slug
+
+    else if(from == 'P') return this.PipePath+this.showPath+id+'-'+slug
 
     else return ''
   }

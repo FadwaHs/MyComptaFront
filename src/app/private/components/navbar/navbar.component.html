@@ -31,10 +31,10 @@
             <span class="span-text ">Sociétés</span>
           </a>
           <a class="item-style flex space-x-2 items-center" routerLink="{{navigate.f_devisPath}}"
-            routerLinkActive="is-active">
-            <svg-icon name="devis" svgClass="w-4"></svg-icon>
-            <span class="span-text">Devis</span>
-          </a>
+          routerLinkActive="is-active">
+          <svg-icon name="devis" svgClass="w-4"></svg-icon>
+          <span class="span-text">Devis</span>
+        </a>
           <div class="relative" clickOutside (clickOutside)="dropMenuFacture = false">
 
             <button class="item-style flex space-x-2 items-center" (click)="dropMenuFacture  = !dropMenuFacture"
@@ -61,6 +61,12 @@
               </a>
             </div>
           </div>
+
+          <a class="item-style flex space-x-2 items-center" routerLink="{{navigate.f_opportunitePath}}"
+          routerLinkActive="is-active">
+          <svg-icon name="devis" svgClass="w-4"></svg-icon>
+          <span class="span-text">Opportunite</span>
+        </a>
 
         </div>
 

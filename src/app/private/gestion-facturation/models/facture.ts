@@ -1,4 +1,8 @@
+import { ConditionReglement } from "./condition-reglement"
+import { Interet } from "./interet"
+import { ModeReglement } from "./mode-reglement"
 import { MotCle } from "./mot-cle"
+import { Opportunite } from "./opportunite"
 
 export class Facture{
 
@@ -15,6 +19,12 @@ export class Facture{
     totalHT : number
     motCleList: MotCle[]
     date_finalisation:Date
-    
+
+    //++
+    conditionReglement: ConditionReglement|null
+    modeReglement : ModeReglement|null
+    interet : Interet|null
+    opportunite :Opportunite |null
+
 }
 

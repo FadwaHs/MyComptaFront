@@ -1,35 +1,375 @@
-
 <app-top-bar for="D" type="show" sizeMenu="sm" [data]="this.devis" ></app-top-bar>
 
-<section class="grid grid-cols-2 md:grid-cols-2 gap-2 mt-11 ">
+<section class="grid grid-cols-2 md:grid-cols-2 gap-5">
 	<!-- Informations column -->
 
-	<div class="flex flex-col gap-6 text-sm ">
+	<div class="grid grid-col gap-6 text-sm">
 		<div>
 			<span class="secondary-title text-base">{{'FORM.TITLE.INF'|translate}}</span>
 		</div>
-		<div class="flex flex-col space-y-8 " >
-			<div class="flex flex-col space-y-3 " *ngIf="devis.status" >
-				<div class=" grid grid-cols-4 gap-4">
-					<span class="text-gray-2">Status :</span>
-          <div class="col-span-3">{{devis.status}}</div></div>
+		<div class="flex flex-col space-y-4 " >
+			<div class="flex flex-col space-y-3  " *ngIf="devis.status" >
+				<div class=" grid grid-cols-4 ">
+					<span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.ST'| translate}} </span>
+                    <span >{{this.details.transStatus(devis.status)}}</span>
+                </div>
 				<hr>
 			</div>
-      <div class="flex flex-col space-y-3 " *ngIf="devis.status" >
+      		<div class="flex flex-col space-y-3 " >
 				<div class=" grid grid-cols-4 gap-4">
-					<span class="text-gray-2">Status :</span>
-          <div class="col-span-3">{{devis.status}}</div></div>
+					<span class="text-gray-2  col-span-2">{{'DROP_MENU.SHOW.CL'| translate}} </span>
+          			<span >{{this.details.formatDate(devis.date)}}</span>
+				</div>
 				<hr>
 			</div>
 
+			<div class="flex flex-col space-y-3 " >
+				<div class=" grid grid-cols-4 gap-4">
+					<span class="text-gray-2  col-span-2">{{'DROP_MENU.SHOW.PDF'| translate}} </span>
+          <span >{{this.details.formatDate(devis.date)}}</span>
+				</div>
+				<hr>
+			</div>
+			<div class="flex flex-col space-y-3 " *ngIf="devis.date_finalisation" >
+				<div class=" grid grid-cols-4 gap-4">
+					<span class="text-gray-2  col-span-2">{{'DROP_MENU.SHOW.FIN'| translate}} </span>
+          <span >{{this.details.formatDate(devis.date_finalisation)}}</span>
+				</div>
+				<hr>
+			</div>
+			<div class="flex flex-col space-y-3 " *ngIf="devis.date_signature">
+				<div class=" grid grid-cols-4 gap-4">
+				<span class="text-gray-2  col-span-2">{{'DROP_MENU.SHOW.SIN'| translate}} </span>
+          <span >{{this.details.formatDate(devis.date_signature)}}</span>
+				</div>
+				<hr>
+			</div>
+			<div class="flex flex-col space-y-3 " >
+				<div class=" grid grid-cols-4 gap-4">
+					<span class="text-gray-2  col-span-2">{{'DROP_MENU.SHOW.DR'| translate}} </span>
+                    <span >{{devis.validationDuration}} {{'DROP_MENU.SHOW.J'| translate}}</span>
+				</div>
+				<hr>
+			</div>
+			<div class="flex flex-col space-y-3 "  *ngIf="devis.motCleList">
+				<div class=" grid grid-cols-4 gap-4">
+				<span class="text-gray-2  col-span-2">{{'DROP_MENU.SHOW.MC'| translate}} </span>
+          <div class="flex space-x-1">
+            <span class="rounded-full-black" *ngFor="let word of devis.motCleList| slice:0:3 ">{{word.mot}}</span>
+            <span class="rounded-full-black" *ngIf="devis.motCleList.length > 3">+{{ devis.motCleList.length - 3 }}</span>
+          </div>
+				</div>
+				<hr>
+			</div>
 		</div>
 
 	</div>
 
   <div class="flex flex-col gap-6 text-sm ">
 		<div>
-			<span class="secondary-title text-base">{{'Documents liés :'|translate}}</span>
+			<span class="secondary-title text-base">{{'DROP_MENU.SHOW.OL'|translate}}</span>
+		</div>
+    <span class="mt-6" *ngIf="devis.opportunite " >{{'DROP_MENU.SHOW.O' | translate}} {{devis.opportunite.code}}</span>
+     <div style="margin-top: 30px; margin-bottom: 30px; " *ngIf="devis.opportunite ; else empty">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
+          <app-card  for="O" [data]="devis.opportunite" ></app-card>
+        </div>
+    </div>
+    <ng-template #empty>
+        <div class="justify-center items-center p-40">
+          <span class="secondary-title text-base text-gray-4">{{'DROP_MENU.SHOW.AO'|translate}}</span>
+        </div>
+    </ng-template>
+	</div>
+
+</section>
+
+<div class="flex flex-col gap-6 text-sm mt-5">
+  <div>
+    <span class="secondary-title text-base" >{{'DROP_MENU.SHOW.FA' | translate}}</span>
+  </div>
+  <div>
+    <span class="mt-6 font-bold" *ngIf= "devis.factureAcomteList ;else emptyAcompte " >{{'DROP_MENU.SHOW.FA' | translate}} ({{devis.factureAcomteList.length}})</span>
+  </div>
+  <div style= " margin-top: 30px; margin-bottom: 30px; " >
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
+          <app-card  for= "FA" [data]= " acompte" *ngFor= " let acompte of factureAcomteList let i = index " ></app-card>
+        </div>
+  </div>
+  <ng-template #emptyAcompte>
+      <div class="justify-center items-center p-20 ml-96">
+        <span class="secondary-title text-base text-gray-4">{{'DROP_MENU.SHOW.AFA'|translate}}</span>
+      </div>
+  </ng-template>
+</div>
+
+<section class="grid grid-cols-2 md:grid-cols-2 gap-5">
+	<!-- Destinataire -->
+
+	<div class="grid grid-col gap-6 text-sm">
+		<div>
+			<span class="secondary-title text-base">{{'DROP_MENU.SHOW.DE'|translate}}</span>
+		</div>
+	<div class="flex flex-col space-y-4 " >
+			<div class="flex flex-col space-y-3  " *ngIf="devis.client">
+		      <div class=" grid grid-cols-4 "  >
+				<span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.DE'| translate}} </span>
+				<span >{{devis.client.firstName}} {{ devis.client.lastName}}</span>
+             </div>
+		 <hr>
+	  </div>
+	  <div class="flex flex-col space-y-3  " *ngIf= "devis.societe">
+		  <div class=" grid grid-cols-4 "  >
+			 <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.DE'| translate}} </span>
+             <span >{{devis.societe.name}}</span>
+         </div>
+		 <hr>
+	  </div>
+
+	  <div class="flex flex-col space-y-3  " *ngIf= "devis.client?.societe">
+		  <div class=" grid grid-cols-4 "  >
+			 <span class="text-gray-2 col-span-2">{{'DATA_NAME.S'| translate}} :</span>
+             <span >{{devis.client?.societe?.name}} </span>
+         </div>
+		 <hr>
+	  </div>
+
+
+    <!--Num tel -->
+
+
+    <div class="flex flex-col space-y-3  " *ngIf= "devis.societe" >
+		  <div class=" grid grid-cols-4 "  >
+			    <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.NUE'| translate}}  </span>
+                <div *ngFor=" let phone of devis.societe?.phoneList" >
+						    <span>{{phone.phoneNumber}}</span>
+			   </div>
+          </div>
+		  <hr>
+	  </div>
+
+    <div class="flex flex-col space-y-3  " *ngIf= "devis.client?.societe" >
+		  <div class=" grid grid-cols-4 "  >
+			    <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.NUE'| translate}}  </span>
+           <div *ngFor=" let phone of devis.client?.societe?.phoneList" >
+						    <span>{{phone.phoneNumber}}</span>
+					 </div>
+      </div>
+		    <hr>
+	  </div>
+
+    <!--Num TVA-->
+
+    <div class="flex flex-col space-y-3  " *ngIf= "devis.societe || devis.client?.societe" >
+		  <div class=" grid grid-cols-4 "  >
+			 <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.NTVA'| translate}} </span>
+             <span *ngIf= "devis.societe?.ntva" >{{devis.societe?.ntva}} </span>
+             <span *ngIf= "devis.client?.societe?.ntva" >{{devis.client?.societe?.ntva}}</span>
+         </div>
+		 <hr>
+	  </div>
+
+    <!--Adresse-->
+
+    <div class="flex flex-col space-y-3  " *ngIf= "!devis.client?.societe && !devis.societe ">
+				<div class=" grid grid-cols-4 gap-4">
+          <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.ADD'| translate}} </span>
+					<div class="col-span-2 flex flex-col">
+						<span *ngIf= "devis.client?.address?.address">{{devis.client?.address?.address}}</span>
+						<ng-container *ngIf= "devis.client?.address?.complementAddress && devis.client?.address?.complementAddress?.length">
+							<div  *ngFor= "let complementAddress of devis.client?.address?.complementAddress">
+								{{complementAddress}}
+							</div>
+						</ng-container>
+					</div>
+				</div>
+				<hr>
+	  </div>
+    <div class="flex flex-col space-y-3  " *ngIf= "devis.client?.societe">
+				<div class=" grid grid-cols-4 gap-4">
+          <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.ADD'| translate}} </span>
+					<div class="col-span-2 flex flex-col">
+						<span *ngIf= "devis.client?.societe?.address">{{devis.client?.societe?.address?.address}}</span>
+						<ng-container *ngIf= "devis.client?.societe?.address?.complementAddress && devis.client?.societe?.address?.complementAddress?.length">
+							<div *ngFor="let complementAddress of devis.client?.societe?.address?.complementAddress" >
+								{{complementAddress}}
+							</div>
+						</ng-container>
+					</div>
+				</div>
+				<hr>
+	  </div>
+    <div class="flex flex-col space-y-3  " *ngIf= "devis.societe">
+				<div class=" grid grid-cols-4 gap-4">
+          <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.ADD'| translate}} </span>
+					<div class="col-span-2 flex flex-col">
+						<span >{{devis.societe.address.address}}</span>
+						<ng-container *ngIf= "devis.societe?.address?.complementAddress && devis.societe?.address?.complementAddress?.length">
+							<div *ngFor= "let complementAddress of devis.societe?.address?.complementAddress" >
+								{{complementAddress}}
+							</div>
+						</ng-container>
+					</div>
+				</div>
+				<hr>
+	  </div>
+
+    <!--Pays -->
+
+       <div class="flex flex-col space-y-3" *ngIf= "devis.client?.societe" >
+				<div class=" grid grid-cols-4 gap-4 " >
+					<span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.PA' | translate}} </span>
+					<span >{{devis.client?.societe?.address?.country}} </span>
+				</div>
+				<hr>
+			</div>
+
+      <div class="flex flex-col space-y-3" *ngIf= "devis.client && !devis.client.societe ">
+	  			<div class=" grid grid-cols-4 gap-4 " >
+					<span class="text-gray-2 col-span-2" >{{'DROP_MENU.SHOW.PA' | translate}} </span>
+					<span >{{devis.client.address.country}} </span>
+				</div>
+				<hr>
+			</div>
+
+			<div class="flex flex-col space-y-3" *ngIf= "devis.societe ">
+	  			<div class=" grid grid-cols-4 gap-4 " >
+					<span class="text-gray-2 col-span-2" >{{'DROP_MENU.SHOW.PA' | translate}} </span>
+					<span >{{devis.societe.address.country}} </span>
+				</div>
+				<hr>
+			</div>
+
+    <!--Num tel Personnel-->
+ <div class="flex flex-col space-y-3  " *ngIf= "devis.client" >
+			<div class=" grid grid-cols-4 "  >
+					<span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.NUM'| translate}}  </span>
+			        <div *ngFor=" let phone of devis.client?.phoneList" >
+						<span>{{phone.phoneNumber}}</span>
+				   </div>
+		   </div>
+			<hr>
 		</div>
 
+	<!--email-->
+
+      <div class="flex flex-col space-y-3  " *ngIf= "devis.societe">
+          <div class=" grid grid-cols-4 "  >
+          <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.SI'| translate}} </span>
+                <span >{{devis.societe.website}}</span>
+            </div>
+        <hr>
+        </div>
+
+        <div class="flex flex-col space-y-3  " *ngIf= "devis.client ">
+          <div class=" grid grid-cols-4 "  >
+          <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.EM'| translate}} </span>
+                <span >{{devis.client.email}}</span>
+            </div>
+            <hr>
+        </div>
+
+
+
+
 	</div>
+
+	</div>
+
+  <div class="flex flex-col gap-6 text-sm ">
+		<div>
+			<span class="secondary-title text-base">{{'DROP_MENU.SHOW.CON'|translate}}</span>
+		</div>
+
+    <div class="flex flex-col space-y-4 " >
+			<div class="flex flex-col space-y-3  ">
+		      <div class=" grid grid-cols-4 "  >
+				<span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.CONR'| translate}} </span>
+        <span>{{devis.conditionReglement?.name || ''}}</span>
+      </div>
+		 <hr >
+	  </div>
+	  <div class="flex flex-col space-y-3  " >
+		  <div class=" grid grid-cols-4 "  >
+			 <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.MOR'| translate}} </span>
+             <span >{{devis.modeReglement?.name}}</span>
+         </div>
+		 <hr >
+	  </div>
+    <div class="flex flex-col space-y-3  " >
+		  <div class=" grid grid-cols-4 "  >
+			 <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.IN'| translate}} </span>
+             <span class="col-span-2">{{devis.interet?.name}}</span>
+         </div>
+		 <hr >
+	  </div>
+
+	</div>
+
+	</div>
+
 </section>
+
+
+<div class="flex flex-col gap-6 text-sm mt-5">
+  <div>
+    <span class="secondary-title text-base" >{{'DROP_MENU.SHOW.DET' | translate}}</span>
+  </div>
+
+  <div class="grid grid-col gap-6 text-sm ">
+
+    <table >
+      <tr class="border-b-gray-3">
+        <th>{{'DROP_MENU.SHOW.T' | translate}}</th>
+        <th >{{'DROP_MENU.SHOW.DEC' | translate}}</th>
+        <th>{{'DROP_MENU.SHOW.PHT' | translate}}</th>
+        <th>{{'DROP_MENU.SHOW.Q' | translate}}</th>
+        <th>{{'DROP_MENU.SHOW.TVA' | translate}}</th>
+        <th>{{'DROP_MENU.SHOW.R' | translate}}</th>
+        <th>{{'DROP_MENU.SHOW.THT' | translate}}</th>
+      </tr>
+
+      <tr *ngFor= "let article of devis.articleList" class="text-gray-2 ">
+        <td >{{article.typeArticle.name_fr}} </td>
+        <td class="w-80 text-justify">{{article.description}} </td>
+        <td >{{this.details.formatNumber(article.prixHT)}} <span class="ml-1">{{this.details.getCurrencySymbol(devis.devise)}}</span></td>
+        <td>{{article.quantity}} </td>
+        <td>{{this.details.formatNumber(article.tva)}} % </td>
+        <td>{{this.details.formatNumber(article.reduction)}} {{this.details.getReductionSymbol(devis,article.redIsPercentage)}} </td>
+        <td>{{this.details. formatNumber(this.details.calulTotlHT(article))}} {{this.details.getCurrencySymbol(devis.devise)}} </td>
+      </tr>
+
+    </table>
+
+
+
+  <table class=" justify-self-end mr-16 ">
+      <tr>
+        <td class="font-bold ">{{'DROP_MENU.SHOW.THT' | translate}}</td>
+        <td class="text-gray-2">{{this.details.formatNumber(devis.totalHT)}} {{this.details.getCurrencySymbol(devis.devise)}}</td>
+      </tr>
+      <tr *ngFor= "let article of devis.articleList">
+        <td >{{'DROP_MENU.SHOW.TVA' | translate}} ({{article.tva}}%)</td>
+        <td class="text-gray-2"> {{this.details.formatNumber(this.details.calulTVA(article))}} {{this.details.getCurrencySymbol(devis.devise)}}</td>
+     </tr>
+     <tr>
+      <td class="font-bold">{{'DROP_MENU.SHOW.RG' | translate}}</td>
+        <td class="text-gray-2">{{this.details.formatNumber(devis.remise)}}{{this.details.getReductionSymbol(devis,devis.remIsPercentage)}}</td>
+      </tr>
+     <tr>
+      <td class="font-bold">{{'DROP_MENU.SHOW.TTC' | translate}}</td>
+        <td class="text-gray-2" >{{this.details.formatNumber(devis.totalTTC)}} {{this.details.getCurrencySymbol(devis.devise)}}</td>
+      </tr>
+
+
+
+    </table>
+
+
+
+
+	</div>
+
+
+
+</div>

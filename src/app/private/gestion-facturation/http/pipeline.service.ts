@@ -30,13 +30,13 @@ export class PipelineService {
   }
 
 
-  addPipeline(Pppeline: Pipeline): Observable<any> {
-    return this.http.post(`${this.constant.pipelineUrl}`, Pipeline);
+  addPipeline(pipeline: Pipeline): Observable<any> {
+    return this.http.post(`${this.constant.pipelineUrl}`, pipeline);
   }
 
 
   updatePipelineById( id :number, pipeline: Pipeline) :Observable<Pipeline>{
-    return this.http.put<Pipeline>(`${this.constant.pipelineUrl}/${id}`,Pipeline);
+    return this.http.put<Pipeline>(`${this.constant.pipelineUrl}/${id}`,pipeline);
   }
 
   deletePipelineById(id :number):Observable<string>{

@@ -7,14 +7,82 @@
         <span class="primary-title" *ngIf="for == 'O' " >{{'TITLE.O' | translate}}</span>
         <span class="primary-title" *ngIf="for == 'FG' " >{{'TITLE.F' | translate}}</span>
 
-        <!-- <div class="primary-title" *ngFor="let item of items; let i=index" >
-            {{item.name|translate}}
-        </div> -->
+        <div class="primary-title" *ngIf="for == 'P' " >
+          <div class="flex gap-4 items-center">
+          <button class="common-btn-gray" routerLink="./..">
+              <svg-icon name="arrowdown"  svgClass="w-5 rotate-90"  ></svg-icon>
+          </button>
+          <div class="flex flex-col">
+              <span >{{'TITLE.Pip' | translate}}</span>
+          </div>
+       </div>
+      </div>
 
-        <div class="primary-title" *ngIf="for == 'F' " >{{'TITLE.FS' | translate}}</div>
-        <div class="primary-title" *ngIf="for == 'A' " >{{'TITLE.A' | translate}}</div>
-        <div class="primary-title" *ngIf="for == 'FA' " >{{'TITLE.FA' | translate}}</div>
+      <div class="primary-title" *ngIf="for == 'F' && type =='list'" >
 
+
+        <div class="flex gap-4 items-center">
+          <button class="common-btn-gray" routerLink="./..">
+              <svg-icon name="arrowdown"  svgClass="w-5 rotate-90"  ></svg-icon>
+          </button>
+          <div class="flex flex-col">
+              <span >{{'TITLE.FS' | translate}}</span>
+          </div>
+       </div>
+
+      </div>
+      <div class="primary-title" *ngIf="for == 'F' && type !=('list'||'show')" >
+
+        <div class="flex gap-4 items-center">
+          <button class="common-btn-gray" routerLink="../..">
+              <svg-icon name="arrowdown"  svgClass="w-5 rotate-90"  ></svg-icon>
+          </button>
+          <div class="flex flex-col">
+              <span >{{'TITLE.FS' | translate}}</span>
+          </div>
+       </div>
+
+      </div>
+      <div class="primary-title" *ngIf="for == 'A'  && type =='list'" >
+          <div class="flex gap-4 items-center">
+            <button class="common-btn-gray" routerLink="./..">
+                <svg-icon name="arrowdown"  svgClass="w-5 rotate-90"  ></svg-icon>
+            </button>
+            <div class="flex flex-col">
+                <span > {{'TITLE.A' | translate}}</span>
+            </div>
+         </div>
+       </div>
+       <div class="primary-title" *ngIf="for == 'A'  && type !=('list'||'show')" >
+        <div class="flex gap-4 items-center">
+          <button class="common-btn-gray" routerLink="../..">
+              <svg-icon name="arrowdown"  svgClass="w-5 rotate-90"  ></svg-icon>
+          </button>
+          <div class="flex flex-col">
+              <span > {{'TITLE.A' | translate}}</span>
+          </div>
+       </div>
+     </div>
+      <div class="primary-title" *ngIf="for == 'FA'  && type =='list' " >
+        <div class="flex gap-4 items-center">
+          <button class="common-btn-gray" routerLink="./..">
+              <svg-icon name="arrowdown"  svgClass="w-5 rotate-90"  ></svg-icon>
+          </button>
+          <div class="flex flex-col">
+              <span > {{'TITLE.FA' | translate}}</span>
+          </div>
+       </div>
+      </div>
+      <div class="primary-title" *ngIf="for == 'FA'  && type !=('list'||'show') " >
+        <div class="flex gap-4 items-center">
+          <button class="common-btn-gray" routerLink="../..">
+              <svg-icon name="arrowdown"  svgClass="w-5 rotate-90"  ></svg-icon>
+          </button>
+          <div class="flex flex-col">
+              <span > {{'TITLE.FA' | translate}}</span>
+          </div>
+       </div>
+      </div>
 
     </ng-container>
 
@@ -35,7 +103,7 @@
 
 
         <!-- Filter menu  -->
-        <app-drop-menu [for]="for" type="filter" *ngIf="type == 'list' && (for == 'D' || for == 'FG'||for == 'F' || for == 'FA'|| for == 'A'||  for == 'O' )  "></app-drop-menu>
+        <app-drop-menu [for]="for" type="filter" *ngIf="type == 'list' && (for == 'D' || for == 'FG'||for == 'F' || for == 'FA'|| for == 'A'||  for == 'O' ||  for == 'P' )  "></app-drop-menu>
 
         <!-- 3dots menu | edit| list | show -->
         <app-drop-menu [type]="type" [size]="sizeMenu" [for]="for" [data]="data" *ngIf ="type !== 'add'"></app-drop-menu>

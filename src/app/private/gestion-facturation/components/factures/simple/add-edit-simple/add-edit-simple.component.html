@@ -5,7 +5,7 @@
       <div class="flex flex-col gap-6" >
           <app-select-recipient (selected)="isSelected = true" for="F"></app-select-recipient>
 
-          <div class="flex flex-col gap-6" [ngClass]="isSelected || !isAddMode ? 'visible' : 'invisible' ">
+          <div class="flex flex-col gap-6" [ngClass]=" isSelected || !isAddMode ? 'visible' : 'invisible' ">
               <span class="secondary-title">{{'FORM.TITLE.INF' | translate}}</span>
               <div class="flex flex-col gap-6">
 

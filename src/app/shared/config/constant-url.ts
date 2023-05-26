@@ -15,6 +15,15 @@ export class ConstantUrl {
     public readonly clientOppUrl :string = this.clientUrl+"/opp";
     public readonly clientDevisUrl :string = this.clientUrl+"/devis";
 
+    //++
+    public readonly clientSocieteUrl :string = this.clientUrl+"/societe";
+    public readonly clientFactureUrl :string = this.clientUrl+"/factures";
+
+    public readonly societeDevisUrl :string = this.societeUrl+"/devis";
+    public readonly societeFactureUrl :string = this.societeUrl+"/factures";
+    public readonly societeOppUrl :string = this.societeUrl+"/opp";
+    //++
+
     public readonly phoneUrl :string = this.baseUrl+"phones";
     public readonly motCleUrl :string = this.baseUrl+"mots-cle";
     public readonly addressUrl :string = this.baseUrl+"addresses";
@@ -34,13 +43,12 @@ export class ConstantUrl {
     public readonly pipelineNameUrl : string = this.pipelineUrl+"/name";
     public readonly pipelineEtapeUrl : string = this.pipelineUrl+"/etape";
     public readonly etapeUrl : string = this.baseUrl+"etapes";
+    public readonly compteUrl : string = this.baseUrl+"compteBancs";
+    public readonly oppDevisUrl :string = this.opportuniteUrl+"/devis";
+    public readonly etapOppeUrl :string = this.etapeUrl+"/opp";
 
-
-
-
-
-
-
-
+     //++
+     public readonly compteTiersUrl : string = this.baseUrl+"comptetiers";
+     public readonly socialsUrl : string = this.baseUrl+"sociaux";
 
 }

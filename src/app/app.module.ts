@@ -76,6 +76,7 @@ function getCurrentLocal(){
     FacturesModule,
     NgSelectModule,
 
+
   ],
   providers: [
     { provide: LOCALE_ID, useValue: getCurrentLocal() },

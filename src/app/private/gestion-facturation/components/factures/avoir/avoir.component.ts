@@ -42,6 +42,26 @@ export class AvoirComponent {
   async ngOnInit(): Promise<void> {
     await this.setAllFactureAvoir();
     if(this.factureAvoirs.length == 0) this.isEmpty = true
+
+    // tri
+    this.filterService.getselectedItemSubject().subscribe((dateselected) => {
+
+      if (dateselected) {
+        switch (dateselected) {
+          case 'Trier Par : Date De Création':
+            this.factureAvoirs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+            break;
+          case 'Trier Par : Date De Finalisation':
+              this.factureAvoirs.sort((a, b) => new Date(b.date_finalisation).getTime() - new Date(a.date_finalisation).getTime());
+              break;
+          case 'Trier Par : Date De remboursement':
+                this.factureAvoirs.sort((a, b) => new Date(b.date_remboursement).getTime() - new Date(a.date_remboursement).getTime());
+                break;
+          default:
+            break;
+        }
+      }
+    });
   }
 
   onRefresh(){

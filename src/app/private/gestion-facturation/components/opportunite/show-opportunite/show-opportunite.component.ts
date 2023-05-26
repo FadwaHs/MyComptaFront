@@ -3,6 +3,7 @@ import { Opportunite } from '../../../models/opportunite';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavigateService } from 'src/app/shared/services/navigate.service';
 import { OpportuniteService } from '../../../http/opportunite.service';
+import { Devis } from '../../../models/devis';
 
 @Component({
   selector: 'app-show-opportunite',
@@ -16,6 +17,7 @@ export class ShowOpportuniteComponent implements OnInit {
   id: number;
   slug: string;
   opportunite : Opportunite = new Opportunite();
+  devisList : Devis[] =[]
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -25,6 +27,7 @@ export class ShowOpportuniteComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkRouteAndGetOpp();
+    this.getDevisForOpportunite()
   }
 
 
@@ -55,6 +58,43 @@ export class ShowOpportuniteComponent implements OnInit {
       );
     }
   }
+
+  getStatusColor(status: string): string {
+
+    if (status === 'WON') {
+      return 'text-green';
+    } else if (status === 'CLOSED') {
+      return 'text-red';
+    } else if (status === 'LATE' || status === 'LOST') {
+      return 'text-gray-4';
+    } else if (status === 'CANCLED') {
+      return 'text-red';
+    } else if (status === 'INPROGRESS')
+    {
+       return 'text-yellow';
+    }
+     else {
+      // Default color if status doesn't match any condition
+      return 'text-gray-3';
+    }
+  }
+
+  // get devis list
+  getDevisForOpportunite() {
+    [this.id, this.slug] =  this.route.snapshot.params['id-slug'].split(
+      '-'
+    );
+    this.id = +this.id;
+    this.opportuniteservice.getDevisForOpportunite(this.id).subscribe({
+      next: (data) => (this.devisList = data),
+      error: (e) => console.log(e),
+    });
+
+  }
+
+
+
+
 
 
 }

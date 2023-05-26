@@ -14,7 +14,7 @@ import { AddressService } from '../../../private/gestion-facturation/http/addres
   styleUrls: ['./select-client-form.component.scss'],
 })
 export class SelectClientFormComponent implements OnInit {
-  
+
   @Input()
   for: 'S';
   clients: Array<Client> = Array<Client>();
@@ -31,7 +31,7 @@ export class SelectClientFormComponent implements OnInit {
     this.setAllClients();
   }
 
-  
+
 
   inializeForm() {
     this.clientForm = this.formBuilder.group({
@@ -70,7 +70,7 @@ export class SelectClientFormComponent implements OnInit {
           error: (e) => console.log(e),
         });
       });
-      
+
     }
 
     else{
@@ -78,7 +78,7 @@ export class SelectClientFormComponent implements OnInit {
       if(this.oldSelectedClients){
         this.undefineSocieteOfCLients()
       }
-      
+
     }
   }
 
@@ -89,7 +89,7 @@ export class SelectClientFormComponent implements OnInit {
       await firstValueFrom( this.clientService.updateClientById(this.oldSelectedClients[i].id, this.oldSelectedClients[i]))
       .catch( e => console.log(e))
     }
-    
+
 
   }
 
@@ -101,5 +101,5 @@ export class SelectClientFormComponent implements OnInit {
     }
   }
 
-  
+
 }

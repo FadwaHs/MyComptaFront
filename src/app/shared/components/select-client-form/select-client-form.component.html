@@ -1,9 +1,9 @@
 <form [formGroup]="clientForm" class="flex flex-col gap-6" >
-    <span class="secondary-title">{{'FORM.TITLE.C' | translate}}</span>
-    <ng-select [multiple]="true" [hideSelected]="true" [items]="clients"
-        bindLabel="firstName" class="custom-select-gray w-full text-sm" placeholder="{{'FORM.INPUT.SPC' | translate}}"
-        formControlName="clients"
-       >
-    </ng-select>
+  <span class="secondary-title">{{'FORM.TITLE.C' | translate}}</span>
+  <ng-select [multiple]="true" [hideSelected]="true" [items]="clients"
+      bindLabel="firstName" class="custom-select-gray w-full text-sm" placeholder="{{'FORM.INPUT.SPC' | translate}}"
+      formControlName="clients"
+     >
+  </ng-select>
 </form>
 

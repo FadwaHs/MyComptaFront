@@ -1,1 +1,124 @@
-<p>add-edit-acompte works!</p>
+<section>
+  <app-top-bar for="FA" type="add"></app-top-bar>
+
+<form [formGroup]="acoumpteForm" class="grid grid-cols-1 gap-9 md:grid-cols-3 "  *ngIf="isProvisional ; else isNotProvisional"  >
+
+    <div class="flex flex-col gap-6 " >
+
+      <section  class="flex flex-col gap-6">
+
+        <div>
+           <span class="secondary-title">{{'FORM.TITLE.Dv' | translate}}</span>
+        </div>
+
+        <ng-select class="custom-select-gray  text-sm"  placeholder="{{'FORM.INPUT.SDv' | translate}}" [items]="items" bindLabel="code" formControlName="devisSigned"
+        [(ngModel)]="selectedDevis">
+
+         <ng-template ng-option-tmp let-item="item" >
+             <div class="flex gap-2 items-center">
+               <svg-icon [name]="item.icon" svgClass="w-3"></svg-icon>
+               <span>{{item.code}}({{item.totalHT}} HT) Pour {{item.client.firstName}} {{item.client.lastName}}</span>
+              </div>
+          </ng-template>
+
+         </ng-select>
+
+      </section>
+
+      <div class="flex flex-col gap-6"  [ngClass]=" selectedDevis || !isAddMode ? 'visible' : 'invisible' ">
+
+          <span class="secondary-title">{{'FORM.TITLE.Mnt' | translate}}</span>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 ">
+
+                <div class="relative grow">
+                    <label class="common-label ">{{'FORM.INPUT.mnt' |translate}}</label>
+                    <input type="number" appAllowInput allow="float" class="common-input" formControlName="montant" required="">
+                </div>
+                <ng-select [searchable]="false" [clearable]="false" class="custom-select-gray  text-sm"
+                    formControlName="montantType"  [items]="montantType" style="width: 60px;">
+                </ng-select>
+
+                <div class="relative">
+                  <label class="common-label" >{{'FORM.INPUT.TVA'| translate}}</label>
+                  <input type="number" appAllowInput allow="float" class="common-input" formControlName="tva">
+                </div>
+
+                <div class="flex gap-3 items-center w-fit cursor-pointer" >
+                <input type="checkbox" class="w-4 h-4 accent-black-1 cursor-pointer" formControlName="tvaNotApplicable">
+                <label class="cursor-pointer text-sm">{{'FORM.INPUT.TNA' | translate}}</label>
+               </div>
+
+        </div>
+
+      </div>
+
+      <div class="flex flex-col gap-6 w-full" [ngClass]=" selectedDevis || !isAddMode ? 'visible' : 'invisible' ">
+
+          <div class="grid sm:grid-cols-2">
+            <app-reglement-form for="FA" class="col-span-2"></app-reglement-form>
+          </div>
+
+          <ng-select class="custom-select-gray  text-sm" formControlName="rib"  placeholder="{{'FORM.INPUT.CBN' | translate}}" [items]="items_compte" bindLabel="cleRib" >
+
+            <ng-template ng-option-tmp let-item="item" >
+                <div class="flex gap-2 items-center">
+                  <svg-icon [name]="item.icon" svgClass="w-3"></svg-icon>
+                  <span>{{item.cleRib}}</span>
+                 </div>
+             </ng-template>
+
+          </ng-select>
+
+          <div class="flex flex-col gap-6 w-full" style="width:900px;">
+            <app-text-field-form for="FA"></app-text-field-form>
+          </div>
+
+          <div class="flex flex-col gap-6 w-full" style="width:500px;">
+            <app-key-word-form for="FA"></app-key-word-form>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-10 ">
+            <div class="sm:col-start-1 grid grid-cols-3 gap-5 w-full">
+                <button class="common-btn-black col-span-2 " [disabled]="acoumpteForm.invalid || (!selectedDevis && isAddMode)" appDebounceClick
+                    (debounceClick)="onSubmit()">
+                    <ng-container *ngIf="isAddMode  else editButton">{{'FORM.BUTTON.C' | translate}}</ng-container>
+                    <ng-template #editButton>{{'FORM.BUTTON.E' | translate}}</ng-template>
+                </button>
+                <button #add class="common-btn-gray" routerLink="{{navigate.f_acomptePath}}">{{'FORM.BUTTON.A' | translate}}</button>
+            </div>
+        </div>
+
+        </div><br>
+
+      </div>
+
+</form>
+
+<ng-template  #isNotProvisional>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 ">
+      <div class="flex flex-col gap-16">
+
+          <app-key-word-form for="FA"></app-key-word-form>
+
+          <div class="grid grid-cols-3 gap-5 ">
+              <button class="common-btn-black col-span-2 " *ngIf="!isAddMode" appDebounceClick (debounceClick)="submitOtherForms()">
+                  {{'FORM.BUTTON.E' | translate}}
+              </button>
+              <button #add class="common-btn-gray" routerLink="{{navigate.f_acomptePath}}">{{'FORM.BUTTON.A' | translate}}</button>
+          </div>
+      </div>
+
+  </div>
+
+</ng-template>
+
+</section>
+
+
+
+
+
+
+

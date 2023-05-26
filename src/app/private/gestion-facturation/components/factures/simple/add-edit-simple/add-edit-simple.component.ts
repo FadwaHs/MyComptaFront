@@ -36,7 +36,6 @@ export class AddEditSimpleComponent {
   childKeyWord: KeyWordFormComponent;
 
 
-
   id: number;
   slug: string;
   languages: string[] = ['Français', 'English'];
@@ -49,6 +48,7 @@ export class AddEditSimpleComponent {
   currentCurrency : string
   isArticleFormValid : boolean = false
   isProvisional : boolean = true
+
   constructor(
     private formBuilder: FormBuilder,
     private factureSimpleService: FactureSimpleService,

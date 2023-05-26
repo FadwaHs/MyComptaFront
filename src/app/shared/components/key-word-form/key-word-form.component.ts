@@ -77,7 +77,7 @@ export class KeyWordFormComponent implements OnInit {
     this.motCleForm.controls['mots'].setValue(this.oldSelectedMotsCle)
   }
 
-  async onSubmit(data : Societe | Client | Devis | Facture| Opportunite, isAddMode : boolean ){
+  async onSubmit(data : Societe | Client | Devis | Facture | Opportunite, isAddMode : boolean ){
 
     if (
       this.motCleForm.controls['mots'].value  &&
@@ -95,10 +95,12 @@ export class KeyWordFormComponent implements OnInit {
         else if(this.for == 'D') motCle.devis = data as Devis
         else if(this.for == 'F') motCle.factureSimple = data as FactureSimple
         else if(this.for == 'A') motCle.factureAvoir = data as FactureAvoir
-        else if(this.for == 'FA') motCle.factureAcompte = data as FactureAcompte
+        else if(this.for == 'FA'){
+
+          motCle.factureAcompte = data as FactureAcompte
+          console.log(data,'data')
+        }
         else if(this.for == 'O') motCle.opportunite = data as Opportunite
-
-
         else return
 
         if(motCle.id != null){

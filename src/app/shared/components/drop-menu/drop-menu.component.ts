@@ -25,6 +25,7 @@ import { FactureAcompteService } from 'src/app/private/gestion-facturation/http/
 import { FactureAcompte } from 'src/app/private/gestion-facturation/models/facture-acompte';
 import { MatDialog } from '@angular/material/dialog';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Pipeline } from 'src/app/private/gestion-facturation/models/pipeline';
 
 @Component({
   selector: 'app-drop-menu',
@@ -34,11 +35,12 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class DropMenuComponent implements OnInit {
 
 
+
   @Output()
   refreshListPage : EventEmitter<void> = new EventEmitter();
 
   @Input()
-  data: Societe | Client | Devis | Facture | FactureSimple|Opportunite | FactureAvoir;
+  data: Societe | Client | Devis | Facture | FactureSimple|Opportunite | FactureAvoir | Pipeline;
 
   @Input()
   type :'list'|'edit'|'show'|'filter'
@@ -47,37 +49,46 @@ export class DropMenuComponent implements OnInit {
   size : 'sm'|'xs'
 
   @Input()
-  for: 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'FG'
+  for: 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'FG'|'P'
 
   dropMenu :boolean = false;
+
   DevisStatus = DevisStatus;
   //Factures:
   FactureSimpleStatus = FactureSimpleStatus;
   FactureAvoirStatus = FactureAvoirStatus;
   FactureAcompteStatus = FactureAcompteStatus;
-
   // Opportunite:
   OppStatus = OppStatus;
-
 
 
   statusActive: DevisStatus | null = null;
   statusActiveFacture : FactureSimpleStatus | null = null;
   statusActiveAvoire : FactureAvoirStatus | null = null;
   statusActiveAcompte : FactureAcompteStatus | null = null;
-
-
   statusActiveOpp : OppStatus | null=null;
 
-
+  // date tri for facture type : simple and acompte
   dates: string[] = ["Trier Par : Date De Finalisation","Trier Par : Date De Création","Trier Par : Date De Paiement"]
   selectedDate = this.dates[0];
-
+  // date tri for avoir
+  dates_avoir: string[] = ["Trier Par : Date De Finalisation","Trier Par : Date De Création","Trier Par : Date De remboursement"]
+  selectedDateAvoir = this.dates[0];
   dateRem : Date;
+  datePay: Date;
+  datePay_acompte : Date;
+  //++
+  dateSign: Date
+
 
   @ViewChild('refundPopup') refundPopup: TemplateRef<any>;
+  @ViewChild('payPopup') payPopup: TemplateRef<any>;
+   //++
+   @ViewChild('signPopup') signPopup: TemplateRef<any>;
+
 
   constructor(
+
     private router: Router,
     private alertify : AlertifyService,
     private filterService : FilterService,
@@ -140,14 +151,15 @@ export class DropMenuComponent implements OnInit {
 
  }
   //facture Acomte status
-  changeFilterStatusAcomte(status:  FactureAcompteStatus | null ){
+ changeFilterStatusAcomte(status:  FactureAcompteStatus | null ){
     this.dropMenu = false
     this.statusActiveAcompte = status
     this.filterService.callMethodFilterStatus(status);
 
    }
 
-   sortData(date: string | null) : void{
+  // sort by date
+  sortData(date: string | null) : void{
 
     this.filterService.setselectedItemSubject(date);
     this.refreshListPage.emit();
@@ -167,9 +179,7 @@ export class DropMenuComponent implements OnInit {
     if(this.for == 'D') this.deleteDevisprovisoire(id)
     if(this.for == 'O') this.deleteOppotunite(id)
     if(this.for == 'A') this.deleteAvoire(id)
-    if(this.for == 'FA') this.deleteAvoire(id)
-
-
+    if(this.for == 'FA') this.deleteAcompte(id)
   }
 
 
@@ -178,24 +188,40 @@ export class DropMenuComponent implements OnInit {
     if(this.for == 'F') this.updateFacture(FactureSimpleStatus.FINALIZED)
     if(this.for == 'A') this.updateFactureAvoir(FactureAvoirStatus.FINALIZED)
     if(this.for == 'FA') this.updateFactureAcompte(FactureAcompteStatus.FINALIZED)
-
-
   }
 
 
 
-  signeIt(){
-    if(this.for == 'D') this.updateDevis(DevisStatus.SIGNED)
+  signeIt(signPopup :any){
+    if(this.for == 'D')
+    //++
+    {
+      const modalRef = this.modalService.open(signPopup, {windowClass: 'my-modal',
+      backdropClass: 'modal-backdrop'});
+      this.closeMenu()
+      modalRef.result
+        .then((result) => {
+          if (result === 'sign') {
+            (this.data as Devis).status = DevisStatus.SIGNED;
+            this.updateDevis(DevisStatus.SIGNED)
+          }
+        })
+        .catch(() => {});
+    }
+   }
+  //++
+  singdCard(data: Devis, modal: any) {
+    if (this.dateSign) {
+      (this.data as Devis).date_signature = this.dateSign;
+      modal.close('sign');
+    }
   }
 
   refuseIt(){
     if(this.for == 'D') this.updateDevis(DevisStatus.REFUSED)
   }
 
-  PayIt() {
-    if(this.for == 'F') this.updateFacture(FactureSimpleStatus.PAYED)
-    if(this.for == 'FA') this.updateFactureAcompte(FactureAcompteStatus.PAYED)
-  }
+
   Perdue() {
 
     if(this.for == 'O') this.updateOpportunite(OppStatus.LOST)
@@ -209,6 +235,40 @@ export class DropMenuComponent implements OnInit {
   toPayIt() {
     var date = new Date()
     if(this.for == 'F') this.updateFacture(FactureSimpleStatus.TOPAYED)
+
+  }
+
+  PayIt(payPopup :any) {
+
+    if(this.for == 'F') {
+    const modalRef = this.modalService.open(payPopup, {windowClass: 'my-modal',
+    backdropClass: 'modal-backdrop'});
+    this.closeMenu()
+    modalRef.result
+      .then((result) => {
+        if (result === 'refund') {
+          (this.data as FactureSimple).status = FactureSimpleStatus.PAYED;
+          this.updateFacture(FactureSimpleStatus.PAYED);
+        }
+      })
+      .catch(() => {});
+    }
+
+    if(this.for == 'FA')
+    {
+      const modalRef = this.modalService.open(payPopup, {windowClass: 'my-modal',
+      backdropClass: 'modal-backdrop'});
+      this.closeMenu()
+      modalRef.result
+        .then((result) => {
+          if (result === 'refund') {
+            (this.data as FactureAcompte).status = FactureAcompteStatus.PAYED;
+            this.updateFactureAcompte(FactureAcompteStatus.PAYED);
+          }
+        })
+        .catch(() => {});
+      }
+
 
   }
 
@@ -236,6 +296,14 @@ export class DropMenuComponent implements OnInit {
     }
   }
 
+  payCard(data:FactureSimple | FactureAcompte ,modal: any) {
+    if (this.datePay) {
+      (this.data as FactureSimple).date_paiement = this.datePay;
+      (this.data as FactureAcompte).date_paiement = this.datePay;
+
+      modal.close('refund');
+    }
+  }
 
 
 
@@ -255,10 +323,16 @@ export class DropMenuComponent implements OnInit {
 
   }
 
-  updateFacture(FactureSimpleStatus : FactureSimpleStatus){
-    (this.data as FactureSimple).status = FactureSimpleStatus;
-    (this.data as FactureSimple).date_finalisation= new Date(); // add date de finalisation
-    console.log((this.data as FactureSimple).date_finalisation,"date")
+  updateFacture(factureSimpleStatus : FactureSimpleStatus){
+
+    (this.data as FactureSimple).status = factureSimpleStatus;
+    if(factureSimpleStatus == FactureSimpleStatus.FINALIZED )
+         (this.data as FactureSimple).date_finalisation= new Date(); // add date de finalisation
+
+    else if (factureSimpleStatus == FactureSimpleStatus.PAYED)
+         (this.data as FactureSimple).date_paiement= this.datePay
+
+
     this.factureSimpleService.updateFactureSimpleById(this.data.id, this.data as FactureSimple).subscribe({
       // next : res => this.data = res,
       error : e => console.log(e),
@@ -274,7 +348,8 @@ export class DropMenuComponent implements OnInit {
         (this.data as FactureAcompte).date_finalisation=  new Date()
 
     else if (factureAcompteStatus == FactureAcompteStatus.PAYED)
-        (this.data as FactureAcompte).date_paiement=  new Date()
+        (this.data as FactureAcompte).date_paiement=  this.datePay
+
 
     this.factureAcompteService.updateFactureAcompteById(this.data.id, this.data as FactureAcompte).subscribe({
       error : e => console.log(e),
@@ -285,12 +360,19 @@ export class DropMenuComponent implements OnInit {
 
 
   updateDevis(devisStatus : DevisStatus){
-    (this.data as Devis).status = devisStatus
-    this.devisService.updateDevisById(this.data.id, this.data as Devis).subscribe({
-      // next : res => this.data = res,
-      error : e => console.log(e),
-      complete: () => this.refreshListPage.emit()
-    })
+     //++
+     (this.data as Devis).status = devisStatus
+     if(devisStatus == DevisStatus.FINALIZED)
+         (this.data as Devis).date_finalisation=  new Date()
+
+     else if (devisStatus == DevisStatus.SIGNED)
+         (this.data as Devis).date_signature= this.dateSign
+
+     this.devisService.updateDevisById(this.data.id, this.data as Devis).subscribe({
+       // next : res => this.data = res,
+       error : e => console.log(e),
+       complete: () => this.refreshListPage.emit()
+     })
   }
 
   updateOpportunite(oppStatus: OppStatus) {
@@ -360,6 +442,18 @@ export class DropMenuComponent implements OnInit {
           complete: () => {
             location.reload();
           }
+
+       })
+  }
+
+  deleteAcompte(id:number)
+  {
+
+       this.factureAcompteService.deleteFactureAcompteById(id).subscribe({
+        error:e => console.log(e),
+        complete: () => {
+          location.reload();
+        }
 
        })
   }

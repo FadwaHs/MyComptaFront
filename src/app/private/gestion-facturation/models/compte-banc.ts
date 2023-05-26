@@ -5,7 +5,8 @@ export class CompteBanc{
   bic : string
   titulaire : string
   libelleCompte : string
-  // factureAcompte : FactureAcompte
+  cleRib : string
+  // factureAcompte : FactureAcompte[]
   // environment : Environment
 
 }

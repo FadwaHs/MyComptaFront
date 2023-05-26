@@ -35,7 +35,7 @@
                 <span>{{'DROP_MENU.EDIT.FN' |translate}}</span>
             </button>
 
-            <button class="item-menu-{{size}}" *ngIf="$any(data).status == DevisStatus.FINALIZED" (click)="signeIt()">
+            <button class="item-menu-{{size}}" *ngIf="$any(data).status == DevisStatus.FINALIZED" (click)="signeIt(signPopup)">
                 <svg-icon name="edit" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
                 <span>{{'DROP_MENU.EDIT.MCS' |translate}}</span>
             </button>
@@ -64,10 +64,11 @@
               <span>{{'DROP_MENU.EDIT.FN' |translate}}</span>
           </button>
 
-          <button class="item-menu-{{size}}" *ngIf="($any(data).status == FactureSimpleStatus.FINALIZED) ||($any(data).status == FactureAcompteStatus.FINALIZED)"  (click)="PayIt()">
+          <button class="item-menu-{{size}}" *ngIf="($any(data).status == FactureSimpleStatus.FINALIZED) ||($any(data).status == FactureAcompteStatus.FINALIZED)"  (click)="PayIt(payPopup)">
               <svg-icon name="money" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
               <span>{{'DROP_MENU.EDIT.MCP' |translate}}</span>
           </button>
+
 
       </ng-container>
 
@@ -86,7 +87,7 @@
     </ng-container>
 
 
-        <ng-container *ngIf="for == 'C' || for == 'S' || for == 'D' || for=='F' || for=='O' || for=='A'">
+        <ng-container *ngIf="for == 'C' || for == 'S' || for == 'D' || for=='F' || for=='O' || for=='A'  || for=='FA'">
 
             <a class="item-menu-{{size}} " [routerLink]="'edit/'+data.id+'-'+data.slug">
                 <svg-icon name="edit" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
@@ -97,7 +98,8 @@
             </a>
 
             <button class="item-menu-{{size}}" (click)="delete(data.id)" *ngIf="for == 'C' || for == 'O' || for == 'S' ||
-            (for == 'D'  && $any(data).status  == DevisStatus.PROVISIONAL )||(for == 'F'  && $any(data).status  == FactureSimpleStatus.PROVISIONAL )||(for == 'A'  && $any(data).status  == FactureAvoirStatus.PROVISIONAL )">
+            (for == 'D'  && $any(data).status  == DevisStatus.PROVISIONAL )||(for == 'F'  && $any(data).status  == FactureSimpleStatus.PROVISIONAL )||(for == 'A'  && $any(data).status  == FactureAvoirStatus.PROVISIONAL ) ||
+            (for == 'FA'  && $any(data).status  == FactureAcompteStatus.PROVISIONAL )">
                 <svg-icon name="delete" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
                 <span>{{'DROP_MENU.EDIT.SP' |translate}}</span>
             </button>
@@ -304,8 +306,7 @@
   </ng-container>
 
 
-      <!-- drop menu Filter  For FactureSimple -->
-
+    <!-- drop menu Filter  For FactureSimple -->
 
     <ng-container *ngIf=" for == 'F' && type == 'filter'">
 
@@ -334,12 +335,15 @@
 
       </ng-container>
 
+       <!-- drop menu Filter  For Facture Avoir -->
+
       <ng-container *ngIf="for == 'A' && type == 'filter'">
 
         <div class="hidden sm:flex sm:gap-2 sm:text-sm">
 
-          <!-- <ng-select class="custom-select-gray" [items]="dates" [(ngModel)]="selectedDate" >
-          </ng-select> -->
+          <ng-select class="custom-select-gray" [items]="dates_avoir" [(ngModel)]="selectedDateAvoir"
+          (change)="sortData(selectedDateAvoir) " >
+          </ng-select>
 
             <button class="common-btn-gray" (click)="changeFilterStatusAvoire(null)"
                 [class.common-btn-gray-active]="!statusActiveAvoire">{{ 'STATUS.TE' |translate}}</button>
@@ -359,12 +363,15 @@
     </ng-container>
 
 
+    <!-- drop menu Filter  For FactureAcompte -->
+
     <ng-container *ngIf="for == 'FA' && type == 'filter'">
 
       <div class="hidden sm:flex sm:gap-2 sm:text-sm">
 
-        <!-- <ng-select class="custom-select-gray" [items]="dates" [(ngModel)]="selectedDate" >
-        </ng-select> -->
+        <ng-select class="custom-select-gray" [items]="dates" [(ngModel)]="selectedDate"
+        (change)="sortData(selectedDate) " >
+        </ng-select>
 
           <button class="common-btn-gray" (click)="changeFilterStatusAcomte(null)"
               [class.common-btn-gray-active]="!statusActiveAcompte">{{ 'STATUS.TE' |translate}}</button>
@@ -413,6 +420,8 @@
   </ng-container>
 </div>
 
+
+ <!-- Popup For facture avoir  : date de reboursement-->
 <ng-template #refundPopup let-modal>
   <div class="space-y-5" >
     <div class="flex flex-col-2 gap-x-40" >
@@ -429,6 +438,63 @@
         </div>
         <div  class="my-dialog-actions" >
           <button class=" common-btn-black col-span-2" data-dismiss="modal" appDebounceClick (debounceClick)="refundCard($any(data), modal)">
+             {{'FORM.BUTTON.C' | translate}}
+            </button>
+          <button class=" common-btn-gray-3 " (click)="modal.dismiss('Cross click')"  >
+               <span>{{'FORM.BUTTON.A' | translate}} </span>
+          </button>
+          </div>
+        </div>
+    </div>
+
+</ng-template>
+
+ <!-- Popup For facture simple : date paiement  -->
+<ng-template #payPopup let-modal>
+  <div class="space-y-5" >
+    <div class="flex flex-col-2 gap-x-40" >
+      <span class="secondary-title text-base">{{'MODAL.TITLE.PAY'| translate}}  </span>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+
+      <div class=" text-sm grid grid-cols-1 gap-3 ">
+        <div class="flex flex-col gap-2">
+          <label >{{'MODAL.INPUT.PAY' | translate}} :</label>
+          <input type="date" class="common-input-white"[(ngModel)]="datePay">
+        </div>
+        <div  class="my-dialog-actions" >
+          <button class=" common-btn-black col-span-2" data-dismiss="modal" appDebounceClick (debounceClick)="payCard($any(data), modal)">
+             {{'FORM.BUTTON.C' | translate}}
+            </button>
+          <button class=" common-btn-gray-3 " (click)="modal.dismiss('Cross click')"  >
+               <span>{{'FORM.BUTTON.A' | translate}} </span>
+          </button>
+          </div>
+        </div>
+    </div>
+
+</ng-template>
+
+
+<!-- signature date for Devis -->
+<ng-template #signPopup let-modal>
+  <div class="space-y-5" >
+    <div class="flex flex-col-2 gap-x-40" >
+      <span class="secondary-title text-base">{{'MODAL.TITLE.SIG'| translate}}  </span>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+
+      <div class=" text-sm grid grid-cols-1 gap-3 ">
+        <div class="flex flex-col gap-2">
+          <label for="date_signature">{{'MODAL.INPUT.SIG' | translate}} :</label>
+          <input type="date" class="common-input-white" id="date_signature" [(ngModel)]="dateSign">
+        </div>
+        <div  class="my-dialog-actions" >
+          <button class=" common-btn-black col-span-2" data-dismiss="modal" appDebounceClick (debounceClick)="singdCard($any(data), modal)">
              {{'FORM.BUTTON.C' | translate}}
             </button>
           <button class=" common-btn-gray-3 " (click)="modal.dismiss('Cross click')"  >

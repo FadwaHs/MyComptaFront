@@ -22,6 +22,7 @@
     "FA": "Factures d'acompte",
     "O": "Opportunités",
     "P": "Paramètres",
+    "Pip": "Pipeline",
     "PN" : "Préférences pour la numérotation",
     "ESP": "Ajouter un espace",
     "ENV": "Environnements",
@@ -42,7 +43,7 @@
       "D" : "Destinataire",
       "AR" : "Articles",
       "R": "Règlement",
-      "TAD":"Textes affichés sur le documen",
+      "TAD":"Textes affichés sur le document",
       "FM" : "Format",
       "CP" : "Compteurs",
       "ESP": "Espace",
@@ -50,7 +51,9 @@
       "O": "(Optionel)",
       "I": "Inviter ",
       "DP" :"Département",
-      "EM" :"Employés"
+      "EM" :"Employés",
+      "Mnt" : "Montant",
+      "Dv":"Devis"
 
     },
     "INPUT": {
@@ -76,6 +79,7 @@
       "ASMC": "Ajouter / Sélectionner des mots clés",
       "SS":"Sélectionner une société",
       "SD": "Sélectionner un destinataire",
+      "SDv":"Sélectionner un devis ",
       "D": "Description",
       "Q":"Quantité",
       "PHT": "Prix HT",
@@ -84,12 +88,14 @@
       "THT":"Total HT",
       "TTC": "Total TTC",
       "RG" : "Remise générale",
+      "mnt":"Montant à payee",
       "DV": "Durée de validité",
       "T": "Type",
       "DS" : "Devise",
       "CR" : "Conditions de Règlement",
       "MR" : "Mode de Règlement",
       "I" : "Intérêts de retard",
+      "CBN": "Compte bancaire (RIB)",
       "TNA" : "TVA non applicable",
       "FNR" : "Format de la numérotation",
       "TMC" : "Taille minimale du compteur",
@@ -99,6 +105,16 @@
       "DCF" : "Débutter le compteur pour les factures à",
       "DCA" : "Débutter le compteur pour les avoirs à",
       "IT":"Intitulé",
+      "OPPN" : "Intitule",
+      "OPPM" : "Montant potentiel",
+      "OPPP" : "Pipeline",
+      "OPPE" : "Etape",
+      "OPPS" : "STATUS",
+      "OPPc" : "Identifiant",
+      "OPPdf":"Date d'échéance",
+      "OPPdc":"Date de creation",
+      "OPPds":"Source",
+      "OPPd" : "Destinataire",
       "DCFA" : "Débutter le compteur pour les factures d’acompte à",
       "NE": "Nom d’espace",
       "NOE" : "@nom ou email",
@@ -250,6 +266,11 @@
         "L1" : "Nouvelle Opportunité",
         "L2" : "Exporter les Opportunitées"
       }
+      ,
+      "P" :{
+        "L1" : "Nouveau Pipeline",
+        "L2" : "Exporter les Pipeline"
+      }
     },
     "EDIT":{
       "M": "Modifier",
@@ -283,6 +304,53 @@
       "DF" : "Dupliquer la facture",
       "DO" : "Dupliquer en opportunité",
       "V" : "voir"
+    }
+    ,
+    "SHOW":{
+      "ST" :"Status :",
+      "CL":"Créé le :",
+      "CLE":"Créée le :",
+      "PDF" :"PDF généré le :",
+      "FIN" : "Finalisé le :",
+      "FINE" : "Finalisé le :",
+      "PAY" : "Payée le :",
+      "REM" : "Rembourssée le :",
+
+      "SIN":"Signé le ",
+      "DR":" Durée de validité :",
+      "MC" :"Mots clés :",
+      "J": "jours",
+      "DL" :"Documents liés :",
+      "AUD" :"Aucun documents liés :",
+      "OL" :"Opprtunité liée :",
+
+      "AO" : "Aucune opprtunité liée",
+      "O" :"Opprtunité de code :",
+      "FA" :"Factures d'acompte",
+      "AFA" : "Aucune Facture d'acompte liée",
+      "DE" :"Destinataire :",
+      "NTVA" :"Numéro de TVA :",
+      "NUE" :"Numéro d'entreprise :",
+      "ADD" :"Adresse :",
+      "PA" : "Pays :",
+      "NUM": "Numéro de téléphone :",
+      "EM" : "Adresse email :",
+      "SI" : "Site web :",
+      "DET" :"Details :",
+      "CON" :"Conditions :",
+      "CONR" : "Conditions de règlement  :",
+      "MOR" :"Mode de règlement  :",
+      "T" :"Type" ,
+      "DEC" :"Description",
+      "PHT":"Prix unitaire HT",
+      "Q":"Quantité",
+      "TVA" :"TVA",
+      "R" :"Réduction",
+      "THT":"Total HT",
+      "IN" :"Intérêts de retard :",
+      "TTC" :"Total TTC",
+      "RG" :"Remise Générale"
+
     },
     "SETTINGS" :{
       "P" : "Préférences",
@@ -348,7 +416,8 @@
 
    },
    "INPUT" :{
-     "REM" : "Date de remboursemt"
+     "REM" : "Date de remboursemt",
+     "PAY" :"Date de paiement"
    }
 
   },

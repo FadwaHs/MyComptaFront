@@ -40,9 +40,28 @@ export class AcompteComponent {
   }
 
   async ngOnInit(): Promise<void> {
+
     await this.setAllFactureAcompte();
-    console.log(this.factureAcomptes)
     if(this.factureAcomptes.length == 0) this.isEmpty = true
+
+    this.filterService.getselectedItemSubject().subscribe((dateselected) => {
+
+      if (dateselected) {
+        switch (dateselected) {
+          case 'Trier Par : Date De Création':
+            this.factureAcomptes.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+            break;
+          case 'Trier Par : Date De Finalisation':
+              this.factureAcomptes.sort((a, b) => new Date(b.date_finalisation).getTime() - new Date(a.date_finalisation).getTime());
+              break;
+          case 'Trier Par : Date De Paiement':
+                this.factureAcomptes.sort((a, b) => new Date(b.date_paiement).getTime() - new Date(a.date_paiement).getTime());
+                break;
+          default:
+            break;
+        }
+      }
+    });
   }
 
   onRefresh(){

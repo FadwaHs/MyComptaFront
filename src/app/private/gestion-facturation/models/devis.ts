@@ -8,6 +8,7 @@ import { Interet } from "./interet"
 import { Article } from "./article"
 import { DevisStatus } from "../enums/devis-status"
 import { Opportunite } from "./opportunite"
+import { FactureAcompte } from "./facture-acompte"
 
 export class Devis{
     id: number
@@ -30,10 +31,13 @@ export class Devis{
     societe : Societe | null
     client : Client | null
     opportunite : Opportunite | null
-    conditionReglement: ConditionReglement
-    modeReglement : ModeReglement
-    interet : Interet
+    conditionReglement: ConditionReglement|null
+    modeReglement : ModeReglement|null
+    interet : Interet|null
     articleList : Article[]
-    // factureList : Facture[]
-
+    factureAcomteList : FactureAcompte[]
+    //++
+    date_finalisation :Date
+    date_signature :Date
+    //++
 }
