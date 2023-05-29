@@ -1,14 +1,14 @@
 <app-top-bar for="S" type="show" sizeMenu="sm" [data]="this.societe" ></app-top-bar>
 
 
-<section class="grid grid-cols-1 md:grid-cols-2 gap-24 mt-11">
+<section class="grid grid-cols-1 md:grid-cols-2 gap-5">
 	<!-- Informations column -->
 
 	<div class="flex flex-col gap-6 text-sm">
 		<div>
 			<span class="secondary-title text-base">{{'FORM.TITLE.INF'|translate}}</span>
 		</div>
-		<div class="flex flex-col space-y-8 " >
+		<div class="flex flex-col space-y-4 " >
 
 			<div class="flex flex-col space-y-3 " *ngIf="societe.name">
 				<div class=" grid grid-cols-4 gap-4">
@@ -47,7 +47,7 @@
 				<div class=" grid grid-cols-4 gap-4">
 					<span class="text-gray-2">{{'FORM.TITLE.C' | translate}} :</span>
 					<div class="col-span-3 flex flex-wrap gap-2">
-						<button class="common-btn-black py-1 whitespace-nowrap" routerLink="{{navigate.toShowPath('S',client.id,client.slug)}}" *ngFor="let client of societe.clientList" > {{client.firstName+' '+client.lastName}}</button>
+						<button class="common-btn-black py-1 whitespace-nowrap" routerLink="{{navigate.toShowPath('C',client.id,client.slug)}}" *ngFor="let client of societe.clientList" > {{client.firstName+' '+client.lastName}}</button>
 					</div>
 				</div>
 				<hr>
@@ -133,29 +133,25 @@
 
 </section>
 
-<!-- <section class="pt-24 h-screen bg-blue">
+<br><br>
 
-    <div class="container  mx-auto">
-        <app-slider class="block rounded-3xl bg-emerald-50 p-2 py-5 sm:p-10" *ngIf="this.categories.length > 0" [items]="this.categories"  >
+<span style="margin-top: 30px;">{{'TITLE.D' | translate}} ({{devisList.length}})</span>
+<div style="margin-top: 30px; margin-bottom: 30px;">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
+        <app-card  for="D" [data]= "devis" *ngFor= "let devis of devisList let i = index"></app-card>
+      </div>
+</div>
 
-        </app-slider>
-    </div>
+<span class="mt-11">{{'TITLE.O' | translate}} ({{opportuniteList.length}})</span>
+<div style="margin-top: 30px; margin-bottom: 30px; ">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
+        <app-card  for="O" [data]= "opp" *ngFor= "let opp of opportuniteList let i = index"></app-card>
+      </div>
+</div>
 
-</section> -->
-
-<!-- <div class="container">
-	<div class="section section--demo" id="examples">
-		<h1>Examples</h1>
-
-		<div class="demo">
-			<carousel
-				[images]="images"
-				[objectFit]="'cover'">
-
-
-			</carousel>
-
-		</div>
-
-	</div>
-</div>		 -->
+<span class="mt-11">{{'TITLE.F' | translate}} ({{factureList.length}})</span>
+<div style="margin-top: 30px; margin-bottom: 30px; ">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
+        <app-card  for="F" [data]= "facture" *ngFor= "let facture of factureList let i = index"></app-card>
+      </div>
+</div>

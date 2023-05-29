@@ -1,16 +1,27 @@
 <section>
 
-    <app-top-bar for="S" type="add"></app-top-bar>
+  <app-top-bar for="S" type="add"></app-top-bar>
 
-    <form [formGroup]="societeForm" class="grid grid-cols-1 gap-9 sm:grid-cols-2 md:grid-cols-3" >
+  <form [formGroup]="societeForm" class="grid grid-cols-1 gap-9 sm:grid-cols-2 md:grid-cols-3" >
 
         <!-- Informations column -->
 
-        <div class="flex flex-col gap-6">
+    <div class="flex flex-col gap-6">
+       <div class="flex flex-col gap-6 p-3 ring-1 ring-gray-3 rounded-md relative">
             <div>
-                <span class="secondary-title">{{'FORM.TITLE.INF' | translate}}</span>
+                <span class="span-title">{{'FORM.TITLE.INF' | translate}}</span>
             </div>
             <div class="flex flex-col gap-6 ">
+              <div class="ml-3 flex items-center gap-1">
+              <input
+                type="checkbox"
+                class="w-4 h-4 accent-black-1 cursor-pointer"
+                formControlName="prospect"
+              />
+              <label class="py-3 px-4 text-sm text-gray-2">{{
+                "FORM.INPUT.PR" | translate
+              }}</label>
+            </div>
                 <input type="text" placeholder="{{'FORM.INPUT.NS' | translate}} *" class="common-input"
                     formControlName="name" required>
                 <input type="text" placeholder="{{'FORM.INPUT.NTVA' | translate}}" class="common-input"
@@ -21,17 +32,77 @@
                     formControlName="codeNaf">
                 <input type="text" placeholder="{{'FORM.INPUT.SI' | translate}} " class="common-input"
                     formControlName="website">
+
+
+                <div class="relative">
+                  <ng-select class="custom-select-gray text-xs" placeholder="{{'FORM.INPUT.SE' | translate}} " [items]="secteurList" bindLabel="name" formControlName="secteur">
+
+                  <ng-template ng-option-tmp let-item="item">
+                    <div class="flex gap-2 items-center">
+                        <span>{{item.name}}</span>
+                    </div>
+                  </ng-template>
+
+                  </ng-select>
+                </div>
+
                 <ng-select class="custom-select-gray" placeholder="{{'FORM.INPUT.LANG' | translate}} *" [items]="languages"
-                    formControlName="language">
-                </ng-select>
+                formControlName="language">
+            </ng-select>
 
             </div>
         </div>
+         <!-- Social -->
+         <div class="flex flex-col gap-6 p-3 ring-1 ring-gray-3 rounded-md relative h-fit">
+          <div>
+            <span class="span-title">{{ "FORM.TITLE.SC" | translate }}</span>
+          </div>
+          <ng-container>
+            <div class="flex">
+              <!-- <span class="bg-gray-1 rounded-l-full px-2 flex items-center">
+                <svg-icon name="twitter" svgClass="w-6"></svg-icon>
+              </span> -->
+              <input type="text"
+                placeholder="{{ 'FORM.INPUT.TWT' | translate }}"
+                class="common-input"
+                formControlName="twitter"
+              />
+            </div>
+            <div class="flex">
+              <!-- <span class="bg-gray-1 rounded-l-full px-2 flex items-center">
+                <svg-icon name="facebook" svgClass="w-6"></svg-icon>
+              </span> -->
+              <input
+                type="text"
+                placeholder="{{ 'FORM.INPUT.FB' | translate }}"
+                class="common-input"
+                formControlName="facebook"
+              />
+            </div>
+
+            <div class="flex">
+              <!-- <span class="bg-gray-1 rounded-l-full px-2 flex items-center">
+                <svg-icon name="facebook" svgClass="w-6"></svg-icon>
+              </span> -->
+              <input
+                type="text"
+                placeholder="{{ 'FORM.INPUT.LI' | translate }}"
+                class="common-input"
+                formControlName="linkedin"
+              />
+            </div>
+          </ng-container>
+
+       </div>
+
+    </div>
+
+
 
         <!-- Coordonnées du client column -->
-        <div class="flex flex-col gap-6">
+    <div class="flex flex-col gap-6 px-3 py-6  ring-1 ring-gray-3 rounded-md relative h-fit ">
             <div>
-                <span class="secondary-title">{{'FORM.TITLE.CC' | translate}}</span>
+                <span class="span-title">{{'FORM.TITLE.CS' | translate}}</span>
             </div>
 
             <!-- address form  -->
@@ -41,36 +112,61 @@
             <app-phone-form for="S"></app-phone-form>
 
 
-        </div>
+    </div>
 
+        <div class="flex flex-col gap-11 relative ">
 
-
-        <!-- client and Mots clés column -->
-
-        <div class="flex flex-col gap-11 relative">
-
-            <!-- select client form -->
-
-            <app-select-client-form for="S"></app-select-client-form>
-
+          <div class="flex flex-col gap-6 px-3 py-6 ring-1 ring-gray-3 rounded-md relative h-fit" >
             <!-- Mots clés Form -->
 
-            <app-key-word-form for="S"></app-key-word-form>
+             <app-key-word-form for="S"></app-key-word-form>
 
-            <div class="flex flex-col gap-6 mt-10 ">
-                <div class="grid grid-cols-3 gap-5 absolute bottom-0 w-full">
-                    <button class="common-btn-black col-span-2 " [disabled]="societeForm.invalid" appDebounceClick
-                        (debounceClick)="onSubmit()">
-                        <ng-container *ngIf="isAddMode  else editButton">{{'FORM.BUTTON.C' | translate}}</ng-container>
-                        <ng-template #editButton>{{'FORM.BUTTON.E' | translate}}</ng-template>
-                    </button>
-                    <button #add class="common-btn-gray" routerLink="{{navigate.f_societePath}}">{{'FORM.BUTTON.A' | translate}}</button>
-                </div>
-            </div>
+             <!-- Note area -->
+             <div class="flex flex-col gap-6">
+              <div>
+                  <span class="secondary-title">{{'FORM.TITLE.N' | translate}}</span>
+              </div>
+              <textarea class="common-textarea resize-none " placeholder="{{'FORM.INPUT.N' | translate}}" rows="6" formControlName="note">
+              </textarea>
+             </div>
+          </div>
+               <!-- client and Mots clés column -->
+          <div class="flex flex-col gap-6 px-3 py-6 ring-1 ring-gray-3 rounded-md relative h-fit " >
 
+              <div>
+                  <span class="span-title">{{'FORM.TITLE.OTH' | translate}}</span>
+              </div>
+                  <!-- select client form -->
+
+              <app-select-client-form for="S"></app-select-client-form>
+
+              <div class="flex flex-col gap-6">
+                  <div>
+                      <span class="secondary-title">{{ "FORM.TITLE.TS" | translate }}</span>
+                  </div>
+                  <div class="relative">
+                      <ng-select [items]="types" bindValue="value" class="custom-select-gray w-full text-sm"
+                      placeholder="{{'FORM.INPUT.TS'  | translate}}" formControlName="societeType">
+                      </ng-select>
+                 </div>
+              </div>
+
+
+
+          </div>
+         <div class="grid grid-cols-3 gap-5 absolute bottom-0 w-full  ">
+          <button class="common-btn-black col-span-2 " [disabled]="societeForm.invalid" appDebounceClick
+              (debounceClick)="onSubmit()">
+              <ng-container *ngIf="isAddMode  else editButton">{{'FORM.BUTTON.C' | translate}}</ng-container>
+              <ng-template #editButton>{{'FORM.BUTTON.E' | translate}}</ng-template>
+          </button>
+          <button #add class="common-btn-gray" routerLink="/clients">{{'FORM.BUTTON.A' | translate}}</button>
+      </div>
 
         </div>
 
-    </form>
+
+
+ </form>
 
 </section>

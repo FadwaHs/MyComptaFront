@@ -35,6 +35,7 @@
     "TITLE": {
       "INF": "Informations",
       "CC": "Coordonnées du client",
+      "CS": "Coordonnées de la société",
       "C": "Clients",
       "MC": "Mots clés",
       "A": "Activités",
@@ -53,7 +54,13 @@
       "DP" :"Département",
       "EM" :"Employés",
       "Mnt" : "Montant",
-      "Dv":"Devis"
+      "Dv":"Devis",
+      "SC" : "Social",
+      "DC": "Données Comptables",
+      "TC" : "Type de client",
+      "TS" : "Type de societe",
+      "OTH" :"Autres"
+
 
     },
     "INPUT": {
@@ -129,7 +136,16 @@
         }
       },
       "NDP" :"Nom du département",
-      "DD" :"Désignation"
+      "DD" :"Désignation",
+      "RF" :"Référence",
+      "TWT" :"Twitter",
+      "FB" :"Facebook",
+      "LI" :"LinkedIN",
+      "CT" : "Compte tiers",
+      "PR" : "Prospect",
+      "TC" :"Type de client",
+      "TS" : "Type de societe",
+      "SE" :"Secteur d'activité"
     },
     "SELECT":{
       "ESPS" :{

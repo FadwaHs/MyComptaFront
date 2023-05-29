@@ -1,3 +1,4 @@
+import { SecteurService } from './../../../http/secteur.service';
 import { NavigateService } from 'src/app/shared/services/navigate.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -8,6 +9,12 @@ import { KeyWordFormComponent } from 'src/app/shared/components/key-word-form/ke
 import { SelectClientFormComponent } from 'src/app/shared/components/select-client-form/select-client-form.component';
 import { Societe } from '../../../models/societe';
 import { SocieteService } from '../../../http/societe.service';
+import { CompteTiers } from '../../../models/compte_tiers';
+import { ClientType } from '../../../enums/client-type';
+import { Social } from '../../../models/social';
+import { CompteTiersService } from '../../../http/compteTiers.service';
+import { SocialService } from '../../../http/social.service';
+import { Secteur } from '../../../models/secteur';
 
 @Component({
   selector: 'app-add-edit-societe',
@@ -35,16 +42,26 @@ export class AddEditSocieteComponent implements OnInit {
   societeForm: FormGroup;
   isAddMode: boolean = true;
 
+  //++
+  types : string[] = Object.values(ClientType);
+  socialList :Array<Social>
+  secteurList :Secteur[]
+
   constructor(
     private formBuilder: FormBuilder,
     private societeService: SocieteService,
     private router: Router,
     private route: ActivatedRoute,
-    protected navigate : NavigateService
+    protected navigate : NavigateService,
+    //++
+    private compteTiersService:CompteTiersService,
+    private socialService :SocialService,
+    private secteurService:SecteurService,
   ) {}
 
   async ngOnInit(): Promise<void> {
     this.initializeForms();
+    this.initSecteurs();
 
     if (this.route.snapshot.url[0].path == 'edit') {
       this.isAddMode = false;
@@ -62,6 +79,7 @@ export class AddEditSocieteComponent implements OnInit {
         next: (data) => (this.societe = data),
         error: (err) => console.log(err),
         complete: () => {
+          this.socialList = this.societe.socialList
           this.checkSlug();
           this.setFormValues();
           this.setOtherForms()
@@ -86,10 +104,26 @@ export class AddEditSocieteComponent implements OnInit {
       siren: null,
       codeNaf: null,
       website: null,
+      prospect:false,
       language: [this.defaultLang, Validators.required],
+      twitter:null,
+      facebook:null,
+      linkedin:null,
+      secteur:null,
+      societeType:null,
+      note:null
     });
   }
 
+  initSecteurs(){
+    this.secteurService.getAllSecteurs().subscribe({
+      next: (data) => (this.secteurList= data),
+      error: (err) => console.log(err),
+      complete: () => {
+      },
+    });
+
+  }
   setOtherForms(){
     if(this.societe.address) this.childAddress.setFormValues(this.societe.address)
     if(this.societe.motCleList.length) this.childKeyWord.setFormValues(this.societe.motCleList)
@@ -117,6 +151,7 @@ export class AddEditSocieteComponent implements OnInit {
       next: (data) => (this.societe = data),
       error: (e) => console.log(e),
       complete: () => {
+        this.setSoial()
         this.submitOtherForms();
 
       },
@@ -128,8 +163,22 @@ export class AddEditSocieteComponent implements OnInit {
       next: (data) => (this.societe = data),
       error: (e) => console.log(e),
       complete: () => {
+        this.updateSocialist();
         this.submitOtherForms();
       },
+    });
+  }
+
+  updateSocialist()
+  {
+    this.socialList.forEach((social,index) =>
+    {
+      social.societe = this.societe
+      this.socialService.updateSocialById(social.id,social).subscribe({
+        next:(res) =>{
+          this.socialList[index]=res
+        },
+      })
     });
   }
 
@@ -144,12 +193,58 @@ export class AddEditSocieteComponent implements OnInit {
   }
 
   getFormValues() {
+
+
     this.societe.name = this.societeForm.controls['name'].value;
     this.societe.ntva = this.societeForm.controls['ntva'].value;
     this.societe.siren = this.societeForm.controls['siren'].value;
     this.societe.codeNaf = this.societeForm.controls['codeNaf'].value;
     this.societe.website = this.societeForm.controls['website'].value;
     this.societe.language = this.societeForm.controls['language'].value;
+
+    //++
+    this.societe.prospect =this.societeForm.controls['prospect'].value;
+    this.societe.secteur =this.societeForm.controls['secteur'].value as Secteur;
+    this.societe.societeType= this.societeForm.controls['societeType'].value;
+    this.societe.note =this.societeForm.controls['note'].value;
+
+
+
+    if(this.isAddMode)
+    {
+      var twitterSocial =new Social()
+      var facebookSocial =new Social()
+      var linkedinSocial =new Social()
+
+     twitterSocial.name ='Twitter'
+     twitterSocial.link =this.societeForm.controls['twitter'].value
+     facebookSocial.name ='Facebook'
+     facebookSocial.link =this.societeForm.controls['facebook'].value
+     linkedinSocial.name ='LinkedIN'
+     linkedinSocial.link =this.societeForm.controls['linkedin'].value
+     this.socialList =new Array<Social>()
+
+       this.socialList.push(twitterSocial)
+       this.socialList.push(facebookSocial)
+       this.socialList.push(linkedinSocial)
+    }
+    else
+    {
+      this.socialList.forEach(social => {
+       if(social.id)
+        {
+         if(social.name == 'Twitter')
+            social.link = this.societeForm.controls['twitter'].value
+
+         if(social.name == 'Facebook')
+            social.link = this.societeForm.controls['facebook'].value
+
+         if(social.name == 'LinkedIN')
+           social.link = this.societeForm.controls['linkedin'].value
+        }
+      });
+    }
+
   }
 
   setFormValues() {
@@ -160,6 +255,34 @@ export class AddEditSocieteComponent implements OnInit {
       codeNaf: this.societe.codeNaf,
       website: this.societe.website,
       language: this.societe.language,
+
+    //++
+    prospect:this.societe.prospect,
+    societeType:this.societe.societeType,
+    secteur:this.societe.secteur,
+    note:this.societe.note
+
+  });
+    this.societeForm.controls['twitter'].setValue(this.societe.socialList[0].link)
+    this.societeForm.controls['facebook'].setValue(this.societe.socialList[1].link)
+    this.societeForm.controls['linkedin'].setValue(this.societe.socialList[2].link)
+  }
+//++
+  setSoial(){
+
+   if(this.socialList)
+    this.socialList.forEach( (social) => {
+
+      if(social.link){
+        social.societe =this.societe;
+        this.socialService.addSocial(social).subscribe({
+          next: (data) => (social = data),
+          error: (e) => console.log(e),
+          complete: () => {
+        },
+        })
+      }
     });
+
   }
 }

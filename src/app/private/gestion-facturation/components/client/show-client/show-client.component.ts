@@ -5,6 +5,7 @@ import { ClientService } from '../../../http/client.service';
 import { Client } from '../../../models/client';
 import { Devis } from '../../../models/devis';
 import { Opportunite } from '../../../models/opportunite';
+import { Facture } from '../../../models/facture';
 
 
 @Component({
@@ -18,6 +19,8 @@ export class ShowClientComponent implements OnInit {
   client: Client = new Client();
   devisList : Devis[] =[]
   opportuniteList :Opportunite[] =[]
+  //++
+  factureList :Facture[]=[]
 
   constructor(
     private route: ActivatedRoute,
@@ -32,6 +35,7 @@ export class ShowClientComponent implements OnInit {
     this.navigate.toShowPath('C',this.client.societe.id,this.client.societe.slug)
     this.getDevisForClient()
     this.getOpportunitForClient()
+    this.getFactureForClient()
   }
 
   getOpportunitForClient() {
@@ -53,6 +57,20 @@ export class ShowClientComponent implements OnInit {
     this.clientService.getDevisForClient(this.id).subscribe({
       next: (data) => (this.devisList = data),
       error: (e) => console.log(e),
+    });
+
+  }
+  //++
+  getFactureForClient() {
+    [this.id, this.slug] =  this.route.snapshot.params['id-slug'].split(
+      '-'
+    );
+    this.id = +this.id;
+    this.clientService.getFactureForClient(this.id).subscribe({
+      next: (data) => (this.factureList = data),
+      error: (e) => console.log(e),
+      complete: () => {
+      },
     });
 
   }

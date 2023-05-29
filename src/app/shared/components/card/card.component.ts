@@ -146,6 +146,9 @@ export class CardComponent implements OnInit {
     this.card.mainIcon = 'societes';
     this.card.primaryTitle1 = societe.name
 
+     //++
+     this.card.paragraph = societe.note
+
     if(societe.clientList && societe.clientList.length)
     this.card.secondaryTitle = societe.clientList.length +' '+ await firstValueFrom(this.translate.get('TITLE.C')).catch(console.log)
     else
