@@ -22,7 +22,7 @@ export class FacturesComponent implements OnInit {
   currentIndex = -1;
   data :string = '';
   page :number = 1;
-  filterStatus :FactureSimpleStatus ;
+  filterStatus :any ;
   count :number = 0;
   pageSize :number = 8;
 
@@ -72,7 +72,7 @@ async getFacture() {
     .catch(console.log)
   }
 
-  getRequestParams(filterStatus : FactureSimpleStatus,searchData: string, page: number, pageSize: number): any {
+  getRequestParams(filterStatus : any,searchData: string, page: number, pageSize: number): any {
     let params: any = {};
 
     if(filterStatus){

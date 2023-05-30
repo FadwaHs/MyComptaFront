@@ -14,6 +14,7 @@ import { ArticlePanelComponent } from 'src/app/shared/components/article-panel/a
 import { KeyWordFormComponent } from 'src/app/shared/components/key-word-form/key-word-form.component';
 import { ReglementFormComponent } from 'src/app/shared/components/reglement-form/reglement-form.component';
 import { TextFieldFormComponent } from 'src/app/shared/components/text-field-form/text-field-form.component';
+import { DetailsService } from 'src/app/shared/services/details.service';
 import { NavigateService } from 'src/app/shared/services/navigate.service';
 
 @Component({
@@ -45,7 +46,9 @@ export class AddEditAcompteComponent  implements OnInit {
   selectedDevis: Devis;
   items: Devis[];
   items_compte : CompteBanc[];
-  montantType =['%','MAD'];
+  // montantType =['%','MAD'];
+
+  montantType: [string, string]
   isProvisional : boolean = true;
   factureAcompte : FactureAcompte = new FactureAcompte();
 
@@ -57,7 +60,11 @@ constructor(
   private formBuilder: FormBuilder,
   private devisService : DevisService,
   private  compteBcService : CompteBcService,
-  private factureAcompteService : FactureAcompteService){
+  private factureAcompteService : FactureAcompteService,
+
+  //++
+  private details :DetailsService
+  ){
 
 }
 
@@ -74,7 +81,15 @@ ngOnInit(): void {
   }
 
 }
+  initMontantType() {
+    var type = this.details.getCurrencySymbol(this.selectedDevis.devise)
+    this.montantType=['%',type]
 
+  }
+
+  onDevisSelected() {
+    this.initMontantType();
+  }
 
 initializeForms() {
 
@@ -218,8 +233,17 @@ async submitOtherForms() {
     if(this.acoumpteForm.get('tva')?.enable)
     {
       var tva = this.acoumpteForm.controls['tva'].value;
+      //++
+      if(this.factureAcompte.monIsPercentage){
       this.factureAcompte.totalHT = (this.acoumpteForm.controls['devisSigned'].value as Devis).totalHT * (this.factureAcompte.montantPayed /100);
       this.factureAcompte.totalTTC = this.factureAcompte.totalHT * (1+(tva/100));
+      }
+      else {
+        this.factureAcompte.totalTTC = this.acoumpteForm.controls['montant'].value
+        this.factureAcompte.totalHT = this.factureAcompte.totalTTC  / (1+(tva /100));
+
+      }
+
 
     }else if (this.acoumpteForm.get('tva')?.disable)
     {
@@ -236,7 +260,9 @@ async submitOtherForms() {
     this.acoumpteForm.controls['devisSigned'].setValue(this.factureAcompte.devis)
     this.acoumpteForm.controls['montant'].setValue(this.factureAcompte.montantPayed)
     if( this.factureAcompte.monIsPercentage = true ) this.acoumpteForm.controls['montantType'].setValue('%')
-    else this.acoumpteForm.controls['montantType'].setValue('MAD')
+
+    if( this.factureAcompte.monIsPercentage = false ) this.acoumpteForm.controls['montantType'].setValue(this.montantType[1])
+    // else this.acoumpteForm.controls['montantType'].setValue(this.factureAcompte.devis.devise)
     this.childTextField.setTextForm(this.factureAcompte)
     this.childReglementForm.setReglementForm(this.factureAcompte)
     this.acoumpteForm.controls['rib'].setValue(this.factureAcompte.compteBanc)

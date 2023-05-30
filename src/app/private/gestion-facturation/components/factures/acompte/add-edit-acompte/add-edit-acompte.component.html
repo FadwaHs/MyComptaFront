@@ -12,7 +12,7 @@
         </div>
 
         <ng-select class="custom-select-gray  text-sm"  placeholder="{{'FORM.INPUT.SDv' | translate}}" [items]="items" bindLabel="code" formControlName="devisSigned"
-        [(ngModel)]="selectedDevis">
+        [(ngModel)]="selectedDevis" (ngModelChange)="onDevisSelected()" >
 
          <ng-template ng-option-tmp let-item="item" >
              <div class="flex gap-2 items-center">

@@ -365,7 +365,20 @@
       "THT":"Total HT",
       "IN" :"Intérêts de retard :",
       "TTC" :"Total TTC",
-      "RG" :"Remise Générale"
+      "RG" :"Remise Générale",
+
+      "D" :"Devis lié :",
+      "M" :{
+
+        "AD" :"Acompte de ",
+        "PD"  :"pour le devis ",
+        "D" : "de ",
+        "HT" :"HT"
+
+      }
+
+
+
 
     },
     "SETTINGS" :{

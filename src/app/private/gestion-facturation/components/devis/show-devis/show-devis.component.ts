@@ -25,7 +25,6 @@ export class ShowDevisComponent implements OnInit {
   slug: string;
   devis: Devis = new Devis();
   currentStatus :string
-  // translate: any;
   factureAcomteList: FactureAcompte[];
   items :any
 

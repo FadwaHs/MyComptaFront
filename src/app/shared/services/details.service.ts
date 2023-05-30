@@ -110,6 +110,26 @@ import { FactureSimple } from "src/app/private/gestion-facturation/models/factur
 
     }
 
+    format2Number(num:number) :string{
+      var dicimal ;
+      dicimal =this.decimalPipe.transform(num,'1.0-0' )
+      return dicimal ?dicimal :''
+
+    }
+
+    calulTVAPer(facture :Facture):number {
+      return  (facture.totalTTC-facture.totalHT)* (100/facture.totalHT)
+      }
+
+    calculMontant(facture:FactureAcompte,montantT:number ):string{
+      if(facture.monIsPercentage)
+        return this.format2Number(facture.montantPayed) +"%"
+      return this.format2Number((facture.montantPayed *100)/montantT) +'%'
+    }
+
+
+
+   }
 
 
 
@@ -123,4 +143,3 @@ import { FactureSimple } from "src/app/private/gestion-facturation/models/factur
 
 
 
-  }

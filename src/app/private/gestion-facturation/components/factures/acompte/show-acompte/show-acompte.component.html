@@ -1,1 +1,282 @@
-<p>show-acompte works!</p>
+<app-top-bar for="FA" type="show" sizeMenu="sm" [data]="this.facture" ></app-top-bar>
+<section class="grid grid-cols-2 md:grid-cols-2 gap-5">
+	<!-- Informations column -->
+
+	<div class="grid grid-col gap-2 text-sm">
+		<div>
+			<span class="secondary-title text-base">{{'FORM.TITLE.INF'|translate}}</span>
+		</div>
+		<div class="flex flex-col space-y-4 " >
+			<div class="flex flex-col space-y-3  " *ngIf="facture.status" >
+				<div class=" grid grid-cols-4 ">
+					<span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.ST'| translate}} </span>
+                    <span >{{this.details.transStatus(facture.status)}}</span>
+                </div>
+				<hr>
+			</div>
+      		<div class="flex flex-col space-y-3 " >
+				<div class=" grid grid-cols-4 gap-4">
+					<span class="text-gray-2  col-span-2">{{'DROP_MENU.SHOW.CLE'| translate}} </span>
+          			<span >{{this.details.formatDate(facture.date)}}</span>
+				</div>
+				<hr>
+			</div>
+
+			<div class="flex flex-col space-y-3 " >
+				<div class=" grid grid-cols-4 gap-4">
+					<span class="text-gray-2  col-span-2">{{'DROP_MENU.SHOW.PDF'| translate}} </span>
+          <span >{{this.details.formatDate(facture.date)}}</span>
+				</div>
+				<hr>
+			</div>
+			<div class="flex flex-col space-y-3 " *ngIf="facture.date_finalisation">
+				<div class=" grid grid-cols-4 gap-4">
+					<span class="text-gray-2  col-span-2">{{'DROP_MENU.SHOW.FINE'| translate}} </span>
+          <span >{{this.details.formatDate(facture.date_finalisation)}}</span>
+				</div>
+				<hr>
+			</div>
+			<div class="flex flex-col space-y-3 " *ngIf="facture.date_paiement">
+				<div class=" grid grid-cols-4 gap-4">
+				<span class="text-gray-2  col-span-2">{{'DROP_MENU.SHOW.PAY'| translate}} </span>
+          <span >{{this.details.formatDate(facture.date_paiement)}}</span>
+				</div>
+				<hr>
+			</div>
+
+			<div class="flex flex-col space-y-3 " *ngIf="facture.motCleList" >
+				<div class=" grid grid-cols-4 gap-4">
+				<span class="text-gray-2  col-span-2">{{'DROP_MENU.SHOW.MC'| translate}} </span>
+          <div class="flex space-x-1">
+            <span class="rounded-full-black" *ngFor="let word of facture.motCleList| slice:0:3 ">{{word.mot}}</span>
+            <span class="rounded-full-black" *ngIf="facture.motCleList.length > 3">+{{ facture.motCleList.length - 3 }}</span>
+          </div>
+				</div>
+				<hr>
+			</div>
+		</div>
+
+	</div>
+
+  <div class="flex flex-col gap-6 text-sm ">
+		<div>
+			<span class="secondary-title text-base">{{'DROP_MENU.SHOW.D'|translate}}</span>
+		</div>
+    <span class="mt-6"  >{{'DATA_NAME.D' | translate}} : {{facture.devis.code}}</span>
+     <div style="margin-top: 30px; margin-bottom: 30px; " >
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
+          <app-card  for="D" [data]="facture.devis" ></app-card>
+        </div>
+    </div>
+
+	</div>
+
+  	<!-- Destinataire -->
+
+	<div class="grid grid-col gap-6 text-sm">
+		<div>
+			<span class="secondary-title text-base">{{'DROP_MENU.SHOW.DE'|translate}}</span>
+		</div>
+	<div class="flex flex-col space-y-4 " >
+			<div class="flex flex-col space-y-3  " *ngIf="this.devis.client">
+		      <div class=" grid grid-cols-4 "  >
+				<span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.DE'| translate}} </span>
+				<span >{{this.devis.client.firstName}} {{ this.devis.client.lastName}}</span>
+             </div>
+		 <hr>
+	  </div>
+	  <div class="flex flex-col space-y-3  " *ngIf= "this.devis.societe">
+		  <div class=" grid grid-cols-4 "  >
+			 <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.DE'| translate}} </span>
+             <span >{{this.devis.societe.name}}</span>
+         </div>
+		 <hr>
+	  </div>
+
+     <!--Num tel -->
+
+
+     <div class="flex flex-col space-y-3  " *ngIf= "facture.devis.societe" >
+		  <div class=" grid grid-cols-4 "  >
+			    <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.NUE'| translate}}  </span>
+                <div *ngFor=" let phone of this.devis.societe?.phoneList" >
+						    <span>{{phone.phoneNumber}}</span>
+			   </div>
+          </div>
+		  <hr>
+	  </div>
+     <!--Adresse-->
+
+     <div class="flex flex-col space-y-3  " *ngIf= "!this.societe && !facture.devis.societe ">
+      <div class=" grid grid-cols-4 gap-4">
+        <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.ADD'| translate}} </span>
+        <div class="col-span-2 flex flex-col">
+          <span *ngIf= "facture.devis.client?.address?.address">{{facture.devis.client?.address?.address}}</span>
+          <ng-container *ngIf= "facture.devis.client?.address?.complementAddress && facture.devis.client?.address?.complementAddress?.length">
+            <div  *ngFor= "let complementAddress of facture.devis.client?.address?.complementAddress">
+              {{complementAddress}}
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      <hr>
+  </div>
+
+  <div class="flex flex-col space-y-3  " *ngIf= "this.societe">
+    <div class=" grid grid-cols-4 gap-4">
+      <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.ADD'| translate}} </span>
+      <div class="col-span-2 flex flex-col">
+        <span *ngIf= "societe?.address">{{societe.address.address}}</span>
+        <ng-container *ngIf= "societe?.address?.complementAddress && facture.devis.client?.societe?.address?.complementAddress?.length">
+          <div *ngFor="let complementAddress of facture.devis.client?.societe?.address?.complementAddress" >
+            {{complementAddress}}
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <hr>
+</div>
+
+<div class="flex flex-col space-y-3  " *ngIf= "facture.devis.societe">
+  <div class=" grid grid-cols-4 gap-4">
+    <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.ADD'| translate}} </span>
+    <div class="col-span-2 flex flex-col">
+      <span >{{facture.devis.societe.address.address}}</span>
+      <ng-container *ngIf= "facture.devis.societe?.address?.complementAddress && facture.devis.societe?.address?.complementAddress?.length">
+        <div *ngFor= "let complementAddress of facture.devis.societe?.address?.complementAddress" >
+          {{complementAddress}}
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <hr>
+</div>
+
+ <!--Pays -->
+
+ <div class="flex flex-col space-y-3" *ngIf= "this.societe" >
+  <div class=" grid grid-cols-4 gap-4 " >
+    <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.PA' | translate}} </span>
+    <span >{{societe.address.country}} </span>
+  </div>
+  <hr>
+</div>
+
+<div class="flex flex-col space-y-3" *ngIf= "facture.devis.client && !this.societe ">
+  <div class=" grid grid-cols-4 gap-4 " >
+  <span class="text-gray-2 col-span-2" >{{'DROP_MENU.SHOW.PA' | translate}} </span>
+  <span >{{facture.devis.client.address.country}} </span>
+</div>
+<hr>
+</div>
+
+<div class="flex flex-col space-y-3" *ngIf= "facture.devis.societe ">
+  <div class=" grid grid-cols-4 gap-4 " >
+  <span class="text-gray-2 col-span-2" >{{'DROP_MENU.SHOW.PA' | translate}} </span>
+  <span >{{facture.devis.societe.address.country}} </span>
+</div>
+<hr>
+</div>
+
+<!--email-->
+
+<div class="flex flex-col space-y-3  " *ngIf= "facture.devis.societe">
+  <div class=" grid grid-cols-4 "  >
+  <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.SI'| translate}} </span>
+        <span >{{facture.devis.societe.website}}</span>
+    </div>
+<hr>
+</div>
+
+<div class="flex flex-col space-y-3  " *ngIf= "facture.devis.client ">
+  <div class=" grid grid-cols-4 "  >
+  <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.EM'| translate}} </span>
+        <span >{{facture.devis.client.email}}</span>
+    </div>
+    <hr>
+</div>
+
+
+
+
+	</div>
+
+	</div>
+
+  <div class="flex flex-col gap-6 text-sm ">
+		<div>
+			<span class="secondary-title text-base">{{'DROP_MENU.SHOW.CON'|translate}}</span>
+		</div>
+
+    <div class="flex flex-col space-y-4 " >
+			<div class="flex flex-col space-y-3  ">
+		      <div class=" grid grid-cols-4 "  >
+				<span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.CONR'| translate}} </span>
+        <span>{{facture.conditionReglement?.name }}</span>
+      </div>
+		 <hr >
+	  </div>
+	  <div class="flex flex-col space-y-3  " >
+		  <div class=" grid grid-cols-4 "  >
+			 <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.MOR'| translate}} </span>
+             <span >{{facture.modeReglement?.name}}</span>
+         </div>
+		 <hr >
+	  </div>
+    <div class="flex flex-col space-y-3  " >
+		  <div class=" grid grid-cols-4 "  >
+			 <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.IN'| translate}} </span>
+             <span class="col-span-2">{{facture.interet?.name}}</span>
+         </div>
+		 <hr >
+	  </div>
+
+	</div>
+
+	</div>
+
+</section>
+
+
+<div class="flex flex-col gap-6 text-sm mt-5">
+  <div>
+    <span class="secondary-title text-base" >{{'DROP_MENU.SHOW.DET' | translate}}</span>
+  </div>
+
+  <div class="grid grid-col gap-6 text-sm ">
+
+    <table >
+      <tr >
+        <th >{{'DROP_MENU.SHOW.DEC' | translate}}</th>
+        <td class="font-bold ">{{'DROP_MENU.SHOW.THT' | translate}}</td>
+        <td >{{'DROP_MENU.SHOW.TVA' | translate}}</td>
+        <td class="font-bold">{{'DROP_MENU.SHOW.TTC' | translate}}</td>
+      </tr>
+
+      <tr>
+        <td class="text-gray-2">
+          {{'DROP_MENU.SHOW.M.AD' | translate}} {{this.details.calculMontant(facture,devis.totalTTC)}}
+          {{'DROP_MENU.SHOW.M.PD' | translate}} {{facture.devis.code}}
+          {{'DROP_MENU.SHOW.M.D' | translate}} {{this.details.formatNumber(facture.devis.totalHT)}} {{this.details.getCurrencySymbol(facture.devis.devise)}}
+
+
+
+        </td>
+        <td class="text-gray-2">{{this.details.formatNumber(facture.totalHT)}} {{this.details.getCurrencySymbol(facture.devis.devise)}}</td>
+        <td class="text-gray-2"> {{this.details.formatNumber(this.details.calulTVAPer(facture))}} %</td>
+        <td class="text-gray-2" >{{this.details.formatNumber(facture.totalTTC)}} {{this.details.getCurrencySymbol(facture.devis.devise)}}</td>
+      </tr>
+
+    </table>
+
+
+
+
+
+
+
+	</div>
+
+
+
+</div>

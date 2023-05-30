@@ -15,6 +15,8 @@ import { Social } from '../../../models/social';
 import { CompteTiersService } from '../../../http/compteTiers.service';
 import { SocialService } from '../../../http/social.service';
 import { Secteur } from '../../../models/secteur';
+import { switchMap } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-add-edit-societe',
@@ -69,26 +71,48 @@ export class AddEditSocieteComponent implements OnInit {
     }
   }
 
+  // async verifyRouteAndGetSociete() {
+  //   [this.id, this.slug] = await this.route.snapshot.params['id-slug'].split(
+  //     '-'
+  //   );
+  //   this.id = +this.id;
+  //   if (this.id) {
+  //     this.societeService.getSocieteById(this.id).subscribe({
+  //       next: (data) => (this.societe = data),
+  //       error: (err) => console.log(err),
+  //       complete: () => {
+  //         this.socialList = this.societe.socialList
+  //         this.checkSlug();
+  //         this.setFormValues();
+  //         this.setOtherForms()
+  //       },
+  //     });
+  //   } else {
+  //     this.router.navigateByUrl(this.navigate.f_societePath);
+  //   }
+  // }
+
+
   async verifyRouteAndGetSociete() {
-    [this.id, this.slug] = await this.route.snapshot.params['id-slug'].split(
-      '-'
-    );
+    [this.id, this.slug] = await this.route.snapshot.params['id-slug'].split('-');
     this.id = +this.id;
     if (this.id) {
       this.societeService.getSocieteById(this.id).subscribe({
-        next: (data) => (this.societe = data),
-        error: (err) => console.log(err),
-        complete: () => {
-          this.socialList = this.societe.socialList
+        next: (data) => {
+          this.societe = data;
+          this.socialList = this.societe.socialList;
           this.checkSlug();
           this.setFormValues();
-          this.setOtherForms()
+          this.setOtherForms();
         },
+        error: (err) => console.log(err),
       });
+
     } else {
       this.router.navigateByUrl(this.navigate.f_societePath);
     }
   }
+
 
   checkSlug() {
     if (this.societe.slug === this.slug) {
@@ -259,13 +283,20 @@ export class AddEditSocieteComponent implements OnInit {
     //++
     prospect:this.societe.prospect,
     societeType:this.societe.societeType,
-    secteur:this.societe.secteur,
+    // secteur:this.societe.secteur,
     note:this.societe.note
 
   });
+   //++
+    this.societeForm.controls['secteur'].setValue(this.societe.secteur.name);
+
     this.societeForm.controls['twitter'].setValue(this.societe.socialList[0].link)
     this.societeForm.controls['facebook'].setValue(this.societe.socialList[1].link)
     this.societeForm.controls['linkedin'].setValue(this.societe.socialList[2].link)
+  }
+
+  findSecteurById(id: number): Secteur | undefined {
+    return this.secteurList.find(secteur => secteur.id === id);
   }
 //++
   setSoial(){
