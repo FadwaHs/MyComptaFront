@@ -7,6 +7,7 @@
 
     // START SPANS STYLE
 
+
     .rounded-full-gray{
         @apply p-3 bg-gray-1 rounded-full ;
     }
@@ -36,6 +37,36 @@
     .common-btn-gray{
         @apply bg-gray-1 rounded-full p-2 hover:ring-1 hover:ring-black-1 focus:ring-1 focus:ring-black-1 disabled:opacity-50 disabled:ring-0;
     }
+
+    .common-btn-gray-slider{
+      @apply bg-gray-1  p-2 hover:ring-0 hover:bg-gray-3 ;
+    }
+
+    .common-btn-black-slider{
+      @apply bg-black-1 text-white-1 hover:bg-gray-3  hover:text-black-1 p-2 hover:ring-1 hover:ring-black-1 disabled:opacity-70 disabled:ring-0 disabled:bg-black-1 disabled:text-white-1;
+
+      svg-icon{
+          @apply stroke-white-1;
+      }
+      &:hover  svg-icon{
+          @apply stroke-black-1;
+      }
+  }
+  .common-btn-mobile-menu{
+    @apply bg-white-2 text-black-1 rounded-full ring-1 ring-black-1 p-2 disabled:opacity-70 disabled:ring-0 disabled:bg-white-1 disabled:text-black-1;
+    svg-icon{
+      @apply stroke-black-1;
+  }
+  }
+
+
+  .common-btn-mobile-menu-active{
+    @apply bg-black-1 text-white-1 rounded-full  p-2 disabled:opacity-70 disabled:ring-0 disabled:bg-white-1 disabled:text-black-1;
+    svg-icon{
+      @apply stroke-white-1;
+  }
+  }
+
     .common-btn-gray-active{
         @apply text-white-1 bg-black-1;
         svg-icon{
@@ -43,15 +74,15 @@
         }
     }
     .common-btn-black{
-        @apply bg-black-1 text-white-1 hover:bg-white-1  hover:text-black-1 rounded-full p-2 hover:ring-1 hover:ring-black-1 disabled:opacity-70 disabled:ring-0 disabled:bg-black-1 disabled:text-white-1;
+      @apply bg-black-1 text-white-1 hover:bg-white-1  hover:text-black-1 rounded-full p-2 hover:ring-1 hover:ring-black-1 disabled:opacity-70 disabled:ring-0 disabled:bg-black-1 disabled:text-white-1;
 
-        svg-icon{
-            @apply stroke-white-1;
-        }
-        &:hover > svg-icon{
-            @apply stroke-black-1;
-        }
-    }
+      svg-icon{
+          @apply stroke-white-1;
+      }
+      &:hover > svg-icon{
+          @apply stroke-black-1;
+      }
+  }
 
     .drop-btn-white{
       @apply bg-white-1 rounded-full p-1 hover:ring-1 hover:ring-black-1 focus:ring-1 focus:ring-black-1;
@@ -149,6 +180,10 @@
     .common-input{
         @apply py-3 px-4 text-sm placeholder-gray-2 bg-gray-1 focus:outline-none rounded-full w-full  ;
     }
+
+    .common-input-social{
+      @apply py-3 px-1 text-sm placeholder-gray-2 bg-gray-1 focus:outline-none rounded-r-full w-full  ;
+  }
     .common-input-gray{
       @apply py-3 px-4 text-sm placeholder-gray-2 bg-gray-1 focus:outline-none rounded-full w-full  ;
     }
@@ -349,4 +384,7 @@
 
 
     // End Table Style
+
+
+
 }

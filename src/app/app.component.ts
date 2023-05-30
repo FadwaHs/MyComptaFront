@@ -42,7 +42,30 @@ const listIconsvg: string[] = [
   'recrute',
   'people',
   'opportunites',
-  'opp'
+  'opp',
+  'facturation',
+  'abonnements',
+  'achats',
+  'arrowleft',
+  'arrowright',
+  'assistante',
+  'banque',
+  'catalog',
+  'comptabilite',
+  'deconnexion',
+  'dropup',
+  'dropdown',
+  'editeur',
+  'exporter',
+  'fichiers',
+  'opportunites',
+  'rapports',
+  'tresorerie',
+  'sidebarEffect',
+  'facebook',
+  'twitter',
+  'linkedin'
+
 ];
 
 @Component({

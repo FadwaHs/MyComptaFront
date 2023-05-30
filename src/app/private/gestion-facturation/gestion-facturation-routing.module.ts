@@ -22,6 +22,11 @@ const routes: Routes = [
       import('./components/client/client.module').then((m) => m.ClientModule),
   },
   {
+    path: 'fournisseurs',
+    loadChildren: ()=>
+    import('./components/fournisseur/fournisseur.module').then((m) => m.FournisseurModule),
+  },
+  {
     path: 'devis',
     loadChildren: () =>
       import('./components/devis/devis.module').then((m) => m.DevisModule),

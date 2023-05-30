@@ -1,4 +1,29 @@
 <section class="flex justify-between mb-5">
+  <ng-container *ngIf="type != 'show'; else show">
+    <span class="primary-title" *ngIf="for == 'C'">{{
+      "TITLE.C" | translate
+    }}</span>
+    <span class="primary-title" *ngIf="for == 'S'">{{
+      "TITLE.S" | translate
+    }}</span>
+    <span class="primary-title" *ngIf="for == 'D'">{{
+      "TITLE.D" | translate
+    }}</span>
+    <span class="primary-title" *ngIf="for == 'F'">{{
+      "TITLE.F" | translate
+    }}</span>
+    <span class="primary-title" *ngIf="for == 'A'">{{
+      "TITLE.A" | translate
+    }}</span>
+    <span class="primary-title" *ngIf="for == 'FA'">{{
+      "TITLE.FA" | translate
+    }}</span>
+    <!--  added this -->
+    <span class="primary-title" *ngIf="for == 'FR'">{{
+      "TITLE.FR" | translate
+    }}</span>
+  </ng-container>
+
 
     <ng-container *ngIf="type != 'show'; else show" >
         <span class="primary-title" *ngIf="for == 'C' " >{{'TITLE.C' | translate}}</span>
@@ -87,16 +112,22 @@
     </ng-container>
 
     <ng-template #show>
+
     <div class="flex gap-4 items-center">
-        <button class="common-btn-gray" routerLink="../..">
-            <svg-icon name="arrowdown"  svgClass="w-5 rotate-90"  ></svg-icon>
-        </button>
-        <div class="flex flex-col">
-            <span class="text-sm font-semibold" *ngIf="showData[0]">{{showData[0]}}</span>
-            <span class="text-xs text-gray-2" *ngIf="showData[1]">{{showData[1]}}</span>
-        </div>
+      <button class="common-btn-gray" routerLink="../..">
+        <svg-icon name="arrowdown" svgClass="w-5 rotate-90"></svg-icon>
+      </button>
+      <div class="flex flex-col">
+        <span class="text-sm font-semibold" *ngIf="showData[0]">{{
+          showData[0]
+        }}</span>
+        <span class="text-xs text-gray-2" *ngIf="showData[1]">{{
+          showData[1]
+        }}</span>
+      </div>
     </div>
-    </ng-template>
+  </ng-template>
+
 
     <div class="flex gap-4">
 
@@ -110,4 +141,14 @@
 
     </div>
 
+
+    <!-- 3dots menu | edit| list | show -->
+    <app-drop-menu
+      [type]="type"
+      [size]="sizeMenu"
+      [for]="for"
+      [data]="data"
+      *ngIf="type !== 'add'"
+    ></app-drop-menu>
+  </div>
 </section>

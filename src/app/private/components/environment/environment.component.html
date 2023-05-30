@@ -1,29 +1,26 @@
 <section>
-    <div class="flex justify-between mb-5">
+  <div class="flex justify-between mb-5">
+    <span class="primary-title">{{ "TITLE.ENV" | translate }}</span>
 
-        <span class="primary-title" >{{'TITLE.ENV' | translate}}</span>
-
-        <div class="flex gap-4">
-
-            <!-- 3dots menu | edit| list | show -->
-            <app-drop-menu-global ></app-drop-menu-global>
-
-
-        </div>
-
+    <div class="flex gap-4">
+      <!-- 3dots menu | edit| list | show -->
+      <app-drop-menu-global></app-drop-menu-global>
     </div>
+  </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 auto-rows-fr p-3"  >
+  <div
+    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 auto-rows-fr p-3"
+  >
+    <app-card-global
+      *ngFor="let card of cards"
+      route="{{ '/environment/' + card.id + '/espaces' }}"
+      [card]="card"
+    ></app-card-global>
+    <!-- <button class="common-btn-black" (click)="openModel()"> test</button> -->
+  </div>
 
-      <app-card-global *ngFor="let card of cards" route="{{'/environment/'+card.id+'/espaces'}}" [card]="card"></app-card-global>
-      <!-- <button class="common-btn-black" (click)="openModel()"> test</button> -->
-    </div>
-
-    <!-- <app-empty-data-message  *ngIf="false" for="ESP" (btnClicked)="openModel()"></app-empty-data-message> -->
-
-
+  <!-- <app-empty-data-message  *ngIf="false" for="ESP" (btnClicked)="openModel()"></app-empty-data-message> -->
 </section>
 
 <app-add-modal></app-add-modal>
-
 

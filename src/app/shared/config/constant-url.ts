@@ -12,6 +12,7 @@ export class ConstantUrl {
     public readonly societeUrl :string = this.baseUrl+"societes";
     public readonly clientUrl :string = this.baseUrl+"clients";
 
+
     public readonly clientOppUrl :string = this.clientUrl+"/opp";
     public readonly clientDevisUrl :string = this.clientUrl+"/devis";
 
@@ -23,6 +24,9 @@ export class ConstantUrl {
     public readonly societeFactureUrl :string = this.societeUrl+"/factures";
     public readonly societeOppUrl :string = this.societeUrl+"/opp";
     //++
+
+
+    public readonly fournisseurUrl :string = this.baseUrl+"fournisseurs";
 
     public readonly phoneUrl :string = this.baseUrl+"phones";
     public readonly motCleUrl :string = this.baseUrl+"mots-cle";
@@ -37,6 +41,7 @@ export class ConstantUrl {
     public readonly factureSimpleUrl : string = this.baseUrl+"factures-simple";
     public readonly factureAvoirUrl : string = this.baseUrl+"factures-avoir";
     public readonly factureAcompteUrl : string = this.baseUrl+"factures-acompte";
+
     public readonly factureUrl : string = this.baseUrl+"factures";
     public readonly opportuniteUrl : string = this.baseUrl+"opportunites";
     public readonly pipelineUrl : string = this.baseUrl+"pipelines";
@@ -46,6 +51,10 @@ export class ConstantUrl {
     public readonly compteUrl : string = this.baseUrl+"compteBancs";
     public readonly oppDevisUrl :string = this.opportuniteUrl+"/devis";
     public readonly etapOppeUrl :string = this.etapeUrl+"/opp";
+
+    public readonly AvoirfournisseurUrl : string = this.baseUrl+"facturesfournisseur-avoir";
+    public readonly SimplefournisseurUrl : string = this.baseUrl+"facturesfournisseur-simple";
+
 
      //++
      public readonly compteTiersUrl : string = this.baseUrl+"comptetiers";

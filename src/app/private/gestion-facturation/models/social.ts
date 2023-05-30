@@ -1,5 +1,9 @@
 import { Client } from "./client";
+
 import { Societe } from "./societe";
+
+
+
 
 export class Social{
   id: number;

@@ -23,10 +23,7 @@ import { MatDialogRef } from '@angular/material/dialog';
     SharedPerModule,
     MatDialogModule,
 
-
-
-
-
+    SharedModule
   ],
   providers: [
     MatDialogConfig,

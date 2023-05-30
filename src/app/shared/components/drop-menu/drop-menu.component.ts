@@ -26,6 +26,7 @@ import { FactureAcompte } from 'src/app/private/gestion-facturation/models/factu
 import { MatDialog } from '@angular/material/dialog';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Pipeline } from 'src/app/private/gestion-facturation/models/pipeline';
+import { Fournisseur } from 'src/app/private/gestion-facturation/models/fournisseur';
 
 @Component({
   selector: 'app-drop-menu',
@@ -40,7 +41,9 @@ export class DropMenuComponent implements OnInit {
   refreshListPage : EventEmitter<void> = new EventEmitter();
 
   @Input()
-  data: Societe | Client | Devis | Facture | FactureSimple|Opportunite | FactureAvoir | Pipeline;
+
+  data: Societe | Client | Devis | Facture | FactureSimple|Opportunite | FactureAvoir | Pipeline |Fournisseur;
+
 
   @Input()
   type :'list'|'edit'|'show'|'filter'
@@ -49,7 +52,9 @@ export class DropMenuComponent implements OnInit {
   size : 'sm'|'xs'
 
   @Input()
-  for: 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'FG'|'P'
+
+  for: 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'FG'|'P'| 'FR'
+
 
   dropMenu :boolean = false;
 

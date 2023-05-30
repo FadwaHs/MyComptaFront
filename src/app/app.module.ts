@@ -17,6 +17,10 @@ import localeEn from '@angular/common/locales/en';
 import { MatDialog } from '@angular/material/dialog';
 import { FacturesModule } from './private/gestion-facturation/components/factures/factures.module';
 import { NgSelectModule } from '@ng-select/ng-select';
+// import { MatDrawerModule } from '@angular/material/drawer';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import { FournisseurRoutingModule } from './private/gestion-facturation/components/fournisseur/fournisseur-routing.module';
+
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -56,6 +60,7 @@ function getCurrentLocal(){
 @NgModule({
   declarations: [
     AppComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -63,6 +68,7 @@ function getCurrentLocal(){
     MatCardModule,
     AppRoutingModule,
     HttpClientModule,
+    MatSidenavModule,
     FormsModule,
     AngularSvgIconModule.forRoot(),
     TranslateModule.forRoot({
@@ -73,11 +79,15 @@ function getCurrentLocal(){
       },
       defaultLanguage: defaultLang(),
     }),
+
     FacturesModule,
     NgSelectModule,
 
 
+
+    FournisseurRoutingModule,
   ],
+
   providers: [
     { provide: LOCALE_ID, useValue: getCurrentLocal() },
   ],

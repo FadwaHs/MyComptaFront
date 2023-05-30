@@ -1,0 +1,77 @@
+<div class="flex flex-col-2 h-screen">
+  <mat-sidenav-container class="flex-1">
+    <mat-sidenav #sidenav opened mode="side">
+      <ng-container *ngFor="let letter of letters; let i = index">
+        <div
+          class="dropdown"
+          [ngClass]="{ active: menuVisible[i] }"
+          (mouseenter)="showMenu(i, $event)"
+          (mouseleave)="hideMenu(i)"
+        >
+          <button
+            class="my-1 ml-2"
+            id="dropbtn-{{ i }}"
+            [ngClass]="
+              getLinkIsActive(links[i], letter)
+                ? 'common-btn-black-slider'
+                : 'common-btn-gray-slider'
+            "
+          >
+            <a
+              class="slider-link"
+              [routerLink]=""
+              routerLinkActive="mat-list-item-active"
+              (click)="navigateTopath(links[i].path, letter, i)"
+              (mouseenter)="toggleBackground(i)"
+              (mouseleave)="
+                isButtonClicked === i && hideMenu(lastClickedButtonIndex)
+              "
+            >
+              <div class="flex flex-col-2">
+                <svg-icon
+                  class="my-1 mx-0"
+                  [name]="getSvgIconName(letter)"
+                  svgClass="w-4"
+                ></svg-icon>
+                <span class="list-text mx-2">{{
+                  links[i].label | translate
+                }}</span>
+              </div>
+            </a>
+          </button>
+          <div
+            class="dropdown-content bg-gray-3"
+            [ngClass]="{ block: menuVisible[i] }"
+            *ngIf="menuVisible && links[i].hasHoverMenu"
+          >
+            <ng-container *ngIf="links[i].hoverMenuItem">
+              <a
+                *ngFor="let menuItem of links[i].hoverMenuItem"
+                href="#"
+                class="hover-menu-item"
+              >
+                {{ menuItem | translate }}
+              </a>
+            </ng-container>
+          </div>
+        </div>
+      </ng-container>
+    </mat-sidenav>
+  </mat-sidenav-container>
+
+  <div
+    id="toggleBtn"
+    class="bg-no-repeat bg-contain"
+    style="
+      background-image: url('../../../../assets/svg/sidebarEffect.svg');
+      height: 79px;
+    "
+  >
+    <button class="common-btn-gray p-1" (click)="toggleSidenav()">
+      <svg-icon
+        [src]="isArrowIcon ? 'arrowleft' : 'arrowright'"
+        svgClass="w-4"
+      ></svg-icon>
+    </button>
+  </div>
+</div>

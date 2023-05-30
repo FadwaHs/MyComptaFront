@@ -6,21 +6,6 @@ import { Facture } from 'src/app/private/gestion-facturation/models/facture';
 import { Societe } from 'src/app/private/gestion-facturation/models/societe';
 import { NavigateService } from 'src/app/shared/services/navigate.service';
 import { FilterService } from '../../services/filter.service';
-import { Opportunite } from 'src/app/private/gestion-facturation/models/opportunite';
-import { Router } from '@angular/router';
-import { Pipeline } from 'src/app/private/gestion-facturation/models/pipeline';
-import { FactureAcompte } from 'src/app/private/gestion-facturation/models/facture-acompte';
-import { FactureAvoir } from 'src/app/private/gestion-facturation/models/facture-avoir';
-import { FactureSimple } from 'src/app/private/gestion-facturation/models/facture-simple';
-
-
-interface TopTitle{
-  name: string
-  link :string
-  isActive :boolean;
-
- }
-
 
 @Component({
   selector: 'app-top-bar',
@@ -36,10 +21,10 @@ export class TopBarComponent implements OnInit {
 
 
   @Input()
-  data: Societe | Client | Devis | Facture | Opportunite | Pipeline;
+  data: Societe | Client | Devis | Facture;
 
   @Input()
-  for: 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'FG' |'P'
+  for: 'C'|'S'|'D'|'F'|'A'|'FA'
 
   @Input()
   type : 'add'|'edit'|'show'|'list'
@@ -85,30 +70,6 @@ export class TopBarComponent implements OnInit {
         var societe : Societe = this.data as Societe
         this.showData[0] = societe.name
       }
-
-      else if(this.for == 'D'){
-        var devis : Devis = this.data as Devis
-        this.showData[0] = "Devis"
-        this.showData[1] = devis.code
-
-      }
-      else if(this.for == 'F'){
-        var facture : Facture = this.data as FactureSimple
-        this.showData[0] = "Facture simple"
-        this.showData[1] = facture.code
-      }
-      //++
-      else if(this.for == 'A'){
-        var facture : Facture = this.data as FactureAvoir
-        this.showData[0] = "Avoir"
-        this.showData[1] = facture.code
-      }
-      else if(this.for == 'FA'){
-        var facture : Facture = this.data as FactureAcompte
-        this.showData[0] = "Facture acompte"
-        this.showData[1] = facture.code
-      }
-      //++
     }
 
   }

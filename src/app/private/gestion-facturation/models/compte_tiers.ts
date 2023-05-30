@@ -5,4 +5,5 @@ export class CompteTiers{
   code: number;
   libelle: string;
   clientList :Client[]
+
 }

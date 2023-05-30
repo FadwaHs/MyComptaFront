@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { GestionFacturationComponent } from '../../gestion-facturation.component';
 
-import { GestionFacturationComponent } from './gestion-facturation.component';
+
 
 describe('GestionFacturationComponent', () => {
   let component: GestionFacturationComponent;

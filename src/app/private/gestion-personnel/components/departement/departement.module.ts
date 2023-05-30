@@ -35,6 +35,7 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
         CommonModule,
         DepartementRoutingModule,
         SharedPerModule,
+        SharedModule,
         FormsModule,
         MatFormFieldModule,
         MatDialogModule,
@@ -58,6 +59,7 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
         NgbModalModule
       ],
       entryComponents: [],
+
 
 
 
