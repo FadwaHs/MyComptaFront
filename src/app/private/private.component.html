@@ -14,10 +14,13 @@
     <div
       [ngClass]="{
         'main-container': true,
-        'opacity-50': isSmallScreen && isSidenavOpen,
+        'opacity-50': isSmallScreen && isSidenavOpen
 
       }"
     >
+
+    <!-- <div [ngClass]="{'main-container': true, 'opacity-50': isSmallScreen && isSidenavOpen}"> -->
+
       <router-outlet></router-outlet>
     </div>
   </div>
