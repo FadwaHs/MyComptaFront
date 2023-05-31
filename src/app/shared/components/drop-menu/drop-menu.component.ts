@@ -228,6 +228,14 @@ export class DropMenuComponent implements OnInit {
   refuseIt(){
     if(this.for == 'D') this.updateDevis(DevisStatus.REFUSED)
   }
+//++
+  unsigneIt() {
+    if(this.for == 'D') {
+      (this.data as Devis).date_signature= null;
+      this.updateDevis(DevisStatus.FINALIZED);
+
+    }
+  }
 
 
   Perdue() {
