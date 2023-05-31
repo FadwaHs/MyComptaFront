@@ -1,12 +1,60 @@
-<section>
-  <app-navbar (dropMenu)="onDropMenu($event)"></app-navbar>
+<!-- <section>
+  <section class="relative">
+    <app-navbar
+      class="fixed w-[100%] z-[1000]"
+      (dropMenu)="onDropMenu($event)"
+    ></app-navbar>
+  </section>
+
+
+
+  <div
+    class="flex flex-col-2"
+    [ngClass]="isdropMenuMobile && isSmallScreen ? 'hidden' : ''"
+  >
+    <section class="relative">
+      <div
+        [ngClass]="isSidenavOpen ? 'slider-open' : 'slider-close'"
+        class="fixed z-[1000]"
+        [ngStyle]="{ 'margin-top.px': navbarHeight + 50 }"
+      >
+        {{ navbarHeight }}
+        <app-slider (sidenavOpenChange)="onSidenavOpenChange($event)">
+        </app-slider>
+      </div>
+    </section>
+
+    <div
+      [ngClass]="{
+        'main-container': true,
+        'opacity-50': isSmallScreen && isSidenavOpen
+      }"
+    >
+
+      <div
+        class="mt-[5.3%] z-[1]"
+        [ngStyle]="{ 'margin-left': isSidenavOpen ? '17%' : '4%' }"
+      >
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</section> -->
+<section class="relative">
+  <div class="fixed w-[100%] z-[1000]">
+    <app-navbar (dropMenu)="onDropMenu($event)"></app-navbar>
+  </div>
+
   <!-- {{ isdropMenuMobile }} -->
 
   <div
     class="flex flex-col-2"
     [ngClass]="isdropMenuMobile && isSmallScreen ? 'hidden' : ''"
   >
-    <div [ngClass]="isSidenavOpen ? 'slider-open' : 'slider-close'">
+    <div
+      [ngClass]="isSidenavOpen ? 'slider-open' : 'slider-close'"
+      class="fixed z-[1000] mt-[69px]"
+    >
       <app-slider (sidenavOpenChange)="onSidenavOpenChange($event)">
       </app-slider>
     </div>
@@ -15,13 +63,18 @@
       [ngClass]="{
         'main-container': true,
         'opacity-50': isSmallScreen && isSidenavOpen
-
       }"
     >
-
-    <!-- <div [ngClass]="{'main-container': true, 'opacity-50': isSmallScreen && isSidenavOpen}"> -->
-
-      <router-outlet></router-outlet>
+      <!-- <div [ngClass]="{'main-container': true, 'opacity-50': isSmallScreen && isSidenavOpen}"> -->
+      <div class="relative z-[1]">
+        <div
+          style="overflow-y: auto"
+          class="mt-[64px] z-[1] px-3 pt-2"
+          [ngStyle]="{ 'margin-left': isSidenavOpen ? '17%' : '4%' }"
+        >
+          <router-outlet></router-outlet>
+        </div>
+      </div>
     </div>
   </div>
 </section>

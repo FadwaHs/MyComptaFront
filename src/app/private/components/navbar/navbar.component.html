@@ -62,26 +62,23 @@
                     >
                       <div class="nested-hover-button">
                         <button
+                          routerLink="{{ navigate.f_devisPath }}"
                           class="nested-hover-button hover:bg-gray-3 hover:rounded-md"
                         >
-                          <a [routerLink]="navigate.toAddPath('D')">{{
-                            "DATA_NAME.D" | translate
-                          }}</a>
+                          <a>{{ "DATA_NAME.D" | translate }}</a>
                         </button>
                         <button
+                          routerLink="{{ navigate.f_facturePath }}"
                           class="nested-hover-button hover:bg-gray-3 hover:rounded-md"
                         >
-                          <a [routerLink]="navigate.toAddPath('F')">{{
-                            "DATA_NAME.F" | translate
-                          }}</a>
+                          <a>{{ "DATA_NAME.F" | translate }}</a>
                         </button>
-                        <button
+                        <!-- <button
+                          routerLink="{{ navigate.f_societePath }}"
                           class="nested-hover-button hover:bg-gray-3 hover:rounded-md"
                         >
-                          <a [routerLink]="navigate.toAddPath('A')">{{
-                            "DATA_NAME.A" | translate
-                          }}</a>
-                        </button>
+                          <a>{{ "DATA_NAME.S" | translate }}</a>
+                        </button> -->
                       </div>
                     </div>
                   </div>
@@ -99,20 +96,18 @@
                       (mouseleave)="closeNestedMenu2()"
                     >
                       <button
+                        routerLink="{{ navigate.f_clientPath }}"
                         class="nested-hover-button hover:bg-gray-3 hover:rounded-md"
                       >
-                        <a [routerLink]="navigate.toAddPath('C')">{{
-                          "DATA_NAME.C" | translate
-                        }}</a>
+                        <a>{{ "DATA_NAME.C" | translate }}</a>
                       </button>
                       <button
+                        routerLink="{{ navigate.f_societePath }}"
                         class="nested-hover-button hover:bg-gray-3 hover:rounded-md"
                       >
-                        <a [routerLink]="navigate.toAddPath('C')">{{
-                          "DATA_NAME.P" | translate
-                        }}</a>
+                        <a>{{ "DATA_NAME.S" | translate }}</a>
                       </button>
-                      <button
+                      <!-- <button
                         class="nested-hover-button hover:bg-gray-3 hover:rounded-md"
                       >
                         <a [routerLink]="navigate.toAddPath('F')">{{
@@ -125,17 +120,18 @@
                         <a [routerLink]="navigate.toAddPath('F')">{{
                           "DATA_NAME.CT" | translate
                         }}</a>
-                      </button>
+                      </button> -->
                     </div>
                   </div>
                 </div>
                 <div class="nested-button-container flex flex-col">
                   <button
+                    routerLink="{{ navigate.f_opportunitePath }}"
                     class="nested-hover-button hover:bg-gray-3 hover:rounded-md"
                   >
                     {{ "DATA_NAME.OPP" | translate }}
                   </button>
-                  <button
+                  <!-- <button
                     class="nested-hover-button hover:bg-gray-3 hover:rounded-md"
                   >
                     {{ "DATA_NAME.TC" | translate }}
@@ -144,7 +140,7 @@
                     class="nested-hover-button hover:bg-gray-3 hover:rounded-md"
                   >
                     {{ "DATA_NAME.E" | translate }}
-                  </button>
+                  </button> -->
                 </div>
               </div>
             </div>
@@ -152,7 +148,7 @@
             <!-- end ajout menu -->
             <a
               class="item-style flex space-x-2 w-30 items-center"
-              routerLink="{{ navigate.facturationPath }}"
+              routerLink="{{ navigate.f_facturePath }}"
               [routerLinkActiveOptions]="{ exact: true }"
               routerLinkActive="is-active"
             >
@@ -222,26 +218,24 @@
                   >
                     <div class="nested-hover-button">
                       <button
+                        routerLink="{{ navigate.f_devisPath }}"
                         class="nested-hover-button hover:bg-gray-3 hover:rounded-md"
                       >
-                        <a [routerLink]="navigate.toAddPath('D')">{{
-                          "DATA_NAME.D" | translate
-                        }}</a>
+                        <a>{{ "DATA_NAME.D" | translate }}</a>
                       </button>
                       <button
+                        routerLink="{{ navigate.f_facturePath }}"
                         class="nested-hover-button hover:bg-gray-3 hover:rounded-md"
                       >
-                        <a [routerLink]="navigate.toAddPath('F')">{{
-                          "DATA_NAME.F" | translate
-                        }}</a>
+                        <a>{{ "DATA_NAME.F" | translate }}</a>
                       </button>
-                      <button
+                      <!-- <button
                         class="nested-hover-button hover:bg-gray-3 hover:rounded-md"
                       >
                         <a [routerLink]="navigate.toAddPath('A')">{{
                           "DATA_NAME.A" | translate
                         }}</a>
-                      </button>
+                      </button> -->
                     </div>
                   </div>
                 </div>
@@ -259,6 +253,7 @@
                     (mouseleave)="closeNestedMenu2()"
                   >
                     <button
+                      routerLink="{{ navigate.f_clientPath }}"
                       class="nested-hover-button hover:bg-gray-3 hover:rounded-md"
                     >
                       <a [routerLink]="navigate.toAddPath('C')">{{
@@ -266,13 +261,12 @@
                       }}</a>
                     </button>
                     <button
+                      routerLink="{{ navigate.f_societePath }}"
                       class="nested-hover-button hover:bg-gray-3 hover:rounded-md"
                     >
-                      <a [routerLink]="navigate.toAddPath('C')">{{
-                        "DATA_NAME.P" | translate
-                      }}</a>
+                      <a>{{ "DATA_NAME.S" | translate }}</a>
                     </button>
-                    <button
+                    <!-- <button
                       class="nested-hover-button hover:bg-gray-3 hover:rounded-md"
                     >
                       <a [routerLink]="navigate.toAddPath('F')">{{
@@ -285,17 +279,18 @@
                       <a [routerLink]="navigate.toAddPath('F')">{{
                         "DATA_NAME.CT" | translate
                       }}</a>
-                    </button>
+                    </button> -->
                   </div>
                 </div>
               </div>
               <div class="nested-button-container flex flex-col">
                 <button
+                  routerLink="{{ navigate.f_opportunitePath }}"
                   class="nested-hover-button hover:bg-gray-3 hover:rounded-md"
                 >
                   {{ "DATA_NAME.OPP" | translate }}
                 </button>
-                <button
+                <!-- <button
                   class="nested-hover-button hover:bg-gray-3 hover:rounded-md"
                 >
                   {{ "DATA_NAME.TC" | translate }}
@@ -304,7 +299,7 @@
                   class="nested-hover-button hover:bg-gray-3 hover:rounded-md"
                 >
                   {{ "DATA_NAME.E" | translate }}
-                </button>
+                </button> -->
               </div>
             </div>
           </div>

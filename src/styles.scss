@@ -366,7 +366,7 @@ tr{
 
 // main navbar
 nav{
-  @apply border-b;
+  @apply   border-b;
 }
 
 // ::ng-deep .my-menu-class{
@@ -395,10 +395,10 @@ nav{
 //  side nav
 
 .mat-sidenav {
-  @apply bg-gray-1 h-full w-52 pt-4;
+  @apply bg-gray-1 h-fit w-52 pt-4 py-3 top-6;
 }
 .mat-sidenav-container {
-  @apply h-[1000px];
+  @apply h-[800px];
 }
 
 
@@ -435,7 +435,7 @@ nav{
 }
 
 .dropdown-content {
-  @apply hidden fixed rounded-sm w-72 py-1;
+  @apply hidden  fixed rounded-sm w-64 py-1;
   left: calc(208px + var(--dropdown-left-offset, 0));
   top: calc(4px + var(--dropdown-top-offset, 0));
   // left: 208px;

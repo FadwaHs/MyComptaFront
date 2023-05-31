@@ -64,7 +64,8 @@ const listIconsvg: string[] = [
   'sidebarEffect',
   'facebook',
   'twitter',
-  'linkedin'
+  'linkedin',
+  'arrowdoubleleft'
 
 ];
 

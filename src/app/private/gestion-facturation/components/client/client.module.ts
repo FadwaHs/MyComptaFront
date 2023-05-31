@@ -22,5 +22,5 @@ import { PrivateModule } from 'src/app/private/private.module';
   ]
 })
 export class ClientModule {
-  
+
 }

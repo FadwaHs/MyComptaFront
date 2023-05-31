@@ -17,6 +17,7 @@ export class NavigateService {
 
 
   public readonly facturationPath = this.environmentPath+'/facturation'
+  public readonly dashboardPath= this.facturationPath+'/dashboard'
 
   // Start of routes of Espace Facturation
   public readonly f_societePath = this.facturationPath+'/societes'

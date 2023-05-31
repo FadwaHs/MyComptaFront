@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, HostListener, AfterViewInit } from '@angular/core';
 
 
 @Component({
@@ -7,6 +7,9 @@ import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular
   styleUrls: ['./private.component.scss']
 })
 export class PrivateComponent implements OnInit {
+
+  ngOnInit(): void {
+  }
   // @ViewChild('sliderRef') sliderRef: ElementRef;
 
   isSidenavOpen: boolean = true;
@@ -14,6 +17,16 @@ export class PrivateComponent implements OnInit {
   isdropMenuMobile: boolean;
   constructor() {
     this.checkScreenSize();
+    // this.ngAfterViewInit() ;
+  }
+
+// nav bar height
+  @ViewChild('navbarRef') navbarRef!: ElementRef;
+  navbarHeight: number =0;
+
+  ngAfterViewInit() {
+    this.navbarHeight = this.navbarRef.nativeElement.offsetHeight;
+    console.log(this.navbarHeight);
   }
 
   @HostListener('window:resize', ['$event'])
@@ -25,8 +38,7 @@ export class PrivateComponent implements OnInit {
     this.isSmallScreen = window.innerWidth <= 696;
   }
 
-  ngOnInit(): void {
-  }
+
 
   onSidenavOpenChange(value: boolean) {
     this.isSidenavOpen = value;

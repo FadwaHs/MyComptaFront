@@ -26,8 +26,7 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private filterService: FilterService,
-    private router: Router,
-    protected navigate: NavigateService,
+    public navigate: NavigateService, private router: Router
     // @Inject('ajoutToken') ajout: boolean,
   ) {}
 

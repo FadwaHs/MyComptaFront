@@ -1,5 +1,10 @@
+<!--  [ngClass]="
+              getLinkIsActive(links[i], letter)
+                ? 'common-btn-black-slider'
+                : 'common-btn-gray-slider'
+            " -->
 <div class="flex flex-col-2 h-screen">
-  <mat-sidenav-container class="flex-1">
+  <mat-sidenav-container class="flex-1 fixed">
     <mat-sidenav #sidenav opened mode="side">
       <ng-container *ngFor="let letter of letters; let i = index">
         <div
@@ -12,7 +17,7 @@
             class="my-1 ml-2"
             id="dropbtn-{{ i }}"
             [ngClass]="
-              getLinkIsActive(links[i], letter)
+              isButtonClicked === i && links[i].path === 'TDB'
                 ? 'common-btn-black-slider'
                 : 'common-btn-gray-slider'
             "
@@ -47,10 +52,11 @@
             <ng-container *ngIf="links[i].hoverMenuItem">
               <a
                 *ngFor="let menuItem of links[i].hoverMenuItem"
+                [routerLink]="[menuItem.path]"
                 href="#"
                 class="hover-menu-item"
               >
-                {{ menuItem | translate }}
+                {{ menuItem.label | translate }}
               </a>
             </ng-container>
           </div>

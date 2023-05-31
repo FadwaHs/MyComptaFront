@@ -116,7 +116,7 @@
 
 
     .text{
-      @apply py-1 px-4 text-sm bg-gray-1 focus:outline-none border-[2px] border-red rounded-2xl w-full text-gray-2 overflow-hidden  ;
+      @apply py-1 px-4 text-sm bg-gray-1 focus:outline-none border-[2px] border-gray-2 rounded-2xl w-full text-gray-2 overflow-hidden  ;
   }
   .span-title{
     @apply px-2 secondary-title absolute top-[-10px] left-3 rounded-full  bg-white-1 z-10
