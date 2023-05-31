@@ -41,8 +41,8 @@ export class DropMenuComponent implements OnInit {
   refreshListPage : EventEmitter<void> = new EventEmitter();
 
   @Input()
-
-  data: Societe | Client | Devis | Facture | FactureSimple|Opportunite | FactureAvoir | Pipeline |Fournisseur;
+//++FactureAcompte added
+  data: Societe | Client | Devis | Facture | FactureSimple|Opportunite | FactureAvoir |FactureAcompte| Pipeline |Fournisseur;
 
 
   @Input()
@@ -185,6 +185,9 @@ export class DropMenuComponent implements OnInit {
     if(this.for == 'O') this.deleteOppotunite(id)
     if(this.for == 'A') this.deleteAvoire(id)
     if(this.for == 'FA') this.deleteAcompte(id)
+    //++
+    if(this.for == 'F') this.deleteSimple(id)
+
   }
 
 
@@ -455,6 +458,18 @@ export class DropMenuComponent implements OnInit {
   {
 
        this.factureAcompteService.deleteFactureAcompteById(id).subscribe({
+        error:e => console.log(e),
+        complete: () => {
+          location.reload();
+        }
+
+       })
+  }
+//++
+  deleteSimple(id:number)
+  {
+
+       this.factureSimpleService.deleteFactureSimpleById(id).subscribe({
         error:e => console.log(e),
         complete: () => {
           location.reload();

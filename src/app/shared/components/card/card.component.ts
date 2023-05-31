@@ -111,7 +111,6 @@ export class CardComponent implements OnInit {
 
   getFromFactureSimple() {
     var factureSimple : FactureSimple = this.data as FactureSimple
-    console.log(factureSimple)
     this.card.mainIcon = 'factures'
     this.card.primaryTitle1 = factureSimple.code
     this.card.primaryTitle2 = factureSimple.status

@@ -7,6 +7,7 @@ import { FactureAcompteService } from '../../http/facture-acompte.service';
 import { FactureService } from '../../http/facture.service';
 import { FactureSimpleStatus } from '../../enums/facture-simple-status';
 import { firstValueFrom } from 'rxjs';
+import { NavigateService } from 'src/app/shared/services/navigate.service';
 
 @Component({
   selector: 'app-factures',
@@ -15,101 +16,10 @@ import { firstValueFrom } from 'rxjs';
 })
 export class FacturesComponent implements OnInit {
 
-  isEmpty : boolean = false;
-  facture :Facture[] = [];
+  constructor( public navigate: NavigateService ) {}
 
-  currentFacture: Facture = new Facture();
-  currentIndex = -1;
-  data :string = '';
-  page :number = 1;
-  filterStatus :any ;
-  count :number = 0;
-  pageSize :number = 8;
+ ngOnInit(): void {
 
-
-  constructor(private factureService:FactureService ,private filterService : FilterService) {
-    this.filterService.methodSearchCalled$.subscribe(
-      (res) => {
-        this.data = res
-        this.searchData()
-      }
-    );
-
-    this.filterService.methodFilterStatusCalled$.subscribe(
-      (res) => {
-        this.filterStatus = res
-        this.searchData()
-      }
-    );
 }
-
-async ngOnInit(): Promise<void> {
-
-  await this.getFacture();
-  if(this.facture.length == 0) this.isEmpty = true
-}
-
-onRefresh(){
-  this.getFacture();
-}
-
-async getFacture() {
-
-    // this.factureService.getAllFacture().subscribe({
-    //   next :res=> this.facture=res,
-    //   complete: () =>  { if(this.facture.length == 0) this.isEmpty = true }
-    // }
-    // )
-
-    const params = this.getRequestParams(this.filterStatus,this.data, this.page, this.pageSize);
-    await firstValueFrom(this.factureService.getFactureList(params))
-    .then(res => {
-      const { factures, totalItems } = res;
-      this.facture = factures;
-      this.count = totalItems;
-    }
-    )
-    .catch(console.log)
-  }
-
-  getRequestParams(filterStatus : any,searchData: string, page: number, pageSize: number): any {
-    let params: any = {};
-
-    if(filterStatus){
-      params[`status`] = filterStatus;
-    }
-
-    if (searchData) {
-      params[`data`] = searchData;
-    }
-
-    if (page) {
-      params[`page`] = page - 1;
-    }
-
-    if (pageSize) {
-      params[`size`] = pageSize;
-    }
-
-    return params;
-  }
-
-
-  pageChange(page: number): void {
-    this.page = page;
-    this.getFacture();
-  }
-
-  pageSizeChange(pageSize: number): void {
-    this.pageSize = pageSize;
-    this.page = 1;
-    this.getFacture();
-  }
-
-  searchData(): void {
-    this.page = 1;
-    this.getFacture();
-
-  }
 
 }

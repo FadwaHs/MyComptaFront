@@ -18,7 +18,7 @@
       		<div class="flex flex-col space-y-3 " >
 				<div class=" grid grid-cols-4 gap-4">
 					<span class="text-gray-2  col-span-2">{{'DROP_MENU.SHOW.CL'| translate}} </span>
-          			<span >{{this.details.formatDate(devis.date)}}</span>
+          			<span class="col-span-2">{{this.details.formatDate(devis.date)}}</span>
 				</div>
 				<hr>
 			</div>
@@ -26,21 +26,21 @@
 			<div class="flex flex-col space-y-3 " >
 				<div class=" grid grid-cols-4 gap-4">
 					<span class="text-gray-2  col-span-2">{{'DROP_MENU.SHOW.PDF'| translate}} </span>
-          <span >{{this.details.formatDate(devis.date)}}</span>
+          <span class="col-span-2">{{this.details.formatDate(devis.date)}}</span>
 				</div>
 				<hr>
 			</div>
 			<div class="flex flex-col space-y-3 " *ngIf="devis.date_finalisation" >
 				<div class=" grid grid-cols-4 gap-4">
 					<span class="text-gray-2  col-span-2">{{'DROP_MENU.SHOW.FIN'| translate}} </span>
-          <span >{{this.details.formatDate(devis.date_finalisation)}}</span>
+          <span class="col-span-2">{{this.details.formatDate(devis.date_finalisation)}}</span>
 				</div>
 				<hr>
 			</div>
 			<div class="flex flex-col space-y-3 " *ngIf="devis.date_signature">
 				<div class=" grid grid-cols-4 gap-4">
 				<span class="text-gray-2  col-span-2">{{'DROP_MENU.SHOW.SIN'| translate}} </span>
-          <span >{{this.details.formatDate(devis.date_signature)}}</span>
+          <span class="col-span-2">{{this.details.formatDate(devis.date_signature)}}</span>
 				</div>
 				<hr>
 			</div>

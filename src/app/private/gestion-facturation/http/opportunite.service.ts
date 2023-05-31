@@ -43,5 +43,8 @@ export class OpportuniteService {
     return this.http.get<Devis[]>(`${this.constant.oppDevisUrl}/${id}`);
   }
 
-
+//++
+getOpprtuniteList(params: any): Observable<any> {
+  return this.http.get<any>(`${this.constant.opportuniteUrl}/pagination`, { params });
+}
 }

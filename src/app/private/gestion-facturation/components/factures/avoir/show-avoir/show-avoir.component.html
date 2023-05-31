@@ -17,7 +17,7 @@
       		<div class="flex flex-col space-y-3 " >
 				<div class=" grid grid-cols-4 gap-4">
 					<span class="text-gray-2  col-span-2">{{'DROP_MENU.SHOW.CLE'| translate}} </span>
-          			<span >{{this.details.formatDate(facture.date)}}</span>
+          			<span class="col-span-2">{{this.details.formatDate(facture.date)}}</span>
 				</div>
 				<hr>
 			</div>
@@ -25,21 +25,21 @@
 			<div class="flex flex-col space-y-3 " >
 				<div class=" grid grid-cols-4 gap-4">
 					<span class="text-gray-2  col-span-2">{{'DROP_MENU.SHOW.PDF'| translate}} </span>
-          <span >{{this.details.formatDate(facture.date)}}</span>
+          <span class="col-span-2">{{this.details.formatDate(facture.date)}}</span>
 				</div>
 				<hr>
 			</div>
 			<div class="flex flex-col space-y-3 " *ngIf="facture.date_finalisation">
 				<div class=" grid grid-cols-4 gap-4">
 					<span class="text-gray-2  col-span-2">{{'DROP_MENU.SHOW.FINE'| translate}} </span>
-          <span >{{this.details.formatDate(facture.date_finalisation)}}</span>
+          <span class="col-span-2">{{this.details.formatDate(facture.date_finalisation)}}</span>
 				</div>
 				<hr>
 			</div>
 			<div class="flex flex-col space-y-3 " *ngIf="facture.date_remboursement">
 				<div class=" grid grid-cols-4 gap-4">
 				<span class="text-gray-2  col-span-2">{{'DROP_MENU.SHOW.REM'| translate}} </span>
-          <span >{{this.details.formatDate(facture.date_remboursement)}}</span>
+          <span class="col-span-2" >{{this.details.formatDate(facture.date_remboursement)}}</span>
 				</div>
 				<hr>
 			</div>

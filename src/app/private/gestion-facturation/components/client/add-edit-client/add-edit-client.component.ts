@@ -16,6 +16,7 @@ import { CompteTiersService } from '../../../http/compteTiers.service';
 import { SocialService } from '../../../http/social.service';
 import { CompteTiers } from '../../../models/compte_tiers';
 import { Social } from '../../../models/social';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 
 
@@ -60,11 +61,13 @@ export class AddEditClientComponent implements OnInit{
     private router: Router,
     private route: ActivatedRoute,
     protected navigate : NavigateService,
-    //++
-    private compteTiersService:CompteTiersService,
-    private socialService :SocialService
 
-  ) {}
+    private compteTiersService:CompteTiersService,
+    private socialService :SocialService,
+    //++
+
+  ) {
+}
 
 
   async ngOnInit(): Promise<void> {
@@ -79,7 +82,9 @@ export class AddEditClientComponent implements OnInit{
 
 
   }
-//++
+  //++
+
+
    initCompteTiers() {
 
   this.compteTiersService.getAllCompteTiers().subscribe({

@@ -1,4 +1,15 @@
 {
+  "FORM.CLIENT_TYPE": {
+    "Aucun" :"Aucun",
+    "OTHER" : "Autre",
+    "NEW"  : "Nouveau client",
+    "FAITHFUL" :"Fidèle client ",
+    "INACTIVE" : "Inactif client"
+
+  },
+
+
+
   "DATA_NAME": {
     "DCT": "Document",
     "S": "Société",
@@ -495,7 +506,8 @@
         "D" : "de ",
         "HT" :"HT"
 
-      }
+      },
+      "PRB" :"Probabilité :"
 
 
 
@@ -537,6 +549,11 @@
       }
     }
   },
+  "FACT_CARD":{
+   "S" : "Standard",
+   "A" :"Rectification",
+   "AC" :"Avance"
+  },
   "FOURNISSEUR_CARD":{
     "TYPE" : {
       "PAR":{
@@ -549,6 +566,9 @@
       }
     }
   },
+
+
+
   "STATUS" :{
     "T" :"Tous",
     "TE": "Toutes",
@@ -562,23 +582,25 @@
     "APAYEDF" : "À Payée",
     "REFUNDED" : "Remboursée",
     "INPROGRESS":"En Cours",
-    "WON":"Remportées",
-    "LOST": "Perdues",
-    "CANCLED" : "Annulées",
-    "CLOSED" :"Fermées",
+    "WON":"Remportée",
+    "LOST": "Perdue",
+    "CANCLED" : "Annulée",
+    "CLOSED" :"Fermée",
     "LATE" :"En Retard"
 
   },
   "MODAL":{
    "TITLE" : {
     "REM" : "Date de remboursemt",
-    "PAY" :"Date de paiement"
+    "PAY" :"Date de paiement",
+    "SIG" :"Date de signature"
 
 
    },
    "INPUT" :{
      "REM" : "Date de remboursemt",
-     "PAY" :"Date de paiement"
+     "PAY" :"Date de paiement",
+     "SIG":"Date de signature"
    }
 
   },

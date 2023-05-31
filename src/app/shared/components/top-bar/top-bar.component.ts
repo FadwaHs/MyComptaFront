@@ -1,3 +1,4 @@
+import { Opportunite } from './../../../private/gestion-facturation/models/opportunite';
 import { Component, Input, OnInit } from '@angular/core';
 import { DevisStatus } from 'src/app/private/gestion-facturation/enums/devis-status';
 import { Client } from 'src/app/private/gestion-facturation/models/client';
@@ -6,7 +7,6 @@ import { Facture } from 'src/app/private/gestion-facturation/models/facture';
 import { Societe } from 'src/app/private/gestion-facturation/models/societe';
 import { NavigateService } from 'src/app/shared/services/navigate.service';
 import { FilterService } from '../../services/filter.service';
-import { Opportunite } from 'src/app/private/gestion-facturation/models/opportunite';
 import { Router } from '@angular/router';
 import { Pipeline } from 'src/app/private/gestion-facturation/models/pipeline';
 import { FactureAcompte } from 'src/app/private/gestion-facturation/models/facture-acompte';
@@ -109,6 +109,11 @@ export class TopBarComponent implements OnInit {
         this.showData[1] = facture.code
       }
       //++
+      else if(this.for == 'O'){
+        var opportunite : Opportunite = this.data as Opportunite
+        this.showData[0] = "Opportunite"
+        this.showData[1] = opportunite.code
+      }
     }
 
   }

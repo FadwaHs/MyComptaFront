@@ -1,39 +1,57 @@
 
 <app-top-bar for="O" type="show" sizeMenu="sm" [data]="this.opportunite" ></app-top-bar>
 
-<section class="grid grid-cols-2 md:grid-cols-2 gap-24 mt-11">
+<section class="grid grid-cols-2 md:grid-cols-2 gap-5 ">
 	<!-- Informations column -->
 
-	<div class="flex flex-col gap-6 text-sm ">
+    <div class="grid grid-col gap-4 text-sm pr-10">
+
 
 		<div>
 			<span class="secondary-title text-base">{{'FORM.TITLE.INF'|translate}}</span>
 		</div>
-		<div class="flex flex-col space-y-8 " >
+		<div class="flex flex-col space-y-4 mt-10" >
 
 			<div class="flex flex-col space-y-3 " *ngIf="opportunite.intitule" >
 				<div class=" grid grid-cols-4 gap-4">
-					<span class="text-gray-2">{{'FORM.INPUT.OPPN' | translate}} :</span>
-          <div class="col-span-3">{{opportunite.intitule}}</div>
+					<span class="text-gray-2 col-span-2">{{'FORM.INPUT.OPPN' | translate}} :</span>
+          <div >{{opportunite.intitule}}</div>
         </div>
 				<hr>
 			</div>
 
+
+      <div class="flex flex-col space-y-3" *ngIf="opportunite.oppStatus">
+				<div class=" grid grid-cols-4 gap-4">
+					<span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.ST' | translate}} </span>
+					<div  [ngClass]="getStatusColor(opportunite.oppStatus)">{{this.details.transStatus(opportunite.oppStatus)}}</div>
+				</div>
+				<hr>
+			</div>
+
+
       <div class="flex flex-col space-y-3" *ngIf="opportunite.mantantHT">
 				<div class=" grid grid-cols-4 gap-4">
-					<span class="text-gray-2">{{'FORM.INPUT.OPPM' | translate}} :</span>
-					<div class="col-span-3">{{opportunite.mantantHT}} {{opportunite.devise}}</div>
+					<span class="text-gray-2 col-span-2">{{'FORM.INPUT.OPPM' | translate}} :</span>
+          <div >{{this.details.formatNumber(opportunite.mantantHT)}} {{this.details.getCurrencySymbol(opportunite.devise)}}</div>
+
 				</div>
         <hr>
+			</div>
+      <div class="flex flex-col space-y-3" *ngIf="opportunite.probabilite">
+				<div class=" grid grid-cols-4 gap-4">
+					<span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.PRB' | translate}} </span>
+          <div >{{opportunite.probabilite}} %</div>
+				</div>
+				<hr>
 			</div>
 
       <div class="flex flex-col space-y-3" *ngIf="opportunite.etape.pipeline.name">
 				<div class=" grid grid-cols-4 gap-4">
-					<span class="text-gray-2">{{'FORM.INPUT.OPPP' | translate}} :</span>
-					<div class="col-span-3">{{opportunite.etape.pipeline.name}}
-             <button class="editpip" style="margin-left: 250px;">
-              <a href="/environment/1/facturation/pipeline">Modifier</a>
-             </button>
+					<span class="text-gray-2 col-span-2 ">{{'FORM.INPUT.OPPP' | translate}} :</span>
+					<div class="flex gap-4 items-center">
+            <span>{{opportunite.etape.pipeline.name}}</span>
+            <button class="common-btn-black py-1 whitespace-nowrap" routerLink="/environment/1/facturation/pipeline" > {{'DROP_MENU.EDIT.M'| translate}}</button>
           </div>
 				</div>
 				<hr>
@@ -41,79 +59,207 @@
 
       <div class="flex flex-col space-y-3" *ngIf="opportunite.etape.etapename">
 				<div class=" grid grid-cols-4 gap-4">
-					<span class="text-gray-2">{{'FORM.INPUT.OPPE' | translate}} :</span>
-					<div class="col-span-3">{{opportunite.etape.etapename}} ({{opportunite.etape.probabilite}}%)</div>
+					<span class="text-gray-2 col-span-2">{{'FORM.INPUT.OPPE' | translate}} :</span>
+					<div >{{opportunite.etape.etapename}} ({{opportunite.etape.probabilite}}%)</div>
 				</div>
 				<hr>
 			</div>
-
-      <div class="flex flex-col space-y-3" *ngIf="opportunite.oppStatus">
-				<div class=" grid grid-cols-4 gap-4">
-					<span class="text-gray-2">{{'FORM.INPUT.OPPS' | translate}} :</span>
-					<div class="col-span-3" [ngClass]="getStatusColor(opportunite.oppStatus)">{{opportunite.oppStatus}}</div>
-				</div>
-				<hr>
-			</div>
-
-		</div>
-
-	</div>
-
-  <div class="flex flex-col gap-6 text-sm ">
-
-    <div>
-			<span class="secondary-title text-base" style="visibility: hidden;">{{'FORM.TITLE.INF'|translate}}</span>
-		</div>
-
-		<div class="flex flex-col space-y-8 " >
-
-			<div class="flex flex-col space-y-3 " *ngIf="opportunite.code" >
-				<div class=" grid grid-cols-4 gap-4">
-					<span class="text-gray-2">{{'FORM.INPUT.OPPc' | translate}} :</span>
-          <div class="col-span-3">{{opportunite.code}}</div>
-        </div>
-				<hr>
-			</div>
-
-      <div class="flex flex-col space-y-3 " *ngIf="opportunite.dateFin" >
-				<div class=" grid grid-cols-4 gap-4">
-					<span class="text-gray-2">{{'FORM.INPUT.OPPdf' | translate}} :</span>
-          <div class="col-span-3">{{opportunite.dateFin}}</div>
-        </div>
-				<hr>
-			</div>
-
       <div class="flex flex-col space-y-3" *ngIf="opportunite.datecreation">
 				<div class=" grid grid-cols-4 gap-4">
-					<span class="text-gray-2">{{'FORM.INPUT.OPPdc' | translate}} :</span>
-					<div class="col-span-3">{{opportunite.datecreation}}</div>
+					<span class="text-gray-2 col-span-2">{{'FORM.INPUT.OPPdc' | translate}} :</span>
+          <div class="col-span-2" >{{this.details.formatDate(opportunite.datecreation)}}</div>
 				</div>
         <hr>
 			</div>
 
+      <div class="flex flex-col space-y-3 " *ngIf="opportunite.dateFin" >
+				<div class=" grid grid-cols-4 gap-4">
+					<span class="text-gray-2 col-span-2">{{'FORM.INPUT.OPPdf' | translate}} :</span>
+          <div class="col-span-2">{{this.details.formatDate(opportunite.dateFin)}}</div>
+        </div>
+				<hr>
+			</div>
+
       <div class="flex flex-col space-y-3" *ngIf="opportunite.source">
 				<div class=" grid grid-cols-4 gap-4">
-					<span class="text-gray-2">{{'FORM.INPUT.OPPds' | translate}} :</span>
-					<div class="col-span-3">{{opportunite.source}}</div>
+					<span class="text-gray-2 col-span-2">{{'FORM.INPUT.OPPds' | translate}} :</span>
+					<div >{{opportunite.source}}</div>
 				</div>
 				<hr>
 			</div>
 
-      <div class="flex flex-col space-y-3"  *ngIf="opportunite.societe || opportunite.client">
-				<div class=" grid grid-cols-4 gap-4">
-					<span class="text-gray-2">{{'FORM.INPUT.OPPd' | translate}} :</span>
-					<div class="col-span-3" >{{opportunite.societe?.name}} {{opportunite.client?.firstName}} </div>
-				</div>
-				<hr>
-			</div>
+
 
 		</div>
 
 	</div>
 
+  <div class="flex flex-col gap-4 text-sm">
+
+    <div>
+      <span class="secondary-title text-base">{{'DROP_MENU.SHOW.DE'|translate}}</span>
+		</div>
+
+		<div class="flex flex-col space-y-4 mt-10" >
+
+            <div class="flex flex-col space-y-3  " *ngIf="opportunite.client">
+                <div class=" grid grid-cols-4 "  >
+              <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.DE'| translate}} </span>
+              <span >{{opportunite.client.firstName}} {{ opportunite.client.lastName}}</span>
+                   </div>
+            <hr>
+          </div>
+          <div class="flex flex-col space-y-3  " *ngIf= "opportunite.societe">
+            <div class=" grid grid-cols-4 "  >
+             <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.DE'| translate}} </span>
+                   <span >{{opportunite.societe.name}}</span>
+               </div>
+           <hr>
+          </div>
+
+          <div class="flex flex-col space-y-3  " *ngIf= "this.societe">
+            <div class=" grid grid-cols-4 "  >
+             <span class="text-gray-2 col-span-2">{{'DATA_NAME.S'| translate}} :</span>
+                   <span >{{societe.name}} </span>
+               </div>
+           <hr>
+          </div>
 
 
-</section><br><br>
+          <!--Num tel -->
+
+
+          <div class="flex flex-col space-y-3  " *ngIf= "opportunite.societe" >
+            <div class=" grid grid-cols-4 "  >
+                <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.NUE'| translate}}  </span>
+                      <div *ngFor=" let phone of opportunite.societe?.phoneList" >
+                      <span>{{phone.phoneNumber}}</span>
+               </div>
+                </div>
+            <hr>
+          </div>
+
+          <div class="flex flex-col space-y-3  " *ngIf= "this.societe" >
+            <div class=" grid grid-cols-4 "  >
+                <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.NUE'| translate}}  </span>
+                 <div *ngFor=" let phone of societe.phoneList" >
+                      <span>{{phone.phoneNumber}}</span>
+                 </div>
+            </div>
+              <hr>
+          </div>
+
+
+          <!--Adresse-->
+
+           <div class="flex flex-col space-y-3  " *ngIf= "!this.societe && !opportunite.societe ">
+              <div class=" grid grid-cols-4 gap-4">
+                <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.ADD'| translate}} </span>
+                <div class="col-span-2 flex flex-col">
+                  <span *ngIf= "opportunite.client?.address?.address">{{opportunite.client?.address?.address}}</span>
+                  <ng-container *ngIf= "opportunite.client?.address?.complementAddress && opportunite.client?.address?.complementAddress?.length">
+                    <div  *ngFor= "let complementAddress of opportunite.client?.address?.complementAddress">
+                      {{complementAddress}}
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+              <hr>
+          </div>
+          <div class="flex flex-col space-y-3  " *ngIf= "this.societe">
+              <div class=" grid grid-cols-4 gap-4">
+                <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.ADD'| translate}} </span>
+                <div class="col-span-2 flex flex-col">
+                  <span *ngIf= "societe?.address">{{societe.address.address}}</span>
+                  <ng-container *ngIf= "societe?.address?.complementAddress && opportunite.client?.societe?.address?.complementAddress?.length">
+                    <div *ngFor="let complementAddress of opportunite.client?.societe?.address?.complementAddress" >
+                      {{complementAddress}}
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+              <hr>
+          </div>
+          <div class="flex flex-col space-y-3  " *ngIf= "opportunite.societe">
+              <div class=" grid grid-cols-4 gap-4">
+                <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.ADD'| translate}} </span>
+                <div class="col-span-2 flex flex-col">
+                  <span >{{opportunite.societe.address.address}}</span>
+                  <ng-container *ngIf= "opportunite.societe?.address?.complementAddress && opportunite.societe?.address?.complementAddress?.length">
+                    <div *ngFor= "let complementAddress of opportunite.societe?.address?.complementAddress" >
+                      {{complementAddress}}
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+              <hr>
+          </div>
+
+          <!--Pays -->
+
+             <div class="flex flex-col space-y-3" *ngIf= "this.societe" >
+              <div class=" grid grid-cols-4 gap-4 " >
+                <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.PA' | translate}} </span>
+                <span >{{societe.address.country}} </span>
+              </div>
+              <hr>
+            </div>
+
+            <div class="flex flex-col space-y-3" *ngIf= "opportunite.client && !this.societe ">
+                <div class=" grid grid-cols-4 gap-4 " >
+                <span class="text-gray-2 col-span-2" >{{'DROP_MENU.SHOW.PA' | translate}} </span>
+                <span >{{opportunite.client.address.country}} </span>
+              </div>
+              <hr>
+            </div>
+
+            <div class="flex flex-col space-y-3" *ngIf= "opportunite.societe ">
+                <div class=" grid grid-cols-4 gap-4 " >
+                <span class="text-gray-2 col-span-2" >{{'DROP_MENU.SHOW.PA' | translate}} </span>
+                <span >{{opportunite.societe.address.country}} </span>
+              </div>
+              <hr>
+            </div>
+
+          <!--Num tel Personnel-->
+       <div class="flex flex-col space-y-3  " *ngIf= "opportunite.client" >
+            <div class=" grid grid-cols-4 "  >
+                <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.NUM'| translate}}  </span>
+                    <div *ngFor=" let phone of opportunite.client?.phoneList" >
+                  <span>{{phone.phoneNumber}}</span>
+                 </div>
+             </div>
+            <hr>
+          </div>
+
+        <!--email-->
+
+              <div class="flex flex-col space-y-3  " *ngIf= "opportunite.societe">
+                <div class=" grid grid-cols-4 "  >
+                <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.SI'| translate}} </span>
+                      <span >{{opportunite.societe.website}}</span>
+                  </div>
+              <hr>
+              </div>
+
+              <div class="flex flex-col space-y-3  " *ngIf= "opportunite.client ">
+                <div class=" grid grid-cols-4 "  >
+                <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.EM'| translate}} </span>
+                      <span >{{opportunite.client.email}}</span>
+                  </div>
+                  <hr>
+              </div>
+
+
+		</div>
+
+	</div>
+
+</section>
+
+
+
+<br><br>
 
 <span style="margin-top: 30px;">{{'TITLE.D' | translate}} ({{devisList.length}})</span>
 <div style="margin-top: 30px; margin-bottom: 30px;">

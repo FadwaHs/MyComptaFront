@@ -1,23 +1,38 @@
 <section>
   <app-top-bar for="FG" type="list"  ></app-top-bar>
-  <app-empty-data-message for="FG" *ngIf="isEmpty"></app-empty-data-message>
 
-  <!--Get All Factures-->
+<div class= " sm:h-[400px] flex flex-col py-8 sm:flex-row sm:justify-center items-center gap-6">
 
-  <div>
+<button class="type-client-card" routerLink="{{navigate.f_simplePath}}">
+    <div class="rounded-lg bg-white-1 p-5">
+        <svg-icon name="factures" svgClass="w-11 stroke-1"></svg-icon>
+    </div>
+    <div class="flex flex-col items-start gap-1" >
+        <span class="text-xl font-semibold">{{ 'DATA_NAME.F'| translate}}</span>
+        <span class="text-base text-gray-2">{{ 'FACT_CARD.S'| translate}}</span>
+    </div>
+</button>
 
-    <div class=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
-          <app-card *ngFor="let facture of facture | paginate : {
-            itemsPerPage: pageSize,
-            currentPage: page,
-            totalItems: count
-          }; let i = index"
-        for="F" [data]="facture" (refreshListPage)="onRefresh()"></app-card>
-      </div>
-      <app-pagination (pageChange)="pageChange($event)" (pageSizeChange)="pageSizeChange($event)"></app-pagination>
-
-
+<button class="type-client-card" routerLink="{{navigate.f_avoirPath}}">
+    <div class="rounded-lg bg-white-1 p-5">
+        <svg-icon name="factures" svgClass="w-11 stroke-1"></svg-icon>
+    </div>
+    <div class="flex flex-col items-start gap-1" >
+        <span class="text-xl font-semibold">{{ 'DATA_NAME.A'| translate}}</span>
+        <span class="text-base text-gray-2">{{ 'FACT_CARD.A'| translate}}</span>
+    </div>
+</button>
+<button class="type-client-card" routerLink="{{navigate.f_acomptePath}}" >
+  <div class="rounded-lg bg-white-1 p-5">
+      <svg-icon name="factures" svgClass="w-11 stroke-1"></svg-icon>
   </div>
+  <div class="flex flex-col items-start gap-1" >
+      <span class="text-xl font-semibold">{{ 'DATA_NAME.FA'| translate}}</span>
+      <span class="text-base text-gray-2">{{ 'FACT_CARD.AC'| translate}}</span>
+  </div>
+</button>
+
+</div>
 
 </section>
 

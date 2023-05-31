@@ -48,6 +48,24 @@ import { FactureSimple } from "src/app/private/gestion-facturation/models/factur
      if(status == 'REFUNDED')
        this.translate.get('STATUS.REFUNDED').subscribe((translation: string) => {
        this.statusTr = translation});
+     if(status == 'WON')
+       this.translate.get('STATUS.WON').subscribe((translation: string) => {
+       this.statusTr = translation});
+     if(status == 'LOST')
+       this.translate.get('STATUS.LOST').subscribe((translation: string) => {
+       this.statusTr = translation});
+       if(status == 'CANCLED')
+       this.translate.get('STATUS.CANCLED').subscribe((translation: string) => {
+       this.statusTr = translation});
+     if(status == 'CLOSED')
+       this.translate.get('STATUS.CLOSED').subscribe((translation: string) => {
+       this.statusTr = translation});
+     if(status == 'LATE')
+       this.translate.get('STATUS.LATE').subscribe((translation: string) => {
+       this.statusTr = translation});
+     if(status == 'INPROGRESS')
+       this.translate.get('STATUS.INPROGRESS').subscribe((translation: string) => {
+       this.statusTr = translation});
 
        return this.statusTr
    }

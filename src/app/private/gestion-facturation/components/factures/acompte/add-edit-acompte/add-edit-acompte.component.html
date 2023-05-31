@@ -1,4 +1,4 @@
-<section>
+<section >
   <app-top-bar for="FA" type="add"></app-top-bar>
 
 <form [formGroup]="acoumpteForm" class="grid grid-cols-1 gap-9 md:grid-cols-3 "  *ngIf="isProvisional ; else isNotProvisional"  >
@@ -17,7 +17,9 @@
          <ng-template ng-option-tmp let-item="item" >
              <div class="flex gap-2 items-center">
                <svg-icon [name]="item.icon" svgClass="w-3"></svg-icon>
-               <span>{{item.code}}({{item.totalHT}} HT) Pour {{item.client.firstName}} {{item.client.lastName}}</span>
+               <span *ngIf="item.client">{{item.code}}({{item.totalHT}} HT) Pour {{item.client.firstName}} {{item.client.lastName}}</span>
+               <span *ngIf="item.societe">{{item.code}}({{item.totalHT}} HT) Pour {{item.societe.name}} </span>
+
               </div>
           </ng-template>
 

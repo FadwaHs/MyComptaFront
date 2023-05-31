@@ -4,6 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NavigateService } from 'src/app/shared/services/navigate.service';
 import { OpportuniteService } from '../../../http/opportunite.service';
 import { Devis } from '../../../models/devis';
+import { DetailsService } from 'src/app/shared/services/details.service';
+import { Societe } from '../../../models/societe';
+import { ClientService } from '../../../http/client.service';
 
 @Component({
   selector: 'app-show-opportunite',
@@ -19,10 +22,19 @@ export class ShowOpportuniteComponent implements OnInit {
   opportunite : Opportunite = new Opportunite();
   devisList : Devis[] =[]
 
+  //++
+  clientId :number |undefined
+  societe :Societe |undefined
+
   constructor(private route: ActivatedRoute,
     private router: Router,
     private opportuniteservice: OpportuniteService ,
-    protected navigate : NavigateService) { }
+    protected navigate : NavigateService,
+    //++
+    protected details :DetailsService,
+    private clientService:ClientService
+
+    ) { }
 
 
   ngOnInit(): void {
@@ -42,6 +54,8 @@ export class ShowOpportuniteComponent implements OnInit {
         next: (data) => (this.opportunite = data),
         error: (err) => console.log(err),
         complete: () => {
+          this.clientId = this.opportunite.client?.id
+          this.getSociete()
           this.checkSlug();
         },
       });
@@ -49,7 +63,15 @@ export class ShowOpportuniteComponent implements OnInit {
       this.router.navigateByUrl(this.navigate.f_opportunitePath); //tester
     }
   }
-
+//++
+getSociete(){
+  if(this.clientId){
+    this.clientService.getSocieteForClient(this.clientId).subscribe({
+      next: (data) => (this.societe = data),
+      error: (err) => console.log(err),
+    });
+  }
+}
 
   checkSlug() {
     if (this.opportunite.slug != this.slug) {

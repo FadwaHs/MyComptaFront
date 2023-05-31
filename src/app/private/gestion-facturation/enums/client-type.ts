@@ -1,7 +1,7 @@
 export enum ClientType{
   Aucun='Aucun',
-  OTHER='OTHER',
-  NEW ='NEW',
-  FAITHFUL ='FAITHFUL',
-  INACTIVE = 'INACTIVE'
+  Autre='Autre',
+  Nouveau ='Nouveau',
+  Fidèle ='Fidèle',
+  Inactif = 'Inactif'
 }

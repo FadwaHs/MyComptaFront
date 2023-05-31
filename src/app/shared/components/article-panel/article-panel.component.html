@@ -45,10 +45,10 @@
 
                 <div class="grid grid-cols-1 gap-x-2 gap-y-5 sm:grid-cols-3 md-lg:grid-cols-7">
                     <div class="relative">
-                        <label class="common-label "
+                        <label class="common-label w-[88px]"
                             *ngIf="articleForm.controls['quantity'].value != null">{{'FORM.INPUT.Q' |
                             translate}} *</label>
-                        <input type="number" appAllowInput allow="integer" class="common-input"
+                        <input type="number" appAllowInput allow="integer" class="common-input px-3"
                             placeholder="{{'FORM.INPUT.Q' | translate}} *" formControlName="quantity"
                             (ngModelChange)="calculate()">
                     </div>
