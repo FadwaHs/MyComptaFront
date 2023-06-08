@@ -287,9 +287,7 @@ export class AddEditSocieteComponent implements OnInit {
     note:this.societe.note
 
   });
-   //++
     this.societeForm.controls['secteur'].setValue(this.societe.secteur.name);
-
     this.societeForm.controls['twitter'].setValue(this.societe.socialList[0].link)
     this.societeForm.controls['facebook'].setValue(this.societe.socialList[1].link)
     this.societeForm.controls['linkedin'].setValue(this.societe.socialList[2].link)

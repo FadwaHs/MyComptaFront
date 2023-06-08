@@ -55,6 +55,7 @@ export class AddEditFournisseurComponent {
   async ngOnInit(): Promise<void> {
 
     if (this.route.snapshot.url[0].path == 'edit') {
+
       this.isAddMode = false;
       this.verifyRouteAndGetFournisseur();
     }
@@ -66,6 +67,7 @@ export class AddEditFournisseurComponent {
   async verifyRouteAndGetFournisseur() {
     [this.id, this.slug] = await this.route.snapshot.params['id-slug'].split('-');
     this.id = +this.id;
+    console.log(this.id,'ccc')
     if (this.id) {
       this.fournisseurService.getFournisseurById(this.id).subscribe({
         next: (data) => (this.fournisseur = data),

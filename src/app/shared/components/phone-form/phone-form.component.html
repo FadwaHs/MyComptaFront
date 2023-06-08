@@ -1,21 +1,27 @@
-<section class="flex flex-col gap-6 ">
-    <form class="space-y-6" [formGroup]="phoneForm">
-        <div class="grid grid-cols-5" *ngFor="let controller of controls ; let i = index">
+ <section class="flex flex-col gap-6">
+  <form class="space-y-6" [formGroup]="phoneForm">
+    <div class="grid grid-cols-5" *ngFor="let controller of controls; let i = index">
+      <div class="common-input col-span-4 "style="display: inline-block !important;">
+        <ngx-intl-tel-input
+          [formControlName]="controller"
+          [phoneValidation]="true"
+          [preferredCountries]="preferredCountries"
+          [enableAutoCountrySelect]="true"
+          [selectedCountryISO]="CountryISO.Morocco"
+          [separateDialCode]="false"
 
-            <input type="tel" appAllowInput
-                allow="integer"
-                placeholder="{{'FORM.INPUT.NT' | translate}} {{(i+1)}}" 
-                class="common-input col-span-4"
-                formControlName="{{controller}}">
-            <div class="flex gap-1 justify-center items-center">
-                <button class="common-btn-gray" (click)="addPhoneInput(i)" [disabled]="controls.length >= max">
-                    <svg-icon svgClass="w-3" name="plus"></svg-icon>
-                </button>
-                <button class="common-btn-gray" (click)="deletePhoneInput(i)" [disabled]="controls.length <= min">
-                    <svg-icon svgClass="w-3" name="minus"></svg-icon>
-                </button>
-            </div>
+          >
 
+          </ngx-intl-tel-input>
         </div>
-    </form>
+      <div class="flex gap-1 justify-center items-center">
+        <button class="common-btn-gray" (click)="addPhoneInput(i)" [disabled]="controls.length >= max">
+          <svg-icon svgClass="w-3" name="plus"></svg-icon>
+        </button>
+        <button class="common-btn-gray" (click)="deletePhoneInput(i)" [disabled]="controls.length <= min">
+          <svg-icon svgClass="w-3" name="minus"></svg-icon>
+        </button>
+      </div>
+    </div>
+  </form>
 </section>

@@ -38,6 +38,9 @@ import {MatListModule} from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
+import { Ng2TelInputModule } from 'ng2-tel-input';
+
 
 
 
@@ -83,7 +86,11 @@ import { OverlayModule } from '@angular/cdk/overlay';
     MatListModule,
     MatMenuModule,
     MatIconModule,
-    OverlayModule
+    OverlayModule,
+
+
+    NgxIntlTelInputModule,
+
   ],
   exports : [
     AddressFormComponent,
@@ -122,12 +129,20 @@ import { OverlayModule } from '@angular/cdk/overlay';
     MatListModule,
     MatMenuModule,
     MatIconModule,
-    OverlayModule
+    OverlayModule,
+    NgxIntlTelInputModule
+
+
   ],
   providers :[
     LanguageService,
     DatePipe,
-    DecimalPipe
+    DecimalPipe,
+
+    Ng2TelInputModule,
+
+
+
   ]
 })
 export class SharedModule {

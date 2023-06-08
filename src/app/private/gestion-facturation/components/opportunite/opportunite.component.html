@@ -1,10 +1,10 @@
-<section>
+<section class="h-[100vh]">
 
   <app-top-bar for="O" type="list"  ></app-top-bar>
   <app-empty-data-message for="O" *ngIf="isEmpty"></app-empty-data-message>
 
 <div>
-    <div class=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
+  <div class=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
         <app-card *ngFor= "let opp of opportunite let i = index"
         for= "O" [data]="opp"></app-card>
     </div>
