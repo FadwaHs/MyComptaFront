@@ -160,7 +160,7 @@ export class CardComponent implements OnInit {
       this.card.secondaryTitle = await firstValueFrom(this.translate.get('FOURNISSEUR_CARD.TYPE.PAR.L1')).catch(console.log)
       this.setAddressToCard(fournisseur.address)
     }
-    this.setMotCleToCard(fournisseur.motCleList);
+
     this.setEmailToCard(fournisseur.email)
     this.setPhoneToCard(fournisseur.phoneList)
 

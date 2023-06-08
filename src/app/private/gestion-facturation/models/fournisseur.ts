@@ -7,6 +7,7 @@ import { Societe } from "./societe";
 
 
 export class Fournisseur{
+
   id: number;
   slug: string;
   firstName: string;
@@ -21,7 +22,6 @@ export class Fournisseur{
   societe? : Societe;
   compteCharge: CompteCharge;
   compteTiers: CompteTiers;
-  social: Social[];
-  motCleList: any;
-  language: any;
+  socialList: Social[];
+
 }

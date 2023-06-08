@@ -118,26 +118,26 @@
 
           <div class="flex flex-col gap-6 px-3 py-6 ring-1 ring-gray-3 rounded-md relative h-fit" >
             <!-- Mots clés Form -->
-
              <app-key-word-form for="S"></app-key-word-form>
+          </div>
 
+        <div class="flex flex-col gap-6 px-3 py-6 ring-1 ring-gray-3 rounded-md relative h-fit" >
+          <div>
+            <span class="span-title">{{'FORM.TITLE.N' | translate}}</span>
+          </div>
              <!-- Note area -->
              <div class="flex flex-col gap-6">
-              <div>
-                  <span class="secondary-title">{{'FORM.TITLE.N' | translate}}</span>
-              </div>
-              <textarea class="common-textarea resize-none " placeholder="{{'FORM.INPUT.N' | translate}}" rows="6" formControlName="note">
+             <textarea class="common-textarea resize-none " placeholder="{{'FORM.INPUT.N' | translate}}" rows="6" formControlName="note">
               </textarea>
              </div>
-          </div>
-               <!-- client and Mots clés column -->
+        </div>
+
           <div class="flex flex-col gap-6 px-3 py-6 ring-1 ring-gray-3 rounded-md relative h-fit " >
 
               <div>
                   <span class="span-title">{{'FORM.TITLE.OTH' | translate}}</span>
               </div>
-                  <!-- select client form -->
-
+               <!-- select client form -->
               <app-select-client-form for="S"></app-select-client-form>
 
               <div class="flex flex-col gap-6">

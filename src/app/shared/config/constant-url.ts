@@ -58,6 +58,7 @@ export class ConstantUrl {
 
      //++
      public readonly compteTiersUrl : string = this.baseUrl+"comptetiers";
+     public readonly compteChargeUrl : string = this.baseUrl+"comptecharges";
      public readonly socialsUrl : string = this.baseUrl+"sociaux";
      public readonly secteursUrl : string = this.baseUrl+"secteurs";
 

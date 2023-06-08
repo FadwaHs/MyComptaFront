@@ -12,6 +12,7 @@ import { Pipeline } from 'src/app/private/gestion-facturation/models/pipeline';
 import { FactureAcompte } from 'src/app/private/gestion-facturation/models/facture-acompte';
 import { FactureAvoir } from 'src/app/private/gestion-facturation/models/facture-avoir';
 import { FactureSimple } from 'src/app/private/gestion-facturation/models/facture-simple';
+import { Fournisseur } from 'src/app/private/gestion-facturation/models/fournisseur';
 
 
 interface TopTitle{
@@ -36,10 +37,10 @@ export class TopBarComponent implements OnInit {
 
 
   @Input()
-  data: Societe | Client | Devis | Facture | Opportunite | Pipeline;
+  data: Societe | Client | Devis | Facture | Opportunite | Pipeline | Fournisseur;
 
   @Input()
-  for: 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'FG' |'P'
+  for: 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'FG' |'P' |'FR'
 
   @Input()
   type : 'add'|'edit'|'show'|'list'
@@ -114,6 +115,14 @@ export class TopBarComponent implements OnInit {
         this.showData[0] = "Opportunite"
         this.showData[1] = opportunite.code
       }
+      else if( this.for == 'FR' ){
+
+        var fournisseur :Fournisseur = this.data as Fournisseur;
+        this.showData[0] = fournisseur.firstName+' '+fournisseur.lastName
+        if(fournisseur.societe) this.showData[1] = "Professionel"
+        else this.showData[1] = "Particulier"
+      }
+
     }
 
   }

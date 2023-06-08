@@ -85,7 +85,7 @@ export class AddEditClientComponent implements OnInit{
   //++
 
 
-   initCompteTiers() {
+  initCompteTiers() {
 
   this.compteTiersService.getAllCompteTiers().subscribe({
     next: (data) => (this.compteTiersList= data),
@@ -98,6 +98,7 @@ export class AddEditClientComponent implements OnInit{
 
 
   async verifyRouteAndGetClient() {
+
     [this.id, this.slug] = await this.route.snapshot.params['id-slug'].split('-');
     this.id = +this.id;
     if (this.id) {
@@ -109,7 +110,7 @@ export class AddEditClientComponent implements OnInit{
           this.socialList = this.client.socialList
 
           this.checkSlug();
-          if(this.client.societe) this.toProfessionel()
+          if(this.client.societe)  this.toProfessionel()
           else this.toParticulier();
           this.setFormValues();
           this.setOtherForms()
@@ -240,12 +241,42 @@ export class AddEditClientComponent implements OnInit{
     this.socialList.forEach((social,index) =>
     {
       social.client = this.client
-      this.socialService.updateSocialById(social.id,social).subscribe({
-        next:(res) =>{
-          this.socialList[index]=res
+      if(social.id)
+      {
+        this.socialService.updateSocialById(social.id,social).subscribe({
+          next:(res) =>{
+            this.socialList[index]=res
+          },
+        })
+      }else
+      {
+        this.socialService.addSocial(social).subscribe({
+          next: (data) => (social = data),
+          error: (e) => console.log(e),
+          complete: () => {
         },
-      })
+        })
+      }
+
     });
+  }
+
+  setSoial(){
+
+    if(this.socialList)
+    this.socialList.forEach( (social) => {
+
+      if(social.link){
+        social.client =this.client;
+        this.socialService.addSocial(social).subscribe({
+          next: (data) => (social = data),
+          error: (e) => console.log(e),
+          complete: () => {
+        },
+        })
+      }
+    });
+
   }
 
   async submitOtherForms() {
@@ -269,8 +300,8 @@ export class AddEditClientComponent implements OnInit{
     this.client.language = this.clientForm.controls['language'].value;
     this.client.clientType= this.clientForm.controls['clientType'].value;
     this.client.compteTiers=this.clientForm.controls['compteTiers'].value as CompteTiers;
-
     this.client.note = this.clientForm.controls['note'].value;
+
     if(this.isPar){
       this.client.website = this.clientForm.controls['website'].value
       delete this.client.societe
@@ -279,6 +310,7 @@ export class AddEditClientComponent implements OnInit{
       this.client.societe = this.clientForm.controls['societe'].value;
       delete this.client.website ;
     }
+
     if(this.isAddMode)
     {
       var twitterSocial =new Social()
@@ -301,56 +333,59 @@ export class AddEditClientComponent implements OnInit{
     else
     {
 
-      this.socialList.forEach(social => {
+      if( this.socialList.length > 0)
+      {
 
-        if(social.id)
-        {
-         if(social.name == 'Twitter')
-         {
-            social.link = this.clientForm.controls['twitter'].value
-         }
-         if(social.name == 'Facebook')
-         {
-            social.link = this.clientForm.controls['facebook'].value
-         }
-         if(social.name == 'LinkedIN')
-         {
-            social.link = this.clientForm.controls['linkedin'].value
-         }
+        this.socialList.forEach(social => {
 
-        }
+          if(social.id)
+          {
+           if(social.name == 'Twitter')
+           {
+              social.link = this.clientForm.controls['twitter'].value
+           }
+           if(social.name == 'Facebook')
+           {
+              social.link = this.clientForm.controls['facebook'].value
+           }
+           if(social.name == 'LinkedIN')
+           {
+              social.link = this.clientForm.controls['linkedin'].value
+           }
 
-      });
+          }
 
+        });
 
+      }else
+      {
 
+        var twitterSocial =new Social()
+        var facebookSocial =new Social()
+        var linkedinSocial =new Social()
+
+         twitterSocial.name ='Twitter'
+         twitterSocial.link =this.clientForm.controls['twitter'].value
+         facebookSocial.name ='Facebook'
+         facebookSocial.link =this.clientForm.controls['facebook'].value
+         linkedinSocial.name ='LinkedIN'
+         linkedinSocial.link =this.clientForm.controls['linkedin'].value
+
+         this.socialList =new Array<Social>()
+
+         this.socialList.push(twitterSocial)
+         this.socialList.push(facebookSocial)
+         this.socialList.push(linkedinSocial)
+
+      }
     }
 
-
-
   }
-
-  setSoial(){
-
-    if(this.socialList)
-    this.socialList.forEach( (social) => {
-
-      if(social.link){
-        social.client =this.client;
-        this.socialService.addSocial(social).subscribe({
-          next: (data) => (social = data),
-          error: (e) => console.log(e),
-          complete: () => {
-        },
-        })
-      }
-    });
-
-  }
-
 
   setFormValues() {
+
     this.clientForm.patchValue({
+
       firstName: this.client.firstName,
       lastName: this.client.lastName,
       email: this.client.email,
@@ -363,12 +398,17 @@ export class AddEditClientComponent implements OnInit{
       compteTiers:this.client.compteTiers,
 
     });
-      this.clientForm.controls['twitter'].setValue(this.client.socialList[0].link)
-      this.clientForm.controls['facebook'].setValue(this.client.socialList[1].link)
-      this.clientForm.controls['linkedin'].setValue(this.client.socialList[2].link)
 
     if(this.isPar) this.clientForm.controls['website'].setValue(this.client.website)
     else this.clientForm.controls['societe'].setValue(this.client.societe)
+
+    if(this.client.socialList.length >0 )
+    {
+      this.clientForm.controls['twitter'].setValue(this.client.socialList[0].link)
+      this.clientForm.controls['facebook'].setValue(this.client.socialList[1].link)
+      this.clientForm.controls['linkedin'].setValue(this.client.socialList[2].link)
+    }
+
   }
 
   deleteAddress(){

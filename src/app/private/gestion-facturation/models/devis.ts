@@ -38,6 +38,7 @@ export class Devis{
     factureAcomteList : FactureAcompte[]
     //++
     date_finalisation :Date
-    date_signature :Date | null
+    date_signature :Date
     //++
+
 }

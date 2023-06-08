@@ -43,6 +43,25 @@ export class DevisComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     await this.setAllDevis();
     if(this.devis.length == 0) this.isEmpty = true
+
+    this.filterService.getselectedItemSubject().subscribe((dateselected) => {
+
+      if (dateselected) {
+        switch (dateselected) {
+          case 'Trier Par : Date De Création':
+            this.devis.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+            break;
+          case 'Trier Par : Date De Finalisation':
+              this.devis.sort((a, b) => new Date(b.date_finalisation).getTime() - new Date(a.date_finalisation).getTime());
+              break;
+          case 'Trier Par : Date de signature':
+                this.devis.sort((a, b) => new Date(b.date_signature).getTime() - new Date(a.date_signature).getTime());
+                break;
+          default:
+            break;
+        }
+      }
+    });
   }
 
   onRefresh(){

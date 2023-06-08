@@ -1,4 +1,5 @@
 import { Client } from "./client";
+import { Fournisseur } from "./fournisseur";
 
 import { Societe } from "./societe";
 
@@ -11,7 +12,6 @@ export class Social{
   link: string;
   client :Client |null
   societe :Societe |null
-
-  //fournissuer !!!
+  fournisseur : Fournisseur |null
 
 }

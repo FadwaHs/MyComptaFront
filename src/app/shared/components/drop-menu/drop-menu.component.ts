@@ -27,6 +27,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Pipeline } from 'src/app/private/gestion-facturation/models/pipeline';
 import { Fournisseur } from 'src/app/private/gestion-facturation/models/fournisseur';
+import { FournisseurService } from 'src/app/private/gestion-facturation/http/fournisseur.service';
 
 @Component({
   selector: 'app-drop-menu',
@@ -53,7 +54,7 @@ export class DropMenuComponent implements OnInit {
 
   @Input()
 
-  for: 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'FG'|'P'| 'FR'
+  for: 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'FG'|'P'|'FR'
 
 
   dropMenu :boolean = false;
@@ -78,6 +79,8 @@ export class DropMenuComponent implements OnInit {
   selectedDate = this.dates[0];
   // date tri for avoir
   dates_avoir: string[] = ["Trier Par : Date De Finalisation","Trier Par : Date De Création","Trier Par : Date De remboursement"]
+  dates_devis : string[] = ["Trier Par : Date De Finalisation","Trier Par : Date De Création","Trier Par : Date de signature"]
+
   selectedDateAvoir = this.dates[0];
   dateRem : Date;
   datePay: Date;
@@ -112,7 +115,7 @@ export class DropMenuComponent implements OnInit {
     private societeService : SocieteService,
     // opportuniteService:
     private opportuniteService : OpportuniteService,
-
+    private fournisseurService : FournisseurService,
     // private dialog: MatDialog,
     private modalService: NgbModal
 
@@ -187,6 +190,7 @@ export class DropMenuComponent implements OnInit {
     if(this.for == 'FA') this.deleteAcompte(id)
     //++
     if(this.for == 'F') this.deleteSimple(id)
+    if(this.for == 'FR') this.deleteFournisseur(id)
 
   }
 
@@ -228,12 +232,12 @@ export class DropMenuComponent implements OnInit {
   refuseIt(){
     if(this.for == 'D') this.updateDevis(DevisStatus.REFUSED)
   }
-//++
+
+  //++
   unsigneIt() {
     if(this.for == 'D') {
-      (this.data as Devis).date_signature= null;
-      this.updateDevis(DevisStatus.FINALIZED);
-
+      // (this.data as Devis).date_signature= null;
+      // this.updateDevis(DevisStatus.FINALIZED);
     }
   }
 
@@ -484,6 +488,19 @@ export class DropMenuComponent implements OnInit {
         }
 
        })
+  }
+
+
+  deleteFournisseur(id:number)
+  {
+    this.fournisseurService.deleteFournisseur(id).subscribe({
+      error:e => console.log(e),
+      complete: () => {
+        location.reload();
+      }
+
+     })
+
   }
 
 

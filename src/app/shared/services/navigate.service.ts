@@ -28,7 +28,7 @@ export class NavigateService {
   public readonly PipePath = this.facturationPath+'/pipeline'
 
 
-  public readonly f_fournisseurPath = this.facturationPath+ '/fournisseurs'
+  public readonly f_fournisseurPath = this.facturationPath+'/fournisseurs'
 
 
   public readonly f_facturePath = this.facturationPath+'/factures'
@@ -66,15 +66,11 @@ export class NavigateService {
     else if(from == 'FR') return this.f_fournisseurPath+this.addPath
 
 
-
     else return ''
   }
 
 
   toEditPath(from : 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'P'|'FR' , id : number ,slug : string) : string {
-
-
-
 
     if(from == 'C') return this.f_clientPath+this.editPath+id+'-'+slug
 

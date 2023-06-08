@@ -22,10 +22,6 @@ export class FournisseurService{
     return this.http.get<Fournisseur[]>(`${this.constant.fournisseurUrl}`)
   }
 
-  getFournisseurList(params: any): Observable<any> {
-    return this.http.get<any>(`${this.constant.fournisseurUrl}/pagination`, { params });
-  }
-
   createFournisseur(fournisseur: Fournisseur):Observable<any>{
     return this.http.post(`${this.constant.fournisseurUrl}`, fournisseur);
   }
@@ -38,17 +34,6 @@ export class FournisseurService{
     return this.http.delete(`${this.constant.fournisseurUrl}/${id}`,{ responseType: 'text'});
   }
 
-  getAllSimpleForFournisseur():Observable<SimpleFournisseur[]>{
-    return this.http.get<SimpleFournisseur[]>(`${this.constant.SimplefournisseurUrl}`)
-  }
-
-  getAllAvoirForFournisseur():Observable<AvoireFournisseur[]>{
-    return this.http.get<AvoireFournisseur[]>(`${this.constant.AvoirfournisseurUrl}`);
-  }
-
-  getAllBonsCommandeForFournisseur(){}
-
-  getAllBonLivraisonForFournisseur(){}
 }
 
 

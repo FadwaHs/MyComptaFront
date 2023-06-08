@@ -24,13 +24,8 @@ export class CompteTiersService {
 
   //++
   addCompteTiers(compteTiers: CompteTiers): Observable<any> {
-    const serializedCompteTiers = JSON.stringify(compteTiers);
-    return this.http.post(`${this.constant.compteTiersUrl}`, serializedCompteTiers);
+    return this.http.post(`${this.constant.compteTiersUrl}`, compteTiers);
   }
-
-  // addCompteTiers(compteTiers: CompteTiers): Observable<any> {
-  //   return this.http.post(`${this.constant.compteTiersUrl}`, compteTiers);
-  // }
 
   updateCompteTiersById( id :number, compteTiers: CompteTiers) :Observable<CompteTiers>{
     return this.http.put<CompteTiers>(`${this.constant.compteTiersUrl}/${id}`,compteTiers);
@@ -39,9 +34,5 @@ export class CompteTiersService {
   deleteCompteTiersById(id :number):Observable<string>{
    return this.http.delete(`${this.constant.compteTiersUrl}/${id}`,{ responseType: 'text'});
   }
-
-
-
-
 
 }
