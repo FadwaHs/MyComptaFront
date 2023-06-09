@@ -9,7 +9,7 @@ import { Injectable } from "@angular/core";
 })
 export class ConstantUrl {
 
-    public readonly baseUrl :string = "http://localhost:8082/api/";
+    public readonly baseUrl :string = "https://www.api-compta.codingart.tech/api/";
     public readonly societeUrl :string = this.baseUrl+"societes";
     public readonly clientUrl :string = this.baseUrl+"clients";
     public readonly clientOppUrl :string = this.clientUrl+"/opp";
