@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  url:"http://localhost:8085/api"
+  url:"https://www.api-compta.codingart.tech/api"
 };
 
 /*
