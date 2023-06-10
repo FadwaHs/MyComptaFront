@@ -29,6 +29,9 @@ export class AddEditFournisseurComponent {
   @ViewChild(PhoneFormComponent)
   childPhone:PhoneFormComponent;
 
+  @ViewChild(KeyWordFormComponent)
+  childKeyWord: KeyWordFormComponent;
+
   id: number;
   slug: string;
   fournisseur: Fournisseur = new Fournisseur();
@@ -197,6 +200,8 @@ export class AddEditFournisseurComponent {
     setTimeout(() => {
       if(this.isPar && this.fournisseur.address) this.childAddress.setFormValues(this.fournisseur.address)
       if(this.fournisseur.phoneList.length)this.childPhone.setFormValues(this.fournisseur.phoneList)
+      if(this.fournisseur.motCleList.length) this.childKeyWord.setFormValues(this.fournisseur.motCleList)
+
     }, 1);
 
   }
@@ -297,6 +302,7 @@ export class AddEditFournisseurComponent {
 
     if(this.isPar) await this.childAddress.onSubmit(fournisseur,this.isAddMode);
     else this.deleteAddress();
+    await this.childKeyWord.onSubmit(fournisseur,this.isAddMode);
     await this.childPhone.onSubmit(fournisseur,this.isAddMode);
     this.router.navigateByUrl(this.navigate.f_fournisseurPath);
   }

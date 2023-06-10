@@ -24,7 +24,7 @@ export class FournisseurComponent {
     this.filterService.methodSearchCalled$.subscribe(
       (data) => {
         this.data = data
-        // this.searchData()
+         this.searchData()
       }
     );
   }
@@ -37,9 +37,12 @@ export class FournisseurComponent {
 
   async setAllFournisseurs(){
 
-    await firstValueFrom(this.fournisseurService.getAllFournisseur())
+    const params = this.getRequestParams(this.data, this.page, this.pageSize);
+    await firstValueFrom(this.fournisseurService.getFournisseurList(params))
     .then(res => {
-       this.fournisseurs = res;
+      const { fournisseurs, totalItems } = res;
+      this.fournisseurs = fournisseurs;
+      this.count = totalItems;
     }
     )
     .catch(console.log)
@@ -77,20 +80,20 @@ export class FournisseurComponent {
   }
 
 
-  // pageChange(page: number): void {
-  //   this.page = page;
-  //   this.setAllFournisseurs();
-  // }
+  pageChange(page: number): void {
+    this.page = page;
+    this.setAllFournisseurs();
+  }
 
-  // pageSizeChange(pageSize: number): void {
-  //   this.pageSize = pageSize;
-  //   this.page = 1;
-  //   this.setAllFournisseurs();
-  // }
+  pageSizeChange(pageSize: number): void {
+    this.pageSize = pageSize;
+    this.page = 1;
+    this.setAllFournisseurs();
+  }
 
-  // searchData(): void {
-  //   this.page = 1;
-  //   this.setAllFournisseurs();
-  // }
+  searchData(): void {
+    this.page = 1;
+    this.setAllFournisseurs();
+  }
 
 }

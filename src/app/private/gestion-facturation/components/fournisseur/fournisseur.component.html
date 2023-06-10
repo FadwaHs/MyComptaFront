@@ -8,10 +8,17 @@
     <div
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 auto-rows-fr p-3">
       <app-card for="FR" [data]="fournisseur"
-        *ngFor="let fournisseur of fournisseurs; let i = index"
+        *ngFor="let fournisseur of fournisseurs |paginate : {
+           itemsPerPage: pageSize,
+                currentPage: page,
+                totalItems: count
+        }; let i = index"
       ></app-card>
     </div>
   </div>
+  <app-pagination
+    (pageChange)="pageChange($event)"
+    (pageSizeChange)="pageSizeChange($event)"
+  ></app-pagination>
 
-  <app-pagination></app-pagination>
 </section>

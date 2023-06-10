@@ -34,6 +34,13 @@ export class FournisseurService{
     return this.http.delete(`${this.constant.fournisseurUrl}/${id}`,{ responseType: 'text'});
   }
 
+   getFournisseurList(params: any): Observable<any> {
+    return this.http.get<any>(`${this.constant.fournisseurUrl}/pagination`, { params });
+  }
+
+  getFournisseursByFirstNameAndLastName(): Observable<Fournisseur[]>{
+    return this.http.get<Fournisseur[]>(`${this.constant.fournisseurUrl}/recipient`)
+  }
 }
 
 

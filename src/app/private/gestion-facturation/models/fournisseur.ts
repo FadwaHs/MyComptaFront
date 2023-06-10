@@ -1,6 +1,7 @@
 import { Address } from "./address"
 import { CompteCharge } from "./compte_charge";
 import { CompteTiers } from "./compte_tiers";
+import { MotCle } from "./mot-cle";
 import { Phone } from "./phone";
 import { Social } from "./social";
 import { Societe } from "./societe";
@@ -23,5 +24,8 @@ export class Fournisseur{
   compteCharge: CompteCharge;
   compteTiers: CompteTiers;
   socialList: Social[];
+  motCleList : MotCle[]
+
+
 
 }

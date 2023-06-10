@@ -153,6 +153,8 @@
             </ng-select>
           </div>
 
+          <!-- Mots clés Form -->
+          <app-key-word-form for="FR"></app-key-word-form>
         </div>
 
       </ng-template>
@@ -161,25 +163,31 @@
     <!-- fournisseur note area-->
     <div class="flex flex-col gap-5 relative">
 
-      <div class="flex flex-col gap-6 px-3 py-6 ring-1 ring-gray-3 rounded-md relative h-fit" >
-        <div>
-          <span class="span-title">{{'FORM.TITLE.N' | translate}}</span>
-       </div>
-      <!-- Note area -->
-      <div class="flex flex-col gap-6">
-        <textarea
-          class="common-textarea resize-none" placeholder="{{ 'FORM.INPUT.N' | translate }}" rows="6"
-          formControlName="note">
+      <div class="flex flex-col gap-6 px-3 py-6 ring-1 ring-gray-3 rounded-md relative h-fit" *ngIf="isPar">
+
+  <!-- Mots clés Form -->
+  <app-key-word-form for="FR" *ngIf="isPar"></app-key-word-form>
+</div>
+<div class="flex flex-col gap-6 px-3 py-6 ring-1 ring-gray-3 rounded-md relative h-fit" >
+  <div>
+    <span class="span-title">{{'FORM.TITLE.N' | translate}}</span>
+  </div>
+    <!-- Note area -->
+    <div class="flex flex-col gap-6">
+        <textarea class="common-textarea resize-none " placeholder="{{'FORM.INPUT.N' | translate}}" rows="6" formControlName="note">
         </textarea>
-      </div>
     </div>
+  </div>
 
     <div class="flex flex-col gap-6 px-3 py-6 ring-1 ring-gray-3 rounded-md relative h-fit" >
       <div>
-        <span class="span-title">{{'FORM.TITLE.DC' | translate}}</span>
+        <span class="span-title">{{'FORM.TITLE.OTH' | translate}}</span>
       </div>
       <!-- les données comptable -->
       <div class="flex flex-col gap-11">
+        <div>
+          <span class="secondary-title">{{ "FORM.TITLE.DC" | translate }}</span>
+        </div>
         <div class="relative">
           <label class="common-label">{{ "FORM.INPUT.CT" | translate }}</label>
           <ng-select [items]= "compteTiersList" bindLabel="code" class="custom-select-gray w-full text-sm"
@@ -206,18 +214,16 @@
       </div>
     </div>
 
-      <div class="flex flex-col gap-6 mt-10">
-        <div class="grid grid-cols-3 gap-5 absolute bottom-0 w-full">
-          <button class="common-btn-black col-span-2" [disabled]="fournisseurForm.invalid" appDebounceClick (debounceClick)="onSubmit()">
-            <ng-container *ngIf="isAddMode; else editButton">{{"FORM.BUTTON.C" | translate}}</ng-container>
-            <ng-template #editButton>{{"FORM.BUTTON.E" | translate}}</ng-template>
-          </button>
-          <button #add class="common-btn-gray" routerLink="{{ navigate.f_fournisseurPath }}" >
-            {{ "FORM.BUTTON.A" | translate }}
-          </button>
-        </div>
-      </div>
+    <div class="grid grid-cols-3 gap-5 absolute bottom-0 w-full ">
+      <button class="common-btn-black col-span-2 " [disabled]="fournisseurForm.invalid" appDebounceClick
+          (debounceClick)="onSubmit()">
+          <ng-container *ngIf="isAddMode  else editButton">{{'FORM.BUTTON.C' | translate}}</ng-container>
+          <ng-template #editButton>{{'FORM.BUTTON.E' | translate}}</ng-template>
+      </button>
+      <button #add class="common-btn-gray" routerLink="/clients">{{'FORM.BUTTON.A' | translate}}</button>
+  </div>
     </div>
 
   </div>
+
 </form>

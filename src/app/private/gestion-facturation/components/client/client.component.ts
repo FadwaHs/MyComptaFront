@@ -9,7 +9,7 @@ import { Client } from '../../models/client';
   templateUrl: './client.component.html',
   styleUrls: ['./client.component.scss']
 })
-export class ClientComponent implements OnInit {
+export class  ClientComponent implements OnInit {
 
   clients :Array<Client> = []
   isEmpty : boolean = false;

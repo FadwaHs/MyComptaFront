@@ -26,7 +26,10 @@ const routes: Routes = [
   },
   { path: 'opportunite', loadChildren: () => import('./private/gestion-facturation/components/opportunite/opportunite.module').then(m => m.OpportuniteModule) },
   { path: 'pipeline', loadChildren: () => import('./private/gestion-facturation/components/pipeline/pipeline.module').then(m => m.PipelineModule) },
-];
+  { path: 'facture-fournisseur', loadChildren: () => import('./private/gestion-facturation/components/facture-fournisseur/facture-fournisseur.module').then(m => m.FactureFournisseurModule) },
+  { path: 'simple-fournisseur', loadChildren: () => import('./private/gestion-facturation/components/facture-fournisseur/simple-fournisseur/simple-fournisseur.module').then(m => m.SimpleFournisseurModule) },
+  { path: 'avoir-fournisseur', loadChildren: () => import('./private/gestion-facturation/components/facture-fournisseur/avoir-fournisseur/avoir-fournisseur.module').then(m => m.AvoirFournisseurModule) },
+ ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

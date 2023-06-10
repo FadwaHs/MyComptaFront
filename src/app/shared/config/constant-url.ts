@@ -52,8 +52,8 @@ export class ConstantUrl {
     public readonly oppDevisUrl :string = this.opportuniteUrl+"/devis";
     public readonly etapOppeUrl :string = this.etapeUrl+"/opp";
 
-    public readonly AvoirfournisseurUrl : string = this.baseUrl+"facturesfournisseur-avoir";
-    public readonly SimplefournisseurUrl : string = this.baseUrl+"facturesfournisseur-simple";
+    public readonly avoirfournisseurUrl : string = this.baseUrl+"facturesfournisseur-avoir";
+    public readonly simplefournisseurUrl : string = this.baseUrl+"facturesfournisseur-simple";
 
 
      //++

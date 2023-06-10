@@ -21,15 +21,10 @@ note: string
 date_creation: Date;
 remise: number
 remIsPercentage: boolean;
-
-// fournisseur: Fournisseur
+fournisseur: Fournisseur
 conditionReglement: ConditionReglement
 ModeReglement : ModeReglement
 motCleList: MotCle[]
 Paiement: Paiement[]
-AvoireFournisseur: AvoireFournisseur[]
-SimpleFournisseur: SimpleFournisseur[]
-Bons: Bons[]
-BonsCommande: BonsCommande[]
-BonLivraison: BonLivraison[]
+
 }

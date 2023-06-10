@@ -35,7 +35,7 @@ export class Devis{
     modeReglement : ModeReglement|null
     interet : Interet|null
     articleList : Article[]
-    factureAcomteList : FactureAcompte[]
+    factureAcompteList : FactureAcompte[]
     //++
     date_finalisation :Date
     date_signature :Date

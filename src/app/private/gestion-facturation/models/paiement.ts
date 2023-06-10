@@ -1,3 +1,6 @@
+import { CompteBanc } from "./compte-banc"
+import { FactureFournisseur } from "./facture-fournisseur"
+
 export class Paiement{
   id: number
   type: string
@@ -6,13 +9,8 @@ export class Paiement{
   note:string
   dateReglement: Date
   dateRemise: Date
-  // date_reglement
-  // date_remise
+  factureFournisseur :FactureFournisseur
+  compteDebiteur :CompteBanc
+  compteCrediteur :CompteBanc
 
-  //
-  //
-  // type
-  // compte_credit_bancaire_id
-  // compte_debit_bancaire_id
-  // facture_fournisseur_id
 }
