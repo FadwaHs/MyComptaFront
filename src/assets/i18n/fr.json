@@ -80,7 +80,6 @@
     "LE": "Liste des échéances",
 
     "IF": "Importer des factures",
-    "SF": "Saisie rapide facture fournisseur",
     "CFF": "Créer une facture fournisseur",
     "LFF": "Listes factures fournisseurs",
     "CAF": "Créer un avoir fournisseur",
@@ -130,7 +129,10 @@
     "SH": "Saisie hebdomadaire",
     "SR": "Saisie rapide",
     "LEN": "Liste des entrées",
-    "T": "Démarrer un timer"
+    "T": "Démarrer un timer",
+    "SF":"Factures fournisseurs simples",
+    "AFS":"Avoirs fournisseurs"
+
 
   },
   "TITLE": {
@@ -151,7 +153,10 @@
     "DP" :"Départements",
     "DPA": "Ajouter un déparetement",
     "DPM": "Modifier Déparetement",
-    "DPS": "Supprimer Déparetement"
+    "DPS": "Supprimer Déparetement",
+    "FF":"Factures fournisseurs",
+    "SF" :"Factures fournisseurs simples",
+    "AF" :"Avoirs fournisseurs"
   },
   "FORM": {
     "TITLE": {
@@ -269,7 +274,8 @@
       "PR" : "Prospect",
       "TC" :"Type de client",
       "TS" : "Type de societe",
-      "SE" :"Secteur d'activité"
+      "SE" :"Secteur d'activité",
+      "NUME":"numero_externe"
     },
     "SELECT":{
       "ESPS" :{
@@ -282,7 +288,8 @@
       "NS" : "Nouvelle societe",
       "M" : "Tous les mois",
       "Y" : "Tous les ans",
-      "N" : "Jamais"
+      "N" : "Jamais",
+      "CNF": "Nouveau fournisseur"
     },
     "BUTTON": {
       "C": "Créer",
@@ -367,6 +374,16 @@
       "M1": "Aucune Opportunité à afficher",
       "M2": "Ajouter une nouvelle Opportunité"
     }
+    ,
+    "SF": {
+      "M1": "Aucune facture fournisseur à afficher",
+      "M2": "Ajouter une nouvelle factrue fournisseur simple"
+    }
+    ,
+    "AF": {
+      "M1": "Aucun Avoir fournisseur à afficher",
+      "M2": "Ajouter une nouveau avoir fournisseur"
+    }
   },
   "DROP_MENU":{
     "LIST":{
@@ -418,7 +435,19 @@
       "P" :{
         "L1" : "Nouveau Pipeline",
         "L2" : "Exporter les Pipeline"
+      },
+      "SF" :{
+        "L1" : "Nouvelle Facture fournisseur",
+        "L2" : "Exporter les factrues fournisseurs"
+      },
+      "AF" :{
+        "L1" : "Nouveau Avoir fournisseur",
+        "L2" : "Exporter les avoirs fournisseurs"
+      },
+      "FF" :{
+        "L2" : "Exporter les factures fournisseurs"
       }
+
     },
     "EDIT":{
       "M": "Modifier",
@@ -451,7 +480,12 @@
       "DD" : "Dupliquer le devis",
       "DF" : "Dupliquer la facture",
       "DO" : "Dupliquer en opportunité",
-      "V" : "voir"
+      "V" : "voir",
+      "AP" :"Ajouter un paiement",
+      "ARG" :"À règler"
+
+
+
     }
     ,
     "SHOW":{
@@ -587,7 +621,17 @@
     "LOST": "Perdue",
     "CANCLED" : "Annulée",
     "CLOSED" :"Fermée",
-    "LATE" :"En Retard"
+    "LATE" :"En Retard",
+    "PARTIAL":"Paiement partiel",
+    "PAID" : "Payée",
+    "CANCELLED":"Annullé",
+    "DRAFT":"Brouillon",
+    "TOBERESOLVED":"À règler",
+    "PENDING" : "En attente",
+    "PARTIAL_DELIVERY": "Livraison partielle",
+    "DELIVERED" : "Livré",
+    "TOBEPAID" :"À Payé"
+
 
   },
   "MODAL":{

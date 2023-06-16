@@ -1,3 +1,5 @@
+import { AvoireFournisseur } from './avoir-fournisseur';
+import { SimpleFournisseur } from './simple-fournisseur';
 import { Client } from "./client"
 import { Devis } from "./devis"
 import { Facture } from "./facture"
@@ -7,6 +9,8 @@ import { FactureSimple } from "./facture-simple"
 import { Opportunite } from "./opportunite"
 import { Fournisseur } from "./fournisseur"
 import { Societe } from "./societe"
+import { BonLivraison } from './bons-livraison';
+import { BonsCommande } from './bons-commande';
 
 export class MotCle{
     id ?: number
@@ -20,4 +24,8 @@ export class MotCle{
     factureAvoir : FactureAvoir
     factureAcompte : FactureAcompte
     opportunite :Opportunite
+    simpleFournisseur:SimpleFournisseur
+    avoireFournisseur:AvoireFournisseur
+    bonLivraison :BonLivraison
+    bonsCommande : BonsCommande
 }

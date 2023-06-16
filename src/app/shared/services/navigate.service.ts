@@ -29,6 +29,10 @@ export class NavigateService {
 
 
   public readonly f_fournisseurPath = this.facturationPath+'/fournisseurs'
+  public readonly f_factureFournisseurPath = this.facturationPath+'/factures-fournisseur'
+  public readonly f_simpleFournisseurPath = this.f_factureFournisseurPath+'/simple'
+  public readonly f_avoirFournisseurPath = this.f_factureFournisseurPath+'/avoir'
+
 
 
   public readonly f_facturePath = this.facturationPath+'/factures'
@@ -47,7 +51,7 @@ export class NavigateService {
   constructor(){ }
 
 
-  toAddPath(from : 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'FR') : string {
+  toAddPath(from : 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'FR'|'SF'|'AF') : string {
 
     if(from == 'C') return this.f_clientPath+this.addPath
 
@@ -65,12 +69,16 @@ export class NavigateService {
 
     else if(from == 'FR') return this.f_fournisseurPath+this.addPath
 
+    else if(from == 'SF') return this.f_simpleFournisseurPath+this.addPath
+
+    else if(from == 'AF') return this.f_avoirFournisseurPath+this.addPath
+
 
     else return ''
   }
 
 
-  toEditPath(from : 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'P'|'FR' , id : number ,slug : string) : string {
+  toEditPath(from : 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'P'|'FR'|'SF'|'AF' , id : number ,slug : string) : string {
 
     if(from == 'C') return this.f_clientPath+this.editPath+id+'-'+slug
 
@@ -90,12 +98,15 @@ export class NavigateService {
 
     else if(from == 'P') return this.PipePath+this.editPath+id+'-'+slug
 
+    else if(from == 'SF') return this.f_simpleFournisseurPath+this.editPath+id+'-'+slug
+
+    else if(from == 'AF') return this.f_avoirFournisseurPath+this.editPath+id+'-'+slug
 
     else return ''
   }
 
 
-   toShowPath(from : 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'P'|'FR', id : number ,slug : string) : string {
+   toShowPath(from : 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'P'|'FR'|'SF'|'AF', id : number ,slug : string) : string {
 
     if(from == 'C')  return this.f_clientPath+this.showPath+id+'-'+slug
 
@@ -114,6 +125,10 @@ export class NavigateService {
     else if(from == 'O') return this.f_opportunitePath+this.showPath+id+'-'+slug
 
     else if(from == 'P') return this.PipePath+this.showPath+id+'-'+slug
+
+    else if(from == 'SF') return this.f_simpleFournisseurPath+this.showPath+id+'-'+slug
+
+    else if(from == 'AF') return this.f_avoirFournisseurPath+this.showPath+id+'-'+slug
 
     else return ''
   }

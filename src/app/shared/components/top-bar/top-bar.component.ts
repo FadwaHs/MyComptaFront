@@ -13,6 +13,7 @@ import { FactureAcompte } from 'src/app/private/gestion-facturation/models/factu
 import { FactureAvoir } from 'src/app/private/gestion-facturation/models/facture-avoir';
 import { FactureSimple } from 'src/app/private/gestion-facturation/models/facture-simple';
 import { Fournisseur } from 'src/app/private/gestion-facturation/models/fournisseur';
+import { FactureFournisseur } from 'src/app/private/gestion-facturation/models/facture-fournisseur';
 
 
 interface TopTitle{
@@ -37,10 +38,10 @@ export class TopBarComponent implements OnInit {
 
 
   @Input()
-  data: Societe | Client | Devis | Facture | Opportunite | Pipeline | Fournisseur;
+  data: Societe | Client | Devis | Facture | Opportunite | Pipeline | Fournisseur|FactureFournisseur;
 
   @Input()
-  for: 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'FG' |'P' |'FR'
+  for: 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'FG' |'P' |'FR'|'FF'|'SF'|'AF'
 
   @Input()
   type : 'add'|'edit'|'show'|'list'

@@ -5,6 +5,7 @@ import { AvoirFournisseurRoutingModule } from './avoir-fournisseur-routing.modul
 import { AvoirFournisseurComponent } from './avoir-fournisseur.component';
 import { ShowAvoirComponent } from './show-avoir/show-avoir.component';
 import { AddEditAvoirComponent } from './add-edit-avoir/add-edit-avoir.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { AddEditAvoirComponent } from './add-edit-avoir/add-edit-avoir.component
   ],
   imports: [
     CommonModule,
-    AvoirFournisseurRoutingModule
+    AvoirFournisseurRoutingModule,
+    SharedModule
   ]
 })
 export class AvoirFournisseurModule { }

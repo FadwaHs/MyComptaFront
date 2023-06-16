@@ -1,5 +1,7 @@
+import { AvoireFournisseur } from "./avoir-fournisseur"
 import { CompteBanc } from "./compte-banc"
 import { FactureFournisseur } from "./facture-fournisseur"
+import { SimpleFournisseur } from "./simple-fournisseur"
 
 export class Paiement{
   id: number
@@ -9,8 +11,11 @@ export class Paiement{
   note:string
   dateReglement: Date
   dateRemise: Date
-  factureFournisseur :FactureFournisseur
   compteDebiteur :CompteBanc
   compteCrediteur :CompteBanc
+
+  //++
+  simpleFournisseur :SimpleFournisseur
+  avoirFournisseur :AvoireFournisseur
 
 }

@@ -1,3 +1,7 @@
+import { SimpleFournisseurService } from 'src/app/private/gestion-facturation/http/simple-fournisseur.service';
+import { SimpleFournisseurStatus } from 'src/app/private/gestion-facturation/enums/simple-fournisseur-status';
+import { AvoireFournisseur } from './../../../private/gestion-facturation/models/avoir-fournisseur';
+import { SimpleFournisseur } from './../../../private/gestion-facturation/models/simple-fournisseur';
 import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { DevisStatus } from 'src/app/private/gestion-facturation/enums/devis-status';
 import { AlertifyService } from '../../services/alertify.service';
@@ -28,6 +32,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Pipeline } from 'src/app/private/gestion-facturation/models/pipeline';
 import { Fournisseur } from 'src/app/private/gestion-facturation/models/fournisseur';
 import { FournisseurService } from 'src/app/private/gestion-facturation/http/fournisseur.service';
+import { FactureFournisseur } from 'src/app/private/gestion-facturation/models/facture-fournisseur';
 
 @Component({
   selector: 'app-drop-menu',
@@ -43,7 +48,7 @@ export class DropMenuComponent implements OnInit {
 
   @Input()
 //++FactureAcompte added
-  data: Societe | Client | Devis | Facture | FactureSimple|Opportunite | FactureAvoir |FactureAcompte| Pipeline |Fournisseur;
+  data: Societe | Client | Devis | Facture | FactureSimple|Opportunite | FactureAvoir |FactureAcompte| Pipeline |Fournisseur|SimpleFournisseur|AvoireFournisseur|FactureFournisseur;
 
 
   @Input()
@@ -54,7 +59,7 @@ export class DropMenuComponent implements OnInit {
 
   @Input()
 
-  for: 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'FG'|'P'|'FR'
+  for: 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'FG'|'P'|'FR'|'FF'|'SF'|'AF'
 
 
   dropMenu :boolean = false;
@@ -66,6 +71,9 @@ export class DropMenuComponent implements OnInit {
   FactureAcompteStatus = FactureAcompteStatus;
   // Opportunite:
   OppStatus = OppStatus;
+  //++
+  //Factures Fournisseurs
+  SimpleFournisseurStatus= SimpleFournisseurStatus
 
 
   statusActive: DevisStatus | null = null;
@@ -73,6 +81,9 @@ export class DropMenuComponent implements OnInit {
   statusActiveAvoire : FactureAvoirStatus | null = null;
   statusActiveAcompte : FactureAcompteStatus | null = null;
   statusActiveOpp : OppStatus | null=null;
+
+  //++
+  statusActiveSFournisseur : SimpleFournisseurStatus | null=null;
 
   // date tri for facture type : simple and acompte
   dates: string[] = ["Trier Par : Date De Finalisation","Trier Par : Date De Création","Trier Par : Date De Paiement"]
@@ -117,7 +128,11 @@ export class DropMenuComponent implements OnInit {
     private opportuniteService : OpportuniteService,
     private fournisseurService : FournisseurService,
     // private dialog: MatDialog,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    //++
+    private simpleFournisseurService:SimpleFournisseurService
+
+
 
   ){
   }
@@ -166,6 +181,15 @@ export class DropMenuComponent implements OnInit {
 
    }
 
+   //++
+   // facture fournisseur simple status
+  changeFilterStatusSimpleFour(status:  SimpleFournisseurStatus | null ){
+    this.dropMenu = false
+    this.statusActiveSFournisseur = status
+    this.filterService.callMethodFilterStatus(status);
+
+  }
+
   // sort by date
   sortData(date: string | null) : void{
 
@@ -191,6 +215,10 @@ export class DropMenuComponent implements OnInit {
     //++
     if(this.for == 'F') this.deleteSimple(id)
     if(this.for == 'FR') this.deleteFournisseur(id)
+
+    //++
+    if(this.for == 'SF') this.deleteSimpleFournisseur(id)
+
 
   }
 
@@ -243,13 +271,14 @@ export class DropMenuComponent implements OnInit {
 
 
   Perdue() {
-
     if(this.for == 'O') this.updateOpportunite(OppStatus.LOST)
 
    }
 
    Annulee() {
      if(this.for == 'O') this.updateOpportunite(OppStatus.CANCLED)
+     //++
+     if(this.for == 'SF') this.updateSimpleFournisseur(SimpleFournisseurStatus.CANCELLED)
    }
 
   toPayIt() {
@@ -325,6 +354,13 @@ export class DropMenuComponent implements OnInit {
     }
   }
 
+  //++
+  addPay(_t83: TemplateRef<any>) {
+    throw new Error('Method not implemented.');
+    }
+  resolveIt() {
+    if(this.for == 'SF') this.updateSimpleFournisseur(SimpleFournisseurStatus.TOBERESOLVED)
+    }
 
 
   updateFactureAvoir(factureAvoirStatus: FactureAvoirStatus) {
@@ -404,6 +440,18 @@ export class DropMenuComponent implements OnInit {
       }
     )
 
+  }
+
+  //++
+  updateSimpleFournisseur(status: any) {
+    (this.data as SimpleFournisseur).status = status
+
+    console.log(status ,'ss')
+
+    this.simpleFournisseurService.updateSimpleFourById(this.data.id, this.data as SimpleFournisseur).subscribe({
+      error : e => console.log(e),
+      complete: () => this.refreshListPage.emit()
+    })
   }
 
   ////// Delete /////
@@ -495,9 +543,18 @@ export class DropMenuComponent implements OnInit {
   {
     this.fournisseurService.deleteFournisseur(id).subscribe({
       error:e => console.log(e),
-      complete: () => {
-        location.reload();
-      }
+      complete: () => this.refreshListPage.emit()
+
+     })
+
+  }
+
+  //++
+  deleteSimpleFournisseur(id:number)
+  {
+    this.simpleFournisseurService.deleteSimpleFourById(id).subscribe({
+      error:e => console.log(e),
+      complete: () => this.refreshListPage.emit()
 
      })
 

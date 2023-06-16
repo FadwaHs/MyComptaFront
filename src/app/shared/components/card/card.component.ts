@@ -1,3 +1,7 @@
+import { Fournisseur } from './../../../private/gestion-facturation/models/fournisseur';
+import { LivraisonStatus } from './../../../private/gestion-facturation/enums/livraison-status';
+import { AvoireFournisseur } from './../../../private/gestion-facturation/models/avoir-fournisseur';
+import { FactureFournisseur } from './../../../private/gestion-facturation/models/facture-fournisseur';
 import { FactureAvoir } from './../../../private/gestion-facturation/models/facture-avoir';
 import { FactureSimple } from './../../../private/gestion-facturation/models/facture-simple';
 import { FactureAcompte } from './../../../private/gestion-facturation/models/facture-acompte';
@@ -16,7 +20,7 @@ import { NavigateService } from 'src/app/shared/services/navigate.service';
 import { AlertifyService } from '../../services/alertify.service';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { Opportunite } from 'src/app/private/gestion-facturation/models/opportunite';
-import { Fournisseur } from 'src/app/private/gestion-facturation/models/fournisseur';
+import { SimpleFournisseur } from 'src/app/private/gestion-facturation/models/simple-fournisseur';
 
 interface Card {
   mainIcon: string;
@@ -43,15 +47,15 @@ export class CardComponent implements OnInit {
 
   @Input()
 
-  data: Societe | Client | Devis | FactureSimple | FactureAvoir | FactureAcompte|Facture|Opportunite | Fournisseur;
+  data: Societe | Client | Devis | FactureSimple | FactureAvoir | FactureAcompte|Facture|Opportunite | Fournisseur|SimpleFournisseur|AvoireFournisseur;
 
   @Input()
-  for: 'C' | 'S' | 'D' | 'F'|'A'|'FA'|'O'|'FR';
+  for: 'C' | 'S' | 'D' | 'F'|'A'|'FA'|'O'|'FR'|'SF'|'AF';
 
 
   card: Card = {} as Card;
   textColor: string = 'text-green'
-
+  deliveryTextColor :string='text-green'
   constructor(
     public navigate: NavigateService,
     private translate : TranslateService,
@@ -61,6 +65,8 @@ export class CardComponent implements OnInit {
 
 
   myArray = [];
+  //++
+  livraisonStatus :string =''
 
   ngOnInit(): void {
     this.setCardData();
@@ -77,8 +83,41 @@ export class CardComponent implements OnInit {
 
     else if (this.for =='O') this.getFromOpportunite()
 
+    else if (this.for =='SF') this.getFromSimpleFournisseur()
+    else if (this.for =='AF') this.getFromAvoirFournisseur()
+
+
+  }
+  //++
+  getFromSimpleFournisseur() {
+    var factureFournisseur: SimpleFournisseur = this.data as SimpleFournisseur;
+    this.card.mainIcon = 'factures';
+    this.card.primaryTitle1 = factureFournisseur.numero_interne;
+    this.card.paragraph = factureFournisseur.note;
+    this.setFournisseur( factureFournisseur.fournisseur);
+    this.setStatusToCard2(factureFournisseur.status, factureFournisseur.livraisonStatus);
+    this.card.line = true;
+    this.card.primaryData = [];
+    this.setHTAndTTC(factureFournisseur.totalHT, factureFournisseur.totalTTC);
+    this.setDate(factureFournisseur.date_creation);
   }
 
+
+
+  getFromAvoirFournisseur() {
+    var avoirFournisseur : AvoireFournisseur = this.data as AvoireFournisseur
+    this.card.mainIcon = 'factures'
+    this.card.primaryTitle1 = avoirFournisseur.numero_interne
+    this.card.primaryTitle2 = avoirFournisseur.status
+    this.card.paragraph= avoirFournisseur.note
+    this.setFournisseur(avoirFournisseur.fournisseur )
+    this.setStatusToCard(avoirFournisseur.status);
+    this.card.line = true
+    this.card.primaryData = [];
+    this.setHTAndTTC(avoirFournisseur.totalHT,avoirFournisseur.totalTTC);
+    this.setDate(avoirFournisseur.date_creation)
+  }
+//++
 
   getFromFactureAcompte() {
     var factureAcompte : FactureAcompte = this.data as FactureAcompte
@@ -303,11 +342,24 @@ export class CardComponent implements OnInit {
       }
 
     }
+
     else{
       this.card.secondaryTitle =  await firstValueFrom(this.translate.get('STATUS.NOT_DESTINED'))
     }
   }
+  //++
+  async setFournisseur(fournisseur :Fournisseur |null){
+    if(fournisseur){
 
+      this.card.secondaryTitle =  await firstValueFrom(this.translate.get('DATA_NAME.FR')) +
+      ': ' + fournisseur.firstName + ' '+ fournisseur.lastName
+
+    }
+    else{
+      this.card.secondaryTitle =  await firstValueFrom(this.translate.get('STATUS.NOT_DESTINED'))
+    }
+  }
+//++
   async setStatusToCard(status : string) {
 
     if(status == "PROVISIONAL"){
@@ -360,7 +412,55 @@ export class CardComponent implements OnInit {
       this.textColor = 'text-red'
     }
 
-
   }
+
+  async setStatusToCard2(status: string, livraisonStatus: string) {
+    let translatedStatus = '';
+    let translatedDeliveryStatus = '';
+    let textColor = '';
+    let deliveryTextColor = '';
+
+
+     if (status == "LATE") {
+      translatedStatus = await firstValueFrom(this.translate.get('STATUS.LATE'));
+      textColor = 'text-gray-4';
+    } else if (status == "PAID") {
+      translatedStatus = await firstValueFrom(this.translate.get('STATUS.PAID'));
+      textColor = 'text-green';
+    } else if (status == "CANCELLED") {
+      translatedStatus = await firstValueFrom(this.translate.get('STATUS.CANCELLED'));
+      textColor = 'text-red';
+    } else if (status == "PARTIAL") {
+      translatedStatus = await firstValueFrom(this.translate.get('STATUS.PARTIAL'));
+      textColor = 'text-yellow';
+    } else if (status == "DRAFT") {
+      translatedStatus = await firstValueFrom(this.translate.get('STATUS.DRAFT'));
+      textColor = 'text-gray-4';
+    } else if (status == "TOBERESOLVED") {
+      translatedStatus = await firstValueFrom(this.translate.get('STATUS.TOBERESOLVED'));
+      textColor = 'text-blue';
+    }
+
+    if (livraisonStatus == "PENDING") {
+      translatedDeliveryStatus = await firstValueFrom(this.translate.get('STATUS.PENDING'));
+      deliveryTextColor = 'text-gray-4';
+    } else if (livraisonStatus == "PARTIAL_DELIVERY") {
+      translatedDeliveryStatus = await firstValueFrom(this.translate.get('STATUS.PARTIAL_DELIVERY'));
+      deliveryTextColor = 'text-yellow';
+    } else if (livraisonStatus == "DELIVERED") {
+      translatedDeliveryStatus = await firstValueFrom(this.translate.get('STATUS.DELIVERED'));
+      deliveryTextColor = 'text-green';
+    }
+
+    if(livraisonStatus){
+        this.card.primaryTitle2 = `${translatedStatus} - ${translatedDeliveryStatus}`;
+        this.deliveryTextColor=deliveryTextColor
+    }
+    else
+        this.card.primaryTitle2 = `${translatedStatus}`
+    this.textColor = textColor;
+   }
+
+
 
 }

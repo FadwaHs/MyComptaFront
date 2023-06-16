@@ -1,11 +1,15 @@
 
 export enum SimpleFournisseurStatus{
 
-  Draft='Draft',
-  ToBeResolved='ToBeResolved',
-  Partial="Partial",
-  Paid='Paid',
-  Delayed='Delayed',
-  Cancelled='Cancelled'
+  DRAFT='DRAFT',
+  TOBERESOLVED='TOBERESOLVED',
+  PARTIAL="PARTIAL",
+  PAID='PAID',
+  LATE='LATE',
+  CANCELLED='CANCELLED'
+
 
 }
+
+
+

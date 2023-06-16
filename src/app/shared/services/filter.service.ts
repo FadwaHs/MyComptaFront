@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { OppStatus } from 'src/app/private/gestion-facturation/enums/OppStatus';
+import { AvoireFournisseurStatus } from 'src/app/private/gestion-facturation/enums/avoire-fournisseur-status';
 import { DevisStatus } from 'src/app/private/gestion-facturation/enums/devis-status';
 import { FactureAcompteStatus } from 'src/app/private/gestion-facturation/enums/facture-acompte-status';
 import { FactureAvoirStatus } from 'src/app/private/gestion-facturation/enums/facture-avoir-status';
 import { FactureSimpleStatus } from 'src/app/private/gestion-facturation/enums/facture-simple-status';
+import { SimpleFournisseurStatus } from 'src/app/private/gestion-facturation/enums/simple-fournisseur-status';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +24,8 @@ import { FactureSimpleStatus } from 'src/app/private/gestion-facturation/enums/f
       this.callMethodSearchSource.next(data);
     }
 
-    callMethodFilterStatus(filterStatus : DevisStatus  | FactureSimpleStatus |FactureAvoirStatus|FactureAcompteStatus | null ){
+    callMethodFilterStatus(filterStatus : DevisStatus  | FactureSimpleStatus |FactureAvoirStatus|FactureAcompteStatus
+      |SimpleFournisseurStatus|AvoireFournisseurStatus | null ){
       this.callMethodFilterStatusSource.next(filterStatus);
     }
 

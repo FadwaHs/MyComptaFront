@@ -1,3 +1,4 @@
+import { AvoireFournisseur } from './../../../private/gestion-facturation/models/avoir-fournisseur';
 import { DecimalPipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -9,6 +10,7 @@ import { Devis } from 'src/app/private/gestion-facturation/models/devis';
 import { Facture } from 'src/app/private/gestion-facturation/models/facture';
 import { FactureAvoir } from 'src/app/private/gestion-facturation/models/facture-avoir';
 import { FactureSimple } from 'src/app/private/gestion-facturation/models/facture-simple';
+import { SimpleFournisseur } from 'src/app/private/gestion-facturation/models/simple-fournisseur';
 import { TypeArticle } from 'src/app/private/gestion-facturation/models/type-article';
 
 class Totals{
@@ -30,7 +32,7 @@ export class ArticlePanelComponent implements OnInit {
   isFormValid : EventEmitter<boolean> = new EventEmitter()
 
   @Input()
-  for : 'D' | 'F'|'A'
+  for : 'D' | 'F'|'A'|'SF'|'AF'
 
   tvaNotApplicable : boolean
   typesArticle : TypeArticle[]
@@ -284,6 +286,9 @@ export class ArticlePanelComponent implements OnInit {
         if (this.for == 'D') article.devis = data as Devis;
         else if (this.for == 'F') article.factureSimple = data as FactureSimple;
         else if (this.for == 'A') article.factureAvoir = data as FactureAvoir;
+        else if (this.for == 'SF') article.simpleFournisseur = data as SimpleFournisseur;
+        else if (this.for == 'AF') article.avoireFournisseur = data as AvoireFournisseur;
+
         else return
 
         this.articleService.addArticle(article).subscribe({

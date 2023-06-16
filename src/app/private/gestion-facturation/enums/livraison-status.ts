@@ -1,7 +1,8 @@
 export enum LivraisonStatus{
 
-  Pending ="Pending",
-  Partial_delivery ="Partial_delivery",
-  Delivered="Delivered"
+  PENDING ="PENDING",
+  PARTIAL_DELIVERY ="PARTIAL_DELIVERY",
+  DELIVERED="DELIVERED"
+
 
 }

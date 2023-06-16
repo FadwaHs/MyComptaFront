@@ -1,3 +1,5 @@
+import { AvoireFournisseur } from './avoir-fournisseur';
+import { SimpleFournisseur } from './simple-fournisseur';
 import { Devis } from "./devis"
 import { Facture } from "./facture"
 import { FactureAvoir } from "./facture-avoir"
@@ -17,4 +19,6 @@ export class Article {
     devis : Devis
     factureSimple : FactureSimple
     factureAvoir : FactureAvoir
+    simpleFournisseur :SimpleFournisseur
+    avoireFournisseur:AvoireFournisseur
 }

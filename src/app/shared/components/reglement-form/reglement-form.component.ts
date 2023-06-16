@@ -20,7 +20,7 @@ import { ModeReglement } from 'src/app/private/gestion-facturation/models/mode-r
 export class ReglementFormComponent implements OnInit {
 
   @Input()
-  for : 'D' |'F'|'A'|'FA'
+  for : 'D' |'F'|'A'|'FA'|'SF'|'AF'
 
   reglementForm :FormGroup
   phoneForm : FormGroup

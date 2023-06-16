@@ -1,3 +1,5 @@
+import { AvoireFournisseur } from './../../../private/gestion-facturation/models/avoir-fournisseur';
+import { SimpleFournisseur } from './../../../private/gestion-facturation/models/simple-fournisseur';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
@@ -7,6 +9,7 @@ import { Devis } from 'src/app/private/gestion-facturation/models/devis';
 import { Facture } from 'src/app/private/gestion-facturation/models/facture';
 import { FactureAcompte } from 'src/app/private/gestion-facturation/models/facture-acompte';
 import { FactureAvoir } from 'src/app/private/gestion-facturation/models/facture-avoir';
+import { FactureFournisseur } from 'src/app/private/gestion-facturation/models/facture-fournisseur';
 import { FactureSimple } from 'src/app/private/gestion-facturation/models/facture-simple';
 import { Fournisseur } from 'src/app/private/gestion-facturation/models/fournisseur';
 import { MotCle } from 'src/app/private/gestion-facturation/models/mot-cle';
@@ -23,7 +26,7 @@ export class KeyWordFormComponent implements OnInit {
 
   @Input()
 
-  for : 'C' | 'S' | 'D' | 'F' |'A' | 'FA'|'O'| 'FR'
+  for : 'C' | 'S' | 'D' | 'F' |'A' | 'FA'|'O'| 'FR'|'SF'|'AF'
 
 
   motsCle : Array<MotCle>= []
@@ -81,7 +84,7 @@ export class KeyWordFormComponent implements OnInit {
   }
 
 
-  async onSubmit(data : Societe | Client | Devis | Facture | Opportunite| Fournisseur, isAddMode : boolean ){
+  async onSubmit(data : Societe | Client | Devis | Facture | Opportunite| Fournisseur|FactureFournisseur, isAddMode : boolean ){
 
 
     if (
@@ -107,6 +110,10 @@ export class KeyWordFormComponent implements OnInit {
           console.log(data,'data')
         }
         else if(this.for == 'O') motCle.opportunite = data as Opportunite
+        else if(this.for == 'SF') motCle.simpleFournisseur = data as SimpleFournisseur
+        else if(this.for == 'AF') motCle.avoireFournisseur = data as AvoireFournisseur
+
+
         else return
 
         if(motCle.id != null){

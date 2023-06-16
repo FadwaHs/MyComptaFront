@@ -1,3 +1,5 @@
+import { Fournisseur } from './../../../private/gestion-facturation/models/fournisseur';
+import { FournisseurService } from './../../../private/gestion-facturation/http/fournisseur.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -16,8 +18,8 @@ import { NavigateService } from '../../services/navigate.service';
 
 interface Recipient {
 
-  data : Client | Societe
-  type: 'C'| 'S'
+  data : Client | Societe |Fournisseur
+  type: 'C'| 'S'|'FR'
 }
 
 class Item{
@@ -38,73 +40,117 @@ export class SelectRecipientComponent implements OnInit {
   selected : EventEmitter<void>  = new EventEmitter()
 
   @Input()
-  for : 'D'|'F'|'A'|'FA'|'O'
+  for : 'D'|'F'|'A'|'FA'|'O' |'SF'|'AF'
 
   items : Item[] = []
   clients : Client[]
   societes : Societe[]
+  fournisseurs :Fournisseur[]
   recipient : Recipient
   constructor(
     private clientService: ClientService,
     private societeService : SocieteService,
     private translate : TranslateService,
     private router : Router,
-    private navigate : NavigateService
+    private navigate : NavigateService,
+    private fournisseurService:FournisseurService
   ) { }
 
   ngOnInit(): void {
     this.setClientAndSociete();
   }
 
-  setClientAndSociete() {
+  // setClientAndSociete() {
 
-    forkJoin({
-      res1 : this.clientService.getClientsByFirstNameAndLastName(),
-      res2 : this.societeService.getSocieteByName()
-    })
-    .subscribe({
-      next : ({res1,res2}) =>{
-        this.clients = res1
-        this.societes = res2
+  //   forkJoin({
+  //     res1 : this.clientService.getClientsByFirstNameAndLastName(),
+  //     res2 : this.societeService.getSocieteByName()
+  //   })
+  //   .subscribe({
+  //     next : ({res1,res2}) =>{
+  //       this.clients = res1
+  //       this.societes = res2
+  //     },
+  //     error: e => console.log(e),
+  //     complete: () => this.setRecipients()
+  //   })
+
+  // }
+  setClientAndSociete() {
+    forkJoin([
+      this.clientService.getClientsByFirstNameAndLastName(),
+      this.societeService.getSocieteByName(),
+      this.fournisseurService.getFournisseursByFirstNameAndLastName()
+    ]).subscribe(
+      ([clients, societes, fournisseurs]) => {
+        this.clients = clients;
+        this.societes = societes;
+        this.fournisseurs = fournisseurs;
+        this.setRecipients();
       },
-      error: e => console.log(e),
-      complete: () => this.setRecipients()
-    })
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+
+  async setRecipients() {
+    if (this.for === 'AF' || this.for === 'SF')
+    {
+      var item : Item = new Item()
+      item.name = await firstValueFrom(this.translate.get('FORM.SELECT.CNF'))
+      item.icon = 'plus'
+      this.items = [...this.items,item]
+
+      this.fournisseurs.forEach(f =>{
+        item = new Item()
+        item.recipient.data = f
+        item.recipient.type = 'FR'
+        item.icon = 'par'
+        item.name = f.firstName + ' ' +f.lastName
+        this.translate.get('TITLE.FR').subscribe( res => item.group = res)
+        this.items = [...this.items,item]
+
+      })
+
+    }
+
+
+  else{
+      var item : Item = new Item()
+      item.name = await firstValueFrom(this.translate.get('FORM.SELECT.NC'))
+      item.icon = 'plus'
+      this.items = [...this.items,item]
+
+      var item : Item = new Item()
+      item.name = await firstValueFrom(this.translate.get('FORM.SELECT.NS'))
+      item.icon = 'plus'
+      this.items = [...this.items,item]
+
+      this.clients.forEach(client =>{
+        item = new Item()
+        item.recipient.data = client
+        item.recipient.type = 'C'
+        item.icon = 'par'
+        item.name = client.firstName + ' ' +client.lastName
+        this.translate.get('TITLE.C').subscribe( res => item.group = res)
+        this.items = [...this.items,item]
+
+      })
+
+      this.societes.forEach(async societe =>{
+        item = new Item()
+        item.recipient.data = societe
+        item.name = societe.name
+        item.recipient.type = 'S'
+        item.icon = 'pro'
+        this.translate.get('TITLE.S').subscribe( res => item.group = res)
+        this.items = [...this.items,item]
+      })
 
   }
 
-  async setRecipients() {
-
-    var item : Item = new Item()
-    item.name = await firstValueFrom(this.translate.get('FORM.SELECT.NC'))
-    item.icon = 'plus'
-    this.items = [...this.items,item]
-
-    var item : Item = new Item()
-    item.name = await firstValueFrom(this.translate.get('FORM.SELECT.NS'))
-    item.icon = 'plus'
-    this.items = [...this.items,item]
-
-    this.clients.forEach(client =>{
-      item = new Item()
-      item.recipient.data = client
-      item.recipient.type = 'C'
-      item.icon = 'par'
-      item.name = client.firstName + ' ' +client.lastName
-      this.translate.get('TITLE.C').subscribe( res => item.group = res)
-      this.items = [...this.items,item]
-
-    })
-
-    this.societes.forEach(async societe =>{
-      item = new Item()
-      item.recipient.data = societe
-      item.name = societe.name
-      item.recipient.type = 'S'
-      item.icon = 'pro'
-      this.translate.get('TITLE.S').subscribe( res => item.group = res)
-      this.items = [...this.items,item]
-    })
   }
 
   async selectChange(event :Item){
@@ -113,6 +159,8 @@ export class SelectRecipientComponent implements OnInit {
     this.router.navigateByUrl(this.navigate.toAddPath('C'))
     else if(event.name == await firstValueFrom(this.translate.get('FORM.SELECT.NS')))
     this.router.navigateByUrl(this.navigate.toAddPath('S'))
+    else  if(event.name == await firstValueFrom(this.translate.get('FORM.SELECT.CNF')))
+    this.router.navigateByUrl(this.navigate.toAddPath('FR'))
     else this.selected.emit();
   }
 
@@ -121,16 +169,26 @@ export class SelectRecipientComponent implements OnInit {
       if(this.recipient.type == 'C'){
         data.client = this.recipient.data as Client
         data.societe = null
+        data.fournisseur =null
       }
       else if(this.recipient.type == 'S'){
         data.societe = this.recipient.data as Societe
         data.client = null
+        data.fournisseur =null
       }
     }
 
     else if(this.for == 'FA'){
       var factureAcompte : FactureAcompte  = data as FactureAcompte
       // factureAcompte.devis = this.recipient.data
+    }
+    else  if (this.for === 'AF' || this.for === 'SF') {
+      if(this.recipient.type == 'FR'){
+        data.fournisseur = this.recipient.data as Fournisseur
+        data.societe = null
+        data.client =null
+
+      }
     }
 
     return data;
@@ -163,6 +221,16 @@ export class SelectRecipientComponent implements OnInit {
       // }
     }
 
+    else  if (this.for === 'AF' || this.for === 'SF') {
+      var recipient : Recipient  = {} as Recipient
+      if(data.fournisseur){
+        recipient.data = data.fournisseur as Fournisseur
+        recipient.type = 'FR'
+        this.recipient = recipient
+
+
+      }
+    }
 
   }
 

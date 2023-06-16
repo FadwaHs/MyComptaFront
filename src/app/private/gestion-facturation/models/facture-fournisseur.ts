@@ -19,12 +19,10 @@ totalHT: number;
 totalTTC: number;
 note: string
 date_creation: Date;
-remise: number
-remIsPercentage: boolean;
-fournisseur: Fournisseur
 conditionReglement: ConditionReglement
 ModeReglement : ModeReglement
-motCleList: MotCle[]
-Paiement: Paiement[]
+
+
+
 
 }

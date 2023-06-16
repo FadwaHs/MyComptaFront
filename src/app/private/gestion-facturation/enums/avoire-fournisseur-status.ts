@@ -1,10 +1,11 @@
 export enum AvoireFournisseurStatus{
 
-  Draft ="Draft",
-  ToBePaid ="ToBePaid" ,
-  Partial="Partial",
-  Balance ="Balance",
-  Cancelled="Cancelled"
+  PROVISIONAL ="PROVISIONAL",
+  TOBEPAID ="TOBEPAID" ,
+  PARTIAL="PARTIAL",
+  PAID ="PAID",
+  CANCELLED="CANCELLED"
+
 
 
 }
