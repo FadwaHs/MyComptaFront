@@ -42,6 +42,8 @@ export class NavigateService {
   public readonly f_s_generalPath = this.f_s_preferencesPath+'/general'
   public readonly f_s_uidsPath = this.f_s_preferencesPath+'/uids'
   // End of routes of Espace Facturation
+  public readonly f_bonsPath = this.facturationPath+'/bons'
+  public readonly f_livraisonPath = this.f_bonsPath+'/livraison'
 
 
   constructor(){ }
@@ -70,7 +72,7 @@ export class NavigateService {
   }
 
 
-  toEditPath(from : 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'P'|'FR' , id : number ,slug : string) : string {
+  toEditPath(from : 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'P'|'FR'|'BL' , id : number ,slug : string) : string {
 
     if(from == 'C') return this.f_clientPath+this.editPath+id+'-'+slug
 
@@ -90,12 +92,13 @@ export class NavigateService {
 
     else if(from == 'P') return this.PipePath+this.editPath+id+'-'+slug
 
+    else if(from == 'BL') return this.f_livraisonPath+this.editPath+id+'-'+slug
 
     else return ''
   }
 
 
-   toShowPath(from : 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'P'|'FR', id : number ,slug : string) : string {
+   toShowPath(from : 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'P'|'FR'|'BL', id : number ,slug : string) : string {
 
     if(from == 'C')  return this.f_clientPath+this.showPath+id+'-'+slug
 
@@ -114,6 +117,8 @@ export class NavigateService {
     else if(from == 'O') return this.f_opportunitePath+this.showPath+id+'-'+slug
 
     else if(from == 'P') return this.PipePath+this.showPath+id+'-'+slug
+
+    else if(from == 'BL') return this.f_livraisonPath+this.showPath+id+'-'+slug
 
     else return ''
   }

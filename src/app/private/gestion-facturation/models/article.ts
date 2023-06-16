@@ -1,3 +1,5 @@
+import { Bons } from "./bons"
+import { BonLivraison } from "./bons-livraison"
 import { Devis } from "./devis"
 import { Facture } from "./facture"
 import { FactureAvoir } from "./facture-avoir"
@@ -17,4 +19,7 @@ export class Article {
     devis : Devis
     factureSimple : FactureSimple
     factureAvoir : FactureAvoir
+
+    //+
+    bonLivraison :BonLivraison
 }

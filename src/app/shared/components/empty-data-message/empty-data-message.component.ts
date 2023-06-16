@@ -10,7 +10,7 @@ export class EmptyDataMessageComponent implements OnInit {
 
   @Input()
 
-  for: 'C'|'S'|'D'|'F'|'A'|'FA'|'ESP'|'DP'|'O'|'FG'|'FR'
+  for: 'C'|'S'|'D'|'F'|'A'|'FA'|'ESP'|'DP'|'O'|'FG'|'FR'|'BL'
 
 
   @Output()

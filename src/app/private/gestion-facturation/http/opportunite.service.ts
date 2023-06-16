@@ -25,6 +25,10 @@ export class OpportuniteService {
     return this.http.get<Opportunite[]>(`${this.constant.opportuniteUrl}`)
   }
 
+  getListOpportunites(params: any): Observable<any> {
+    return this.http.get<any>(`${this.constant.opportuniteUrl}/pagination`, { params });
+  }
+
 
   addOpportunite(opportunite: Opportunite): Observable<any> {
     return this.http.post(`${this.constant.opportuniteUrl}`, opportunite);

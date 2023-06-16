@@ -178,6 +178,7 @@
       "EM" :"Employés",
       "Mnt" : "Montant",
       "Dv":"Devis",
+      "BL":"Bon de livraison",
       "SC" : "Social",
       "DC": "Données Comptables",
       "TC" : "Type de client",
@@ -269,7 +270,8 @@
       "PR" : "Prospect",
       "TC" :"Type de client",
       "TS" : "Type de societe",
-      "SE" :"Secteur d'activité"
+      "SE" :"Secteur d'activité",
+      "FR" :"Fournisseurs"
     },
     "SELECT":{
       "ESPS" :{
@@ -366,6 +368,10 @@
     "O": {
       "M1": "Aucune Opportunité à afficher",
       "M2": "Ajouter une nouvelle Opportunité"
+    },
+    "BL": {
+      "M1": "Aucun Bon de Livraison  à afficher",
+      "M2": "Ajouter un nouveau Bon de Livraison"
     }
   },
   "DROP_MENU":{
@@ -418,6 +424,10 @@
       "P" :{
         "L1" : "Nouveau Pipeline",
         "L2" : "Exporter les Pipeline"
+      },
+      "BL" :{
+        "L1" : "Nouveau Bon Livraison",
+        "L2" : "Exporter les  Bon Livraison"
       }
     },
     "EDIT":{
@@ -445,13 +455,16 @@
       "CA": "Créer une activité",
       "CD": "Créer un devis",
       "CF": "Créer une facture",
-      "CO":"Cérer une opportunité",
+      "CO": "Cérer une opportunité",
       "CAV": "Cérer un avoir",
       "CFA": "Créer une facture d'acompte",
       "DD" : "Dupliquer le devis",
       "DF" : "Dupliquer la facture",
       "DO" : "Dupliquer en opportunité",
-      "V" : "voir"
+      "V" : "voir",
+      "PF" : "Partiellement facturé",
+      "MCF" : "Marquer comme facturé",
+      "CFF" : "Créer une facture fournisseur"
     }
     ,
     "SHOW":{
@@ -587,8 +600,10 @@
     "LOST": "Perdue",
     "CANCLED" : "Annulée",
     "CLOSED" :"Fermée",
-    "LATE" :"En Retard"
-
+    "LATE" :"En Retard",
+    "Draft":"Brouillon",
+    "Partially_Invoiced":"Partiellement facturé",
+    "Invoiced":"facturé"
   },
   "MODAL":{
    "TITLE" : {

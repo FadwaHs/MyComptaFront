@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { MotCleService } from 'src/app/private/gestion-facturation/http/mot-cle.service';
+import { BonLivraison } from 'src/app/private/gestion-facturation/models/bons-livraison';
 import { Client } from 'src/app/private/gestion-facturation/models/client';
 import { Devis } from 'src/app/private/gestion-facturation/models/devis';
 import { Facture } from 'src/app/private/gestion-facturation/models/facture';
@@ -23,7 +24,7 @@ export class KeyWordFormComponent implements OnInit {
 
   @Input()
 
-  for : 'C' | 'S' | 'D' | 'F' |'A' | 'FA'|'O'| 'FR'
+  for : 'C' | 'S' | 'D' | 'F' |'A' | 'FA'|'O'| 'FR'| 'BL'
 
 
   motsCle : Array<MotCle>= []
@@ -81,7 +82,7 @@ export class KeyWordFormComponent implements OnInit {
   }
 
 
-  async onSubmit(data : Societe | Client | Devis | Facture | Opportunite| Fournisseur, isAddMode : boolean ){
+  async onSubmit(data : Societe | Client | Devis | Facture | Opportunite| Fournisseur | BonLivraison, isAddMode : boolean ){
 
 
     if (
@@ -99,14 +100,11 @@ export class KeyWordFormComponent implements OnInit {
         else if(this.for == 'C') motCle.client = data as Client
         else if(this.for == 'FR') motCle.fournisseur = data as Fournisseur
         else if(this.for == 'D') motCle.devis = data as Devis
-        else if(this.for == 'F') motCle.factureSimple = data as FactureSimple
-        else if(this.for == 'A') motCle.factureAvoir = data as FactureAvoir
-        else if(this.for == 'FA'){
-
-          motCle.factureAcompte = data as FactureAcompte
-          console.log(data,'data')
-        }
+        else if(this.for == 'F') motCle.facture = data as FactureSimple
+        else if(this.for == 'A') motCle.facture = data as FactureAvoir
+        else if(this.for == 'FA'){motCle.facture = data as FactureAcompte }
         else if(this.for == 'O') motCle.opportunite = data as Opportunite
+        else if(this.for == 'BL') motCle.bonLivraison = data as BonLivraison
         else return
 
         if(motCle.id != null){

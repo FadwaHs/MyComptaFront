@@ -18,6 +18,9 @@
     <span class="primary-title" *ngIf="for == 'FG'">{{
       "TITLE.F" | translate
     }}</span>
+    <span class="primary-title" *ngIf="for == 'BL'">{{
+      "Bon Livraison"
+    }}</span>
 
 
     <div class="primary-title" *ngIf="for == 'P'">
@@ -116,7 +119,7 @@
   <div class="flex gap-4">
     <!-- Filter menu  -->
     <app-drop-menu
-      [for]="for" type="filter" *ngIf=" type == 'list' && (for == 'D' || for == 'FG' || for == 'F' || for == 'FA' ||for == 'A' || for == 'O' || for == 'P') ">
+      [for]="for" type="filter" *ngIf=" type == 'list' && (for == 'D' || for == 'FG' || for == 'F' || for == 'FA' ||for == 'A' || for == 'O' || for == 'P'  || for == 'BL') ">
     </app-drop-menu>
 
     <!-- 3dots menu | edit| list | show -->

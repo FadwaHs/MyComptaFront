@@ -1,3 +1,6 @@
-export class BonsCommande{
-id: number
+import { Bons } from "./bons";
+
+export class BonsCommande  extends Bons {
+
+
 }

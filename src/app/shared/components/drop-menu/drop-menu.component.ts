@@ -28,6 +28,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Pipeline } from 'src/app/private/gestion-facturation/models/pipeline';
 import { Fournisseur } from 'src/app/private/gestion-facturation/models/fournisseur';
 import { FournisseurService } from 'src/app/private/gestion-facturation/http/fournisseur.service';
+import { BonLivraison } from 'src/app/private/gestion-facturation/models/bons-livraison';
+import { BLStatus } from 'src/app/private/gestion-facturation/enums/BLStatus';
+import { BonLivraisonService } from 'src/app/private/gestion-facturation/http/bonLivraison.service';
 
 @Component({
   selector: 'app-drop-menu',
@@ -42,8 +45,8 @@ export class DropMenuComponent implements OnInit {
   refreshListPage : EventEmitter<void> = new EventEmitter();
 
   @Input()
-//++FactureAcompte added
-  data: Societe | Client | Devis | Facture | FactureSimple|Opportunite | FactureAvoir |FactureAcompte| Pipeline |Fournisseur;
+  //++FactureAcompte added
+  data: Societe | Client | Devis | Facture | FactureSimple|Opportunite | FactureAvoir |FactureAcompte| Pipeline |Fournisseur | BonLivraison;
 
 
   @Input()
@@ -54,7 +57,7 @@ export class DropMenuComponent implements OnInit {
 
   @Input()
 
-  for: 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'FG'|'P'|'FR'
+  for: 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'FG'|'P'|'FR'|'BL'
 
 
   dropMenu :boolean = false;
@@ -66,13 +69,15 @@ export class DropMenuComponent implements OnInit {
   FactureAcompteStatus = FactureAcompteStatus;
   // Opportunite:
   OppStatus = OppStatus;
-
+  // bon livraison:
+  blstatus = BLStatus;
 
   statusActive: DevisStatus | null = null;
   statusActiveFacture : FactureSimpleStatus | null = null;
   statusActiveAvoire : FactureAvoirStatus | null = null;
   statusActiveAcompte : FactureAcompteStatus | null = null;
   statusActiveOpp : OppStatus | null=null;
+  statusActiveBL : BLStatus | null=null;
 
   // date tri for facture type : simple and acompte
   dates: string[] = ["Trier Par : Date De Finalisation","Trier Par : Date De Création","Trier Par : Date De Paiement"]
@@ -117,12 +122,15 @@ export class DropMenuComponent implements OnInit {
     private opportuniteService : OpportuniteService,
     private fournisseurService : FournisseurService,
     // private dialog: MatDialog,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    // bon livraison :
+    private bonlivraisonService : BonLivraisonService
 
   ){
   }
 
   ngOnInit(): void {
+
   }
 
   // Devis status
@@ -140,8 +148,9 @@ export class DropMenuComponent implements OnInit {
   this.statusActiveOpp = status;
   //  is a shared service between the DropMenuComponent and OpportuniteComponent
   // This method then emits an event to notify the OpportuniteComponent to refresh its list of opportunities based on the selected filter status.
-  this.filterService.setOppStatusFilter(status);
-  this.refreshListPage.emit();
+  // this.filterService.setOppStatusFilter(status);
+  // this.refreshListPage.emit();
+  this.filterService.callMethodFilterStatus(status);
 }
 
   // facture simple status
@@ -165,6 +174,17 @@ export class DropMenuComponent implements OnInit {
     this.filterService.callMethodFilterStatus(status);
 
    }
+
+
+   // bon livraison status
+   changeFilterbonlivraison( status : BLStatus|null)
+   {
+    this.dropMenu = false;
+    this.statusActiveBL = status;
+    this.filterService.callMethodFilterStatus(status);
+
+   }
+
 
   // sort by date
   sortData(date: string | null) : void{
@@ -191,6 +211,7 @@ export class DropMenuComponent implements OnInit {
     //++
     if(this.for == 'F') this.deleteSimple(id)
     if(this.for == 'FR') this.deleteFournisseur(id)
+    if(this.for == 'BL') this.deleteBonlivraison(id)
 
   }
 
@@ -406,6 +427,36 @@ export class DropMenuComponent implements OnInit {
 
   }
 
+    /// for changing statut of bon livraison
+
+    Partfacturer()
+    {
+       // update statut of bon livraison
+      (this.data as BonLivraison).blStatus = this.blstatus.Partially_Invoiced
+        this.bonlivraisonService.updateBonLivraisonById(this.data.id,this.data as BonLivraison).subscribe(
+        {
+          error : e => console.log(e),
+          complete: () => this.refreshListPage.emit()
+        }
+      )
+    }
+
+    facturer()
+    {
+        // with popup
+        // update statut of bon livraison
+      (this.data as BonLivraison).blStatus = this.blstatus.Invoiced
+      this.bonlivraisonService.updateBonLivraisonById(this.data.id,this.data as BonLivraison).subscribe(
+      {
+        error : e => console.log(e),
+        complete: () => this.refreshListPage.emit()
+      }
+    )
+    }
+
+
+
+
   ////// Delete /////
 
   deleteClient(id: number) {
@@ -434,11 +485,7 @@ export class DropMenuComponent implements OnInit {
   deleteDevisprovisoire(id: number) {
     this.devisService.deleteDevisById(id).subscribe({
       error: e => console.log(e),
-        complete: () => {
-          // reload the current route
-          location.reload();
-        }
-
+      complete: () => this.refreshListPage.emit()
      })
 
   }
@@ -447,11 +494,7 @@ export class DropMenuComponent implements OnInit {
 
     this.opportuniteService.deleteOpportuniteById(id).subscribe({
       error: e => console.log(e),
-        complete: () => {
-          // reload the current route
-          location.reload();
-        }
-
+      complete: () => this.refreshListPage.emit()
      })
   }
 
@@ -459,10 +502,7 @@ export class DropMenuComponent implements OnInit {
 
       this.factureAvoirService.deleteFactureAvoirById(id).subscribe({
         error: e => console.log(e),
-          complete: () => {
-            location.reload();
-          }
-
+        complete: () => this.refreshListPage.emit()
        })
   }
 
@@ -471,10 +511,7 @@ export class DropMenuComponent implements OnInit {
 
        this.factureAcompteService.deleteFactureAcompteById(id).subscribe({
         error:e => console.log(e),
-        complete: () => {
-          location.reload();
-        }
-
+        complete: () => this.refreshListPage.emit()
        })
   }
 //++
@@ -483,10 +520,7 @@ export class DropMenuComponent implements OnInit {
 
        this.factureSimpleService.deleteFactureSimpleById(id).subscribe({
         error:e => console.log(e),
-        complete: () => {
-          location.reload();
-        }
-
+        complete: () => this.refreshListPage.emit()
        })
   }
 
@@ -502,6 +536,15 @@ export class DropMenuComponent implements OnInit {
      })
 
   }
+
+  deleteBonlivraison(id:number)
+  {
+    this.bonlivraisonService.deleteBonLivraisonById(id).subscribe({
+      error:e => console.log(e),
+      complete: () => this.refreshListPage.emit()
+     })
+  }
+
 
 
 
