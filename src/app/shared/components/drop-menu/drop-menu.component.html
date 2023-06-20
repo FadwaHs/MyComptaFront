@@ -104,7 +104,7 @@
 
 </ng-container>
 
-      <ng-container *ngIf="for == 'C' || for == 'S' || for == 'D' || for=='F' || for=='O' || for=='A'  || for=='FA' || for=='FR'||'SF'">
+     <ng-container *ngIf="for === 'C' || for === 'S' || for === 'D' || for === 'F' || for === 'O' || for === 'A' || for === 'FA' || for === 'FR' || for === 'SF'">
 
           <a class="item-menu-{{size}} " [routerLink]="'edit/'+data.id+'-'+data.slug" >
               <svg-icon name="edit" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
@@ -119,6 +119,7 @@
 
           <button class="item-menu-{{size}}" (click)="delete(data.id)" *ngIf="for == 'C' || for == 'O' || for == 'S'  || for=='FR' ||
           (for == 'D'  && $any(data).status  == DevisStatus.PROVISIONAL )||(for == 'F'  && $any(data).status  == FactureSimpleStatus.PROVISIONAL )||(for == 'A'  && $any(data).status  == FactureAvoirStatus.PROVISIONAL ) ||
+
           (for == 'FA'  && $any(data).status  == FactureAcompteStatus.PROVISIONAL )||(for == 'SF'  && $any(data).status  == SimpleFournisseurStatus.DRAFT )||(for == 'SF'  && $any(data).status  == SimpleFournisseurStatus.TOBERESOLVED )
           ||(for == 'SF'  && $any(data).status  == SimpleFournisseurStatus.LATE )">
 
@@ -182,10 +183,12 @@
           <span class="text-gray-2 mt-10 text-[10px]" *ngIf="for =='C'">{{'DROP_MENU.EDIT.PC' |translate}}</span>
           <span class="text-gray-2 mt-10 text-[10px]" *ngIf="for =='S'">{{'DROP_MENU.EDIT.PS' |translate}}</span>
           <span class="text-gray-2 mt-10 text-[10px]" *ngIf="for =='D'">{{'DROP_MENU.EDIT.PD' |translate}}</span>
-          <span class="text-gray-2 mt-10 text-[10px]" *ngIf="for =='F'">{{'DROP_MENU.EDIT.PF' |translate}}</span>
+          <span class="text-gray-2 mt-10 text-[10px]" *ngIf="for =='F'">{{'DROP_MENU.EDIT.POF' |translate}}</span>
           <span class="text-gray-2 mt-10 text-[10px]" *ngIf="for =='O'">{{'DROP_MENU.EDIT.PO' |translate}}</span>
           <span class="text-gray-2 mt-10 text-[10px]" *ngIf="for =='A'">{{'DROP_MENU.EDIT.PA' |translate}}</span>
-          <span class="text-gray-2 mt-10 text-[10px]" *ngIf="for =='SF'">{{'DROP_MENU.EDIT.PF' |translate}}</span>
+
+          <span class="text-gray-2 mt-10 text-[10px]" *ngIf="for =='SF'">{{'DROP_MENU.EDIT.POF' |translate}}</span>
+
           <span class="text-gray-2 mt-10 text-[10px]" *ngIf="for =='BL'">{{'Pour ce Bon de Livraison' |translate}}</span>
 
       </div>
@@ -250,7 +253,7 @@
       <ng-container *ngIf="for == 'F'">
             <hr class="drop-menu-line">
             <a  class="text-gray-2 mt-10 text-[10px]" href="#">
-              <span>{{'DROP_MENU.EDIT.PF' |translate}}</span>
+              <span>{{'DROP_MENU.EDIT.POF' |translate}}</span>
             </a>
             <a class="item-menu-{{size}}" href="#">
                 <span>{{'DROP_MENU.EDIT.CAV' |translate}}</span>
@@ -587,7 +590,6 @@
     </ng-container>
 
 
-
 <!-- drop menu Filter  For bpn livraison  -->
 <ng-container *ngIf="(for == 'BL' ) && type == 'filter'">
 
@@ -698,6 +700,7 @@
 
 </ng-template>
 
+
 <!-- Popup For facture fournisseur simple : partial delivered statuts  -->
 <ng-template #parLivPopup let-modal>
   <div class="space-y-5" >
@@ -766,7 +769,6 @@
     </div>
 
   </ng-template>
-
 
 
 

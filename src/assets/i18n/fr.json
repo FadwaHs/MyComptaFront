@@ -457,8 +457,8 @@
         "L2" : "Exporter les avoirs fournisseurs"
       },
       "FF" :{
-        "L2" : "Exporter les factures fournisseurs",
-
+        "L2" : "Exporter les factures fournisseurs"
+      },
       "BL" :{
         "L1" : "Nouveau Bon Livraison",
         "L2" : "Exporter les  Bon Livraison"
@@ -699,6 +699,5 @@
       "L5" : "Le compteur, voir les champs ci-dessous pour le configurer.",
       "L6" : "Par exemple pour <fct|dvs|avr|acp|aac>, si le document est une facture cela sera remplacé par fct, pour devis par dvs, pour avoir par avr et pour les acomptes par acp. L'ordre est important factures|devis|avoirs|acompte."
     }
-  }
   }
 }

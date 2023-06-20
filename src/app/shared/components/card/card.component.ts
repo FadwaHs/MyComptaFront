@@ -103,6 +103,8 @@ export class CardComponent implements OnInit {
     this.card.primaryData = [];
     this.setHTAndTTC(factureFournisseur.totalHT, factureFournisseur.totalTTC);
     this.setDate(factureFournisseur.date_creation);
+    this.setMotCleToCard(factureFournisseur.motCleList);
+
   }
 
 
@@ -119,6 +121,8 @@ export class CardComponent implements OnInit {
     this.card.primaryData = [];
     this.setHTAndTTC(avoirFournisseur.totalHT,avoirFournisseur.totalTTC);
     this.setDate(avoirFournisseur.date_creation)
+    this.setMotCleToCard(avoirFournisseur.motCleList);
+
   }
 //++
 
@@ -134,6 +138,8 @@ export class CardComponent implements OnInit {
     this.card.paragraph= factureAcompte.textIntro
     this.setHTAndTTC(factureAcompte.totalHT,factureAcompte.totalTTC);
     this.setDate(factureAcompte.date)
+    this.setMotCleToCard(factureAcompte.motCleList);
+
   }
 
   getFromFactureAvoir() {
@@ -148,6 +154,8 @@ export class CardComponent implements OnInit {
     this.card.paragraph= factureAvoir.textIntro
     this.setHTAndTTC(factureAvoir.totalHT,factureAvoir.totalTTC);
     this.setDate(factureAvoir.date)
+    this.setMotCleToCard(factureAvoir.motCleList);
+
 
   }
 
@@ -163,6 +171,8 @@ export class CardComponent implements OnInit {
     this.card.primaryData = [];
     this.setHTAndTTC(factureSimple.totalHT,factureSimple.totalTTC);
     this.setDate(factureSimple.date)
+    this.setMotCleToCard(factureSimple.motCleList);
+
   }
 
   async getFromClient() {
@@ -202,7 +212,7 @@ export class CardComponent implements OnInit {
       this.card.secondaryTitle = await firstValueFrom(this.translate.get('FOURNISSEUR_CARD.TYPE.PAR.L1')).catch(console.log)
       this.setAddressToCard(fournisseur.address)
     }
-
+    this.setMotCleToCard(fournisseur.motCleList);
     this.setEmailToCard(fournisseur.email)
     this.setPhoneToCard(fournisseur.phoneList)
 

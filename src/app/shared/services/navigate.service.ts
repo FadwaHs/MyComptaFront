@@ -53,7 +53,7 @@ export class NavigateService {
   constructor(){ }
 
 
-  toAddPath(from : 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'FR'|'SF'|'AF') : string {
+  toAddPath(from : 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'FR'|'SF'|'AF'|'BL') : string {
 
     if(from == 'C') return this.f_clientPath+this.addPath
 
@@ -74,6 +74,8 @@ export class NavigateService {
     else if(from == 'SF') return this.f_simpleFournisseurPath+this.addPath
 
     else if(from == 'AF') return this.f_avoirFournisseurPath+this.addPath
+
+    else if(from == 'BL') return this.f_livraisonPath+this.addPath
 
 
     else return ''

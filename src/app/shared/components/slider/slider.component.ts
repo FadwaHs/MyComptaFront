@@ -66,16 +66,10 @@ export class SliderComponent implements OnInit {
 
 links: Link[] = [
   { path: 'TDB', label: 'DATA_NAME.TDB', isActive: false },
-
   { path: 'CT', label: 'DATA_NAME.CT', isActive: false, hasHoverMenu : true, hoverMenuItem: [{label:'DATA_NAME.ACT', path:"/environment/1/facturation/clients/add"}, {label:'DATA_NAME.LC', path:"/environment/1/facturation/clients"},   {label:'DATA_NAME.AS', path:"/environment/1/facturation/societes/add"}, {label:'DATA_NAME.LS', path:"/environment/1/facturation/societes"} ,{label:'DATA_NAME.AF', path:"/environment/1/facturation/fournisseurs/add"}, {label:'DATA_NAME.LF', path:"/environment/1/facturation/fournisseurs"}  ],verticalSpacing: 47 },
-
   { path: 'OP', label: 'DATA_NAME.OP', isActive: false, hasHoverMenu : true, hoverMenuItem: [{label:'DATA_NAME.COP', path:"/environment/1/facturation/opportunites/add"} ,{label:'DATA_NAME.LOP', path:"/environment/1/facturation/opportunites"} , {label:'DATA_NAME.VP', path:"/environment/1/facturation/pipeline"}] ,verticalSpacing: 6},
   { path: 'F', label: 'DATA_NAME.FC', isActive: false, hasHoverMenu : true, hoverMenuItem: [ {label:'DATA_NAME.CD', path:"/environment/1/facturation/devis/add"},  {label:'DATA_NAME.LDV', path:"/environment/1/facturation/devis/"},   {label:'DATA_NAME.CF', path:"/environment/1/facturation/factures/simple/add"},  {label:'DATA_NAME.LFC', path:"/environment/1/facturation/factures/simple"},  {label:'DATA_NAME.CA', path:"/environment/1/facturation/factures/avoir/add"},  {label:'DATA_NAME.LA', path:"/environment/1/facturation/factures/avoir"}, {label:'DATA_NAME.CAC', path:"/environment/1/facturation/factures/acompte/add"},  {label:'DATA_NAME.LAC', path:"/environment/1/facturation/factures/acompte"} ], verticalSpacing: 1},
-
   { path: 'AC', label: 'DATA_NAME.ACH', isActive: true, hasHoverMenu : true, hoverMenuItem: [ {label:'DATA_NAME.CFF', path:"/environment/1/facturation/factures-fournisseur/simple/add"}, {label:'DATA_NAME.LFF', path:"/environment/1/facturation/factures-fournisseur/simple"}, {label:'DATA_NAME.CAF', path:"/environment/1/facturation/factures-fournisseur/avoir/add"} , {label:'DATA_NAME.LAF', path:"/environment/1/facturation/factures-fournisseur/avoir"}, {label:'DATA_NAME.CBL', path:"environment/1/facturation/bons/livraison/add"}, {label:'DATA_NAME.LBL', path:"environment/1/facturation/bons/livraison"}], verticalSpacing: 47.7 },
-
-
-
   { path: 'BQ', label: 'DATA_NAME.BQ', isActive: false, hasHoverMenu : false, hoverMenuItem: [{label:'DATA_NAME.AR', path:""}, {label:'DATA_NAME.LR', path:""}, {label:'DATA_NAME.LRB', path:""}], verticalSpacing: 8 },
   { path: 'CTG', label: 'DATA_NAME.CTG', isActive: false, hasHoverMenu : false, hoverMenuItem: [{label:'DATA_NAME.APR', path:""}, {label:'DATA_NAME.LPRS', path:""}, {label:'DATA_NAME.LDT', path:""}, {label:'DATA_NAME.ASV', path:""}, {label:'DATA_NAME.LSV', path:""}, {label:'DATA_NAME.LPM', path:""}, {label:'DATA_NAME.CPM', path:""}, {label:'DATA_NAME.CCP', path:""}, {label:'DATA_NAME.DC', path:""}, {label:'DATA_NAME.SC', path:""}, {label:'DATA_NAME.CTR', path:""}], verticalSpacing: 0.5 },
   { path: 'TR', label: 'DATA_NAME.TR', isActive: false, verticalSpacing: 42.2 },

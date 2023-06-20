@@ -46,7 +46,7 @@
 				<hr>
 			</div>
 
-      <div class="flex flex-col space-y-3" *ngIf="opportunite.etape.pipeline.name">
+      <div class="flex flex-col space-y-3" *ngIf="opportunite.etape && opportunite.etape.pipeline.name">
 				<div class=" grid grid-cols-4 gap-4">
 					<span class="text-gray-2 col-span-2 ">{{'FORM.INPUT.OPPP' | translate}} :</span>
 					<div class="flex gap-4 items-center">
@@ -57,7 +57,7 @@
 				<hr>
 			</div>
 
-      <div class="flex flex-col space-y-3" *ngIf="opportunite.etape.etapename">
+      <div class="flex flex-col space-y-3" *ngIf="opportunite.etape && opportunite.etape.etapename">
 				<div class=" grid grid-cols-4 gap-4">
 					<span class="text-gray-2 col-span-2">{{'FORM.INPUT.OPPE' | translate}} :</span>
 					<div >{{opportunite.etape.etapename}} ({{opportunite.etape.probabilite}}%)</div>

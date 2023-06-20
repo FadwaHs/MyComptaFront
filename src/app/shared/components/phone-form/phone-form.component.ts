@@ -139,9 +139,9 @@ export class PhoneFormComponent implements OnInit {
       if (phoneNumberControl) {
         const phoneNumber = phoneNumberControl.value.number; // Access the 'number' property
 
-        console.log('Control Name:', controlName);
-        console.log('Phone Number Control:', phoneNumberControl);
-        console.log('Phone Number:', phoneNumber);
+        // console.log('Control Name:', controlName);
+        // console.log('Phone Number Control:', phoneNumberControl);
+        // console.log('Phone Number:', phoneNumber);
 
         if (phoneNumber && this.formService.checkOneControl(phoneNumber)) {
           const phone = new Phone();
@@ -151,7 +151,7 @@ export class PhoneFormComponent implements OnInit {
       }
     }
 
-    console.log(this.phones, 'ppp');
+    // console.log(this.phones, 'ppp');
   }
 
   async deleteOldPhones() {
