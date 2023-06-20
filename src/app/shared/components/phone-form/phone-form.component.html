@@ -1,4 +1,4 @@
- <section class="flex flex-col gap-6">
+<section class="flex flex-col gap-6">
   <form class="space-y-6" [formGroup]="phoneForm">
     <div class="grid grid-cols-5" *ngFor="let controller of controls; let i = index">
       <div class="common-input col-span-4 ">
@@ -8,11 +8,7 @@
           [preferredCountries]="preferredCountries"
           [enableAutoCountrySelect]="true"
           [selectedCountryISO]="CountryISO.Morocco"
-          [separateDialCode]="false"
-
-          >
-
-          </ngx-intl-tel-input>
+          [separateDialCode]="false"          >          </ngx-intl-tel-input>
         </div>
       <div class="flex gap-1 justify-center items-center z-0">
         <button class="common-btn-gray" (click)="addPhoneInput(i)" [disabled]="controls.length >= max">

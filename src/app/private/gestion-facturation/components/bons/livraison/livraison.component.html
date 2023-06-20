@@ -1,0 +1,24 @@
+<section  class="h-[100vh]">
+
+  <app-top-bar for="BL" type="list"  ></app-top-bar>
+
+  <app-empty-data-message for="BL" *ngIf="isEmpty"></app-empty-data-message>
+
+  <div>
+
+      <div class=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
+        <app-card *ngFor="let bl of bonLivraison | paginate : {
+            itemsPerPage: pageSize,
+            currentPage: page,
+            totalItems: count
+          }; let i = index"
+        for="BL" [data]="bl" (refreshListPage)="onRefresh()"></app-card>
+    </div>
+
+    <app-pagination (pageChange)="pageChange($event)" (pageSizeChange)="pageSizeChange($event)"></app-pagination>
+
+
+  </div>
+
+</section>
+

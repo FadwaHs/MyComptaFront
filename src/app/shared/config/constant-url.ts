@@ -11,8 +11,6 @@ export class ConstantUrl {
     public readonly baseUrl :string = "http://localhost:8082/api/";
     public readonly societeUrl :string = this.baseUrl+"societes";
     public readonly clientUrl :string = this.baseUrl+"clients";
-
-
     public readonly clientOppUrl :string = this.clientUrl+"/opp";
     public readonly clientDevisUrl :string = this.clientUrl+"/devis";
 
@@ -24,8 +22,6 @@ export class ConstantUrl {
     public readonly societeFactureUrl :string = this.societeUrl+"/factures";
     public readonly societeOppUrl :string = this.societeUrl+"/opp";
     //++
-
-
     public readonly fournisseurUrl :string = this.baseUrl+"fournisseurs";
 
     public readonly phoneUrl :string = this.baseUrl+"phones";
@@ -55,11 +51,13 @@ export class ConstantUrl {
     public readonly avoirfournisseurUrl : string = this.baseUrl+"facturesfournisseur-avoir";
     public readonly simplefournisseurUrl : string = this.baseUrl+"facturesfournisseur-simple";
 
-
      //++
      public readonly compteTiersUrl : string = this.baseUrl+"comptetiers";
      public readonly compteChargeUrl : string = this.baseUrl+"comptecharges";
      public readonly socialsUrl : string = this.baseUrl+"sociaux";
      public readonly secteursUrl : string = this.baseUrl+"secteurs";
+
+     //bons
+     public readonly bonLivraisonUrl : string = this.baseUrl+"bonLivraison";
 
 }

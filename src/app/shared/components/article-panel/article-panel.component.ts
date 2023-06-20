@@ -6,6 +6,8 @@ import { firstValueFrom } from 'rxjs';
 import { ArticleService } from 'src/app/private/gestion-facturation/http/article.service';
 import { TypeArticleService } from 'src/app/private/gestion-facturation/http/type-article.service';
 import { Article } from 'src/app/private/gestion-facturation/models/article';
+import { Bons } from 'src/app/private/gestion-facturation/models/bons';
+import { BonLivraison } from 'src/app/private/gestion-facturation/models/bons-livraison';
 import { Devis } from 'src/app/private/gestion-facturation/models/devis';
 import { Facture } from 'src/app/private/gestion-facturation/models/facture';
 import { FactureAvoir } from 'src/app/private/gestion-facturation/models/facture-avoir';
@@ -32,7 +34,9 @@ export class ArticlePanelComponent implements OnInit {
   isFormValid : EventEmitter<boolean> = new EventEmitter()
 
   @Input()
-  for : 'D' | 'F'|'A'|'SF'|'AF'
+
+  for : 'D' | 'F'|'A'|'SF'|'AF'|'BL'
+
 
   tvaNotApplicable : boolean
   typesArticle : TypeArticle[]
@@ -286,8 +290,12 @@ export class ArticlePanelComponent implements OnInit {
         if (this.for == 'D') article.devis = data as Devis;
         else if (this.for == 'F') article.factureSimple = data as FactureSimple;
         else if (this.for == 'A') article.factureAvoir = data as FactureAvoir;
+
         else if (this.for == 'SF') article.simpleFournisseur = data as SimpleFournisseur;
         else if (this.for == 'AF') article.avoireFournisseur = data as AvoireFournisseur;
+
+        else if (this.for == 'BL') article.bonLivraison =  data as BonLivraison;
+
 
         else return
 

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { BLStatus } from 'src/app/private/gestion-facturation/enums/BLStatus';
 import { OppStatus } from 'src/app/private/gestion-facturation/enums/OppStatus';
 import { AvoireFournisseurStatus } from 'src/app/private/gestion-facturation/enums/avoire-fournisseur-status';
 import { DevisStatus } from 'src/app/private/gestion-facturation/enums/devis-status';
@@ -7,6 +8,8 @@ import { FactureAcompteStatus } from 'src/app/private/gestion-facturation/enums/
 import { FactureAvoirStatus } from 'src/app/private/gestion-facturation/enums/facture-avoir-status';
 import { FactureSimpleStatus } from 'src/app/private/gestion-facturation/enums/facture-simple-status';
 import { SimpleFournisseurStatus } from 'src/app/private/gestion-facturation/enums/simple-fournisseur-status';
+import { BonLivraison } from 'src/app/private/gestion-facturation/models/bons-livraison';
+
 
 @Injectable({
   providedIn: 'root'
@@ -24,12 +27,14 @@ import { SimpleFournisseurStatus } from 'src/app/private/gestion-facturation/enu
       this.callMethodSearchSource.next(data);
     }
 
+
     callMethodFilterStatus(filterStatus : DevisStatus  | FactureSimpleStatus |FactureAvoirStatus|FactureAcompteStatus
-      |SimpleFournisseurStatus|AvoireFournisseurStatus | null ){
+      |SimpleFournisseurStatus|AvoireFournisseurStatus | OppStatus| BLStatus| null ){
+
       this.callMethodFilterStatusSource.next(filterStatus);
     }
 
-     // for filter status opportunite !
+  // for filter status opportunite !
 
   // create BehaviorSubject:  is a type of observable that allows the observer to receive the last emitted value, even if they subscribe after the value was emitted
   // oppStatusFilterSubject:  This is used to store the currently selected OppStatus filter value.
@@ -55,7 +60,6 @@ import { SimpleFournisseurStatus } from 'src/app/private/gestion-facturation/enu
 
 
 
-
   // create the BehaviorSubject
   private selectedItemSubject: BehaviorSubject<string | null > = new BehaviorSubject<string | null> (null);
 
@@ -69,6 +73,9 @@ import { SimpleFournisseurStatus } from 'src/app/private/gestion-facturation/enu
 
        return this.selectedItemSubject;
   }
+
+
+
 
 
 }

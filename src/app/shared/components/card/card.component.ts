@@ -21,6 +21,8 @@ import { AlertifyService } from '../../services/alertify.service';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { Opportunite } from 'src/app/private/gestion-facturation/models/opportunite';
 import { SimpleFournisseur } from 'src/app/private/gestion-facturation/models/simple-fournisseur';
+import { BonLivraison } from 'src/app/private/gestion-facturation/models/bons-livraison';
+
 
 interface Card {
   mainIcon: string;
@@ -32,7 +34,6 @@ interface Card {
   secondaryData: { icon: string; data: string }[];
   primaryData: { icon: string; data1: string ; data2?: string}[];
   keyWord: Array<String>;
-
 }
 
 @Component({
@@ -46,11 +47,13 @@ export class CardComponent implements OnInit {
   refreshListPage : EventEmitter<void> = new EventEmitter();
 
   @Input()
-
-  data: Societe | Client | Devis | FactureSimple | FactureAvoir | FactureAcompte|Facture|Opportunite | Fournisseur|SimpleFournisseur|AvoireFournisseur;
+  data: Societe | Client | Devis | FactureSimple | FactureAvoir | FactureAcompte|Facture|Opportunite | Fournisseur|SimpleFournisseur|AvoireFournisseur|BonLivraison;
 
   @Input()
-  for: 'C' | 'S' | 'D' | 'F'|'A'|'FA'|'O'|'FR'|'SF'|'AF';
+  for: 'C' | 'S' | 'D' | 'F'|'A'|'FA'|'O'|'FR'|'SF'|'AF'|'BL';
+
+
+
 
 
   card: Card = {} as Card;
@@ -80,8 +83,8 @@ export class CardComponent implements OnInit {
     else if (this.for =='F') this.getFromFactureSimple()
     else if (this.for =='A') this.getFromFactureAvoir()
     else if (this.for =='FA') this.getFromFactureAcompte()
-
     else if (this.for =='O') this.getFromOpportunite()
+    else if (this.for =='BL') this.getFromBonlivraison()
 
     else if (this.for =='SF') this.getFromSimpleFournisseur()
     else if (this.for =='AF') this.getFromAvoirFournisseur()
@@ -94,7 +97,7 @@ export class CardComponent implements OnInit {
     this.card.mainIcon = 'factures';
     this.card.primaryTitle1 = factureFournisseur.numero_interne;
     this.card.paragraph = factureFournisseur.note;
-    this.setFournisseur( factureFournisseur.fournisseur);
+    this.setFournisseurToCard( factureFournisseur.fournisseur);
     this.setStatusToCard2(factureFournisseur.status, factureFournisseur.livraisonStatus);
     this.card.line = true;
     this.card.primaryData = [];
@@ -110,7 +113,7 @@ export class CardComponent implements OnInit {
     this.card.primaryTitle1 = avoirFournisseur.numero_interne
     this.card.primaryTitle2 = avoirFournisseur.status
     this.card.paragraph= avoirFournisseur.note
-    this.setFournisseur(avoirFournisseur.fournisseur )
+    this.setFournisseurToCard(avoirFournisseur.fournisseur )
     this.setStatusToCard(avoirFournisseur.status);
     this.card.line = true
     this.card.primaryData = [];
@@ -255,6 +258,23 @@ export class CardComponent implements OnInit {
     this.setDate(opportunite.datecreation)
   }
 
+  // for bon livraison card
+  getFromBonlivraison()
+  {
+    var bonLivraison : BonLivraison = this.data as BonLivraison
+    this.card.mainIcon = 'factures'
+    this.card.primaryTitle1 = bonLivraison.numero_interne
+    this.card.primaryTitle2 = bonLivraison.blStatus
+    this.setFournisseurToCard(bonLivraison.fournisseur)
+    this.setStatusToCard(bonLivraison.blStatus);
+    this.card.line = true
+    this.card.primaryData = [];
+    this.card.paragraph= bonLivraison.note
+     this.setHTAndTTC(bonLivraison.totalHT,bonLivraison.totalTTC);
+    this.setDate(bonLivraison.date_creation)
+    this.setMotCleToCard(bonLivraison.motCleList);
+  }
+
 
 
 
@@ -348,18 +368,21 @@ export class CardComponent implements OnInit {
     }
   }
   //++
-  async setFournisseur(fournisseur :Fournisseur |null){
-    if(fournisseur){
 
+  async setFournisseurToCard (fournisseur : Fournisseur | null){
+
+    if(fournisseur)
+    {
       this.card.secondaryTitle =  await firstValueFrom(this.translate.get('DATA_NAME.FR')) +
-      ': ' + fournisseur.firstName + ' '+ fournisseur.lastName
-
+        ': ' + fournisseur.firstName + ' '+ fournisseur.lastName
     }
     else{
       this.card.secondaryTitle =  await firstValueFrom(this.translate.get('STATUS.NOT_DESTINED'))
     }
   }
+
 //++
+
   async setStatusToCard(status : string) {
 
     if(status == "PROVISIONAL"){
@@ -411,6 +434,20 @@ export class CardComponent implements OnInit {
       this.card.primaryTitle2 =  await firstValueFrom(this.translate.get('STATUS.CANCLED'))
       this.textColor = 'text-red'
     }
+
+    else if(status == "Draft"){
+      this.card.primaryTitle2 =  await firstValueFrom(this.translate.get('STATUS.Draft'))
+      this.textColor = 'text-red'
+    }
+    else if(status == "Partially_Invoiced"){
+      this.card.primaryTitle2 =  await firstValueFrom(this.translate.get('STATUS.Partially_Invoiced'))
+      this.textColor = 'text-blue'
+    }
+    else if(status == "Invoiced"){
+      this.card.primaryTitle2 =  await firstValueFrom(this.translate.get('STATUS.Invoiced'))
+      this.textColor = 'text-green'
+    }
+
 
   }
 

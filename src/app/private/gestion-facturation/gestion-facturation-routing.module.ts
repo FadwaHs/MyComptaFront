@@ -66,6 +66,13 @@ const routes: Routes = [
         (m) => m.PipelineModule
       ),
   },
+  {
+    path: 'bons',
+    loadChildren: () =>
+      import('./components/bons/bons.module').then(
+        (m) => m.BonsModule
+      ),
+  },
 
   {
     path: 'factures-fournisseur',

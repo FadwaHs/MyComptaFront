@@ -15,6 +15,8 @@ import { FactureSimple } from 'src/app/private/gestion-facturation/models/factur
 import { Fournisseur } from 'src/app/private/gestion-facturation/models/fournisseur';
 import { FactureFournisseur } from 'src/app/private/gestion-facturation/models/facture-fournisseur';
 import { SimpleFournisseur } from 'src/app/private/gestion-facturation/models/simple-fournisseur';
+import { BonLivraison } from 'src/app/private/gestion-facturation/models/bons-livraison';
+
 
 
 interface TopTitle{
@@ -39,10 +41,11 @@ export class TopBarComponent implements OnInit {
 
 
   @Input()
-  data: Societe | Client | Devis | Facture | Opportunite | Pipeline | Fournisseur|FactureFournisseur;
+  data: Societe | Client | Devis | Facture | Opportunite | Pipeline | Fournisseur|FactureFournisseur| BonLivraison;
 
   @Input()
-  for: 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'FG' |'P' |'FR'|'FF'|'SF'|'AF'
+  for: 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'FG' |'P' |'FR'|'FF'|'SF'|'AF'|'BL'
+
 
   @Input()
   type : 'add'|'edit'|'show'|'list'
@@ -124,10 +127,18 @@ export class TopBarComponent implements OnInit {
         if(fournisseur.societe) this.showData[1] = "Professionel"
         else this.showData[1] = "Particulier"
       }
+
       else if(this.for == 'SF'){
         var factureFournisseur : SimpleFournisseur = this.data as SimpleFournisseur
         this.showData[0] = "Facture fournisseur simple"
         this.showData[1] = factureFournisseur.numero_interne
+      }
+      else if( this.for == 'BL' ){
+
+        var bonlivraison :BonLivraison = this.data as BonLivraison;
+        this.showData[0] = "Bon Livraison "
+        this.showData[1] = bonlivraison.numero_interne
+
       }
 
     }

@@ -1,0 +1,244 @@
+<app-top-bar for="BL" type="show" sizeMenu="sm" [data]="this.bonlivraison" ></app-top-bar>
+
+<section class="grid grid-cols-2 md:grid-cols-2 gap-5" >
+	<!-- Informations column -->
+
+	<div class="grid grid-col gap-6 text-sm">
+		<div style="margin-top: 50px;">
+			<span class="secondary-title text-base">{{'FORM.TITLE.INF'|translate}}</span>
+		</div>
+		<div class="flex flex-col space-y-4" style="margin-top: -150px;">
+			<div class="flex flex-col space-y-3  " *ngIf="bonlivraison.blStatus" >
+				<div class=" grid grid-cols-4 ">
+					<span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.ST'| translate}} </span>
+             <span [ngClass]="getStatusColor(bonlivraison.blStatus)">{{bonlivraison.blStatus}}</span>
+         </div>
+         <hr>
+			</div>
+      <div class="flex flex-col space-y-3 " >
+				<div class=" grid grid-cols-4 gap-4">
+					<span class="text-gray-2  col-span-2">{{'DROP_MENU.SHOW.CL'| translate}} </span>
+          			<span class="col-span-2">{{this.details.formatDate(bonlivraison.date_creation)}}</span>
+				</div>
+				<hr>
+			</div>
+      <div class="flex flex-col space-y-3 " >
+				<div class=" grid grid-cols-4 gap-4">
+					<span class="text-gray-2  col-span-2">{{'Numero:'| translate}} </span>
+          			<span class="col-span-2">{{bonlivraison.numero_externe}}</span>
+				</div>
+				<hr>
+			</div>
+      <div class="flex flex-col space-y-3 "  *ngIf="bonlivraison.motCleList">
+				<div class=" grid grid-cols-4 gap-4">
+				<span class="text-gray-2  col-span-2">{{'DROP_MENU.SHOW.MC'| translate}} </span>
+          <div class="flex space-x-1">
+            <span class="rounded-full-black" *ngFor="let word of bonlivraison.motCleList| slice:0:3 ">{{word.mot}}</span>
+            <span class="rounded-full-black" *ngIf="bonlivraison.motCleList.length > 3">+{{ bonlivraison.motCleList.length - 3 }}</span>
+          </div>
+				</div>
+				<hr>
+			</div>
+		</div>
+
+	</div>
+
+  <div class="flex flex-col gap-6 text-sm ">
+		<div  style="margin-top: 50px;">
+			<span class="secondary-title text-base">{{'Documents de vente liés'|translate}}</span>
+		</div>
+    <div>
+        <div class="justify-center items-center p-40">
+          <span class="secondary-title text-base text-gray-4">{{'Aucun Documents de vente liés'|translate}}</span>
+        </div>
+      </div>
+	</div>
+
+</section>
+
+<section class="grid grid-cols-2 md:grid-cols-2 gap-5">
+	<!-- Destinataire -->
+
+	<div class="grid grid-col gap-6 text-sm">
+		<div style="margin-top: -90px;">
+			<span class="secondary-title text-base">{{'DROP_MENU.SHOW.DE'|translate}}</span>
+		</div>
+	<div class="flex flex-col space-y-4 " style="margin-top: -50px;">
+			<div class="flex flex-col space-y-3  " *ngIf="bonlivraison.fournisseur">
+		      <div class=" grid grid-cols-4 "  >
+				<span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.DE'| translate}} </span>
+				<span >{{bonlivraison.fournisseur.firstName}} {{ bonlivraison.fournisseur.lastName}}</span>
+             </div>
+		 <hr>
+	  </div>
+	  <div class="flex flex-col space-y-3  " *ngIf= "bonlivraison.fournisseur?.societe">
+		  <div class=" grid grid-cols-4 "  >
+			 <span class="text-gray-2 col-span-2">{{'DATA_NAME.S'| translate}} </span>
+             <span >{{bonlivraison.fournisseur?.societe?.name}}</span>
+         </div>
+		 <hr>
+	  </div>
+
+    <!--Num tel -->
+
+    <div class="flex flex-col space-y-3  " *ngIf= "bonlivraison.fournisseur?.societe?.phoneList" >
+		  <div class=" grid grid-cols-4 "  >
+			    <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.NUE'| translate}}  </span>
+                <div *ngFor=" let phone of bonlivraison.fournisseur?.societe?.phoneList" >
+						    <span>{{phone.phoneNumber}}</span>
+			   </div>
+          </div>
+		  <hr>
+	  </div>
+
+    <!--Num TVA-->
+    <div class="flex flex-col space-y-3  " *ngIf= "bonlivraison.fournisseur?.societe?.ntva" >
+		  <div class=" grid grid-cols-4 "  >
+			 <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.NTVA'| translate}} </span>
+             <span *ngIf= "bonlivraison.fournisseur?.societe?.ntva" >{{bonlivraison.fournisseur?.societe?.ntva}}</span>
+         </div>
+		 <hr>
+	  </div>
+
+    <!--Adresse-->
+    <div class="flex flex-col space-y-3" *ngIf="!bonlivraison.fournisseur?.societe?.address">
+      <div class="grid grid-cols-4 gap-4">
+        <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.ADD' | translate}}</span>
+        <div class="col-span-2 flex flex-col">
+          <span *ngIf="bonlivraison.fournisseur?.address?.address">{{bonlivraison.fournisseur?.address?.address}}</span>
+          <div *ngIf="bonlivraison.fournisseur?.address?.complementAddress && bonlivraison.fournisseur?.address?.complementAddress?.length">
+            <span>
+              <ng-container *ngFor="let complementAddress of bonlivraison.fournisseur?.address?.complementAddress; let last = last">
+                {{complementAddress}}{{!last ? ', ' : ''}}
+              </ng-container>
+            </span>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div>
+
+    <div class="flex flex-col space-y-3" *ngIf="bonlivraison.fournisseur?.societe?.address">
+      <div class="grid grid-cols-4 gap-4">
+        <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.ADD' | translate}}</span>
+        <div class="col-span-2 flex flex-col">
+          <span *ngIf="bonlivraison.fournisseur?.societe?.address?.address">{{bonlivraison.fournisseur?.societe?.address?.address}}</span>
+          <div *ngIf="bonlivraison.fournisseur?.societe?.address?.complementAddress && bonlivraison.fournisseur?.societe?.address?.complementAddress?.length">
+            <span>
+              <ng-container *ngFor="let complementAddress of bonlivraison.fournisseur?.societe?.address?.complementAddress; let last = last">
+                {{complementAddress}}{{!last ? ', ' : ''}}
+              </ng-container>
+            </span>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div>
+
+
+    <!--Pays -->
+    <div class="flex flex-col space-y-3" *ngIf= "bonlivraison.fournisseur?.societe?.address" >
+      <div class=" grid grid-cols-4 gap-4 " >
+        <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.PA' | translate}} </span>
+        <span >{{bonlivraison.fournisseur?.societe?.address?.country}} </span>
+      </div>
+      <hr>
+    </div>
+
+    <div class="flex flex-col space-y-3" *ngIf= "bonlivraison.fournisseur?.address?.country">
+        <div class=" grid grid-cols-4 gap-4 " >
+        <span class="text-gray-2 col-span-2" >{{'DROP_MENU.SHOW.PA' | translate}} </span>
+        <span >{{bonlivraison.fournisseur?.address?.country}} </span>
+      </div>
+      <hr>
+    </div>
+
+      <!--Num tel Personnel-->
+    <div class="flex flex-col space-y-3  " *ngIf= "bonlivraison.fournisseur?.phoneList" >
+		  <div class=" grid grid-cols-4 "  >
+			    <span class="text-gray-2 col-span-2">{{'Numéro Fournisseur'| translate}}  </span>
+                <div *ngFor=" let phone of bonlivraison.fournisseur?.phoneList" >
+						    <span>{{phone.phoneNumber}}</span>
+			   </div>
+          </div>
+		  <hr>
+	  </div>
+
+	   <!--email-->
+
+     <div class="flex flex-col space-y-3  " *ngIf= "bonlivraison.fournisseur?.societe?.website">
+      <div class=" grid grid-cols-4 "  >
+      <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.SI'| translate}} </span>
+            <span >{{bonlivraison.fournisseur?.societe?.website}}</span>
+        </div>
+    <hr>
+    </div>
+
+    <div class="flex flex-col space-y-3  " *ngIf= "bonlivraison.fournisseur?.email ">
+      <div class=" grid grid-cols-4 "  >
+      <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.EM'| translate}} </span>
+            <span >{{bonlivraison.fournisseur?.email}}</span>
+        </div>
+        <hr>
+    </div>
+
+	</div>
+
+	</div>
+</section>
+
+
+<div class="flex flex-col gap-6 text-sm mt-5">
+  <div style="margin-top: 20px;">
+    <span class="secondary-title text-base" >{{'DROP_MENU.SHOW.DET' | translate}}</span>
+  </div>
+
+  <div class="grid grid-col gap-6 text-sm ">
+
+    <table >
+      <tr class="border-b-gray-3">
+        <th>{{'DROP_MENU.SHOW.T' | translate}}</th>
+        <th >{{'DROP_MENU.SHOW.DEC' | translate}}</th>
+        <th>{{'DROP_MENU.SHOW.PHT' | translate}}</th>
+        <th>{{'DROP_MENU.SHOW.Q' | translate}}</th>
+        <th>{{'DROP_MENU.SHOW.TVA' | translate}}</th>
+        <th>{{'DROP_MENU.SHOW.R' | translate}}</th>
+        <th>{{'DROP_MENU.SHOW.THT' | translate}}</th>
+      </tr>
+
+      <tr *ngFor= "let article of bonlivraison.articleList" class="text-gray-2 ">
+        <td >{{article.typeArticle.name_fr}} </td>
+        <td class="w-80 text-justify">{{article.description}} </td>
+        <td >{{this.details.formatNumber(article.prixHT)}} <span class="ml-1">{{this.details.getCurrencySymbol(bonlivraison.devise)}}</span></td>
+        <td>{{article.quantity}} </td>
+        <td>{{this.details.formatNumber(article.tva)}} % </td>
+        <td>{{this.details.formatNumber(article.reduction)}} {{this.details.getReductionSymbol(bonlivraison,article.redIsPercentage)}} </td>
+        <td>{{this.details. formatNumber(this.details.calulTotlHT(article))}} {{this.details.getCurrencySymbol(bonlivraison.devise)}} </td>
+      </tr>
+
+    </table>
+
+
+
+  <table class=" justify-self-end mr-16 ">
+      <tr>
+        <td class="font-bold ">{{'DROP_MENU.SHOW.THT' | translate}}</td>
+        <td class="text-gray-2">{{this.details.formatNumber(bonlivraison.totalHT)}} {{this.details.getCurrencySymbol(bonlivraison.devise)}}</td>
+      </tr>
+      <tr *ngFor= "let article of bonlivraison.articleList">
+        <td >{{'DROP_MENU.SHOW.TVA' | translate}} ({{article.tva}}%)</td>
+        <td class="text-gray-2"> {{this.details.formatNumber(this.details.calulTVA(article))}} {{this.details.getCurrencySymbol(bonlivraison.devise)}}</td>
+     </tr>
+     <tr>
+      <td class="font-bold">{{'DROP_MENU.SHOW.RG' | translate}}</td>
+        <td class="text-gray-2">{{this.details.formatNumber(bonlivraison.remise)}}{{this.details.getReductionSymbol(bonlivraison,bonlivraison.remIsPercentage)}}</td>
+      </tr>
+     <tr>
+      <td class="font-bold">{{'DROP_MENU.SHOW.TTC' | translate}}</td>
+        <td class="text-gray-2" >{{this.details.formatNumber(bonlivraison.totalTTC)}} {{this.details.getCurrencySymbol(bonlivraison.devise)}}</td>
+      </tr>
+    </table>
+
+	</div>
+</div>
+

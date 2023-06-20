@@ -24,7 +24,7 @@
 
   </div>
 
-  <!-- drop menu edit -->
+
   <div class="drop-menu" *ngIf="dropMenu  && (type == 'edit' || type == 'show') ">
 
       <ng-container *ngIf="for == 'D'">
@@ -108,22 +108,26 @@
 
           <a class="item-menu-{{size}} " [routerLink]="'edit/'+data.id+'-'+data.slug" >
               <svg-icon name="edit" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
+
             <span *ngIf="$any(data).status && ($any(data).status != DevisStatus.PROVISIONAL && $any(data).status != FactureSimpleStatus.PROVISIONAL && $any(data).status != FactureAvoirStatus.PROVISIONAL
             && $any(data).status != SimpleFournisseurStatus.DRAFT && $any(data).status != SimpleFournisseurStatus.TOBERESOLVED && $any(data).status != SimpleFournisseurStatus.PARTIAL); else modifyMotCle">
               {{ 'DROP_MENU.EDIT.MMC' | translate }}
             </span>
             <ng-template #modifyMotCle><span>{{'DROP_MENU.EDIT.M' |translate}}</span></ng-template>
+
           </a>
 
-          <button class="item-menu-{{size}}" (click)="delete(data.id)" *ngIf="for == 'C' || for == 'O' || for == 'S' ||  for=='FR'  ||
+          <button class="item-menu-{{size}}" (click)="delete(data.id)" *ngIf="for == 'C' || for == 'O' || for == 'S'  || for=='FR' ||
           (for == 'D'  && $any(data).status  == DevisStatus.PROVISIONAL )||(for == 'F'  && $any(data).status  == FactureSimpleStatus.PROVISIONAL )||(for == 'A'  && $any(data).status  == FactureAvoirStatus.PROVISIONAL ) ||
           (for == 'FA'  && $any(data).status  == FactureAcompteStatus.PROVISIONAL )||(for == 'SF'  && $any(data).status  == SimpleFournisseurStatus.DRAFT )||(for == 'SF'  && $any(data).status  == SimpleFournisseurStatus.TOBERESOLVED )
           ||(for == 'SF'  && $any(data).status  == SimpleFournisseurStatus.LATE )">
+
               <svg-icon name="delete" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
               <span>{{'DROP_MENU.EDIT.SP' |translate}}</span>
           </button>
 
       </ng-container>
+
 
       <ng-container *ngIf="for == 'SF' ">
 
@@ -152,6 +156,27 @@
       </ng-container>
 
 
+      <!-- for bon de livraison  -->
+      <ng-container *ngIf="for == 'BL' ">
+
+        <a class="item-menu-{{size}} " [routerLink]="'edit/'+data.id+'-'+data.slug" >
+            <svg-icon name="edit" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
+            <span
+                *ngIf="$any(data).blStatus && ($any(data).blStatus == blstatus.Invoiced);
+                else modifyMotCle">
+                {{'DROP_MENU.EDIT.MMC'|translate}}</span>
+            <ng-template #modifyMotCle><span>{{'DROP_MENU.EDIT.M' |translate}}</span></ng-template>
+        </a>
+
+        <button class="item-menu-{{size}}" (click)="delete(data.id)">
+            <svg-icon name="delete" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
+            <span>{{'DROP_MENU.EDIT.SP' |translate}}</span>
+        </button>
+
+    </ng-container>
+
+
+
       <div class="flex flex-col space-y-2">
           <hr class="drop-menu-line">
           <span class="text-gray-2 mt-10 text-[10px]" *ngIf="for =='C'">{{'DROP_MENU.EDIT.PC' |translate}}</span>
@@ -161,6 +186,8 @@
           <span class="text-gray-2 mt-10 text-[10px]" *ngIf="for =='O'">{{'DROP_MENU.EDIT.PO' |translate}}</span>
           <span class="text-gray-2 mt-10 text-[10px]" *ngIf="for =='A'">{{'DROP_MENU.EDIT.PA' |translate}}</span>
           <span class="text-gray-2 mt-10 text-[10px]" *ngIf="for =='SF'">{{'DROP_MENU.EDIT.PF' |translate}}</span>
+          <span class="text-gray-2 mt-10 text-[10px]" *ngIf="for =='BL'">{{'Pour ce Bon de Livraison' |translate}}</span>
+
       </div>
 
       <ng-container *ngIf=" for == 'D' || for == 'F'|| for == 'A' || for == 'FA' || for == 'SF' ">
@@ -269,6 +296,27 @@
 
       <a class="item-menu-{{size}}" href="#">
         <span>{{'DROP_MENU.EDIT.DO' |translate}}</span>
+      </a>
+
+    </ng-container>
+
+     <!-- for bon de livraison  -->
+     <ng-container *ngIf="for == 'BL'">
+
+      <button class="item-menu-{{size}}" (click)="Partfacturer()">
+
+        <span>{{'DROP_MENU.EDIT.PF' |translate}}</span>
+      </button>
+
+     <button class="item-menu-{{size}}" (click)="facturer(bonpopup)">
+
+      <span>{{'DROP_MENU.EDIT.MCF' |translate}}</span>
+     </button>
+
+     <hr class="drop-menu-line">
+
+      <a class="item-menu-{{size}}" href="#">
+        <span>{{'DROP_MENU.EDIT.CFF' |translate}}</span>
       </a>
 
     </ng-container>
@@ -501,6 +549,7 @@
 </ng-container>
 
 
+
   <!-- drop menu Filter  For Facture Fournisseur Simple -->
 
   <ng-container *ngIf=" for == 'SF' && type == 'filter'">
@@ -537,6 +586,29 @@
 
     </ng-container>
 
+
+
+<!-- drop menu Filter  For bpn livraison  -->
+<ng-container *ngIf="(for == 'BL' ) && type == 'filter'">
+
+    <div class="hidden sm:flex sm:gap-2 sm:text-sm">
+
+        <button class="common-btn-gray" (click)="changeFilterbonlivraison(null)"
+            [class.common-btn-gray-active]="!statusActiveBL">{{ 'STATUS.TE' |translate}}</button>
+        <button class="common-btn-gray" (click)="changeFilterbonlivraison(blstatus.Draft)"
+            [class.common-btn-gray-active]="statusActiveBL == blstatus.Draft">{{ 'STATUS.Draft'
+            |translate
+            }}</button>
+        <button class="common-btn-gray" (click)="changeFilterbonlivraison(blstatus.Partially_Invoiced)"
+            [class.common-btn-gray-active]="statusActiveBL == blstatus.Partially_Invoiced">{{ 'STATUS.Partially_Invoiced' |translate
+            }}</button>
+        <button class="common-btn-gray" (click)="changeFilterbonlivraison(blstatus.Invoiced)"
+            [class.common-btn-gray-active]="statusActiveBL == blstatus.Invoiced">{{ 'STATUS.Invoiced' |translate
+            }}</button>
+
+    </div>
+
+</ng-container>
 
 </div>
 
@@ -606,7 +678,7 @@
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
         <span aria-hidden="true">&times;</span>
     </button>
-</div>
+  </div>
 
     <div class=" text-sm grid grid-cols-1 gap-3 ">
       <div class="flex flex-col gap-2">
@@ -695,4 +767,41 @@
 
   </ng-template>
 
+
+
+
+
+<!-- Popup For Bon de livraison : facturer  -->
+<ng-template #bonpopup let-modal>
+  <div class="space-y-5 " style="width: 400px;" >
+
+    <div class="flex flex-col-2 gap-x-52" >
+      <span class="secondary-title text-base"> Message Systeme </span>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+
+    </div>
+
+    <div class=" text-sm grid grid-cols-1 gap-3 ">
+
+      <div class="flex flex-col gap-2">
+        <p>Pour changer l'état de facturation de ce document, vous pouvez :</p>
+        <p>1. Créer une facture fournisseur</p>
+        <p>2. Mettre à jour directement l'état de facturation</p>
+      </div>
+
+    <div  class="my-dialog-actions" >
+    <button class=" common-btn-black col-span-2">
+      Créer une facture fournisseur
+    </button>
+    <button class=" common-btn-black col-span-2" (click)="updateFacturationStatus(modal)">
+      Modifier l'état de facturation
+    </button>
+    </div>
+
+    </div>
+  </div>
+
+</ng-template>
 

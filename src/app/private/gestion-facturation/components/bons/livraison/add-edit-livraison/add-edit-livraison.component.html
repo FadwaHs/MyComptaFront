@@ -1,0 +1,111 @@
+<section class="h-[100vh]">
+
+  <app-top-bar for="BL" type="add"></app-top-bar>
+
+  <form [formGroup]="BLForm" class="grid grid-cols-1 gap-9 md:grid-cols-3 "  *ngIf="isModifiable ; else isNotModifiable">
+
+    <div class="flex flex-col gap-6" >
+
+      <section  class="flex flex-col gap-6">
+
+        <ng-select class="custom-select-gray  text-sm"  placeholder="{{'FORM.INPUT.FR' | translate}}" [items]="items" bindLabel="firstName" formControlName="fournisseur"
+        [(ngModel)]="selectedfournisseur">
+
+         <ng-template ng-option-tmp let-item="item" >
+             <div class="flex gap-2 items-center">
+               <svg-icon [name]="item.icon" svgClass="w-3"></svg-icon>
+               <span>{{item.firstName}} {{item.lastName}}</span>
+              </div>
+          </ng-template>
+
+         </ng-select>
+
+      </section>
+
+      <div class="flex flex-col gap-6"   [ngClass]=" selectedfournisseur || !isAddMode ? 'visible' : 'invisible' ">
+        <span class="secondary-title">{{'FORM.TITLE.INF' | translate}}</span>
+        <div class="flex flex-col gap-6">
+
+            <div class="relative">
+              <label class="common-label">N° Externe</label>
+              <input type="text" class="common-input" formControlName="numeroExterne">
+            </div>
+
+            <div class="relative">
+              <label class="common-label">{{'FORM.INPUT.DS' | translate}}</label>
+              <ng-select class="custom-select-gray" placeholder="{{'FORM.INPUT.DS' | translate}}" [items]="currencies"
+                  bindLabel="name_symbol" bindValue="name_symbol" [clearable]="false"
+                  formControlName="devise" (change)="currencyChanged($event) ">
+
+                  <ng-template ng-option-tmp let-item="item">
+                      <div class="flex gap-2 items-center">
+                          <span>{{item.name}}</span>
+                          <span class="text-gray-2">({{item.symbol}})</span>
+                      </div>
+                  </ng-template>
+
+              </ng-select>
+          </div>
+
+          <div class="flex gap-3 items-center w-fit cursor-pointer"
+          (click)="BLForm.controls['tvaNotApplicable'].setValue(!BLForm.controls['tvaNotApplicable'].value) ">
+          <input type="checkbox" class="w-4 h-4 accent-black-1 cursor-pointer"
+              (ngModelChange)="tvaApplicableChanged()" formControlName="tvaNotApplicable">
+          <label class="cursor-pointer text-sm">{{'FORM.INPUT.TNA' | translate}}</label>
+         </div>
+
+        </div>
+       </div>
+
+   </div>
+
+
+  <div class="flex flex-col gap-6  md:col-span-2"  [ngClass]=" selectedfournisseur || !isAddMode ? 'visible' : 'invisible' ">
+
+    <app-article-panel for="BL" (isFormValid)="setValidationArticleForm($event)"></app-article-panel>
+
+    <textarea class="common-textarea resize-none"
+            placeholder="Note"
+            rows="3" formControlName="note" ></textarea>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2">
+        <app-key-word-form for="BL"></app-key-word-form>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-10 ">
+        <div class="sm:col-start-2 grid grid-cols-3 gap-5 w-full">
+            <button class="common-btn-black col-span-2 " [disabled]="BLForm.invalid || (!selectedfournisseur && isAddMode)  || !this.isArticleFormValid"  appDebounceClick
+                (debounceClick)="onSubmit()">
+                <ng-container *ngIf="isAddMode  else editButton">{{'FORM.BUTTON.C' | translate}}</ng-container>
+                <ng-template #editButton>{{'FORM.BUTTON.E' | translate}}</ng-template>
+            </button>
+            <button #add class="common-btn-gray" routerLink="{{navigate.f_livraisonPath}}">{{'FORM.BUTTON.A' | translate}}</button>
+        </div>
+    </div>
+
+</div>
+
+
+</form>
+
+<ng-template  #isNotModifiable>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 ">
+      <div class="flex flex-col gap-16">
+
+          <app-key-word-form for="BL"></app-key-word-form>
+
+          <div class="grid grid-cols-3 gap-5 ">
+              <button class="common-btn-black col-span-2 " *ngIf="!isAddMode" appDebounceClick (debounceClick)="submitOtherForms()">
+                  {{'FORM.BUTTON.E' | translate}}
+              </button>
+              <button #add class="common-btn-gray" routerLink="{{navigate.f_livraisonPath}}">{{'FORM.BUTTON.A' | translate}}</button>
+          </div>
+      </div>
+
+
+  </div>
+
+</ng-template>
+
+</section>

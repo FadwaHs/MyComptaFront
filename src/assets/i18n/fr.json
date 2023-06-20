@@ -183,6 +183,7 @@
       "EM" :"Employés",
       "Mnt" : "Montant",
       "Dv":"Devis",
+      "BL":"Bon de livraison",
       "SC" : "Social",
       "DC": "Données Comptables",
       "TC" : "Type de client",
@@ -275,7 +276,11 @@
       "TC" :"Type de client",
       "TS" : "Type de societe",
       "SE" :"Secteur d'activité",
-      "NUME":"numero_externe"
+
+      "NUME":"numero_externe",
+
+      "FR" :"Fournisseurs"
+
     },
     "SELECT":{
       "ESPS" :{
@@ -375,6 +380,10 @@
     "O": {
       "M1": "Aucune Opportunité à afficher",
       "M2": "Ajouter une nouvelle Opportunité"
+    },
+    "BL": {
+      "M1": "Aucun Bon de Livraison  à afficher",
+      "M2": "Ajouter un nouveau Bon de Livraison"
     }
     ,
     "SF": {
@@ -438,6 +447,7 @@
         "L1" : "Nouveau Pipeline",
         "L2" : "Exporter les Pipeline"
       },
+
       "SF" :{
         "L1" : "Nouvelle Facture fournisseur",
         "L2" : "Exporter les factrues fournisseurs"
@@ -447,7 +457,12 @@
         "L2" : "Exporter les avoirs fournisseurs"
       },
       "FF" :{
-        "L2" : "Exporter les factures fournisseurs"
+        "L2" : "Exporter les factures fournisseurs",
+
+      "BL" :{
+        "L1" : "Nouveau Bon Livraison",
+        "L2" : "Exporter les  Bon Livraison"
+
       }
 
     },
@@ -470,13 +485,13 @@
       "PC": "POUR CE CLIENT :",
       "PS": "POUR CETTE SOCIETE :",
       "PD": "POUR CE DEVIS :",
-      "PF": "POUR CETTE FACTURE :",
+      "POF": "POUR CETTE FACTURE :",
       "PO": "POUR CETTE OPPORTUNITE :",
       "PA": "POUR CET AVOIR :",
       "CA": "Créer une activité",
       "CD": "Créer un devis",
       "CF": "Créer une facture",
-      "CO":"Cérer une opportunité",
+      "CO": "Cérer une opportunité",
       "CAV": "Cérer un avoir",
       "CFA": "Créer une facture d'acompte",
       "DD" : "Dupliquer en devis",
@@ -490,11 +505,10 @@
       "LV":"Livré",
       "LS":"LIVRAISON STATUTS :",
       "CBL":"Convertir en bon de livraison",
-      "CAF":"Créer un avoir fournisseur"
-
-
-
-
+      "CAF":"Créer un avoir fournisseur",
+      "PF" : "Partiellement facturé",
+      "MCF" : "Marquer comme facturé",
+      "CFF" : "Créer une facture fournisseur"
 
     }
     ,
@@ -639,6 +653,7 @@
     "CANCLED" : "Annulée",
     "CLOSED" :"Fermée",
     "LATE" :"En Retard",
+
     "PARTIAL":"Paiement partiel",
     "PAID" : "Payée",
     "CANCELLED":"Annullé",
@@ -647,8 +662,11 @@
     "PENDING" : "En attente",
     "PARTIAL_DELIVERY": "Livraison partielle",
     "DELIVERED" : "Livré",
-    "TOBEPAID" :"À Payé"
+    "TOBEPAID" :"À Payé",
 
+    "Draft":"Brouillon",
+    "Partially_Invoiced":"Partiellement facturé",
+    "Invoiced":"facturé"
 
   },
   "MODAL":{
@@ -681,5 +699,6 @@
       "L5" : "Le compteur, voir les champs ci-dessous pour le configurer.",
       "L6" : "Par exemple pour <fct|dvs|avr|acp|aac>, si le document est une facture cela sera remplacé par fct, pour devis par dvs, pour avoir par avr et pour les acomptes par acp. L'ordre est important factures|devis|avoirs|acompte."
     }
+  }
   }
 }
