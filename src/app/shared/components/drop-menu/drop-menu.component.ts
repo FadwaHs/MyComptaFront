@@ -97,7 +97,9 @@ export class DropMenuComponent implements OnInit {
   @ViewChild('refundPopup') refundPopup: TemplateRef<any>;
   @ViewChild('payPopup') payPopup: TemplateRef<any>;
    //++
-   @ViewChild('signPopup') signPopup: TemplateRef<any>;
+  @ViewChild('signPopup') signPopup: TemplateRef<any>;
+  @ViewChild('bonpopup') bonpopup: TemplateRef<any>;
+
 
 
   constructor(
@@ -441,17 +443,32 @@ export class DropMenuComponent implements OnInit {
       )
     }
 
-    facturer()
+    facturer(bonpopup : any)
     {
-        // with popup
-        // update statut of bon livraison
-      (this.data as BonLivraison).blStatus = this.blstatus.Invoiced
-      this.bonlivraisonService.updateBonLivraisonById(this.data.id,this.data as BonLivraison).subscribe(
-      {
-        error : e => console.log(e),
-        complete: () => this.refreshListPage.emit()
+     // Open the popup using the NgbModal service
+      const modalRef = this.modalService.open(bonpopup, { windowClass: 'my-modal', backdropClass: 'modal-backdrop' });
+
+      // Handle the popup result
+      modalRef.result.then((result: string) => {
+      if (result === 'createInvoice') {
+        // this.createSupplierInvoice();
+      } else if (result === 'updateStatus') {
+        this.updateFacturationStatus(bonpopup);
       }
-    )
+     });
+    }
+
+    updateFacturationStatus(modal : any)
+    {
+       // update statut of bon livraison
+       (this.data as BonLivraison).blStatus = this.blstatus.Invoiced
+       this.bonlivraisonService.updateBonLivraisonById(this.data.id,this.data as BonLivraison).subscribe(
+       {
+         error : e => console.log(e),
+         complete: () => this.refreshListPage.emit()
+       }
+     )
+     modal.close('updateStatus')
     }
 
 

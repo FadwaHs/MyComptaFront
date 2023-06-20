@@ -5,6 +5,7 @@ import { DevisStatus } from "src/app/private/gestion-facturation/enums/devis-sta
 import { FactureAvoirStatus } from "src/app/private/gestion-facturation/enums/facture-avoir-status";
 import { FactureSimpleStatus } from "src/app/private/gestion-facturation/enums/facture-simple-status";
 import { Article } from "src/app/private/gestion-facturation/models/article";
+import { BonLivraison } from "src/app/private/gestion-facturation/models/bons-livraison";
 import { Devis } from "src/app/private/gestion-facturation/models/devis";
 import { Facture } from "src/app/private/gestion-facturation/models/facture";
 import { FactureAcompte } from "src/app/private/gestion-facturation/models/facture-acompte";
@@ -110,7 +111,7 @@ import { FactureSimple } from "src/app/private/gestion-facturation/models/factur
 
     }
 
-    getReductionSymbol(data :Devis | Facture,remIsPercentage :boolean) :string {
+    getReductionSymbol(data :Devis | Facture | BonLivraison,remIsPercentage :boolean) :string {
        if(remIsPercentage)
          return "%"
        return this.getCurrencySymbol(data.devise)

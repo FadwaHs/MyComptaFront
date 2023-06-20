@@ -258,7 +258,7 @@
         <span>{{'DROP_MENU.EDIT.PF' |translate}}</span>
       </button>
 
-     <button class="item-menu-{{size}}" (click)="facturer()">
+     <button class="item-menu-{{size}}" (click)="facturer(bonpopup)">
 
       <span>{{'DROP_MENU.EDIT.MCF' |translate}}</span>
      </button>
@@ -554,7 +554,7 @@
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
         <span aria-hidden="true">&times;</span>
     </button>
-</div>
+  </div>
 
     <div class=" text-sm grid grid-cols-1 gap-3 ">
       <div class="flex flex-col gap-2">
@@ -570,6 +570,42 @@
         </button>
         </div>
       </div>
+  </div>
+
+</ng-template>
+
+
+
+<!-- Popup For Bon de livraison : facturer  -->
+<ng-template #bonpopup let-modal>
+  <div class="space-y-5 " style="width: 400px;" >
+
+    <div class="flex flex-col-2 gap-x-52" >
+      <span class="secondary-title text-base"> Message Systeme </span>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+
+    </div>
+
+    <div class=" text-sm grid grid-cols-1 gap-3 ">
+
+      <div class="flex flex-col gap-2">
+        <p>Pour changer l'état de facturation de ce document, vous pouvez :</p>
+        <p>1. Créer une facture fournisseur</p>
+        <p>2. Mettre à jour directement l'état de facturation</p>
+      </div>
+
+    <div  class="my-dialog-actions" >
+    <button class=" common-btn-black col-span-2">
+      Créer une facture fournisseur
+    </button>
+    <button class=" common-btn-black col-span-2" (click)="updateFacturationStatus(modal)">
+      Modifier l'état de facturation
+    </button>
+    </div>
+
+    </div>
   </div>
 
 </ng-template>
