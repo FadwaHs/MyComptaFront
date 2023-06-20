@@ -15,6 +15,6 @@ export class AvoireFournisseur extends FactureFournisseur{
   motCleList: MotCle[]
   fournisseur: Fournisseur
   //++
-  paiement: Paiement[]
+  paiementList: Paiement[]
 
 }

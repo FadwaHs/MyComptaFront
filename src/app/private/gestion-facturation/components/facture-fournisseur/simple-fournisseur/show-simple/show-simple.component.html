@@ -1,1 +1,300 @@
-<p>show-simple works!</p>
+<app-top-bar for="SF" type="show" sizeMenu="sm" [data]="this.facture" ></app-top-bar>
+
+<section class="grid grid-cols-2 md:grid-cols-2 gap-5">
+	<!-- Informations column -->
+
+	<div class="grid grid-col gap-2 text-sm">
+		<div class="mt-[30px]">
+			<span class="secondary-title text-base">{{'FORM.TITLE.INF'|translate}}</span>
+		</div>
+		<div class="flex flex-col space-y-4 mt-[-30px]" >
+      <div class="flex flex-col space-y-3  " *ngIf="facture.numero_externe" >
+				<div class=" grid grid-cols-4 ">
+					<span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.NE'| translate}} </span>
+          <span >{{facture.numero_externe}}</span>
+        </div>
+				<hr>
+			</div>
+			<div class="flex flex-col space-y-3  " *ngIf="facture.status" >
+				<div class=" grid grid-cols-4 ">
+					<span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.ST'| translate}} </span>
+          <span [ngClass]="getStatutsColor(facture.status)" >{{this.details.transStatus(facture.status)}}</span>
+        </div>
+				<hr>
+			</div>
+      <div class="flex flex-col space-y-3  " *ngIf="facture.livraisonStatus" >
+				<div class=" grid grid-cols-4 ">
+					<span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.STL'| translate}} </span>
+          <span [ngClass]="getStatutsColor(facture.livraisonStatus)" >{{this.details.transStatus(facture.livraisonStatus)}}</span>
+        </div>
+				<hr>
+			</div>
+      <div class="flex flex-col space-y-3 " >
+				<div class=" grid grid-cols-4 gap-4">
+					<span class="text-gray-2  col-span-2">{{'DROP_MENU.SHOW.CLE'| translate}} </span>
+          <span class="col-span-2">{{this.details.formatDate(facture.date_creation)}}</span>
+				</div>
+				<hr>
+			</div>
+
+			<div class="flex flex-col space-y-3 " >
+				<div class=" grid grid-cols-4 gap-4">
+					<span class="text-gray-2  col-span-2">{{'DROP_MENU.SHOW.PDF'| translate}} </span>
+          <span class="col-span-2">{{this.details.formatDate(facture.date_creation)}}</span>
+				</div>
+				<hr>
+			</div>
+			<div class="flex flex-col space-y-3 " *ngIf="facture.motCleList" >
+				<div class=" grid grid-cols-4 gap-4">
+				<span class="text-gray-2  col-span-2">{{'DROP_MENU.SHOW.MC'| translate}} </span>
+          <div class="flex space-x-1">
+            <span class="rounded-full-black" *ngFor="let word of facture.motCleList| slice:0:3 ">{{word.mot}}</span>
+            <span class="rounded-full-black" *ngIf="facture.motCleList.length > 3">+{{ facture.motCleList.length - 3 }}</span>
+          </div>
+				</div>
+				<hr>
+			</div>
+		</div>
+
+	</div>
+
+  <div class="flex flex-col gap-6 text-sm ">
+		<div class="mt-[30px]">
+			<span class="secondary-title text-base">{{'DROP_MENU.SHOW.DVL'|translate}}</span>
+		</div>
+    <div>
+
+        <div class="justify-center items-center p-40 mt-[-30px]">
+          <span class="secondary-title text-base text-gray-4">{{'DROP_MENU.SHOW.ADVL'|translate}}</span>
+        </div>
+    </div>
+	</div>
+</section>
+
+<div class="flex flex-col gap-6 text-sm mt-5">
+  <div>
+    <div class="secondary-title text-base" >
+      <span>{{'DROP_MENU.SHOW.LP' | translate}}</span>
+     (<span *ngIf="facture.paiementList">{{facture.paiementList.length}}</span>)
+    </div>
+  </div>
+  <div>
+    <span class="mt-6 font-bold" *ngIf= "facture.paiementList && facture.paiementList.length>0;else emptyPaiement " ></span>
+  </div>
+  <!-- <div style= " margin-top: 30px; margin-bottom: 30px; " >
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
+          <app-card  for= "FA" [data]= " acompte" *ngFor= " let acompte of facture.paiementList let i = index " ></app-card>
+        </div>
+  </div> -->
+
+  <ng-template #emptyPaiement>
+      <div class="justify-center items-center p-20 ml-96">
+        <span class="secondary-title text-base text-gray-4">{{'DROP_MENU.SHOW.AR'|translate}}</span>
+      </div>
+  </ng-template>
+</div>
+
+<section class="grid grid-cols-2 md:grid-cols-2 gap-5">
+  <!-- Destinataire -->
+  <div class="grid grid-col gap-6 text-sm">
+    <div>
+      <span class="secondary-title text-base">{{'DROP_MENU.SHOW.DE'|translate}}</span>
+    </div>
+  <div class="flex flex-col space-y-4 " >
+      <div class="flex flex-col space-y-3  " *ngIf="facture.fournisseur">
+          <div class=" grid grid-cols-4 "  >
+        <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.DE'| translate}} </span>
+        <span >{{facture.fournisseur.firstName}} {{ facture.fournisseur.lastName}}</span>
+             </div>
+     <hr>
+    </div>
+    <div class="flex flex-col space-y-3  " *ngIf= "facture.fournisseur?.societe">
+      <div class=" grid grid-cols-4 "  >
+       <span class="text-gray-2 col-span-2">{{'DATA_NAME.S'| translate}} </span>
+             <span >{{facture.fournisseur.societe?.name}}</span>
+         </div>
+     <hr>
+    </div>
+    <!--Num tel -->
+    <div class="flex flex-col space-y-3  " *ngIf= "facture.fournisseur?.societe?.phoneList" >
+      <div class=" grid grid-cols-4 "  >
+          <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.NUE'| translate}}  </span>
+                <div *ngFor=" let phone of facture.fournisseur?.societe?.phoneList" >
+                <span>{{phone.phoneNumber}}</span>
+         </div>
+          </div>
+      <hr>
+    </div>
+    <!--Num TVA-->
+    <div class="flex flex-col space-y-3  " *ngIf= "facture.fournisseur?.societe?.ntva" >
+      <div class=" grid grid-cols-4 "  >
+       <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.NTVA'| translate}} </span>
+             <span *ngIf= "facture.fournisseur?.societe?.ntva" >{{facture.fournisseur.societe?.ntva}}</span>
+         </div>
+     <hr>
+    </div>
+    <!--Adresse-->
+    <div class="flex flex-col space-y-3" *ngIf="!facture.fournisseur?.societe?.address">
+      <div class="grid grid-cols-4 gap-4">
+        <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.ADD' | translate}}</span>
+        <div class="col-span-2 flex flex-col">
+          <span *ngIf="facture.fournisseur?.address?.address">{{facture.fournisseur.address.address}}</span>
+          <div *ngIf="facture.fournisseur?.address?.complementAddress && facture.fournisseur?.address?.complementAddress?.length">
+            <span>
+              <ng-container *ngFor= "let complementAddress of facture.fournisseur?.address?.complementAddress ; let last = last ">
+                {{complementAddress}}{{!last ? ', ' : ''}}
+              </ng-container>
+            </span>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div>
+    <div class="flex flex-col space-y-3" *ngIf= "facture.fournisseur?.societe?.address">
+      <div class="grid grid-cols-4 gap-4">
+        <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.ADD' | translate}}</span>
+        <div class="col-span-2 flex flex-col">
+          <span *ngIf= "facture.fournisseur?.societe?.address?.address">{{facture.fournisseur.societe?.address?.address}}</span>
+          <div *ngIf= "facture.fournisseur?.societe?.address?.complementAddress && facture.fournisseur?.societe?.address?.complementAddress?.length">
+            <span>
+              <ng-container *ngFor= "let complementAddress of facture.fournisseur?.societe?.address?.complementAddress; let last = last">
+                {{complementAddress}}{{!last ? ', ' : ''}}
+              </ng-container>
+            </span>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div>
+    <!--Pays -->
+    <div class="flex flex-col space-y-3" *ngIf= "facture.fournisseur?.societe?.address" >
+      <div class=" grid grid-cols-4 gap-4 " >
+        <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.PA' | translate}} </span>
+        <span >{{facture.fournisseur.societe?.address?.country}} </span>
+      </div>
+      <hr>
+    </div>
+    <div class="flex flex-col space-y-3" *ngIf= "facture.fournisseur?.address?.country">
+        <div class=" grid grid-cols-4 gap-4 " >
+        <span class="text-gray-2 col-span-2" >{{'DROP_MENU.SHOW.PA' | translate}} </span>
+        <span >{{facture.fournisseur.address.country}} </span>
+      </div>
+      <hr>
+    </div>
+      <!--Num tel Personnel-->
+    <div class="flex flex-col space-y-3  " *ngIf= "facture.fournisseur?.phoneList" >
+      <div class=" grid grid-cols-4 "  >
+          <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.NUM'| translate}}  </span>
+                <div *ngFor=" let phone of facture.fournisseur?.phoneList" >
+                <span>{{phone.phoneNumber}}</span>
+         </div>
+          </div>
+      <hr>
+    </div>
+     <!--email-->
+     <div class="flex flex-col space-y-3  " *ngIf= "facture.fournisseur?.societe?.website">
+      <div class=" grid grid-cols-4 "  >
+      <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.SI'| translate}} </span>
+            <span >{{facture.fournisseur.societe?.website}}</span>
+        </div>
+    <hr>
+    </div>
+    <div class="flex flex-col space-y-3  " *ngIf= "facture.fournisseur?.email ">
+      <div class=" grid grid-cols-4 "  >
+      <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.EM'| translate}} </span>
+            <span >{{facture.fournisseur.email}}</span>
+        </div>
+        <hr>
+    </div>
+  </div>
+  </div>
+
+ <div class="flex flex-col gap-6 text-sm ">
+		<div>
+			<span class="secondary-title text-base">{{'DROP_MENU.SHOW.CON'|translate}}</span>
+		</div>
+
+    <div class="flex flex-col space-y-4 " >
+			<div class="flex flex-col space-y-3  ">
+		      <div class=" grid grid-cols-4 "  >
+				<span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.CONR'| translate}} </span>
+        <span>{{facture.conditionReglement?.name }}</span>
+      </div>
+		 <hr >
+	  </div>
+	  <div class="flex flex-col space-y-3  " >
+		  <div class=" grid grid-cols-4 "  >
+			 <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.MOR'| translate}} </span>
+             <span >{{facture.modeReglement?.name}}</span>
+         </div>
+		 <hr >
+	  </div>
+
+
+	</div>
+
+	</div>
+</section>
+
+<div class="flex flex-col gap-6 text-sm mt-5">
+  <div>
+    <span class="secondary-title text-base" >{{'DROP_MENU.SHOW.DET' | translate}}</span>
+  </div>
+
+  <div class="grid grid-col gap-6 text-sm ">
+
+    <table >
+      <tr class="border-b-gray-3">
+        <th>{{'DROP_MENU.SHOW.T' | translate}}</th>
+        <th >{{'DROP_MENU.SHOW.DEC' | translate}}</th>
+        <th>{{'DROP_MENU.SHOW.PHT' | translate}}</th>
+        <th>{{'DROP_MENU.SHOW.Q' | translate}}</th>
+        <th>{{'DROP_MENU.SHOW.TVA' | translate}}</th>
+        <th>{{'DROP_MENU.SHOW.R' | translate}}</th>
+        <th>{{'DROP_MENU.SHOW.THT' | translate}}</th>
+      </tr>
+
+      <tr *ngFor= "let article of facture.articleList" class="text-gray-2 ">
+        <td >{{article.typeArticle.name_fr}} </td>
+        <td class="w-80 text-justify">{{article.description}} </td>
+        <td >{{this.details.formatNumber(article.prixHT)}} <span class="ml-1">{{this.details.getCurrencySymbol(facture.devise)}}</span></td>
+        <td>{{article.quantity}} </td>
+        <td>{{this.details.formatNumber(article.tva)}} % </td>
+        <td>{{this.details.formatNumber(article.reduction)}} {{this.details.getReductionSymbol(facture,article.redIsPercentage)}} </td>
+        <td>{{this.details. formatNumber(this.details.calulTotlHT(article))}} {{this.details.getCurrencySymbol(facture.devise)}} </td>
+      </tr>
+
+    </table>
+
+
+
+  <table class=" justify-self-end mr-16 ">
+      <tr>
+        <td class="font-bold ">{{'DROP_MENU.SHOW.THT' | translate}}</td>
+        <td class="text-gray-2">{{this.details.formatNumber(facture.totalHT)}} {{this.details.getCurrencySymbol(facture.devise)}}</td>
+      </tr>
+      <tr *ngFor= "let article of facture.articleList">
+        <td >{{'DROP_MENU.SHOW.TVA' | translate}} ({{article.tva}}%)</td>
+        <td class="text-gray-2"> {{this.details.formatNumber(this.details.calulTVA(article))}} {{this.details.getCurrencySymbol(facture.devise)}}</td>
+     </tr>
+     <tr>
+      <td class="font-bold">{{'DROP_MENU.SHOW.RG' | translate}}</td>
+        <td class="text-gray-2">{{this.details.formatNumber(facture.remise)}}{{this.details.getReductionSymbol(facture,facture.remIsPercentage)}}</td>
+      </tr>
+     <tr>
+      <td class="font-bold">{{'DROP_MENU.SHOW.TTC' | translate}}</td>
+        <td class="text-gray-2" >{{this.details.formatNumber(facture.totalTTC)}} {{this.details.getCurrencySymbol(facture.devise)}}</td>
+      </tr>
+
+
+
+    </table>
+
+
+
+
+	</div>
+
+
+
+</div>

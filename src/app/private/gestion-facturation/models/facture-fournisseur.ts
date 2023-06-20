@@ -19,8 +19,8 @@ totalHT: number;
 totalTTC: number;
 note: string
 date_creation: Date;
-conditionReglement: ConditionReglement
-ModeReglement : ModeReglement
+conditionReglement: ConditionReglement|null
+modeReglement : ModeReglement|null
 
 
 

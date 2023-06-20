@@ -13,7 +13,7 @@
                 bindLabel="name" formControlName="modeReglement" [clearable]="false" >
             </ng-select>
         </div>
-        <div class="relative">
+        <div class="relative" *ngIf="for !='SF'&& for!='AF'">
             <label class="common-label">{{'FORM.INPUT.I' | translate}}</label>
             <ng-select class="custom-select-gray" placeholder="{{'FORM.INPUT.I' | translate}}" [items]="interets"
                 bindLabel="name" formControlName="interet" [clearable]="false" >

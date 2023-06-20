@@ -423,12 +423,12 @@ export class CardComponent implements OnInit {
 
      if (status == "LATE") {
       translatedStatus = await firstValueFrom(this.translate.get('STATUS.LATE'));
-      textColor = 'text-gray-4';
+      textColor = 'text-orange';
     } else if (status == "PAID") {
       translatedStatus = await firstValueFrom(this.translate.get('STATUS.PAID'));
       textColor = 'text-green';
     } else if (status == "CANCELLED") {
-      translatedStatus = await firstValueFrom(this.translate.get('STATUS.CANCELLED'));
+      translatedStatus = await firstValueFrom(this.translate.get('STATUS.CANCLED'));
       textColor = 'text-red';
     } else if (status == "PARTIAL") {
       translatedStatus = await firstValueFrom(this.translate.get('STATUS.PARTIAL'));

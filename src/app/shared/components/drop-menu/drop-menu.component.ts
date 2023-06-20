@@ -33,6 +33,7 @@ import { Pipeline } from 'src/app/private/gestion-facturation/models/pipeline';
 import { Fournisseur } from 'src/app/private/gestion-facturation/models/fournisseur';
 import { FournisseurService } from 'src/app/private/gestion-facturation/http/fournisseur.service';
 import { FactureFournisseur } from 'src/app/private/gestion-facturation/models/facture-fournisseur';
+import { LivraisonStatus } from 'src/app/private/gestion-facturation/enums/livraison-status';
 
 @Component({
   selector: 'app-drop-menu',
@@ -104,6 +105,12 @@ export class DropMenuComponent implements OnInit {
   @ViewChild('payPopup') payPopup: TemplateRef<any>;
    //++
    @ViewChild('signPopup') signPopup: TemplateRef<any>;
+
+   //++
+   @ViewChild('parLivPopup') parLivPopup: TemplateRef<any>;
+   @ViewChild('livPopup') livPopup: TemplateRef<any>;
+
+
 
 
   constructor(
@@ -355,6 +362,61 @@ export class DropMenuComponent implements OnInit {
   }
 
   //++
+  part_delivery(parLivPopup: any) {
+    const modalRef = this.modalService.open(parLivPopup, {windowClass: 'my-modal',
+    backdropClass: 'modal-backdrop'});
+    this.closeMenu()
+    modalRef.result
+    .then((result) => {
+      if (result === 'editStatuts')
+           this.part_deliveryCard(this.data as SimpleFournisseur,parLivPopup)
+      else if(result==='createBL')
+           this.createBLCard(this.data as SimpleFournisseur,parLivPopup)
+    })
+    .catch(() => {});
+
+  }
+
+  part_deliveryCard(data: SimpleFournisseur, modal: any) {
+    (this.data as SimpleFournisseur).livraisonStatus =LivraisonStatus.PARTIAL_DELIVERY;
+    this.updateSimpleFournisseur(LivraisonStatus.PARTIAL_DELIVERY);
+    modal.close('editStatuts');
+
+  }
+// to be completed
+  createBLCard(data: SimpleFournisseur, modal: any) {
+    this.updateSimpleFournisseur(LivraisonStatus.DELIVERED);
+    //create bL !!
+      modal.close('createBL');
+
+    }
+
+  delivered(livPopup: any) {
+      const modalRef = this.modalService.open(livPopup, {windowClass: 'my-modal',
+      backdropClass: 'modal-backdrop'});
+      this.closeMenu()
+      modalRef.result
+      .then((result) => {
+        if (result === 'editStatuts')
+             this.deliveredCard(this.data as SimpleFournisseur,livPopup)
+        else if(result==='createBL')
+             this.createBLCard(this.data as SimpleFournisseur,livPopup)
+      })
+      .catch(() => {});
+
+    }
+
+  deliveredCard(data: SimpleFournisseur, modal: any) {
+      (this.data as SimpleFournisseur).livraisonStatus =LivraisonStatus.DELIVERED;
+      this.updateSimpleFournisseur(LivraisonStatus.DELIVERED);
+      modal.close('editStatuts');
+
+    }
+
+  lateIt() {
+    if(this.for == 'SF') this.updateSimpleFournisseur(SimpleFournisseurStatus.LATE)
+
+    }
   addPay(_t83: TemplateRef<any>) {
     throw new Error('Method not implemented.');
     }
@@ -444,6 +506,9 @@ export class DropMenuComponent implements OnInit {
 
   //++
   updateSimpleFournisseur(status: any) {
+    if(status==LivraisonStatus.PARTIAL_DELIVERY ||status==LivraisonStatus.DELIVERED)
+      (this.data as SimpleFournisseur).livraisonStatus = status
+    else
     (this.data as SimpleFournisseur).status = status
 
     console.log(status ,'ss')

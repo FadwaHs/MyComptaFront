@@ -14,6 +14,7 @@ import { FactureAvoir } from 'src/app/private/gestion-facturation/models/facture
 import { FactureSimple } from 'src/app/private/gestion-facturation/models/facture-simple';
 import { Fournisseur } from 'src/app/private/gestion-facturation/models/fournisseur';
 import { FactureFournisseur } from 'src/app/private/gestion-facturation/models/facture-fournisseur';
+import { SimpleFournisseur } from 'src/app/private/gestion-facturation/models/simple-fournisseur';
 
 
 interface TopTitle{
@@ -122,6 +123,11 @@ export class TopBarComponent implements OnInit {
         this.showData[0] = fournisseur.firstName+' '+fournisseur.lastName
         if(fournisseur.societe) this.showData[1] = "Professionel"
         else this.showData[1] = "Particulier"
+      }
+      else if(this.for == 'SF'){
+        var factureFournisseur : SimpleFournisseur = this.data as SimpleFournisseur
+        this.showData[0] = "Facture fournisseur simple"
+        this.showData[1] = factureFournisseur.numero_interne
       }
 
     }

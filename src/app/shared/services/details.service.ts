@@ -9,6 +9,7 @@ import { Devis } from "src/app/private/gestion-facturation/models/devis";
 import { Facture } from "src/app/private/gestion-facturation/models/facture";
 import { FactureAcompte } from "src/app/private/gestion-facturation/models/facture-acompte";
 import { FactureAvoir } from "src/app/private/gestion-facturation/models/facture-avoir";
+import { FactureFournisseur } from "src/app/private/gestion-facturation/models/facture-fournisseur";
 import { FactureSimple } from "src/app/private/gestion-facturation/models/facture-simple";
 
 @Injectable({
@@ -67,7 +68,47 @@ import { FactureSimple } from "src/app/private/gestion-facturation/models/factur
        this.translate.get('STATUS.INPROGRESS').subscribe((translation: string) => {
        this.statusTr = translation});
 
+       //++
+     if(status == 'DRAFT')
+       this.translate.get('STATUS.DRAFT').subscribe((translation: string) => {
+       this.statusTr = translation});
+
+     if(status == 'TOBERESOLVED')
+       this.translate.get('STATUS.TOBERESOLVED').subscribe((translation: string) => {
+       this.statusTr = translation});
+
+     if(status == 'PARTIAL')
+       this.translate.get('STATUS.PARTIAL').subscribe((translation: string) => {
+       this.statusTr = translation});
+
+     if(status == 'PARTIAL')
+       this.translate.get('STATUS.PARTIAL').subscribe((translation: string) => {
+       this.statusTr = translation});
+
+     if(status == 'PAID')
+       this.translate.get('STATUS.PAID').subscribe((translation: string) => {
+       this.statusTr = translation});
+
+     if(status == 'CANCELLED')
+       this.translate.get('STATUS.CANCLED').subscribe((translation: string) => {
+       this.statusTr = translation});
+
+     if(status == 'PENDING')
+       this.translate.get('STATUS.PENDING').subscribe((translation: string) => {
+       this.statusTr = translation});
+
+     if(status == 'PARTIAL_DELIVERY')
+       this.translate.get('STATUS.PARTIAL_DELIVERY').subscribe((translation: string) => {
+       this.statusTr = translation});
+
+     if(status == 'DELIVERED')
+       this.translate.get('STATUS.DELIVERED').subscribe((translation: string) => {
+       this.statusTr = translation});
+
+
+
        return this.statusTr
+
    }
 
     formatDate(date:Date): string{
@@ -110,7 +151,7 @@ import { FactureSimple } from "src/app/private/gestion-facturation/models/factur
 
     }
 
-    getReductionSymbol(data :Devis | Facture,remIsPercentage :boolean) :string {
+    getReductionSymbol(data :Devis | Facture|FactureFournisseur,remIsPercentage :boolean) :string {
        if(remIsPercentage)
          return "%"
        return this.getCurrencySymbol(data.devise)

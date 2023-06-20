@@ -92,7 +92,7 @@
     </div>
   </div>
   <div>
-    <span class="mt-6 font-bold" *ngIf= "devis.factureAcompteList ;else emptyAcompte " ></span>
+    <span class="mt-6 font-bold" *ngIf= "devis.factureAcompteList && devis.factureAcompteList.length>0 ;else emptyAcompte " ></span>
   </div>
   <div style= " margin-top: 30px; margin-bottom: 30px; " >
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">

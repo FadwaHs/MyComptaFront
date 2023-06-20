@@ -117,7 +117,8 @@
 
           <button class="item-menu-{{size}}" (click)="delete(data.id)" *ngIf="for == 'C' || for == 'O' || for == 'S' ||  for=='FR'  ||
           (for == 'D'  && $any(data).status  == DevisStatus.PROVISIONAL )||(for == 'F'  && $any(data).status  == FactureSimpleStatus.PROVISIONAL )||(for == 'A'  && $any(data).status  == FactureAvoirStatus.PROVISIONAL ) ||
-          (for == 'FA'  && $any(data).status  == FactureAcompteStatus.PROVISIONAL )||(for == 'SF'  && $any(data).status  == SimpleFournisseurStatus.DRAFT )||(for == 'SF'  && $any(data).status  == SimpleFournisseurStatus.TOBERESOLVED )">
+          (for == 'FA'  && $any(data).status  == FactureAcompteStatus.PROVISIONAL )||(for == 'SF'  && $any(data).status  == SimpleFournisseurStatus.DRAFT )||(for == 'SF'  && $any(data).status  == SimpleFournisseurStatus.TOBERESOLVED )
+          ||(for == 'SF'  && $any(data).status  == SimpleFournisseurStatus.LATE )">
               <svg-icon name="delete" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
               <span>{{'DROP_MENU.EDIT.SP' |translate}}</span>
           </button>
@@ -126,8 +127,26 @@
 
       <ng-container *ngIf="for == 'SF' ">
 
-        <button class="item-menu-{{size}}" (click)="Annulee()" *ngIf="( $any(data).status  != SimpleFournisseurStatus.CANCELLED && $any(data).status  != SimpleFournisseurStatus.PAID )">
+        <button class="item-menu-{{size}}" (click)="Annulee()" *ngIf="( $any(data).status  != SimpleFournisseurStatus.CANCELLED && $any(data).status  != SimpleFournisseurStatus.PAID && $any(data).status  != SimpleFournisseurStatus.LATE )">
+          <svg-icon name="edit" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
           <span>{{'DROP_MENU.EDIT.MCA' |translate}}</span>
+        </button>
+        <button class="item-menu-{{size}}" *ngIf="( $any(data).status  != SimpleFournisseurStatus.LATE)" (click)="lateIt()">
+          <svg-icon name="edit" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
+          <span>{{'DROP_MENU.EDIT.MER' |translate}}</span>
+        </button>
+
+        <div class="flex flex-col space-y-2">
+          <hr class="drop-menu-line">
+          <span class="text-gray-2 mt-10 text-[10px] " >{{'DROP_MENU.EDIT.LS' |translate}}</span>
+        </div>
+        <button class="item-menu-{{size}}" (click)="part_delivery(parLivPopup)">
+          <svg-icon name="livraison" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
+          <span>{{'DROP_MENU.EDIT.LP' |translate}}</span>
+        </button>
+        <button class="item-menu-{{size}}" (click)="delivered(livPopup)" >
+          <svg-icon name="livraison" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
+          <span>{{'DROP_MENU.EDIT.LV' |translate}}</span>
         </button>
 
       </ng-container>
@@ -253,6 +272,28 @@
       </a>
 
     </ng-container>
+
+
+    <ng-container *ngIf="for == 'SF'">
+
+      <div class="flex flex-col space-y-2">
+          <hr class="drop-menu-line">
+          <a class="item-menu-{{size}}" href="#">
+            <span>{{'DROP_MENU.EDIT.CAF' |translate}}</span>
+          </a>
+            <a class="item-menu-{{size}}" href="#">
+                <span>{{'DROP_MENU.EDIT.CBL' |translate}}</span>
+            </a>
+            <a class="item-menu-{{size}}" href="#">
+                <span>{{'DROP_MENU.EDIT.DF' |translate}}</span>
+            </a>
+            <a class="item-menu-{{size}}" href="#">
+                <span>{{'DROP_MENU.EDIT.DD' |translate}}</span>
+            </a>
+
+      </div>
+
+      </ng-container>
 
 
   </div>
@@ -495,6 +536,8 @@
     </div>
 
     </ng-container>
+
+
 </div>
 
 
@@ -582,3 +625,74 @@
   </div>
 
 </ng-template>
+
+<!-- Popup For facture fournisseur simple : partial delivered statuts  -->
+<ng-template #parLivPopup let-modal>
+  <div class="space-y-5" >
+    <div class="flex flex-col-2 gap-x-52" >
+      <span class="secondary-title text-base">{{'MODAL.TITLE.LS'| translate}}  </span>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+
+      <div class=" text-sm grid grid-cols-1 gap-3 ">
+        <div class="grid flex-cols-3 gap-2">
+          <div class="flex flex-col gap-2">
+            <p>{{'MODAL.INPUT.M1' | translate}} </p>
+            <p>1. {{'MODAL.INPUT.M2' | translate}} </p>
+            <p>2. {{'MODAL.INPUT.M3' | translate}}</p>
+          </div>
+        </div>
+        <div  class="my-dialog-actions" >
+          <button class=" common-btn-black " data-dismiss="modal" appDebounceClick (debounceClick)="createBLCard($any(data), modal)">
+             {{'FORM.BUTTON.CBL' | translate}}
+            </button>
+          <button class=" common-btn-black " data-dismiss="modal" appDebounceClick (debounceClick)="part_deliveryCard($any(data), modal)">
+              {{'FORM.BUTTON.MLS' | translate}}
+             </button>
+          <button class=" common-btn-gray-3 " (click)="modal.dismiss('Cross click')"  >
+               <span>{{'FORM.BUTTON.A' | translate}} </span>
+          </button>
+          </div>
+        </div>
+    </div>
+
+  </ng-template>
+
+
+<!-- Popup For facture fournisseur simple : delivered statuts  -->
+<ng-template #livPopup let-modal>
+  <div class="space-y-5" >
+    <div class="flex flex-col-2 gap-x-52" >
+      <span class="secondary-title text-base">{{'MODAL.TITLE.LS'| translate}}  </span>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+
+      <div class=" text-sm grid grid-cols-1 gap-3 ">
+        <div class="grid flex-cols-3 gap-2">
+          <div class="flex flex-col gap-2">
+            <p>{{'MODAL.INPUT.M1' | translate}} </p>
+            <p>1. {{'MODAL.INPUT.M2' | translate}} </p>
+            <p>2. {{'MODAL.INPUT.M3' | translate}}</p>
+          </div>
+        </div>
+        <div  class="my-dialog-actions" >
+          <button class=" common-btn-black " data-dismiss="modal" appDebounceClick (debounceClick)="createBLCard($any(data), modal)">
+             {{'FORM.BUTTON.CBL' | translate}}
+            </button>
+          <button class=" common-btn-black " data-dismiss="modal" appDebounceClick (debounceClick)="deliveredCard($any(data), modal)">
+              {{'FORM.BUTTON.MLS' | translate}}
+             </button>
+          <button class=" common-btn-gray-3 " (click)="modal.dismiss('Cross click')"  >
+               <span>{{'FORM.BUTTON.A' | translate}} </span>
+          </button>
+          </div>
+        </div>
+    </div>
+
+  </ng-template>
+
+

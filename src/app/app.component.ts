@@ -65,7 +65,8 @@ const listIconsvg: string[] = [
   'facebook',
   'twitter',
   'linkedin',
-  'arrowdoubleleft'
+  'arrowdoubleleft',
+  'livraison'
 
 ];
 

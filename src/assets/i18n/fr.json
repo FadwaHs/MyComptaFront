@@ -300,7 +300,9 @@
       "AJ": "Ajouter",
       "AU": "Autre espace",
       "MAJ": "Mettre à jour",
-      "S" : "Supprimer"
+      "S" : "Supprimer",
+      "CBL":"Créer un bon",
+      "MLS":"Modifier le statuts"
     },
     "TEXT":{
       "THT": "Total HT",
@@ -477,12 +479,20 @@
       "CO":"Cérer une opportunité",
       "CAV": "Cérer un avoir",
       "CFA": "Créer une facture d'acompte",
-      "DD" : "Dupliquer le devis",
-      "DF" : "Dupliquer la facture",
+      "DD" : "Dupliquer en devis",
+      "DF" : "Dupliquer en facture",
       "DO" : "Dupliquer en opportunité",
       "V" : "voir",
       "AP" :"Ajouter un paiement",
-      "ARG" :"À règler"
+      "ARG" :"À règler",
+      "MER":"Marquer en retard",
+      "LP":"Livraison partielle",
+      "LV":"Livré",
+      "LS":"LIVRAISON STATUTS :",
+      "CBL":"Convertir en bon de livraison",
+      "CAF":"Créer un avoir fournisseur"
+
+
 
 
 
@@ -542,7 +552,14 @@
         "HT" :"HT"
 
       },
-      "PRB" :"Probabilité :"
+      "PRB" :"Probabilité :",
+      "STL":"Livraison statuts :",
+      "DVL":"Documents de vente liés :",
+      "ADVL":"Aucun documents de vente liés",
+      "AR":"Aucun règlement enregistré.",
+      "LP":"Liste des paiements" ,
+      "NE":"Numéro externe :"
+
 
 
 
@@ -638,14 +655,19 @@
    "TITLE" : {
     "REM" : "Date de remboursemt",
     "PAY" :"Date de paiement",
-    "SIG" :"Date de signature"
+    "SIG" :"Date de signature",
+    "LS":"Livraison statuts :"
 
 
    },
    "INPUT" :{
      "REM" : "Date de remboursemt",
      "PAY" :"Date de paiement",
-     "SIG":"Date de signature"
+     "SIG":"Date de signature",
+     "M1":"Pour changer l'état de livraison de ce document, vous pouvez :",
+     "M2" :"Créer un bon de livraison",
+     "M3": "Mettre à jour directement l'état de livraison"
+
    }
 
   },
