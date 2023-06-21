@@ -31,8 +31,6 @@ childArticlePanel: ArticlePanelComponent;
 @ViewChild(ReglementFormComponent)
 childReglementForm: ReglementFormComponent;
 
-@ViewChild(TextFieldFormComponent)
-childTextField: TextFieldFormComponent;
 
 @ViewChild(KeyWordFormComponent)
 childKeyWord: KeyWordFormComponent;
@@ -105,7 +103,8 @@ isDraft : boolean = true
     this.factFournForm = this.formBuilder.group({
       devise: [this.currencies[0].name_symbol, Validators.required],
       tvaNotApplicable: false,
-      numero_externe: ''
+      numero_externe: '',
+      note:null,
 
     });
   }
@@ -167,7 +166,7 @@ isDraft : boolean = true
     this.factureFournisseur.numero_externe = this.factFournForm.controls['numero_externe'].value;
     this.factureFournisseur.totalHT = this.childArticlePanel.totals.totalHTF
     this.factureFournisseur.totalTTC = this.childArticlePanel.totals.total
-    this.factureFournisseur = this.childTextField.getTextForm(this.factureFournisseur) as SimpleFournisseur
+    this.factureFournisseur.note = this.factFournForm.controls['note'].value;
     this.factureFournisseur = this.childArticlePanel.getRemiseForm(this.factureFournisseur) as SimpleFournisseur
     this.factureFournisseur = this.childSelectRecipient.getRecipient(this.factureFournisseur) as SimpleFournisseur
     this.factureFournisseur = this.childReglementForm.getReglementForm(this.factureFournisseur) as SimpleFournisseur
@@ -177,7 +176,7 @@ isDraft : boolean = true
   setFormValues() {
     this.factFournForm.controls['devise'].setValue(this.factureFournisseur.devise)
     this.factFournForm.controls['numero_externe'].setValue(this.factureFournisseur.numero_externe)
-    this.childTextField.setTextForm(this.factureFournisseur)
+    this.factFournForm.controls['note'].setValue(this.factureFournisseur.note)
     this.childArticlePanel.setRemiseForm(this.factureFournisseur)
     this.childSelectRecipient.setRecipient(this.factureFournisseur)
     this.childReglementForm.setReglementForm(this.factureFournisseur)

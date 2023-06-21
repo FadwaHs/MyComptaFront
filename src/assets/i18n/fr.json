@@ -211,7 +211,7 @@
       "P": "Pays",
       "SI": "Site internet",
       "NT": "Numéro de téléphone",
-      "N": "Écrivez votre note",
+      "N": "notes",
       "TWT": "Twitter",
       "FB": "Facebook",
       "LI": "linkedIn",
@@ -671,10 +671,13 @@
   },
   "MODAL":{
    "TITLE" : {
-    "REM" : "Date de remboursemt",
+    "REM" : "Date de remboursement",
     "PAY" :"Date de paiement",
     "SIG" :"Date de signature",
-    "LS":"Livraison statuts :"
+    "LS":"Livraison statuts :",
+    "P":"Paiements",
+    "DP":"Détail du paiement",
+    "RB":"Remise en banque"
 
 
    },
@@ -684,7 +687,20 @@
      "SIG":"Date de signature",
      "M1":"Pour changer l'état de livraison de ce document, vous pouvez :",
      "M2" :"Créer un bon de livraison",
-     "M3": "Mettre à jour directement l'état de livraison"
+     "M3": "Mettre à jour directement l'état de livraison",
+
+     "D":"Débit",
+     "C":"Crédit",
+     "TR":"Type de règlement",
+     "MR":"Montant du règlement",
+     "MP":"Moyen de paiement",
+     "DR":"Date du règlement",
+     "R":"Référence",
+     "N":"Note",
+     "RB":"Un paiement remis en banque passera automatiquement en comptabilité. Vous trouverez les écritures correspondantes à votre paiement dans le journal de trésorerie.",
+     "MB":"Ce règlement a été mis en banque",
+     "CB":"Compte en banque",
+     "DRB":"Date de remise en banque"
 
    }
 

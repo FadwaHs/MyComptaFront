@@ -1,3 +1,4 @@
+import { PaiementService } from './../../../private/gestion-facturation/http/paiement.service';
 import { SimpleFournisseurService } from 'src/app/private/gestion-facturation/http/simple-fournisseur.service';
 import { SimpleFournisseurStatus } from 'src/app/private/gestion-facturation/enums/simple-fournisseur-status';
 import { AvoireFournisseur } from './../../../private/gestion-facturation/models/avoir-fournisseur';
@@ -125,6 +126,7 @@ export class DropMenuComponent implements OnInit {
    @ViewChild('parLivPopup') parLivPopup: TemplateRef<any>;
    @ViewChild('livPopup') livPopup: TemplateRef<any>;
 
+   @ViewChild('addPayPopup') addPayPopup: TemplateRef<any>;
 
 
 
@@ -156,8 +158,9 @@ export class DropMenuComponent implements OnInit {
     private simpleFournisseurService:SimpleFournisseurService,
 
     // bon livraison :
-    private bonlivraisonService : BonLivraisonService
-
+    private bonlivraisonService : BonLivraisonService,
+    //Paiement
+    private paiementService :PaiementService
 
   ){
   }
@@ -449,8 +452,20 @@ export class DropMenuComponent implements OnInit {
     if(this.for == 'SF') this.updateSimpleFournisseur(SimpleFournisseurStatus.LATE)
 
     }
-  addPay(_t83: TemplateRef<any>) {
-    throw new Error('Method not implemented.');
+  addPay(addPayPopup: any) {
+    const modalRef = this.modalService.open(addPayPopup, {windowClass: 'my-modal',
+    backdropClass: 'modal-backdrop'});
+    this.closeMenu()
+    modalRef.result.then((result) => {
+      // if (result === 'editStatuts')
+      //      this.deliveredCard(this.data as SimpleFournisseur,livPopup)
+      // else if(result==='createBL')
+      //      this.createBLCard(this.data as SimpleFournisseur,livPopup)
+    })
+    .catch(() => {});
+
+
+
     }
   resolveIt() {
     if(this.for == 'SF') this.updateSimpleFournisseur(SimpleFournisseurStatus.TOBERESOLVED)
@@ -543,8 +558,6 @@ export class DropMenuComponent implements OnInit {
       (this.data as SimpleFournisseur).livraisonStatus = status
     else
     (this.data as SimpleFournisseur).status = status
-
-    console.log(status ,'ss')
 
     this.simpleFournisseurService.updateSimpleFourById(this.data.id, this.data as SimpleFournisseur).subscribe({
       error : e => console.log(e),

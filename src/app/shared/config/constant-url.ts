@@ -60,4 +60,10 @@ export class ConstantUrl {
      //bons
      public readonly bonLivraisonUrl : string = this.baseUrl+"bonLivraison";
 
+     //paiement
+     public readonly paiementUrl : string = this.baseUrl+"paiements";
+
+
+
+
 }

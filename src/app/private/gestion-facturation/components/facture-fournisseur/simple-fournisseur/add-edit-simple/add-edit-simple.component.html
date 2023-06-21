@@ -54,7 +54,8 @@
           <app-reglement-form for="SF"></app-reglement-form>
       </div>
 
-      <app-text-field-form for="SF"></app-text-field-form>
+      <app-custom-input  type="textarea" color="gray" [control]="factFournForm.controls['note']"
+                  placeholder="{{'FORM.INPUT.N' | translate}} " ></app-custom-input>
 
       <div class="grid grid-cols-1 sm:grid-cols-2">
           <app-key-word-form for="SF"></app-key-word-form>

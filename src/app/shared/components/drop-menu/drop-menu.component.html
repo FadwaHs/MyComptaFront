@@ -93,11 +93,11 @@
         <span>{{'DROP_MENU.EDIT.ARG' |translate}}</span>
     </button>
 
-    <button class="item-menu-{{size}}" *ngIf="($any(data).status == SimpleFournisseurStatus.TOBERESOLVED)  ||($any(data).status == SimpleFournisseurStatus.PARTIAL)"  (click)="addPay(payPopup)">
+    <button class="item-menu-{{size}}" *ngIf="($any(data).status == SimpleFournisseurStatus.TOBERESOLVED)  ||($any(data).status == SimpleFournisseurStatus.PARTIAL)"  (click)="addPay(addPayPopup)">
         <svg-icon name="money" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
         <span>{{'DROP_MENU.EDIT.MCP' |translate}}</span>
     </button>
-    <button class="item-menu-{{size}}" *ngIf="($any(data).status == SimpleFournisseurStatus.TOBERESOLVED) ||($any(data).status == SimpleFournisseurStatus.PARTIAL)" (click)="addPay(payPopup)" >
+    <button class="item-menu-{{size}}" *ngIf="($any(data).status == SimpleFournisseurStatus.TOBERESOLVED) ||($any(data).status == SimpleFournisseurStatus.PARTIAL)" (click)="addPay(addPayPopup)" >
       <svg-icon name="money" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
       <span>{{'DROP_MENU.EDIT.AP' |translate}}</span>
   </button>
@@ -807,3 +807,43 @@
 
 </ng-template>
 
+
+<!-- <ng-template #addPayPopup let-modal>
+  <div class="space-y-5" >
+    <div class="flex flex-col-2 gap-x-52" >
+      <span class="secondary-title text-base">{{'MODAL.TITLE.P'| translate}}  </span>
+      <button type="button" class="close ml-16" aria-label="Close" (click)="modal.dismiss()">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+
+      <div class=" text-sm grid grid-cols-1 gap-3 ">
+        <div class="grid flex-cols-3 gap-2 px-3 py-6 ring-1 ring-gray-4 rounded-xl relative">
+          <span class="span-title">{{'MODAL.TITLE.DP' | translate}} </span>
+          <div class="flex flex-cols-3 gap-2">
+            <span>{{'MODAL.INPUT.TR' | translate}} </span>
+            <input type="radio"/>{{'MODAL.INPUT.D' | translate}}
+            <input type="radio"/>{{'MODAL.INPUT.C' | translate}}
+          </div> -->
+          <!-- <app-custom-input  type="text" color="gray" [control]="factFournForm.controls['note']"
+          placeholder="{{'FORM.INPUT.N' | translate}} " ></app-custom-input> -->
+          <!-- <label class="common-label">{{'MODAL.INPUT.MR' | translate}} :</label> -->
+          <!-- <input type="text" class="common-input-white"> -->
+          <!-- <app-custom-input  type="text" color="gray" [control]="factFournForm.controls['note']"
+          placeholder="{{'FORM.INPUT.N' | translate}} " ></app-custom-input>
+        </div> -->
+        <!-- <div  class="my-dialog-actions" >
+          <button class=" common-btn-black " data-dismiss="modal" appDebounceClick (debounceClick)="createBLCard($any(data), modal)">
+             {{'FORM.BUTTON.CBL' | translate}}
+            </button>
+          <button class=" common-btn-black " data-dismiss="modal" appDebounceClick (debounceClick)="deliveredCard($any(data), modal)">
+              {{'FORM.BUTTON.MLS' | translate}}
+             </button>
+          <button class=" common-btn-gray-3 " (click)="modal.dismiss('Cross click')"  >
+               <span>{{'FORM.BUTTON.A' | translate}} </span>
+          </button>
+          </div>
+        </div>
+    </div>
+
+  </ng-template> -->
