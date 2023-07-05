@@ -4,6 +4,8 @@
 @import "~alertifyjs/build/css/alertify.min.css";
 @import "~alertifyjs/build/css/themes/semantic.min.css";
 
+@import '../node_modules/ngx-toastr/toastr.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -127,13 +129,16 @@ modal {
 
 
 .modal-dialog{
-  @apply flex justify-center p-0 overflow-hidden w-2/6;
+  // @apply flex justify-center p-0 overflow-hidden w-2/6;
 
+  @apply flex justify-center p-0 overflow-hidden w-fit ;
 
 }
 
 .modal-content{
   @apply grid-flow-row justify-center p-6 bg-gray-1 ring-1 ring-black-1 m-3 rounded-4xl w-full;
+  max-height: 480px; /* Set a maximum height for the modal content */
+  overflow-y: auto; /* Add scrollable feature */
 
 }
 
@@ -143,6 +148,21 @@ modal {
 
 }
 
+// .custom-add-pay-popup .modal-dialog {
+//    @apply flex justify-center p-0 overflow-hidden w-fit h-[400px];
+
+// }
+
+//Taot style !!
+.toast-container {
+  @apply fixed inset-0 flex items-center justify-center;
+}
+
+
+.toast-success {
+  @apply bg-green text-white-2 ring-1 ring-white-2 m-3 rounded-4xl w-full
+
+}
 
 //table style !!
 

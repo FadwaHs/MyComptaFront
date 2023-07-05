@@ -1,6 +1,7 @@
 import { AvoireFournisseur } from "./avoir-fournisseur"
 import { CompteBanc } from "./compte-banc"
 import { FactureFournisseur } from "./facture-fournisseur"
+import { ModeReglement } from "./mode-reglement"
 import { SimpleFournisseur } from "./simple-fournisseur"
 
 export class Paiement{
@@ -17,5 +18,6 @@ export class Paiement{
   //++
   simpleFournisseur :SimpleFournisseur
   avoirFournisseur :AvoireFournisseur
-
+  //++
+  modeReglement:ModeReglement
 }

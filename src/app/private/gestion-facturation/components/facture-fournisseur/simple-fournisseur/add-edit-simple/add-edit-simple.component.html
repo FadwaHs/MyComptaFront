@@ -1,7 +1,7 @@
 <section class="h-[100vh]">
   <app-top-bar for="SF" type="add"></app-top-bar>
 
-  <form [formGroup]="factFournForm" class="grid grid-cols-1 gap-9 md:grid-cols-3 "  *ngIf="isDraft ; else isNotProvisional" >
+  <form [formGroup]="factFournForm" class="grid grid-cols-1 gap-9 md:grid-cols-3 "  *ngIf="(isDraft || isPartial ||toBeResolved ); else modifyKeywords" >
 
     <div class="flex flex-col gap-6" >
         <app-select-recipient (selected)="isSelected = true" for="SF"></app-select-recipient>
@@ -76,7 +76,7 @@
 
 </form>
 
-<ng-template  #isNotProvisional>
+<ng-template  #modifyKeywords>
 
   <div class="grid grid-cols-1 sm:grid-cols-2 ">
       <div class="flex flex-col gap-16">

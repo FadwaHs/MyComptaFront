@@ -20,6 +20,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 // import { MatDrawerModule } from '@angular/material/drawer';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { FournisseurRoutingModule } from './private/gestion-facturation/components/fournisseur/fournisseur-routing.module';
+import { ToastrModule } from 'ngx-toastr';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -86,6 +87,7 @@ function getCurrentLocal(){
 
 
     FournisseurRoutingModule,
+    ToastrModule.forRoot()
   ],
 
   providers: [

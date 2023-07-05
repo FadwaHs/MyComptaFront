@@ -188,7 +188,11 @@ import { FactureSimple } from "src/app/private/gestion-facturation/models/factur
       return this.format2Number((facture.montantPayed *100)/montantT) +'%'
     }
 
-
+    formatNumber3(num: number): number {
+      const decimal = num.toFixed(2);
+      const parsedNum = parseFloat(decimal);
+      return isNaN(parsedNum) ? 0.00 : parsedNum;
+    }
 
    }
 

@@ -85,32 +85,12 @@
 
   </ng-container>
 
-  <!--Facture fournisseur simple-->
-  <ng-container *ngIf="for=='SF' ">
-    <button class="item-menu-{{size}}" *ngIf="($any(data).status == SimpleFournisseurStatus.DRAFT)"
-        (click)="resolveIt()">
-        <svg-icon name="edit" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
-        <span>{{'DROP_MENU.EDIT.ARG' |translate}}</span>
-    </button>
-
-    <button class="item-menu-{{size}}" *ngIf="($any(data).status == SimpleFournisseurStatus.TOBERESOLVED)  ||($any(data).status == SimpleFournisseurStatus.PARTIAL)"  (click)="addPay(addPayPopup)">
-        <svg-icon name="money" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
-        <span>{{'DROP_MENU.EDIT.MCP' |translate}}</span>
-    </button>
-    <button class="item-menu-{{size}}" *ngIf="($any(data).status == SimpleFournisseurStatus.TOBERESOLVED) ||($any(data).status == SimpleFournisseurStatus.PARTIAL)" (click)="addPay(addPayPopup)" >
-      <svg-icon name="money" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
-      <span>{{'DROP_MENU.EDIT.AP' |translate}}</span>
-  </button>
-
-</ng-container>
-
-     <ng-container *ngIf="for === 'C' || for === 'S' || for === 'D' || for === 'F' || for === 'O' || for === 'A' || for === 'FA' || for === 'FR' || for === 'SF'">
+     <ng-container *ngIf="for === 'C' || for === 'S' || for === 'D' || for === 'F' || for === 'O' || for === 'A' || for === 'FA' || for === 'FR' ">
 
           <a class="item-menu-{{size}} " [routerLink]="'edit/'+data.id+'-'+data.slug" >
               <svg-icon name="edit" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
 
-            <span *ngIf="$any(data).status && ($any(data).status != DevisStatus.PROVISIONAL && $any(data).status != FactureSimpleStatus.PROVISIONAL && $any(data).status != FactureAvoirStatus.PROVISIONAL
-            && $any(data).status != SimpleFournisseurStatus.DRAFT && $any(data).status != SimpleFournisseurStatus.TOBERESOLVED && $any(data).status != SimpleFournisseurStatus.PARTIAL); else modifyMotCle">
+            <span *ngIf="$any(data).status && ($any(data).status != DevisStatus.PROVISIONAL && $any(data).status != FactureSimpleStatus.PROVISIONAL && $any(data).status != FactureAvoirStatus.PROVISIONAL); else modifyMotCle">
               {{ 'DROP_MENU.EDIT.MMC' | translate }}
             </span>
             <ng-template #modifyMotCle><span>{{'DROP_MENU.EDIT.M' |translate}}</span></ng-template>
@@ -118,10 +98,8 @@
           </a>
 
           <button class="item-menu-{{size}}" (click)="delete(data.id)" *ngIf="for == 'C' || for == 'O' || for == 'S'  || for=='FR' ||
-          (for == 'D'  && $any(data).status  == DevisStatus.PROVISIONAL )||(for == 'F'  && $any(data).status  == FactureSimpleStatus.PROVISIONAL )||(for == 'A'  && $any(data).status  == FactureAvoirStatus.PROVISIONAL ) ||
-
-          (for == 'FA'  && $any(data).status  == FactureAcompteStatus.PROVISIONAL )||(for == 'SF'  && $any(data).status  == SimpleFournisseurStatus.DRAFT )||(for == 'SF'  && $any(data).status  == SimpleFournisseurStatus.TOBERESOLVED )
-          ||(for == 'SF'  && $any(data).status  == SimpleFournisseurStatus.LATE )">
+          (for == 'D'  && $any(data).status  == DevisStatus.PROVISIONAL )||(for == 'F'  && $any(data).status  == FactureSimpleStatus.PROVISIONAL )||
+          (for == 'A' && $any(data).status  == FactureAvoirStatus.PROVISIONAL ) || (for == 'FA'  && $any(data).status  == FactureAcompteStatus.PROVISIONAL )">
 
               <svg-icon name="delete" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
               <span>{{'DROP_MENU.EDIT.SP' |translate}}</span>
@@ -129,10 +107,47 @@
 
       </ng-container>
 
-
+  <!--Facture fournisseur simple-->
       <ng-container *ngIf="for == 'SF' ">
 
-        <button class="item-menu-{{size}}" (click)="Annulee()" *ngIf="( $any(data).status  != SimpleFournisseurStatus.CANCELLED && $any(data).status  != SimpleFournisseurStatus.PAID && $any(data).status  != SimpleFournisseurStatus.LATE )">
+        <a class="item-menu-{{size}} " [routerLink]="'edit/'+data.id+'-'+data.slug" >
+          <svg-icon name="edit" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
+          <span *ngIf=" (
+            $any(data).status != SimpleFournisseurStatus.DRAFT &&
+            $any(data).status != SimpleFournisseurStatus.TOBERESOLVED &&
+            $any(data).status != SimpleFournisseurStatus.PARTIAL);
+            else modifyMotCle">
+            {{ 'DROP_MENU.EDIT.MMC' | translate }}
+          </span>
+
+          <ng-template #modifyMotCle>
+            <span>{{ 'DROP_MENU.EDIT.M' | translate }}</span>
+          </ng-template>
+       </a>
+
+      <button *ngIf=" $any(data).status && ( $any(data).status  == SimpleFournisseurStatus.DRAFT )||( $any(data).status  == SimpleFournisseurStatus.TOBERESOLVED )
+      ||($any(data).status  == SimpleFournisseurStatus.LATE )" class="item-menu-{{size}}" (click)="delete(data.id)">
+          <svg-icon name="delete" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
+          <span>{{'DROP_MENU.EDIT.SP' |translate}}</span>
+      </button>
+
+      <button class="item-menu-{{size}}" *ngIf="($any(data).status == SimpleFournisseurStatus.DRAFT)"
+        (click)="resolveIt()">
+        <svg-icon name="edit" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
+        <span>{{'DROP_MENU.EDIT.ARG' |translate}}</span>
+    </button>
+
+    <button class="item-menu-{{size}}" *ngIf="($any(data).status == SimpleFournisseurStatus.TOBERESOLVED)  ||($any(data).status == SimpleFournisseurStatus.PARTIAL)||($any(data).status == SimpleFournisseurStatus.LATE)"  (click)="addPay(addPayPopup)">
+        <svg-icon name="money" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
+        <span>{{'DROP_MENU.EDIT.MCP' |translate}}</span>
+    </button>
+    <button class="item-menu-{{size}}" *ngIf="($any(data).status == SimpleFournisseurStatus.TOBERESOLVED) ||($any(data).status == SimpleFournisseurStatus.PARTIAL)||($any(data).status == SimpleFournisseurStatus.LATE)" (click)="addPay(addPayPopup)" >
+      <svg-icon name="money" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
+      <span>{{'DROP_MENU.EDIT.AP' |translate}}</span>
+    </button>
+
+        <button class="item-menu-{{size}}" (click)="Annulee()" *ngIf="( $any(data).status  != SimpleFournisseurStatus.CANCELLED && $any(data).status  != SimpleFournisseurStatus.PAID
+        && $any(data).status  != SimpleFournisseurStatus.LATE )">
           <svg-icon name="edit" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
           <span>{{'DROP_MENU.EDIT.MCA' |translate}}</span>
         </button>
@@ -706,7 +721,7 @@
   <div class="space-y-5" >
     <div class="flex flex-col-2 gap-x-52" >
       <span class="secondary-title text-base">{{'MODAL.TITLE.LS'| translate}}  </span>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <button type="button" class="close ml-28" aria-label="Close" (click)="modal.dismiss()">
           <span aria-hidden="true">&times;</span>
       </button>
   </div>
@@ -741,7 +756,7 @@
   <div class="space-y-5" >
     <div class="flex flex-col-2 gap-x-52" >
       <span class="secondary-title text-base">{{'MODAL.TITLE.LS'| translate}}  </span>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <button type="button" class="close ml-28" aria-label="Close" (click)="modal.dismiss()">
           <span aria-hidden="true">&times;</span>
       </button>
   </div>
@@ -807,43 +822,119 @@
 
 </ng-template>
 
+<!-- Popup For facture fournisseur simple : Paid and Parial statuts  -->
 
-<!-- <ng-template #addPayPopup let-modal>
+<ng-template #addPayPopup let-modal >
   <div class="space-y-5" >
-    <div class="flex flex-col-2 gap-x-52" >
-      <span class="secondary-title text-base">{{'MODAL.TITLE.P'| translate}}  </span>
-      <button type="button" class="close ml-16" aria-label="Close" (click)="modal.dismiss()">
-          <span aria-hidden="true">&times;</span>
-      </button>
-  </div>
+    <form [formGroup]="payForm" >
+      <div class="flex flex-col-2 gap-x-52 mb-3" >
+        <span class="secondary-title text-base">{{'MODAL.TITLE.P'| translate}}  </span>
+        <button type="button" class="close ml-64" aria-label="Close" (click)="modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
 
       <div class=" text-sm grid grid-cols-1 gap-3 ">
-        <div class="grid flex-cols-3 gap-2 px-3 py-6 ring-1 ring-gray-4 rounded-xl relative">
+        <div class="grid flex-cols gap-2 px-3 py-6 mt-5 ring-1 ring-gray-4 rounded-xl relative">
           <span class="span-title">{{'MODAL.TITLE.DP' | translate}} </span>
-          <div class="flex flex-cols-3 gap-2">
-            <span>{{'MODAL.INPUT.TR' | translate}} </span>
-            <input type="radio"/>{{'MODAL.INPUT.D' | translate}}
-            <input type="radio"/>{{'MODAL.INPUT.C' | translate}}
-          </div> -->
-          <!-- <app-custom-input  type="text" color="gray" [control]="factFournForm.controls['note']"
-          placeholder="{{'FORM.INPUT.N' | translate}} " ></app-custom-input> -->
-          <!-- <label class="common-label">{{'MODAL.INPUT.MR' | translate}} :</label> -->
-          <!-- <input type="text" class="common-input-white"> -->
-          <!-- <app-custom-input  type="text" color="gray" [control]="factFournForm.controls['note']"
-          placeholder="{{'FORM.INPUT.N' | translate}} " ></app-custom-input>
-        </div> -->
-        <!-- <div  class="my-dialog-actions" >
-          <button class=" common-btn-black " data-dismiss="modal" appDebounceClick (debounceClick)="createBLCard($any(data), modal)">
-             {{'FORM.BUTTON.CBL' | translate}}
-            </button>
-          <button class=" common-btn-black " data-dismiss="modal" appDebounceClick (debounceClick)="deliveredCard($any(data), modal)">
-              {{'FORM.BUTTON.MLS' | translate}}
+          <div class="grid grid-cols-4 gap-2">
+            <span class="col-span-2">{{'MODAL.INPUT.TR' | translate}} :</span>
+
+            <div class="radio-group gap-x-16">
+              <label>
+                <input type="radio"  formControlName="type" value="Debit" checked>
+                {{'MODAL.INPUT.D' | translate}}
+              </label>
+              <label>
+                <input type="radio"  formControlName="type" value="Credit">
+                {{'MODAL.INPUT.C' | translate}}
+              </label>
+            </div>
+          </div>
+
+          <div class="flex flex-row items-center gap-28">
+            <span >{{'MODAL.INPUT.MR' | translate}} :</span>
+            <div class="gap-2">
+              <input type="number" appAllowInput allow="float" class="common-input-white w-48" formControlName="montant" />
+              <span>{{devise}}</span>
+            </div>
+
+          </div>
+
+
+          <div class="flex flex-row items-center gap-32">
+            <span>{{'MODAL.INPUT.MP' | translate}} :</span>
+              <ng-select class="custom-select-white text-xs w-52"  [items]="modeRegList" bindLabel="name" formControlName="modeReglement">
+                  <ng-template ng-option-tmp let-item="item">
+                    <div class="flex gap-2 items-center">
+                        <span>{{item.name}}</span>
+                    </div>
+                  </ng-template>
+              </ng-select>
+          </div>
+
+          <div class="flex flex-row items-center gap-32">
+            <label >{{'MODAL.INPUT.DR' | translate}} :</label>
+            <input type="date" class="common-input-white w-52" formControlName="dateReglement">
+          </div>
+
+          <div class="flex flex-row items-center gap-48">
+            <label >{{'MODAL.INPUT.R' | translate}} :</label>
+            <input type="text" class="common-input-white w-52" formControlName="reference">
+          </div>
+
+          <div class="flex flex-row items-center gap-56">
+            <label >{{'MODAL.INPUT.N' | translate}} :</label>
+            <textarea class="common-textarea-white resize-none w-60" rows="3" formControlName="note">
+            </textarea>
+          </div>
+        </div>
+
+        <div class="grid flex-cols-3 gap-2 px-3 py-6 mt-5 ring-1 ring-gray-4 rounded-xl relative">
+          <span class="span-title">{{'MODAL.TITLE.RB' | translate}} </span>
+          <span class="text-xs" >{{'MODAL.INPUT.RB1' | translate}}</span>
+          <span class="text-xs" >{{'MODAL.INPUT.RB2' | translate}}</span>
+
+          <div class="flex items-center gap-3">
+            <input type="checkbox" class="w-4 h-4 accent-black-1 cursor-pointer"
+             formControlName="iSmiseBanc">
+             <span>{{'MODAL.INPUT.MB' | translate}} </span>
+          </div>
+
+
+          <ng-container *ngIf="payForm.get('iSmiseBanc')?.value">
+            <div class="flex flex-row items-center gap-28">
+                <span>{{'MODAL.INPUT.CB' | translate}} :</span>
+                  <ng-select class="custom-select-white text-xs w-52"  [items]="compBancList" bindLabel="libelleCompte" formControlName="compteBanc">
+                      <ng-template ng-option-tmp let-item="item">
+                        <div class="flex gap-2 items-center">
+                            <span>{{item.libelleCompte}} - {{item.iban}}</span>
+                        </div>
+                      </ng-template>
+                  </ng-select>
+              </div>
+
+              <div class="flex flex-row items-center gap-16">
+                <label >{{'MODAL.INPUT.DRB' | translate}} :</label>
+                <input type="date" class="common-input-white w-52" formControlName="dateRemise">
+              </div>
+            </ng-container>
+
+        </div>
+
+         <div  class="my-dialog-actions" >
+
+          <button class=" common-btn-black col-span-2 " data-dismiss="modal" appDebounceClick (debounceClick)="addPayCard($any(data), modal)">
+              {{'FORM.BUTTON.EN' | translate}}
              </button>
           <button class=" common-btn-gray-3 " (click)="modal.dismiss('Cross click')"  >
                <span>{{'FORM.BUTTON.A' | translate}} </span>
           </button>
           </div>
-        </div>
-    </div>
 
-  </ng-template> -->
+    </div>
+  </form>
+ </div>
+</ng-template>
+
+

@@ -307,7 +307,9 @@
       "MAJ": "Mettre à jour",
       "S" : "Supprimer",
       "CBL":"Créer un bon",
-      "MLS":"Modifier le statuts"
+      "MLS":"Modifier le statuts",
+      "I":"Imprimer"
+
     },
     "TEXT":{
       "THT": "Total HT",
@@ -675,9 +677,12 @@
     "PAY" :"Date de paiement",
     "SIG" :"Date de signature",
     "LS":"Livraison statuts :",
-    "P":"Paiements",
+    "P":"Paiement",
     "DP":"Détail du paiement",
-    "RB":"Remise en banque"
+    "RB":"Remise en banque",
+    "SP":"Supprimer le paiement",
+    "DR":"Détail remise en banque",
+    "IN":"Informations"
 
 
    },
@@ -697,12 +702,37 @@
      "DR":"Date du règlement",
      "R":"Référence",
      "N":"Note",
-     "RB":"Un paiement remis en banque passera automatiquement en comptabilité. Vous trouverez les écritures correspondantes à votre paiement dans le journal de trésorerie.",
+     "RB1":"Un paiement remis en banque passera automatiquement en comptabilité.",
+     "RB2":"Vous trouverez les écritures correspondantes à votre paiement dans le journal de trésorerie.",
      "MB":"Ce règlement a été mis en banque",
      "CB":"Compte en banque",
-     "DRB":"Date de remise en banque"
+     "DRB":"Date de remise en banque",
+     "SS":"Paiement créé avec succès !",
+     "M4": "Le paiement est lié à la facture ou a déjà été remis en banque",
+     "M5" :"Voulez vous supprimer le paiement de cette facture ?",
+     "DP" :"Paiement est supprimé !",
+     "UP":"Paiement est mis à jour !",
+     "DT":"Date",
+     "B":"Banque",
+     "IB":"IBAN",
+     "CL":"Client",
+     "MT":"Montant",
+     "T":"Total : "
+
+
+
+
 
    }
+
+  },"TABLE":{
+    "DA":"Date",
+    "R":"Ref",
+    "D":"Débit",
+    "C":"Crédit",
+    "M":"Moyen",
+    "B":"Banque",
+    "RL":"Remis le "
 
   },
   "DOCUMENTATION":{

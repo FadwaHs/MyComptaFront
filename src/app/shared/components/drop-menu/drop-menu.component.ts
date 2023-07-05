@@ -1,3 +1,5 @@
+import { ModeReglementService } from 'src/app/private/gestion-facturation/http/mode-reglement.service';
+import { Paiement } from './../../../private/gestion-facturation/models/paiement';
 import { PaiementService } from './../../../private/gestion-facturation/http/paiement.service';
 import { SimpleFournisseurService } from 'src/app/private/gestion-facturation/http/simple-fournisseur.service';
 import { SimpleFournisseurStatus } from 'src/app/private/gestion-facturation/enums/simple-fournisseur-status';
@@ -40,6 +42,14 @@ import { LivraisonStatus } from 'src/app/private/gestion-facturation/enums/livra
 import { BonLivraison } from 'src/app/private/gestion-facturation/models/bons-livraison';
 import { BLStatus } from 'src/app/private/gestion-facturation/enums/BLStatus';
 import { BonLivraisonService } from 'src/app/private/gestion-facturation/http/bonLivraison.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DetailsService } from '../../services/details.service';
+import { ModeReglement } from 'src/app/private/gestion-facturation/models/mode-reglement';
+import { CompteBanc } from 'src/app/private/gestion-facturation/models/compte-banc';
+import { CompteBcService } from 'src/app/private/gestion-facturation/http/compteBanc.service';
+import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
+import { switchMap } from 'rxjs';
 
 
 @Component({
@@ -114,6 +124,11 @@ export class DropMenuComponent implements OnInit {
   //++
   dateSign: Date
 
+  payForm: FormGroup;
+  // paiement:Paiement =new Paiement()
+  devise :string =''
+  modeRegList :ModeReglement[]
+  compBancList:CompteBanc[]
 
   @ViewChild('refundPopup') refundPopup: TemplateRef<any>;
   @ViewChild('payPopup') payPopup: TemplateRef<any>;
@@ -126,6 +141,7 @@ export class DropMenuComponent implements OnInit {
    @ViewChild('parLivPopup') parLivPopup: TemplateRef<any>;
    @ViewChild('livPopup') livPopup: TemplateRef<any>;
 
+  //  @ViewChild('fullPayPopup') fullPayPopup: TemplateRef<any>;
    @ViewChild('addPayPopup') addPayPopup: TemplateRef<any>;
 
 
@@ -160,12 +176,26 @@ export class DropMenuComponent implements OnInit {
     // bon livraison :
     private bonlivraisonService : BonLivraisonService,
     //Paiement
-    private paiementService :PaiementService
+    private paiementService :PaiementService,
+    private formBuilder: FormBuilder,
+    private detais :DetailsService,
+    private modeRegService :ModeReglementService,
+    private compteBcService: CompteBcService,
+    private toastr: ToastrService,
+    private translate : TranslateService,
+
 
   ){
   }
 
   ngOnInit(): void {
+    if(this.for==='SF'){
+
+          this.iniatForm()
+          this.initModReg();
+          this.initCompBcs()
+
+    }
 
   }
   // Devis status
@@ -452,21 +482,134 @@ export class DropMenuComponent implements OnInit {
     if(this.for == 'SF') this.updateSimpleFournisseur(SimpleFournisseurStatus.LATE)
 
     }
-  addPay(addPayPopup: any) {
-    const modalRef = this.modalService.open(addPayPopup, {windowClass: 'my-modal',
+
+    //++
+  iniatForm() {
+    this.payForm = this.formBuilder.group({
+      montant: ['', Validators.required],
+      type:"Debit",
+      modeReglement :null,
+      reference: '',
+      note:'',
+      dateReglement: null,
+      dateRemise: null,
+      iSmiseBanc:false,
+      compteBanc:null
+
+    });
+    }
+
+  initModReg() {
+      this.modeRegService.getModeReglementList().subscribe({
+        next: (data) => (this.modeRegList= data),
+        error: (err) => console.log(err),
+        complete: () => {
+        },
+      });
+    }
+
+  initCompBcs(){
+    this.compteBcService.getCompteBancList().subscribe({
+        next: (data) => (this.compBancList= data),
+        error: (err) => console.log(err),
+        complete: () => {
+        },
+      });
+  }
+
+  addPay(fullPayPopup: any) {
+
+    this.devise = this.detais.getCurrencySymbol((this.data as SimpleFournisseur).devise);
+    //var mont = (this.data as SimpleFournisseur).totalTTC
+
+    let mont: number = (this.data as SimpleFournisseur).totalTTC;
+
+
+    if((this.data as SimpleFournisseur).paiementList && (this.data as SimpleFournisseur).paiementList.length>0){
+      const paiements = (this.data as SimpleFournisseur).paiementList
+      paiements.forEach(pay => {
+        mont -= pay.montant;
+      });
+       mont = Math.round(mont * 100) / 100; // Round mont to 2 decimal places
+    }
+
+    // Set the initial value of montant in the form
+    this.payForm.patchValue({
+      montant:this.detais.formatNumber3(mont),
+      modeReglement :this.modeRegList[0],
+      compteBanc:this.compBancList[0]
+    });
+
+    const modalRef = this.modalService.open(fullPayPopup, {windowClass: 'my-modal',
     backdropClass: 'modal-backdrop'});
     this.closeMenu()
     modalRef.result.then((result) => {
-      // if (result === 'editStatuts')
-      //      this.deliveredCard(this.data as SimpleFournisseur,livPopup)
-      // else if(result==='createBL')
-      //      this.createBLCard(this.data as SimpleFournisseur,livPopup)
+        if (result === 'Create pay') {
+          this.addPayCard(this.data as SimpleFournisseur, modalRef);
+        }
+
     })
     .catch(() => {});
 
+    }
 
+  addPayCard(data: SimpleFournisseur, modal: any) {
+      const paiement = new Paiement();
+      paiement.type = this.payForm.get('type')?.value;
+      paiement.montant = this.payForm.get('montant')?.value;
+      paiement.reference = this.payForm.get('reference')?.value;
+      paiement.note = this.payForm.get('note')?.value;
+      paiement.dateReglement = this.payForm.get('dateReglement')?.value;
+      paiement.modeReglement = this.payForm.get('modeReglement')?.value;
+      paiement.simpleFournisseur = data;
+
+      if (this.payForm.get('iSmiseBanc')?.value) {
+        if (paiement.type === 'Debit')
+          paiement.compteDebiteur = this.payForm.get('compteBanc')?.value as CompteBanc;
+        else
+          paiement.compteCrediteur = this.payForm.get('compteBanc')?.value as CompteBanc;
+
+        paiement.dateRemise = this.payForm.get('dateRemise')?.value;
+      }
+    // Update the status
+
+    if((this.data as SimpleFournisseur).paiementList.length<=0){
+      if(paiement.montant == (this.data as SimpleFournisseur).totalTTC)
+        this.updateSimpleFournisseur(SimpleFournisseurStatus.PAID);
+      else this.updateSimpleFournisseur(SimpleFournisseurStatus.PARTIAL);
+    }
+    else{
+       const paiements = (this.data as SimpleFournisseur).paiementList
+       let mont: number =0
+       paiements.forEach(pay => {
+        mont += pay.montant;
+      });
+
+      mont+=paiement.montant
+      if(mont==(this.data as SimpleFournisseur).totalTTC)
+        this.updateSimpleFournisseur(SimpleFournisseurStatus.PAID);
+      else this.updateSimpleFournisseur(SimpleFournisseurStatus.PARTIAL);
 
     }
+
+    // Chain the updateSimpleFournisseur and addPaiement operations using switchMap
+    this.simpleFournisseurService.updateSimpleFourById(this.data.id, this.data as SimpleFournisseur)
+    .pipe(
+      switchMap(() => this.paiementService.addPaiement(paiement))
+    )
+    .subscribe(
+      (createdPaiement) => {
+        modal.dismiss('Create pay');
+        this.refreshListPage.emit();
+        this.translate.get('MODAL.INPUT.SS').subscribe((msg) => {
+          this.toastr.success(msg);
+        });
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+   }
   resolveIt() {
     if(this.for == 'SF') this.updateSimpleFournisseur(SimpleFournisseurStatus.TOBERESOLVED)
     }

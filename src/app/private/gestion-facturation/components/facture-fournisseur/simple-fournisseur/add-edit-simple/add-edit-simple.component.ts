@@ -46,6 +46,9 @@ currencies : any[] = currencies
 currentCurrency : string
 isArticleFormValid : boolean = false
 isDraft : boolean = true
+isPartial : boolean =true
+toBeResolved :boolean =true
+
 
 
 
@@ -82,9 +85,16 @@ isDraft : boolean = true
         error: (err) => console.log(err),
         complete: () => {
           if(this.factureFournisseur.status !== SimpleFournisseurStatus.DRAFT) this.isDraft = false
+          if(this.factureFournisseur.status !== SimpleFournisseurStatus.PARTIAL) this.isPartial = false
+          if(this.factureFournisseur.status !== SimpleFournisseurStatus.TOBERESOLVED) this.toBeResolved = false
+
           this.checkSlug();
           this.setOtherForms();
           if(this.isDraft) this.setFormValues();
+          if(this.isPartial) this.setFormValues();
+          if(this.toBeResolved) this.setFormValues();
+
+
         },
       });
     } else {
@@ -114,7 +124,7 @@ isDraft : boolean = true
   }
 
   setOtherForms(){
-    if(this.isDraft){
+    if(this.isDraft || this.isPartial || this.toBeResolved){
       if(this.factureFournisseur.motCleList.length) this.childKeyWord.setFormValues(this.factureFournisseur.motCleList)
       this.childArticlePanel.setFormValues(this.factureFournisseur.articleList)
     }
@@ -152,7 +162,7 @@ isDraft : boolean = true
   }
 
   updateSimpleFactureFournisseur() {
-    if(this.isDraft)
+    if(this.isDraft || this.isPartial || this.toBeResolved)
     this.factureFournisseurService.updateSimpleFourById(this.factureFournisseur.id,this.factureFournisseur).subscribe({
       next: (data) => (this.factureFournisseur = data),
       error: (e) => console.log(e),
@@ -186,7 +196,7 @@ isDraft : boolean = true
   async submitOtherForms() {
     var facture : SimpleFournisseur = new SimpleFournisseur()
     facture.id = this.factureFournisseur.id
-    if(this.isDraft){
+    if(this.isDraft||this.isPartial|| this.toBeResolved){
       await this.childKeyWord.onSubmit(facture,this.isAddMode);
       await this.childArticlePanel.onSubmit(facture,this.isAddMode)
     }

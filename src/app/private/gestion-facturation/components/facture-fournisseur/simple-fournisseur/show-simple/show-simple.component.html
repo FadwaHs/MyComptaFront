@@ -71,21 +71,65 @@
 	</div>
 </section>
 
-<div class="flex flex-col gap-6 text-sm mt-5">
+<div class="flex flex-col gap-6 text-sm mt-2">
   <div>
     <div class="secondary-title text-base" >
       <span>{{'DROP_MENU.SHOW.LP' | translate}}</span>
      (<span *ngIf="facture.paiementList">{{facture.paiementList.length}}</span>)
     </div>
   </div>
-  <div>
-    <span class="mt-6 font-bold" *ngIf= "facture.paiementList && facture.paiementList.length>0;else emptyPaiement " ></span>
+  <div *ngIf= "facture.paiementList && facture.paiementList.length>0;else emptyPaiement ">
+
+    <table class="pipeline-table">
+      <thead>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <tr>
+          <th>{{'TABLE.DA' | translate}}</th>
+          <th>{{'TABLE.R' | translate}}</th>
+          <th>{{'TABLE.D' | translate}}</th>
+          <th>{{'TABLE.C' | translate}}</th>
+          <th> {{'TABLE.M' | translate}}</th>
+          <th> {{'TABLE.B' | translate}}</th>
+          <th>View</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of facture.paiementList">
+          <td>{{ item.dateReglement }}</td>
+          <td>{{ item.reference }}</td>
+          <td>
+            <span *ngIf= "item.type==='Debit'"> {{ item.montant }} {{this.details.getCurrencySymbol(this.facture.devise)}}
+            </span>
+          </td>
+          <td>
+          <span *ngIf="item.type==='Credit'">
+            {{ item.montant }} {{this.details.getCurrencySymbol(this.facture.devise)}}
+          </span>
+        </td>
+          <td>{{item.modeReglement.name}}</td>
+          <td class=" hover:bg-gray-3">
+            <button (click)="selectedPaiement = item;remiseDetails(remisePopup)" >
+               <span *ngIf="item.compteDebiteur" class="text-blue">{{item.compteDebiteur.libelleCompte}} - {{item.compteDebiteur.iban}}</span>
+               <span *ngIf="item.compteCrediteur" class="text-blue">{{item.compteCrediteur.libelleCompte}} - {{item.compteCrediteur.iban}}</span>
+               <div *ngIf="item.dateRemise" class="text-blue">{{ 'TABLE.RL' | translate }} {{ item.dateRemise }}</div>
+
+            </button>
+             </td>
+          <td  class=" hover:bg-gray-3">
+            <a class="flex space-x-3 "(click)="selectedPaiement = item;payDetails(payDetailsPopup)"  >
+              <div class="view-icon"></div>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+
+
   </div>
-  <!-- <div style= " margin-top: 30px; margin-bottom: 30px; " >
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
-          <app-card  for= "FA" [data]= " acompte" *ngFor= " let acompte of facture.paiementList let i = index " ></app-card>
-        </div>
-  </div> -->
+
+
 
   <ng-template #emptyPaiement>
       <div class="justify-center items-center p-20 ml-96">
@@ -94,7 +138,7 @@
   </ng-template>
 </div>
 
-<section class="grid grid-cols-2 md:grid-cols-2 gap-5">
+<section class="grid grid-cols-2 md:grid-cols-2 gap-5 mt-10">
   <!-- Destinataire -->
   <div class="grid grid-col gap-6 text-sm">
     <div>
@@ -236,7 +280,7 @@
 	</div>
 </section>
 
-<div class="flex flex-col gap-6 text-sm mt-5">
+<div class="flex flex-col gap-6 text-sm mt-10">
   <div>
     <span class="secondary-title text-base" >{{'DROP_MENU.SHOW.DET' | translate}}</span>
   </div>
@@ -298,3 +342,334 @@
 
 
 </div>
+
+
+
+
+<ng-template #payDetailsPopup let-modal >
+  <div class="space-y-5" >
+      <div class="flex flex-col-2 gap-x-52 " >
+        <span class="secondary-title text-base">{{'MODAL.TITLE.P'| translate}}  </span>
+        <button type="button" class="close ml-64" aria-label="Close" (click)= "modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class=" text-sm grid grid-cols-1 gap-3 ">
+        <div class="grid flex-cols gap-2 px-3 py-6 ring-1 ring-gray-4 rounded-xl relative">
+          <span class="span-title">{{'MODAL.TITLE.DP' | translate}} </span>
+          <div class="grid grid-cols-4 gap-2">
+            <span class="col-span-2">{{'MODAL.INPUT.TR' | translate}} :</span>
+
+            <div class="radio-group gap-x-16">
+              <label>
+              <input type="radio" id="type" value="Debit" [checked]= "selectedPaiement.type === 'Debit'">
+              {{ 'MODAL.INPUT.D' | translate }}
+            </label>
+            <label>
+              <input type="radio" id="type" value="Credit" [checked]= "selectedPaiement.type === 'Credit'">
+              {{ 'MODAL.INPUT.C' | translate }}
+            </label>
+            </div>
+          </div>
+
+          <div class="flex flex-row items-center gap-28">
+            <span >{{'MODAL.INPUT.MR' | translate}} :</span>
+            <div class="gap-2">
+              <label   class="common-input-white w-48" disabled>{{selectedPaiement.montant}}</label>
+              <span>{{this.details.getCurrencySymbol(this.facture.devise)}}</span>
+            </div>
+
+          </div>
+
+          <div class="flex flex-row items-center gap-32">
+            <span>{{'MODAL.INPUT.MP' | translate}} :</span>
+              <label  bindLabel="name" id="modeReglement">{{selectedPaiement.modeReglement.name}}</label>
+          </div>
+
+          <div class="flex flex-row items-center gap-32">
+            <label>{{'MODAL.INPUT.DR' | translate}} :</label>
+            <label class="common-input-white w-52"  >{{selectedPaiement.dateReglement}}</label>
+          </div>
+
+          <div class="flex flex-row items-center gap-48">
+            <label>{{'MODAL.INPUT.R' | translate}} :</label>
+            <label class="common-input-white w-52" >{{selectedPaiement.reference}}</label>
+          </div>
+
+          <div class="flex flex-row items-center gap-56">
+            <label>{{'MODAL.INPUT.N' | translate}} :</label>
+            <textarea class="common-textarea-white resize-none w-60" rows="3" id="note" disabled>{{selectedPaiement.note}}
+            </textarea>
+          </div>
+        </div>
+
+          <div class="flex flex-row-reverse gap-2 mt-5">
+
+              <button class="drop-btn-white" data-dismiss="modal" appDebounceClick (debounceClick)= "openPayPopup(payDeletePopup)">
+                  <span><svg-icon name="delete" svgClass="w-4" ></svg-icon></span>
+              </button>
+              <button class="drop-btn-white" data-dismiss="modal" appDebounceClick (debounceClick)= "openPayPopup(payEditPopup)">
+                <span><svg-icon name="edit" svgClass="w-4" ></svg-icon></span>
+              </button>
+
+            </div>
+
+    </div>
+ </div>
+</ng-template>
+
+<!-- ng-container with ngTemplateOutlet to render the selected popup -->
+<ng-container *ngIf= "showPayPopup">
+  <div class="popup-overlay">
+    <div class="popup-container">
+      <ng-container *ngTemplateOutlet= "selectedPayPopup"></ng-container>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #payEditPopup let-modal >
+  <div class="space-y-5" >
+    <form [formGroup]="payForm" >
+      <div class="flex flex-col-2 gap-x-52 mb-3" >
+        <span class="secondary-title text-base">{{'MODAL.TITLE.P'| translate}}  </span>
+        <button type="button" class="close ml-64" aria-label="Close" (click)="modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class=" text-sm grid grid-cols-1 gap-3 ">
+        <div class="grid flex-cols gap-2 px-3 py-6 mt-5 ring-1 ring-gray-4 rounded-xl relative">
+          <span class="span-title">{{'MODAL.TITLE.DP' | translate}} </span>
+          <div class="grid grid-cols-4 gap-2">
+            <span class="col-span-2">{{'MODAL.INPUT.TR' | translate}} :</span>
+
+            <div class="radio-group gap-x-16">
+              <label>
+                <input type="radio"  formControlName="type" value="Debit" checked>
+                {{'MODAL.INPUT.D' | translate}}
+              </label>
+              <label>
+                <input type="radio"  formControlName="type" value="Credit">
+                {{'MODAL.INPUT.C' | translate}}
+              </label>
+            </div>
+          </div>
+
+          <div class="flex flex-row items-center gap-28">
+            <span >{{'MODAL.INPUT.MR' | translate}} :</span>
+            <div class="gap-2">
+              <input type="number" appAllowInput allow="float" class="common-input-white w-48" formControlName="montant" value="selectedPaiement.montant" readonly/>
+              <span>{{this.details.getCurrencySymbol(facture.devise)}}</span>
+            </div>
+
+          </div>
+
+
+          <div class="flex flex-row items-center gap-32">
+            <span>{{'MODAL.INPUT.MP' | translate}} :</span>
+             <ng-select class="custom-select-white text-xs w-52"  [items]= "modeRegList" bindLabel="name" formControlName="modeReglement">
+                  <ng-template ng-option-tmp let-item="item">
+                    <div class="flex gap-2 items-center">
+                        <span>{{item.name}}</span>
+                    </div>
+                  </ng-template>
+              </ng-select>
+
+          </div>
+
+          <div class="flex flex-row items-center gap-32">
+            <label>{{'MODAL.INPUT.DR' | translate}} :</label>
+            <input type="date" class="common-input-white w-52" formControlName="dateReglement">
+          </div>
+
+          <div class="flex flex-row items-center gap-48">
+            <label>{{'MODAL.INPUT.R' | translate}} :</label>
+            <input type="text" class="common-input-white w-52" formControlName="reference">
+          </div>
+
+          <div class="flex flex-row items-center gap-56">
+            <label>{{'MODAL.INPUT.N' | translate}} :</label>
+            <textarea class="common-textarea-white resize-none w-60" rows="3" formControlName="note">
+            </textarea>
+          </div>
+        </div>
+
+        <div class="grid flex-cols-3 gap-2 px-3 py-6 mt-5 ring-1 ring-gray-4 rounded-xl relative">
+          <span class="span-title">{{'MODAL.TITLE.RB' | translate}} </span>
+          <span class="text-xs" >{{'MODAL.INPUT.RB1' | translate}}</span>
+          <span class="text-xs" >{{'MODAL.INPUT.RB2' | translate}}</span>
+
+          <div class="flex items-center gap-3">
+            <input type="checkbox" class="w-4 h-4 accent-black-1 cursor-pointer"
+             formControlName="iSmiseBanc">
+             <span>{{'MODAL.INPUT.MB' | translate}} </span>
+          </div>
+
+          <ng-container *ngIf= "payForm.get('iSmiseBanc')?.value">
+            <div class="flex flex-row items-center gap-28">
+                <span>{{'MODAL.INPUT.CB' | translate}} :</span>
+                  <ng-select class="custom-select-white text-xs w-52"  [items]= "compBancList" bindLabel="libelleCompte" formControlName="compteBanc">
+                      <ng-template ng-option-tmp let-item="item">
+                        <div class="flex gap-2 items-center">
+                            <span>{{item.libelleCompte}} - {{item.iban}}</span>
+                        </div>
+                      </ng-template>
+                  </ng-select>
+              </div>
+
+              <div class="flex flex-row items-center gap-16">
+                <label >{{'MODAL.INPUT.DRB' | translate}} :</label>
+                <input type="date" class="common-input-white w-52" formControlName="dateRemise">
+              </div>
+            </ng-container>
+
+
+        </div>
+
+         <div  class="my-dialog-actions" >
+
+        <button class=" common-btn-black col-span-2 " data-dismiss="modal" appDebounceClick (debounceClick)= "updatePay()">
+              {{'FORM.BUTTON.MAJ' | translate}}
+             </button>
+
+          <button class=" common-btn-gray-3 " (click)= "modal.dismiss('Cross click')"  >
+               <span>{{'FORM.BUTTON.A' | translate}} </span>
+          </button>
+          </div>
+
+    </div>
+  </form>
+ </div>
+</ng-template>
+
+<ng-template #payDeletePopup let-modal >
+  <div class="space-y-5" >
+      <div class="flex flex-col-2  mb-3 " >
+        <span class="secondary-title text-base">{{'MODAL.TITLE.SP'| translate}}  </span>
+        <button type="button" class="close ml-64" aria-label="Close" (click)= "modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class=" text-sm grid grid-cols-1 gap-3 ">
+        <div class="flex flex-col gap-2 px-3 py-6 mt-5 ring-1 ring-gray-4 rounded-xl relative">
+
+            <div>{{'MODAL.INPUT.M4' | translate}}.</div>
+            <div>{{'MODAL.INPUT.M5' | translate}} </div>
+
+        </div>
+
+         <div  class="my-dialog-actions" >
+
+        <button class=" common-btn-black col-span-2 " data-dismiss="modal" appDebounceClick (debounceClick)= "deletePay()">
+              {{'FORM.BUTTON.S' | translate}}
+             </button>
+
+          <button class=" common-btn-gray-3 " (click)="modal.dismiss('Cross click')"  >
+               <span>{{'FORM.BUTTON.A' | translate}} </span>
+          </button>
+          </div>
+
+    </div>
+ </div>
+</ng-template>
+
+
+<ng-template #remisePopup let-modal >
+  <div class="space-y-5" >
+      <div class="flex flex-col-2 gap-x-6" >
+        <span class="secondary-title text-base">{{'MODAL.TITLE.DR'| translate}}  </span>
+        <button type="button" class="close ml-56" aria-label="Close" (click)= "modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class=" text-sm grid grid-cols-1 gap-3 ">
+        <div class="grid flex-cols gap-2 px-3 py-6 ring-1 ring-gray-4 rounded-xl relative bg-white-1">
+          <span class="span-title">{{'MODAL.TITLE.IN' | translate}} </span>
+
+          <div class="flex flex-row items-center gap-44">
+            <span class="text-gray-4">{{'MODAL.INPUT.DT' | translate}} </span>
+              <label >{{selectedPaiement.dateRemise}}</label>
+          </div>
+          <ng-container *ngIf= "selectedPaiement.compteDebiteur">
+            <div class="flex flex-row items-center gap-40" >
+              <span class="text-gray-4">{{'MODAL.INPUT.B' | translate}} </span>
+              <label >{{selectedPaiement.compteDebiteur.libelleCompte}}</label>
+           </div>
+
+           <div class="flex flex-row items-center gap-44" >
+              <span class="text-gray-4">{{'MODAL.INPUT.IB' | translate}} </span>
+              <label >{{selectedPaiement.compteDebiteur.iban}}</label>
+           </div>
+          </ng-container>
+
+          <ng-container *ngIf= "selectedPaiement.compteCrediteur">
+            <div class="flex flex-row items-center gap-32" >
+              <span class="text-gray-4">{{'MODAL.INPUT.B' | translate}} </span>
+              <label >{{selectedPaiement.compteCrediteur.libelleCompte}}</label>
+           </div>
+
+           <div class="flex flex-row items-center gap-32" >
+              <span class="text-gray-4">{{'MODAL.INPUT.IB' | translate}} </span>
+              <label >{{selectedPaiement.compteCrediteur.iban}}</label>
+           </div>
+          </ng-container>
+
+
+          <!--
+            <div class="flex flex-row items-center gap-28">
+            <span >{{'MODAL.INPUT.MR' | translate}} :</span>
+            <div class="gap-2">
+              <label   class="common-input-white w-48" disabled>{{selectedPaiement.montant}}</label>
+              <span>{{this.details.getCurrencySymbol(this.facture.devise)}}</span>
+            </div>
+
+          </div>
+            -->
+        </div>
+
+        <div class="grid flex-cols gap-2 px-3 py-6 ring-1 ring-gray-4 rounded-xl relative bg-white-1 mt-4">
+          <span class="span-title">{{'MODAL.TITLE.P' | translate}} </span>
+
+          <table>
+            <tr>
+              <th>{{'MODAL.INPUT.DT' | translate}}</th>
+              <th>{{'MODAL.INPUT.CL' | translate}}</th>
+              <th>{{'MODAL.INPUT.MP' | translate}}</th>
+              <th>{{'MODAL.INPUT.MT' | translate}}</th>
+            </tr>
+            <tr>
+              <td>{{selectedPaiement.dateRemise}}</td>
+              <td>{{facture.fournisseur.lastName}}</td>
+              <td>{{selectedPaiement.modeReglement.name}}</td>
+              <td class="text-red">{{this.details.formatNumber(selectedPaiement.montant)}}</td>
+            </tr>
+          </table>
+
+       </div>
+
+       <div class=" flex flex-row justify-self-end mr-5 gap-1 ">
+          <span >{{'MODAL.INPUT.T' | translate}} </span>
+
+              <label>{{this.details.formatNumber(selectedPaiement.montant)}}</label>
+              <span>{{this.details.getCurrencySymbol(this.facture.devise)}}</span>
+
+        </div>
+       <div  class="my-dialog-actions" >
+            <button class=" common-btn-black col-span-2 " data-dismiss="modal" >
+              {{'FORM.BUTTON.I' | translate}}
+             </button>
+
+          <button class=" common-btn-gray-3 " (click)= "modal.dismiss('Cross click')"  >
+               <span>{{'FORM.BUTTON.A' | translate}} </span>
+          </button>
+
+          </div>
+
+    </div>
+ </div>
+</ng-template>
+
+

@@ -1,1 +1,21 @@
-<p>avoir-fournisseur works!</p>
+<section>
+  <app-top-bar for="AF" type="list"  ></app-top-bar>
+  <app-empty-data-message for="AF" *ngIf="isEmpty"></app-empty-data-message>
+
+  <div>
+
+    <div class=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
+          <app-card *ngFor= "let facture of avoirFournissuers | paginate : {
+              itemsPerPage: pageSize,
+              currentPage: page,
+              totalItems: count
+            }; let i = index"
+          for= "AF" [data]= "facture" (refreshListPage)= "onRefresh()"></app-card>
+      </div>
+
+      <app-pagination (pageChange)= "pageChange($event)" (pageSizeChange)= "pageSizeChange($event)"></app-pagination>
+
+
+  </div>
+
+</section>
