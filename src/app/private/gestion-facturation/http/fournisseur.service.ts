@@ -5,6 +5,8 @@ import { Fournisseur } from "../models/fournisseur";
 import { Observable } from "rxjs";
 import { AvoireFournisseur } from "../models/avoir-fournisseur";
 import { SimpleFournisseur } from "../models/simple-fournisseur";
+import { BonsCommande } from "../models/bons-commande";
+import { BonLivraison } from "../models/bons-livraison";
 
 
 @Injectable({
@@ -40,6 +42,22 @@ export class FournisseurService{
 
   getFournisseursByFirstNameAndLastName(): Observable<Fournisseur[]>{
     return this.http.get<Fournisseur[]>(`${this.constant.fournisseurUrl}/recipient`)
+  }
+
+  //
+  getAllSimpleForFournisseur(id :number):Observable<SimpleFournisseur[]>{
+    return this.http.get<SimpleFournisseur[]>(`${this.constant.fournisseurFUrl}/${id}`);
+  }
+
+  getAllAvoirForFournisseur(id :number):Observable<AvoireFournisseur[]>{
+    return this.http.get<AvoireFournisseur[]>(`${this.constant.fournisseurFAUrl}/${id}`);
+  }
+  getAllBonsCommandeForFournisseur(id :number):Observable<BonsCommande[]>{
+    return this.http.get<BonsCommande[]>(`${this.constant.fournisseurBCUrl}/${id}`);
+  }
+
+  getAllBonLivraisonForFournisseur(id :number):Observable<BonLivraison[]>{
+    return this.http.get<BonLivraison[]>(`${this.constant.fournisseurBLUrl}/${id}`);
   }
 }
 

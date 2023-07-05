@@ -28,7 +28,7 @@ import { FactureAcompteStatus } from 'src/app/private/gestion-facturation/enums/
 import { FactureAcompteService } from 'src/app/private/gestion-facturation/http/facture-acompte.service';
 import { FactureAcompte } from 'src/app/private/gestion-facturation/models/facture-acompte';
 import { MatDialog } from '@angular/material/dialog';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Pipeline } from 'src/app/private/gestion-facturation/models/pipeline';
 import { Fournisseur } from 'src/app/private/gestion-facturation/models/fournisseur';
 import { FournisseurService } from 'src/app/private/gestion-facturation/http/fournisseur.service';
@@ -119,11 +119,12 @@ export class DropMenuComponent implements OnInit {
    //++
   @ViewChild('signPopup') signPopup: TemplateRef<any>;
   @ViewChild('bonpopup') bonpopup: TemplateRef<any>;
-
+  @ViewChild('deletepopup') deletepopup: TemplateRef<any>;
 
    //++
    @ViewChild('parLivPopup') parLivPopup: TemplateRef<any>;
    @ViewChild('livPopup') livPopup: TemplateRef<any>;
+
 
 
 
@@ -243,22 +244,21 @@ export class DropMenuComponent implements OnInit {
   }
 
 
-  delete(id :number){
+  delete(id :number,deletepopup:any){
+
     if(this.for == 'C') this.deleteClient(id)
     if(this.for == 'S') this.deleteSociete(id)
     if(this.for == 'D') this.deleteDevisprovisoire(id)
-    if(this.for == 'O') this.deleteOppotunite(id)
+    if(this.for == 'O') this.deleteOppotunite(id,deletepopup)
     if(this.for == 'A') this.deleteAvoire(id)
-    if(this.for == 'FA') this.deleteAcompte(id)
+    if(this.for == 'FA') this.deleteAcompte(id,deletepopup)
     //++
     if(this.for == 'F') this.deleteSimple(id)
-    if(this.for == 'FR') this.deleteFournisseur(id)
-    if(this.for == 'BL') this.deleteBonlivraison(id)
+    if(this.for == 'FR') this.deleteFournisseur(id,deletepopup)
+    if(this.for == 'BL') this.deleteBonlivraison(id,deletepopup)
 
     //++
-    if(this.for == 'SF') this.deleteSimpleFournisseur(id)
-
-
+    if(this.for == 'SF') this.deleteSimpleFournisseur(id,deletepopup)
   }
 
 
@@ -544,7 +544,6 @@ export class DropMenuComponent implements OnInit {
     else
     (this.data as SimpleFournisseur).status = status
 
-    console.log(status ,'ss')
 
     this.simpleFournisseurService.updateSimpleFourById(this.data.id, this.data as SimpleFournisseur).subscribe({
       error : e => console.log(e),
@@ -604,8 +603,7 @@ export class DropMenuComponent implements OnInit {
     this.clientService.deleteClientById(id).subscribe({
       error: e => console.log(e),
       complete: () => {
-        complete: () => this.refreshListPage.emit()
-
+        this.refreshListPage.emit()
       }
     });
   }
@@ -614,8 +612,7 @@ export class DropMenuComponent implements OnInit {
    this.societeService.deleteSocieteById(id).subscribe({
     error: e => console.log(e),
       complete: () => {
-        complete: () => this.refreshListPage.emit()
-
+        this.refreshListPage.emit()
       }
 
    })
@@ -630,12 +627,25 @@ export class DropMenuComponent implements OnInit {
 
   }
 
-  deleteOppotunite(id: number) {
+  deleteOppotunite(id: number,deletepopup:any) {
+     const modalRef: NgbModalRef = this.modalService.open(this.deletepopup, {
+      windowClass: 'my-modal',
+      backdropClass: 'modal-backdrop'
+    });
 
-    this.opportuniteService.deleteOpportuniteById(id).subscribe({
-      error: e => console.log(e),
-      complete: () => this.refreshListPage.emit()
-     })
+    modalRef.result
+      .then((result: string) => {
+        if (result === 'supprimer') {
+          this.opportuniteService.deleteOpportuniteById(id).subscribe({
+            error: e => console.log(e),
+            complete: () => this.refreshListPage.emit()
+           })
+
+        }
+      })
+      .catch((reason: any) => {
+        console.log(reason); // Handle the error or cancellation
+      });
   }
 
   deleteAvoire(id: number) {
@@ -646,13 +656,25 @@ export class DropMenuComponent implements OnInit {
        })
   }
 
-  deleteAcompte(id:number)
+  deleteAcompte(id:number ,deletepopup:any )
   {
+       const modalRef: NgbModalRef = this.modalService.open(this.deletepopup, {
+        windowClass: 'my-modal',
+        backdropClass: 'modal-backdrop'
+      });
 
-       this.factureAcompteService.deleteFactureAcompteById(id).subscribe({
-        error:e => console.log(e),
-        complete: () => this.refreshListPage.emit()
-       })
+      modalRef.result
+        .then((result: string) => {
+          if (result === 'supprimer') {
+            this.factureAcompteService.deleteFactureAcompteById(id).subscribe({
+              error:e => console.log(e),
+              complete: () => this.refreshListPage.emit()
+             });
+          }
+        })
+        .catch((reason: any) => {
+          console.log(reason); // Handle the error or cancellation
+        });
   }
 //++
   deleteSimple(id:number)
@@ -665,33 +687,78 @@ export class DropMenuComponent implements OnInit {
   }
 
 
-  deleteFournisseur(id:number)
+  deleteFournisseur(id:number,deletepopup:any)
   {
-    this.fournisseurService.deleteFournisseur(id).subscribe({
-      error:e => console.log(e),
-      complete: () => this.refreshListPage.emit()
 
-     })
+    const modalRef: NgbModalRef = this.modalService.open(this.deletepopup, {
+      windowClass: 'my-modal',
+      backdropClass: 'modal-backdrop'
+    });
+
+    modalRef.result
+      .then((result: string) => {
+        if (result === 'supprimer') {
+          this.fournisseurService.deleteFournisseur(id).subscribe({
+            error: e => console.log(e),
+            complete: () => this.refreshListPage.emit()
+          });
+        }
+      })
+      .catch((reason: any) => {
+        console.log(reason); // Handle the error or cancellation
+      });
 
   }
 
   //++
-  deleteSimpleFournisseur(id:number)
+  deleteSimpleFournisseur(id:number,deletepopup:any)
   {
-    this.simpleFournisseurService.deleteSimpleFourById(id).subscribe({
-      error:e => console.log(e),
-      complete: () => this.refreshListPage.emit()
+     const modalRef: NgbModalRef = this.modalService.open(this.deletepopup, {
+      windowClass: 'my-modal',
+      backdropClass: 'modal-backdrop'
+    });
 
-     })
+    modalRef.result
+      .then((result: string) => {
+        if (result === 'supprimer') {
+          this.simpleFournisseurService.deleteSimpleFourById(id).subscribe({
+            error:e => console.log(e),
+            complete: () => this.refreshListPage.emit()
+
+           });
+        }
+      })
+      .catch((reason: any) => {
+        console.log(reason); // Handle the error or cancellation
+      });
 
   }
 
-  deleteBonlivraison(id:number)
+  deleteBonlivraison(id:number,deletepopup:any)
   {
-    this.bonlivraisonService.deleteBonLivraisonById(id).subscribe({
-      error:e => console.log(e),
-      complete: () => this.refreshListPage.emit()
-     })
+     const modalRef: NgbModalRef = this.modalService.open(this.deletepopup, {
+      windowClass: 'my-modal',
+      backdropClass: 'modal-backdrop'
+    });
+
+    modalRef.result
+      .then((result: string) => {
+        if (result === 'supprimer') {
+          this.bonlivraisonService.deleteBonLivraisonById(id).subscribe({
+            error:e => console.log(e),
+            complete: () => this.refreshListPage.emit()
+           });
+        }
+      })
+      .catch((reason: any) => {
+        console.log(reason); // Handle the error or cancellation
+      });
+  }
+
+
+
+  deleteConfirmed(modal: NgbModalRef) {
+    modal.close('supprimer');
   }
 
 

@@ -23,6 +23,10 @@ export class ConstantUrl {
     public readonly societeOppUrl :string = this.societeUrl+"/opp";
     //++
     public readonly fournisseurUrl :string = this.baseUrl+"fournisseurs";
+    public readonly fournisseurBLUrl :string = this.fournisseurUrl+"/bl";
+    public readonly fournisseurBCUrl :string = this.fournisseurUrl+"/bc";
+    public readonly fournisseurFAUrl :string = this.fournisseurUrl+"/avoir";
+    public readonly fournisseurFUrl :string = this.fournisseurUrl+"/simple";
 
     public readonly phoneUrl :string = this.baseUrl+"phones";
     public readonly motCleUrl :string = this.baseUrl+"mots-cle";

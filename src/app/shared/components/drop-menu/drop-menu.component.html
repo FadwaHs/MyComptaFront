@@ -117,7 +117,7 @@
 
           </a>
 
-          <button class="item-menu-{{size}}" (click)="delete(data.id)" *ngIf="for == 'C' || for == 'O' || for == 'S'  || for=='FR' ||
+          <button class="item-menu-{{size}}" (click)="delete(data.id,deletepopup)" *ngIf="for == 'C' || for == 'O' || for == 'S'  || for=='FR' ||
           (for == 'D'  && $any(data).status  == DevisStatus.PROVISIONAL )||(for == 'F'  && $any(data).status  == FactureSimpleStatus.PROVISIONAL )||(for == 'A'  && $any(data).status  == FactureAvoirStatus.PROVISIONAL ) ||
 
           (for == 'FA'  && $any(data).status  == FactureAcompteStatus.PROVISIONAL )||(for == 'SF'  && $any(data).status  == SimpleFournisseurStatus.DRAFT )||(for == 'SF'  && $any(data).status  == SimpleFournisseurStatus.TOBERESOLVED )
@@ -169,7 +169,7 @@
             <ng-template #modifyMotCle><span>{{'DROP_MENU.EDIT.M' |translate}}</span></ng-template>
         </a>
 
-        <button class="item-menu-{{size}}" (click)="delete(data.id)">
+        <button class="item-menu-{{size}}" (click)="delete(data.id,deletepopup)">
             <svg-icon name="delete" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
             <span>{{'DROP_MENU.EDIT.SP' |translate}}</span>
         </button>
@@ -794,16 +794,48 @@
       </div>
 
     <div  class="my-dialog-actions" >
-    <button class=" common-btn-black col-span-2">
-      Créer une facture fournisseur
-    </button>
-    <button class=" common-btn-black col-span-2" (click)="updateFacturationStatus(modal)">
-      Modifier l'état de facturation
-    </button>
-    </div>
+      <button class=" common-btn-black " data-dismiss="modal">
+        Créer une facture
+        </button>
+      <button class=" common-btn-black "  data-dismiss="modal" (click)="updateFacturationStatus(modal)">
+        Modifier l'état
+         </button>
+      <button class=" common-btn-gray-3 " (click)="modal.dismiss('Cross click')"  >
+           <span>{{'FORM.BUTTON.A' | translate}} </span>
+      </button>
+      </div>
 
     </div>
   </div>
 
+</ng-template>
+
+
+
+
+<!-- Popup Delete -->
+<ng-template #deletepopup let-modal>
+  <div class="space-y-5 " style="width: 400px;" >
+
+    <div class="flex flex-col-2 gap-x-52" >
+      <span class="secondary-title text-base"> Message Systeme </span>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class=" text-sm grid grid-cols-1 gap-3 ">
+      <div class="flex flex-col gap-2">
+        <p> Êtes-vous sûr de vouloir supprimer ?</p>
+      </div>
+    <div  class="my-dialog-actions" >
+    <button class=" common-btn-black col-span-2" data-dismiss="modal"  (click)="deleteConfirmed(modal)">
+      supprimer
+    </button>
+    <button class=" common-btn-gray-3 " (click)="modal.dismiss('Cross click')"  >
+      <span>{{'FORM.BUTTON.A' | translate}} </span>
+    </button>
+    </div>
+    </div>
+  </div>
 </ng-template>
 

@@ -101,9 +101,9 @@ export class KeyWordFormComponent implements OnInit {
         else if(this.for == 'C') motCle.client = data as Client
         else if(this.for == 'FR') motCle.fournisseur = data as Fournisseur
         else if(this.for == 'D') motCle.devis = data as Devis
-        else if(this.for == 'F') motCle.facture = data as FactureSimple
-        else if(this.for == 'A') motCle.facture = data as FactureAvoir
-        else if(this.for == 'FA'){motCle.facture = data as FactureAcompte }
+        else if(this.for == 'F') motCle.factureSimple = data as FactureSimple
+        else if(this.for == 'A') motCle.factureAvoir = data as FactureAvoir
+        else if(this.for == 'FA'){motCle.factureac = data as FactureAcompte }
         else if(this.for == 'O') motCle.opportunite = data as Opportunite
         else if(this.for == 'SF') motCle.simpleFournisseur = data as SimpleFournisseur
         else if(this.for == 'AF') motCle.avoireFournisseur = data as AvoireFournisseur

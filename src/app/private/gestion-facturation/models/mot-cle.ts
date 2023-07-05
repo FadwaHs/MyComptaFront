@@ -23,12 +23,11 @@ export class MotCle{
     client : Client
     fournisseur: Fournisseur // added this
     devis : Devis
-    facture : Facture
     factureSimple : FactureSimple
     factureAvoir : FactureAvoir
-    factureAcompte : FactureAcompte
-    opportunite :Opportunite
+    factureac : FactureAcompte
 
+    opportunite :Opportunite
     simpleFournisseur:SimpleFournisseur
     avoireFournisseur:AvoireFournisseur
     bonsCommande : BonsCommande

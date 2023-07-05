@@ -13,12 +13,9 @@
                 currentPage: page,
                 totalItems: count
         }; let i = index"
-      ></app-card>
+        (refreshListPage)="onRefresh()" ></app-card>
     </div>
   </div>
-  <app-pagination
-    (pageChange)="pageChange($event)"
-    (pageSizeChange)="pageSizeChange($event)"
-  ></app-pagination>
+  <app-pagination (pageChange)="pageChange($event)"(pageSizeChange)="pageSizeChange($event)"></app-pagination>
 
 </section>

@@ -241,7 +241,8 @@ export class CardComponent implements OnInit {
   async getFromDevis() {
     var devi: Devis = this.data as Devis;
     this.card.mainIcon = 'devis';
-    this.card.primaryTitle1 = devi.code
+    this.card.primaryTitle1 = devi.code;
+    this.card.paragraph = devi.textIntro;
     this.setRecipientToCard(devi.client, devi.societe)
     this.card.line = true;
     this.setMotCleToCard(devi.motCleList);
