@@ -20,7 +20,7 @@ export class SocieteComponent implements OnInit{
   page :number = 1;
   count :number = 0;
   pageSize :number = 8;
-  
+
   constructor(private societeService : SocieteService, private filterService : FilterService) {
     this.filterService.methodSearchCalled$.subscribe(
       (data) => {
@@ -29,10 +29,15 @@ export class SocieteComponent implements OnInit{
       }
     );
   }
-  
+
   async ngOnInit(): Promise<void> {
     await this.setAllSocietes();
     if(this.societes.length == 0) this.isEmpty = true
+  }
+
+
+  onRefresh(): void {
+    this.setAllSocietes();
   }
 
 
@@ -47,8 +52,8 @@ export class SocieteComponent implements OnInit{
     )
     .catch(console.log)
 
-    
-    
+
+
   }
 
 
@@ -70,7 +75,7 @@ export class SocieteComponent implements OnInit{
     return params;
   }
 
- 
+
 
   pageChange(page: number): void {
     this.page = page;

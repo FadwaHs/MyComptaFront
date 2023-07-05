@@ -10,11 +10,11 @@
                 currentPage: page,
                 totalItems: count
               };
-            let i = index" for="S" [data]="societe"></app-card>
+            let i = index" for="S" [data]="societe" (refreshListPage)="onRefresh()"></app-card>
         </div>
         <app-pagination (pageChange)="pageChange($event)" (pageSizeChange)="pageSizeChange($event)"></app-pagination>
 
- 
+
     </div>
 
 

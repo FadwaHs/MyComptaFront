@@ -35,6 +35,11 @@ export class FournisseurComponent {
     if(this.fournisseurs.length == 0) this.isEmpty = true
   }
 
+  onRefresh(): void {
+    this.setAllFournisseurs();
+  }
+
+
   async setAllFournisseurs(){
 
     const params = this.getRequestParams(this.data, this.page, this.pageSize);

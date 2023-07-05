@@ -1,1 +1,131 @@
-<p>show-fournisseur works!</p>
+<app-top-bar for="FR" type="show" sizeMenu="sm" [data]="this.fournisseur" ></app-top-bar>
+
+<section class="grid grid-cols-1 md:grid-cols-2 gap-5">
+	<!-- Informations column -->
+
+	<div class="flex flex-col gap-6 text-sm">
+		<div>
+			<span class="secondary-title text-base">{{'FORM.TITLE.INF'|translate}}</span>
+		</div>
+		<div class="flex flex-col space-y-4 " >
+
+			<div class="flex flex-col space-y-3 " *ngIf="fournisseur.function">
+				<div class=" grid grid-cols-4 gap-4">
+					<span class="text-gray-2">{{'FORM.INPUT.F' | translate}} :</span>
+					<div class="col-span-3">{{fournisseur.function}}</div>
+				</div>
+				<hr>
+			</div>
+
+			<div class="flex flex-col space-y-3" *ngIf="fournisseur.email">
+				<div class=" grid grid-cols-4 gap-4">
+					<span class="text-gray-2">{{'FORM.INPUT.EMAIL' | translate}} :</span>
+					<div class="col-span-3">{{fournisseur.email}}</div>
+				</div>
+				<hr>
+			</div>
+
+			<div class="flex flex-col space-y-3 " *ngIf="fournisseur.societe && fournisseur.societe.name">
+				<div class=" grid grid-cols-4 gap-4">
+					<span class="text-gray-2">{{'FORM.INPUT.S' | translate}} :</span>
+					<div class="col-span-3">
+						<button class="common-btn-black py-1 whitespace-nowrap" routerLink="{{navigate.toShowPath('S',fournisseur.societe.id,fournisseur.societe.slug)}}" > {{fournisseur.societe.name}}</button>
+					</div>
+
+				</div>
+				<hr>
+			</div>
+
+
+			<div class="flex flex-col space-y-3" *ngIf=" fournisseur.address && (fournisseur.address.address || (fournisseur.address.complementAddress && fournisseur.address.complementAddress.length))">
+				<div class=" grid grid-cols-4 gap-4">
+					<span class="text-gray-2">{{'FORM.INPUT.ADD' | translate}} :</span>
+					<div class="col-span-3 flex flex-col">
+						<span *ngIf="fournisseur.address.address">{{fournisseur.address.address}}</span>
+						<ng-container *ngIf="fournisseur.address.complementAddress && fournisseur.address.complementAddress.length">
+							<div  *ngFor="let complementAddress of fournisseur.address.complementAddress">
+								{{complementAddress}}
+							</div>
+						</ng-container>
+					</div>
+				</div>
+				<hr>
+			</div>
+
+			<div class="flex flex-col space-y-3" *ngIf="fournisseur.phoneList && fournisseur.phoneList.length">
+				<div class=" grid grid-cols-4 gap-4">
+					<span class="text-gray-2">{{'FORM.INPUT.NT' | translate}} :</span>
+					<div class="col-span-3 flex flex-col">
+						<div  *ngFor="let phone of fournisseur.phoneList">
+							{{phone.phoneNumber}}
+						</div>
+					</div>
+				</div>
+				<hr>
+			</div>
+
+			<div class="flex flex-col space-y-3 " *ngIf="fournisseur.address && fournisseur.address.city">
+				<div class=" grid grid-cols-4 gap-4">
+					<span class="text-gray-2">{{'FORM.INPUT.V' | translate}} :</span>
+					<div class="col-span-3"> {{fournisseur.address.city}} </div>
+				</div>
+				<hr>
+			</div>
+			<div class="flex flex-col space-y-3" *ngIf="fournisseur.address && fournisseur.address.country">
+				<div class=" grid grid-cols-4 gap-4 ">
+					<span class="text-gray-2">{{'FORM.INPUT.P' | translate}} :</span>
+					<div class="col-span-3">{{fournisseur.address.country}} </div>
+				</div>
+				<hr>
+			</div>
+
+			<div class="flex flex-col space-y-3" *ngIf="fournisseur.website">
+				<div class=" grid grid-cols-4 gap-4">
+					<span class="text-gray-2">{{'FORM.INPUT.SI' | translate}} :</span>
+					<div class="col-span-3">{{fournisseur.website}}</div>
+				</div>
+				<hr>
+			</div>
+
+			<div class="flex flex-col space-y-3 " *ngIf="fournisseur.note">
+				<div class=" grid grid-cols-4 gap-4">
+					<span class="text-gray-2">{{'FORM.TITLE.N' | translate}} :</span>
+					<div class="col-span-3">{{fournisseur.note}}</div>
+				</div>
+				<hr>
+			</div>
+
+			<div class="flex flex-col space-y-3" *ngIf="fournisseur.motCleList && fournisseur.motCleList.length">
+				<div class=" grid grid-cols-4 gap-4">
+					<span class="text-gray-2">{{'FORM.TITLE.MC' | translate}} :</span>
+					<div class="col-span-3 flex flex-wrap gap-2">
+						<span class="rounded-full-black" *ngFor="let motCle of fournisseur.motCleList"> {{motCle.mot}}</span>
+					</div>
+				</div>
+				<hr>
+			</div>
+
+
+		</div>
+
+	</div>
+
+	<!-- Activites column -->
+	<app-activity-panel></app-activity-panel>
+
+</section><br><br>
+
+<span style="margin-top: 30px;">{{'Bon Livraison' | translate}} ({{blList.length}})</span>
+<div style="margin-top: 30px; margin-bottom: 30px;">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
+        <app-card  for="BL" [data]= "bl" *ngFor= "let bl of blList let i = index"></app-card>
+      </div>
+</div>
+
+<span style="margin-top: 30px;">{{'Facture Simple' | translate}} ({{simpleList.length}})</span>
+<div style="margin-top: 30px; margin-bottom: 30px;">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
+        <app-card  for="SF" [data]= "sf" *ngFor= "let sf of simpleList let i = index"></app-card>
+      </div>
+</div>
+

@@ -3,10 +3,10 @@
 	<!-- Informations column -->
 
 	<div class="grid grid-col gap-2 text-sm">
-		<div>
-			<span class="secondary-title text-base">{{'FORM.TITLE.INF'|translate}}</span>
+		<div style="margin-top: 10px;">
+			<span class="secondary-title text-base">{{'FORM.TITLE.INF'|translate}} : </span>
 		</div>
-		<div class="flex flex-col space-y-4 " >
+		<div class="flex flex-col space-y-4 "  >
 			<div class="flex flex-col space-y-3  " *ngIf="facture.status" >
 				<div class=" grid grid-cols-4 ">
 					<span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.ST'| translate}} </span>
@@ -44,7 +44,7 @@
 				<hr>
 			</div>
 
-			<div class="flex flex-col space-y-3 " *ngIf="facture.motCleList" >
+      <!-- <div class="flex flex-col space-y-3 " *ngIf="facture.motCleList" >
 				<div class=" grid grid-cols-4 gap-4">
 				<span class="text-gray-2  col-span-2">{{'DROP_MENU.SHOW.MC'| translate}} </span>
           <div class="flex space-x-1">
@@ -53,17 +53,17 @@
           </div>
 				</div>
 				<hr>
-			</div>
+			</div> -->
 		</div>
 
 	</div>
 
-  <div class="flex flex-col gap-6 text-sm ">
-		<div>
+  <div class="flex flex-col gap-6 text-sm " >
+		<div style="margin-top: 10px;">
 			<span class="secondary-title text-base">{{'DROP_MENU.SHOW.D'|translate}}</span>
 		</div>
     <span class="mt-6"  >{{'DATA_NAME.D' | translate}} : {{facture.devis.code}}</span>
-     <div style="margin-top: 30px; margin-bottom: 30px; " >
+     <div style="margin-bottom: 30px; " >
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
           <app-card  for="D" [data]="facture.devis" ></app-card>
         </div>
@@ -239,7 +239,7 @@
 
 
 <div class="flex flex-col gap-6 text-sm mt-5">
-  <div>
+  <div style="margin-top: 20px;">
     <span class="secondary-title text-base" >{{'DROP_MENU.SHOW.DET' | translate}}</span>
   </div>
 
@@ -268,15 +268,5 @@
       </tr>
 
     </table>
-
-
-
-
-
-
-
-	</div>
-
-
-
+	</div> <br>
 </div>

@@ -35,6 +35,11 @@ export class  ClientComponent implements OnInit {
     if(this.clients.length == 0) this.isEmpty = true
   }
 
+  onRefresh(): void {
+    this.setAllClients();
+  }
+
+
 
   async setAllClients(){
     const params = this.getRequestParams(this.data, this.page, this.pageSize);
@@ -47,6 +52,7 @@ export class  ClientComponent implements OnInit {
     )
     .catch(console.log)
   }
+
 
 
   getRequestParams(searchData: string, page: number, pageSize: number): any {
