@@ -15,10 +15,11 @@
 			<div class="flex flex-col space-y-3 " *ngIf="opportunite.intitule" >
 				<div class=" grid grid-cols-4 gap-4">
 					<span class="text-gray-2 col-span-2">{{'FORM.INPUT.OPPN' | translate}} :</span>
-          <div >{{opportunite.intitule}}</div>
+          <div class="col-span-2">{{opportunite.intitule}}</div>
         </div>
 				<hr>
 			</div>
+
 
 
       <div class="flex flex-col space-y-3" *ngIf="opportunite.oppStatus">
