@@ -261,9 +261,9 @@ export class CardComponent implements OnInit {
 
     var opportunite : Opportunite = this.data as Opportunite
     this.card.mainIcon = 'opp'
-    this.card.primaryTitle1 = opportunite.intitule
+    this.card.primaryTitle1 = opportunite.code
     this.card.primaryTitle2 = opportunite.oppStatus
-    this.card.paragraph= opportunite.note
+    this.card.paragraph= opportunite.intitule
     this.setRecipientToCard(opportunite.client , opportunite.societe)
     this.setStatusToCard(opportunite.oppStatus);
     this.card.line = true
