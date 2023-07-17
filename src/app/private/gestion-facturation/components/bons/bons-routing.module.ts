@@ -9,6 +9,14 @@ const routes: Routes = [{ path: '', component: BonsComponent },
           import('./livraison/livraison.module').then(
             (m) => m.LivraisonModule
           ),
+}
+,
+{
+  path: 'commande',
+        loadChildren: () =>
+          import('./commande/commande.module').then(
+            (m) => m.CommandeModule
+          ),
 },
 
 

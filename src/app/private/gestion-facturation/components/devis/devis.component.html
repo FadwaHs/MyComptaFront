@@ -1,24 +1,24 @@
-<section class="h-[100vh]">
-    <app-top-bar for="D" type="list"  ></app-top-bar>
-    <app-empty-data-message for="D" *ngIf="isEmpty"></app-empty-data-message>
+<section>
+  <app-top-bar for="D" type="list"  ></app-top-bar>
+  <app-empty-data-message for="D" *ngIf="isEmpty"></app-empty-data-message>
 
-    <div>
+  <div>
 
-        <!-- <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 auto-rows-fr p-3"  > -->
-          <div class=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
-          <app-card *ngFor="let devi of devis | paginate : {
-                itemsPerPage: pageSize,
-                currentPage: page,
-                totalItems: count
-              }; let i = index"
-            for="D" [data]="devi" (refreshListPage)="onRefresh()"></app-card>
-        </div>
-
-
-        <app-pagination (pageChange)="pageChange($event)" (pageSizeChange)="pageSizeChange($event)"></app-pagination>
+      <!-- <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 auto-rows-fr p-3"  > -->
+        <div class=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
+        <app-card *ngFor="let devi of devis | paginate : {
+              itemsPerPage: pageSize,
+              currentPage: page,
+              totalItems: count
+            }; let i = index"
+          for="D" [data]="devi" (refreshListPage)="onRefresh()"></app-card>
+      </div>
 
 
-    </div>
+      <app-pagination (pageChange)="pageChange($event)" (pageSizeChange)="pageSizeChange($event)"></app-pagination>
+
+
+  </div>
 
 
 </section>

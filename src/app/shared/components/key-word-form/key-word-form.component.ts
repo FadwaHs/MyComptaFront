@@ -4,6 +4,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { MotCleService } from 'src/app/private/gestion-facturation/http/mot-cle.service';
+import { BonsCommande } from 'src/app/private/gestion-facturation/models/bons-commande';
 import { BonLivraison } from 'src/app/private/gestion-facturation/models/bons-livraison';
 import { Client } from 'src/app/private/gestion-facturation/models/client';
 import { Devis } from 'src/app/private/gestion-facturation/models/devis';
@@ -26,7 +27,7 @@ import { Societe } from 'src/app/private/gestion-facturation/models/societe';
 export class KeyWordFormComponent implements OnInit {
 
   @Input()
-  for : 'C' | 'S' | 'D' | 'F' |'A' | 'FA'|'O'| 'FR'|'SF'|'AF'| 'BL'
+  for : 'C' | 'S' | 'D' | 'F' |'A' | 'FA'|'O'| 'FR'|'SF'|'AF'| 'BL'|'BC'
 
 
 
@@ -84,7 +85,7 @@ export class KeyWordFormComponent implements OnInit {
     this.motCleForm.controls['mots'].setValue(this.oldSelectedMotsCle)
   }
 
-  async onSubmit(data : Societe | Client | Devis | Facture | Opportunite| Fournisseur|FactureFournisseur| BonLivraison, isAddMode : boolean ){
+  async onSubmit(data : Societe | Client | Devis | Facture | Opportunite| Fournisseur|FactureFournisseur| BonLivraison|BonsCommande, isAddMode : boolean ){
 
     if (
       this.motCleForm.controls['mots'].value  &&
@@ -108,6 +109,8 @@ export class KeyWordFormComponent implements OnInit {
         else if(this.for == 'SF') motCle.simpleFournisseur = data as SimpleFournisseur
         else if(this.for == 'AF') motCle.avoireFournisseur = data as AvoireFournisseur
         else if(this.for == 'BL') motCle.bonLivraison = data as BonLivraison
+        else if(this.for == 'BC') motCle.bonsCommande = data as BonsCommande
+
         else return
 
         if(motCle.id != null){

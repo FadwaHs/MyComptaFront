@@ -87,7 +87,7 @@
     "CBC": "Créer un bon de commande",
     "LBC": "Liste des bons de commande",
     "CBL": "Créer un bon de livraison",
-    "LBL": "Liste des bons des livraisons",
+    "LBL": "Liste des bons de livraisons",
 
     "AR": "Ajouter un règlement",
     "LR": "Liste des règlements",
@@ -156,7 +156,9 @@
     "DPS": "Supprimer Déparetement",
     "FF":"Factures fournisseurs",
     "SF" :"Factures fournisseurs simples",
-    "AF" :"Avoirs fournisseurs"
+    "AF" :"Avoirs fournisseurs",
+    "BL":"Bons de Livraison",
+    "BC":"Bons de Commande"
   },
   "FORM": {
     "TITLE": {
@@ -188,7 +190,8 @@
       "DC": "Données Comptables",
       "TC" : "Type de client",
       "TS" : "Type de societe",
-      "OTH" :"Autres"
+      "OTH" :"Autres",
+      "PL":"Paramètres de livraison"
 
 
     },
@@ -278,8 +281,13 @@
       "SE" :"Secteur d'activité",
 
       "NUME":"numero_externe",
-
-      "FR" :"Fournisseurs"
+      "FR" :"Fournisseurs",
+      "NC":"Nombre de colis",
+      "PT":"Poids total",
+      "VO":"Volume",
+      "NUS":"N° de suivi",
+      "US":"URL de suivi",
+      "DLI":"Date de livraison"
 
     },
     "SELECT":{
@@ -388,6 +396,11 @@
       "M2": "Ajouter un nouveau Bon de Livraison"
     }
     ,
+    "BC": {
+      "M1": "Aucun Bon de Commande  à afficher",
+      "M2": "Ajouter un nouveau Bon de Commande"
+    }
+    ,
     "SF": {
       "M1": "Aucune facture fournisseur à afficher",
       "M2": "Ajouter une nouvelle factrue fournisseur simple"
@@ -462,8 +475,13 @@
         "L2" : "Exporter les factures fournisseurs"
       },
       "BL" :{
-        "L1" : "Nouveau Bon Livraison",
-        "L2" : "Exporter les  Bon Livraison"
+        "L1" : "Nouveau Bon de Livraison",
+        "L2" : "Exporter les de Bons Livraison"
+      }
+      ,
+      "BC" :{
+        "L1" : "Nouveau Bon de Commande",
+        "L2" : "Exporter les Bons de Commande"
 
       }
 
@@ -475,10 +493,13 @@
       "MMC" : "Modifier mot-clés",
       "MCS" : "Marquer comme signé",
       "MCP" : "Marquer comme Payé",
+      "MCSL" : "Marquer comme Soldé",
+      "MCPE" : "Marquer comme Payée",
       "MCR" : "Marquer comme refusé",
       "MCRM" : "Marquer comme remboursé",
       "AS" : "Annuler La signature",
       "MCA" : "Marquer comme Annullée",
+      "MA" : "Marquer comme Annullé",
       "MCPR" : "Marquer comme Perdue",
       "AR" : "Annuler le refus",
       "T" : "Télécharger",
@@ -490,6 +511,9 @@
       "POF": "POUR CETTE FACTURE :",
       "PO": "POUR CETTE OPPORTUNITE :",
       "PA": "POUR CET AVOIR :",
+      "PAF": "POUR CET AVOIR FOURNISSEUR :",
+      "PBL": "POUR CE BON DE LIVRAISON :",
+
       "CA": "Créer une activité",
       "CD": "Créer un devis",
       "CF": "Créer une facture",
@@ -501,6 +525,7 @@
       "DO" : "Dupliquer en opportunité",
       "V" : "voir",
       "AP" :"Ajouter un paiement",
+      "ADR" :"Ajouter un remboursement",
       "ARG" :"À règler",
       "MER":"Marquer en retard",
       "LP":"Livraison partielle",
@@ -508,9 +533,14 @@
       "LS":"LIVRAISON STATUTS :",
       "CBL":"Convertir en bon de livraison",
       "CAF":"Créer un avoir fournisseur",
+      "LAF":"Lier à un avoir fournisseur",
       "PF" : "Partiellement facturé",
       "MCF" : "Marquer comme facturé",
-      "CFF" : "Créer une facture fournisseur"
+      "CFF" : "Créer une facture fournisseur",
+      "APY" :"À solder",
+      "SFF":"Solder une facture fournisseur"
+
+
 
     }
     ,
@@ -574,7 +604,10 @@
       "ADVL":"Aucun documents de vente liés",
       "AR":"Aucun règlement enregistré.",
       "LP":"Liste des paiements" ,
-      "NE":"Numéro externe :"
+      "NE":"Numéro externe :",
+      "LR":"Liste des remboursements"
+
+
 
 
 
@@ -648,7 +681,7 @@
     "PAYED" : "Payé",
     "PAYEDF" : "Payée",
     "APAYEDF" : "À Payée",
-    "REFUNDED" : "Remboursée",
+    "REFUNDED" : "Remboursé",
     "INPROGRESS":"En Cours",
     "WON":"Remportée",
     "LOST": "Perdue",
@@ -664,11 +697,21 @@
     "PENDING" : "En attente",
     "PARTIAL_DELIVERY": "Livraison partielle",
     "DELIVERED" : "Livré",
-    "TOBEPAID" :"À Payé",
+    "TOBEPAID" :"À Payer",
 
     "Draft":"Brouillon",
     "Partially_Invoiced":"Partiellement facturé",
-    "Invoiced":"facturé"
+    "Invoiced":"facturé",
+    "S":"Soldé",
+    "AS":"À solder",
+    "Sent" :"Envoyé",
+    "Read":"Lu",
+    "Accepted":"Accepté",
+    "Expired":"Expiré"
+
+
+
+
 
   },
   "MODAL":{
@@ -710,6 +753,8 @@
      "SS":"Paiement créé avec succès !",
      "M4": "Le paiement est lié à la facture ou a déjà été remis en banque",
      "M5" :"Voulez vous supprimer le paiement de cette facture ?",
+     "M6": "Le paiement est lié à l'avoir ou a déjà été remis en banque",
+     "M7" :"Voulez vous supprimer le paiement de cet avoir ?",
      "DP" :"Paiement est supprimé !",
      "UP":"Paiement est mis à jour !",
      "DT":"Date",
@@ -718,7 +763,6 @@
      "CL":"Client",
      "MT":"Montant",
      "T":"Total : "
-
 
 
 

@@ -40,7 +40,7 @@ export class SelectRecipientComponent implements OnInit {
   selected : EventEmitter<void>  = new EventEmitter()
 
   @Input()
-  for : 'D'|'F'|'A'|'FA'|'O' |'SF'|'AF'
+  for : 'D'|'F'|'A'|'FA'|'O' |'SF'|'AF'|'BC'
 
   items : Item[] = []
   clients : Client[]
@@ -96,7 +96,7 @@ export class SelectRecipientComponent implements OnInit {
 
 
   async setRecipients() {
-    if (this.for === 'AF' || this.for === 'SF')
+    if (this.for === 'AF' || this.for === 'SF'|| this.for === 'BC')
     {
       var item : Item = new Item()
       item.name = await firstValueFrom(this.translate.get('FORM.SELECT.CNF'))
@@ -182,7 +182,7 @@ export class SelectRecipientComponent implements OnInit {
       var factureAcompte : FactureAcompte  = data as FactureAcompte
       // factureAcompte.devis = this.recipient.data
     }
-    else  if (this.for === 'AF' || this.for === 'SF') {
+    else  if (this.for === 'AF' || this.for === 'SF'|| this.for === 'BC') {
       if(this.recipient.type == 'FR'){
         data.fournisseur = this.recipient.data as Fournisseur
         data.societe = null
@@ -221,7 +221,7 @@ export class SelectRecipientComponent implements OnInit {
       // }
     }
 
-    else  if (this.for === 'AF' || this.for === 'SF') {
+    else  if (this.for === 'AF' || this.for === 'SF'|| this.for === 'BC') {
       var recipient : Recipient  = {} as Recipient
       if(data.fournisseur){
         recipient.data = data.fournisseur as Fournisseur

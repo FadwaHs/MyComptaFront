@@ -107,10 +107,10 @@
 
       </ng-container>
 
-  <!--Facture fournisseur simple-->
+  <!-- For Facture fournisseur simple-->
       <ng-container *ngIf="for == 'SF' ">
 
-        <a class="item-menu-{{size}} " [routerLink]="'edit/'+data.id+'-'+data.slug" >
+      <a class="item-menu-{{size}} " [routerLink]="'edit/'+data.id+'-'+data.slug" >
           <svg-icon name="edit" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
           <span *ngIf=" (
             $any(data).status != SimpleFournisseurStatus.DRAFT &&
@@ -123,7 +123,7 @@
           <ng-template #modifyMotCle>
             <span>{{ 'DROP_MENU.EDIT.M' | translate }}</span>
           </ng-template>
-       </a>
+      </a>
 
       <button *ngIf=" $any(data).status && ( $any(data).status  == SimpleFournisseurStatus.DRAFT )||( $any(data).status  == SimpleFournisseurStatus.TOBERESOLVED )
       ||($any(data).status  == SimpleFournisseurStatus.LATE )" class="item-menu-{{size}}" (click)="delete(data.id,deletepopup)">
@@ -135,13 +135,15 @@
         (click)="resolveIt()">
         <svg-icon name="edit" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
         <span>{{'DROP_MENU.EDIT.ARG' |translate}}</span>
-    </button>
+     </button>
 
-    <button class="item-menu-{{size}}" *ngIf="($any(data).status == SimpleFournisseurStatus.TOBERESOLVED)  ||($any(data).status == SimpleFournisseurStatus.PARTIAL)||($any(data).status == SimpleFournisseurStatus.LATE)"  (click)="addPay(addPayPopup)">
+    <button class="item-menu-{{size}}" *ngIf="($any(data).status == SimpleFournisseurStatus.TOBERESOLVED)  ||($any(data).status == SimpleFournisseurStatus.PARTIAL)
+      ||($any(data).status == SimpleFournisseurStatus.LATE)"  (click)="addPay(addPayPopup)">
         <svg-icon name="money" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
-        <span>{{'DROP_MENU.EDIT.MCP' |translate}}</span>
+        <span>{{'DROP_MENU.EDIT.MCPE' |translate}}</span>
     </button>
-    <button class="item-menu-{{size}}" *ngIf="($any(data).status == SimpleFournisseurStatus.TOBERESOLVED) ||($any(data).status == SimpleFournisseurStatus.PARTIAL)||($any(data).status == SimpleFournisseurStatus.LATE)" (click)="addPay(addPayPopup)" >
+    <button class="item-menu-{{size}}" *ngIf="($any(data).status == SimpleFournisseurStatus.TOBERESOLVED) ||($any(data).status == SimpleFournisseurStatus.PARTIAL)
+      ||($any(data).status == SimpleFournisseurStatus.LATE)" (click)="addPay(addPayPopup)" >
       <svg-icon name="money" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
       <span>{{'DROP_MENU.EDIT.AP' |translate}}</span>
     </button>
@@ -191,7 +193,80 @@
 
     </ng-container>
 
+  <!-- For Avoir fournisseur -->
+  <ng-container *ngIf="for == 'AF' ">
 
+    <a class="item-menu-{{size}} " [routerLink]="'edit/'+data.id+'-'+data.slug" >
+      <svg-icon name="edit" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
+      <span *ngIf=" (
+        $any(data).status != AvoireFournisseurStatus.DRAFT &&
+        $any(data).status != AvoireFournisseurStatus.TOBEPAID &&
+        $any(data).status != AvoireFournisseurStatus.PARTIAL);
+        else modifyMotCle">
+        {{ 'DROP_MENU.EDIT.MMC' | translate }}
+      </span>
+
+      <ng-template #modifyMotCle>
+        <span>{{ 'DROP_MENU.EDIT.M' | translate }}</span>
+      </ng-template>
+    </a>
+
+    <button *ngIf=" $any(data).status && ( $any(data).status  == AvoireFournisseurStatus.DRAFT )||( $any(data).status  == AvoireFournisseurStatus.TOBEPAID )"
+     class="item-menu-{{size}}" (click)="delete(data.id,deletepopup)">
+          <svg-icon name="delete" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
+          <span>{{'DROP_MENU.EDIT.SP' |translate}}</span>
+    </button>
+
+    <button class="item-menu-{{size}}" *ngIf="($any(data).status == AvoireFournisseurStatus.DRAFT)"
+        (click)="toPayIt()">
+        <svg-icon name="edit" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
+        <span>{{'DROP_MENU.EDIT.APY' |translate}}</span>
+     </button>
+
+     <button class="item-menu-{{size}}" *ngIf="($any(data).status == AvoireFournisseurStatus.TOBEPAID) ||($any(data).status == AvoireFournisseurStatus.PARTIAL)"
+       (click)="addPay(addPayPopup)">
+       <svg-icon name="money" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
+       <span>{{'DROP_MENU.EDIT.MCSL' |translate}}</span>
+     </button>
+
+     <button class="item-menu-{{size}}" *ngIf="($any(data).status == AvoireFournisseurStatus.TOBEPAID) ||($any(data).status == AvoireFournisseurStatus.PARTIAL)"
+      (click)="addPay(addPayPopup)" >
+      <svg-icon name="money" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
+      <span>{{'DROP_MENU.EDIT.ADR' |translate}}</span>
+     </button>
+
+     <button class="item-menu-{{size}}" (click)="Annulee()" *ngIf="( $any(data).status  != AvoireFournisseurStatus.CANCELLED && $any(data).status  != AvoireFournisseurStatus.PAID)">
+         <svg-icon name="edit" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
+         <span>{{'DROP_MENU.EDIT.MA' |translate}}</span>
+     </button>
+
+  </ng-container>
+
+  <!-- For Bon de commande -->
+  <ng-container *ngIf="for == 'BC' ">
+    <a class="item-menu-{{size}} " [routerLink]="'edit/'+data.id+'-'+data.slug" >
+      <svg-icon name="edit" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
+      <span *ngIf=" (
+        $any(data).bcStatus != bcstatus.Draft &&
+        $any(data).bcStatus != bcstatus.Read &&
+        $any(data).bcStatus != bcstatus.Sent &&
+        $any(data).bcStatus != bcstatus.Expired);
+        else modifyMotCle">
+        {{ 'DROP_MENU.EDIT.MMC' | translate }}
+      </span>
+
+      <ng-template #modifyMotCle>
+        <span>{{ 'DROP_MENU.EDIT.M' | translate }}</span>
+      </ng-template>
+  </a>
+
+  <button *ngIf=" $any(data).bcStatus && ( $any(data).bcStatus  == bcstatus.Draft )||( $any(data).bcStatus  == bcstatus.Read  )
+  ||($any(data).bcStatus  == bcstatus.Sent )||($any(data).bcStatus  == bcstatus.Expired )" class="item-menu-{{size}}" (click)="delete(data.id,deletepopup)">
+      <svg-icon name="delete" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
+      <span>{{'DROP_MENU.EDIT.SP' |translate}}</span>
+  </button>
+
+  </ng-container>
 
       <div class="flex flex-col space-y-2">
           <hr class="drop-menu-line">
@@ -204,15 +279,17 @@
 
           <span class="text-gray-2 mt-10 text-[10px]" *ngIf="for =='SF'">{{'DROP_MENU.EDIT.POF' |translate}}</span>
 
-          <span class="text-gray-2 mt-10 text-[10px]" *ngIf="for =='BL'">{{'Pour ce Bon de Livraison' |translate}}</span>
+          <span class="text-gray-2 mt-10 text-[10px]" *ngIf="for =='BL'">{{'DROP_MENU.EDIT.PBL' |translate}}</span>
+          <span class="text-gray-2 mt-10 text-[10px]" *ngIf="for =='AF'">{{'DROP_MENU.EDIT.PAF' |translate}}</span>
+
 
       </div>
 
-      <ng-container *ngIf=" for == 'D' || for == 'F'|| for == 'A' || for == 'FA' || for == 'SF' ">
-          <a class="item-menu-{{size}}" href="#">
+      <ng-container *ngIf=" for == 'D' || for == 'F'|| for == 'A' || for == 'FA' || for == 'SF'||for == 'AF'||for == 'BL'||for == 'BC' ">
+        <button class="item-menu-{{size}}" >
             <svg-icon name="export" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
               <span>{{'DROP_MENU.EDIT.T' |translate}}</span>
-          </a>
+          </button>
           <a class="item-menu-{{size}}" href="#">
             <svg-icon name="email" [ngClass]="type == 'edit'? 'w-3' : 'w-4' "></svg-icon>
               <span>{{'DROP_MENU.EDIT.EPE' |translate}}</span>
@@ -344,8 +421,13 @@
 
       <div class="flex flex-col space-y-2">
           <hr class="drop-menu-line">
+          <span class="text-gray-2 mt-10 text-[10px]" >{{'DROP_MENU.EDIT.POF' |translate}}</span>
+
           <a class="item-menu-{{size}}" href="#">
             <span>{{'DROP_MENU.EDIT.CAF' |translate}}</span>
+          </a>
+          <a class="item-menu-{{size}}" href="#">
+            <span>{{'DROP_MENU.EDIT.LAF' |translate}}</span>
           </a>
             <a class="item-menu-{{size}}" href="#">
                 <span>{{'DROP_MENU.EDIT.CBL' |translate}}</span>
@@ -359,16 +441,29 @@
 
       </div>
 
-      </ng-container>
+    </ng-container>
 
+     <!--not visible if AF.simpleFournisseur existe -->
 
+    <ng-container *ngIf="for == 'AF'">
+      <div class="flex flex-col space-y-2">
+          <hr class="drop-menu-line">
+          <span class="text-gray-2 mt-10 text-[10px]" >{{'DROP_MENU.EDIT.PAF' |translate}}</span>
+
+          <a class="item-menu-{{size}}" href="#">
+            <span>{{'DROP_MENU.EDIT.SFF' |translate}}</span>
+          </a>
+
+      </div>
+
+    </ng-container>
   </div>
 
 
 
 
 
-  <!-- drop menu Filter -->
+  <!-- drop menu Filter For Devis-->
   <ng-container *ngIf="for == 'D' && type == 'filter'">
 
 
@@ -611,7 +706,7 @@
     <div class="hidden sm:flex sm:gap-2 sm:text-sm">
 
         <button class="common-btn-gray" (click)="changeFilterbonlivraison(null)"
-            [class.common-btn-gray-active]="!statusActiveBL">{{ 'STATUS.TE' |translate}}</button>
+            [class.common-btn-gray-active]="!statusActiveBL">{{ 'STATUS.T' |translate}}</button>
         <button class="common-btn-gray" (click)="changeFilterbonlivraison(blstatus.Draft)"
             [class.common-btn-gray-active]="statusActiveBL == blstatus.Draft">{{ 'STATUS.Draft'
             |translate
@@ -625,8 +720,68 @@
 
     </div>
 
+  </ng-container>
+
+
+  <!-- drop menu Filter  For Avoir Fournisseur  -->
+  <ng-container *ngIf=" for == 'AF' && type == 'filter'">
+
+
+     <div class="hidden sm:flex sm:gap-2 sm:text-sm">
+
+          <button class="common-btn-gray" (click)="changeFilterStatusAvoirFour(null)"
+              [class.common-btn-gray-active]="!statusActiveAFournisseur">{{ 'STATUS.T' |translate}}</button>
+          <button class="common-btn-gray" (click)="changeFilterStatusAvoirFour(AvoireFournisseurStatus.DRAFT)"
+              [class.common-btn-gray-active]="statusActiveAFournisseur == AvoireFournisseurStatus.DRAFT">{{ 'STATUS.DRAFT'|translate
+              }}</button>
+          <button class="common-btn-gray" (click)="changeFilterStatusAvoirFour(AvoireFournisseurStatus.TOBEPAID)"
+              [class.common-btn-gray-active]="statusActiveAFournisseur == AvoireFournisseurStatus.TOBEPAID">{{ 'STATUS.AS' |translate
+              }}</button>
+          <button class="common-btn-gray" (click)="changeFilterStatusAvoirFour(AvoireFournisseurStatus.PARTIAL)"
+              [class.common-btn-gray-active]="statusActiveAFournisseur == AvoireFournisseurStatus.PARTIAL">{{ 'STATUS.PARTIAL' |translate
+              }}</button>
+          <button class="common-btn-gray" (click)="changeFilterStatusAvoirFour(AvoireFournisseurStatus.PAID)"
+              [class.common-btn-gray-active]="statusActiveAFournisseur == AvoireFournisseurStatus.PAID">{{ 'STATUS.S' |translate
+              }}</button>
+         <button class="common-btn-gray" (click)="changeFilterStatusAvoirFour(AvoireFournisseurStatus.CANCELLED)"
+              [class.common-btn-gray-active]="statusActiveAFournisseur == AvoireFournisseurStatus.CANCELLED">{{ 'STATUS.CANCELLED' |translate
+              }}</button>
+
+  </div>
 </ng-container>
 
+<ng-container *ngIf=" for == 'BC' && type == 'filter'">
+  <div class="hidden sm:flex sm:gap-2 sm:text-sm">
+
+    <button class="common-btn-gray" (click)="changeFilterbonCommade(null)"
+        [class.common-btn-gray-active]="!statusActiveBC">{{ 'STATUS.T' |translate}}</button>
+    <button class="common-btn-gray" (click)="changeFilterbonCommade(bcstatus.Draft)"
+        [class.common-btn-gray-active]="statusActiveBC == bcstatus.Draft">{{ 'STATUS.Draft'|translate
+        }}</button>
+    <button class="common-btn-gray" (click)="changeFilterbonCommade(bcstatus.Sent)"
+        [class.common-btn-gray-active]="statusActiveBC == bcstatus.Sent">{{ 'STATUS.Sent' |translate
+        }}</button>
+    <button class="common-btn-gray" (click)="changeFilterbonCommade(bcstatus.Read)"
+        [class.common-btn-gray-active]="statusActiveBC == bcstatus.Read">{{ 'STATUS.Read' |translate
+        }}</button>
+    <button class="common-btn-gray" (click)="changeFilterbonCommade(bcstatus.Accepted)"
+        [class.common-btn-gray-active]="statusActiveBC == bcstatus.Accepted">{{ 'STATUS.Accepted' |translate
+        }}</button>
+   <button class="common-btn-gray" (click)="changeFilterbonCommade(bcstatus.Expired)"
+        [class.common-btn-gray-active]="statusActiveBC == bcstatus.Expired">{{ 'STATUS.Expired' |translate
+        }}</button>
+  <button class="common-btn-gray" (click)="changeFilterbonCommade(bcstatus.Partially_Invoiced)"
+        [class.common-btn-gray-active]="statusActiveBC == bcstatus.Partially_Invoiced">{{ 'STATUS.Partially_Invoiced' |translate
+        }}</button>
+  <button class="common-btn-gray" (click)="changeFilterbonCommade(bcstatus.Invoiced)"
+        [class.common-btn-gray-active]="statusActiveBC == bcstatus.Invoiced">{{ 'STATUS.Invoiced' |translate
+        }}</button>
+  <button class="common-btn-gray" (click)="changeFilterbonCommade(bcstatus.Canceled)"
+        [class.common-btn-gray-active]="statusActiveBC == bcstatus.Canceled">{{ 'STATUS.CANCELLED' |translate
+        }}</button>
+</div>
+
+</ng-container>
 </div>
 
 
@@ -826,7 +981,7 @@
 </ng-template>
 
 
-<!-- Popup For facture fournisseur simple : Paid and Parial statuts  -->
+<!-- Popup For facture fournisseur  : Paid and Parial statuts  -->
 
 <ng-template #addPayPopup let-modal >
   <div class="space-y-5" >
@@ -846,7 +1001,7 @@
 
             <div class="radio-group gap-x-16">
               <label>
-                <input type="radio"  formControlName="type" value="Debit" checked>
+                <input type="radio"  formControlName="type" value="Debit" >
                 {{'MODAL.INPUT.D' | translate}}
               </label>
               <label>
@@ -926,11 +1081,21 @@
 
         </div>
 
-         <div  class="my-dialog-actions" >
 
-          <button class=" common-btn-black col-span-2 " data-dismiss="modal" appDebounceClick (debounceClick)="addPayCard($any(data), modal)">
-              {{'FORM.BUTTON.EN' | translate}}
-             </button>
+         <div  class="my-dialog-actions" >
+          <ng-container *ngIf="for === 'SF'; else addRefund">
+            <button class="common-btn-black col-span-2" data-dismiss="modal" appDebounceClick (debounceClick)="addPayCard($any(data), modal)">
+              {{ 'FORM.BUTTON.EN' | translate }}
+            </button>
+          </ng-container>
+
+          <ng-template #addRefund>
+            <button class="common-btn-black col-span-2" data-dismiss="modal" appDebounceClick (debounceClick)="addRefundCard($any(data), modal)">
+              {{ 'FORM.BUTTON.EN' | translate }}
+            </button>
+          </ng-template>
+
+
           <button class=" common-btn-gray-3 " (click)="modal.dismiss('Cross click')"  >
                <span>{{'FORM.BUTTON.A' | translate}} </span>
           </button>

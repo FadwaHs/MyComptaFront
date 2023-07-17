@@ -1,3 +1,4 @@
+import { AvoirFournisseurService } from './../../../private/gestion-facturation/http/avoir-fournisseur.service';
 import { ModeReglementService } from 'src/app/private/gestion-facturation/http/mode-reglement.service';
 import { Paiement } from './../../../private/gestion-facturation/models/paiement';
 import { PaiementService } from './../../../private/gestion-facturation/http/paiement.service';
@@ -50,6 +51,10 @@ import { CompteBcService } from 'src/app/private/gestion-facturation/http/compte
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { switchMap } from 'rxjs';
+import { AvoireFournisseurStatus } from 'src/app/private/gestion-facturation/enums/avoire-fournisseur-status';
+import { BonsCommande } from 'src/app/private/gestion-facturation/models/bons-commande';
+import { BCStatus } from 'src/app/private/gestion-facturation/enums/BCStatus';
+import { BonCommandeService } from 'src/app/private/gestion-facturation/http/bonCommande.service';
 
 
 @Component({
@@ -65,7 +70,7 @@ export class DropMenuComponent implements OnInit {
   refreshListPage : EventEmitter<void> = new EventEmitter();
 
   @Input()
-  data: Societe | Client | Devis | Facture | FactureSimple|Opportunite | FactureAvoir |FactureAcompte| Pipeline |Fournisseur|SimpleFournisseur|AvoireFournisseur|FactureFournisseur| BonLivraison;
+  data: Societe | Client | Devis | Facture | FactureSimple|Opportunite | FactureAvoir |FactureAcompte| Pipeline |Fournisseur|SimpleFournisseur|AvoireFournisseur|FactureFournisseur| BonLivraison|BonsCommande;
 
 
 
@@ -77,7 +82,7 @@ export class DropMenuComponent implements OnInit {
 
   @Input()
 
-  for: 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'FG'|'P'|'FR'|'FF'|'SF'|'AF'|'BL'
+  for: 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'FG'|'P'|'FR'|'FF'|'SF'|'AF'|'BL'|'BC'
 
 
 
@@ -95,9 +100,12 @@ export class DropMenuComponent implements OnInit {
   //++
   //Factures Fournisseurs
   SimpleFournisseurStatus= SimpleFournisseurStatus
+  AvoireFournisseurStatus=AvoireFournisseurStatus
 
   // bon livraison:
   blstatus = BLStatus;
+  // bon commande:
+  bcstatus = BCStatus;
 
   statusActive: DevisStatus | null = null;
   statusActiveFacture : FactureSimpleStatus | null = null;
@@ -105,9 +113,13 @@ export class DropMenuComponent implements OnInit {
   statusActiveAcompte : FactureAcompteStatus | null = null;
   statusActiveOpp : OppStatus | null=null;
   statusActiveBL : BLStatus | null=null;
+  statusActiveBC : BCStatus | null=null;
+
 
   //++
   statusActiveSFournisseur : SimpleFournisseurStatus | null=null;
+  statusActiveAFournisseur : AvoireFournisseurStatus | null=null;
+
 
 
   // date tri for facture type : simple and acompte
@@ -141,7 +153,6 @@ export class DropMenuComponent implements OnInit {
    @ViewChild('parLivPopup') parLivPopup: TemplateRef<any>;
    @ViewChild('livPopup') livPopup: TemplateRef<any>;
 
-  //  @ViewChild('fullPayPopup') fullPayPopup: TemplateRef<any>;
    @ViewChild('addPayPopup') addPayPopup: TemplateRef<any>;
 
 
@@ -173,11 +184,15 @@ export class DropMenuComponent implements OnInit {
 
     //++
     private simpleFournisseurService:SimpleFournisseurService,
+    private avoirFournisseurService:AvoirFournisseurService,
 
     // bon livraison :
     private bonlivraisonService : BonLivraisonService,
     //Paiement
     private paiementService :PaiementService,
+    // bon livraison :
+    private bonCommandeService : BonCommandeService,
+
     private formBuilder: FormBuilder,
     private detais :DetailsService,
     private modeRegService :ModeReglementService,
@@ -190,7 +205,7 @@ export class DropMenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if(this.for==='SF'){
+    if(this.for==='SF' ||this.for==='AF' ){
 
           this.iniatForm()
           this.initModReg();
@@ -251,6 +266,13 @@ export class DropMenuComponent implements OnInit {
 
   }
 
+   // avoir fournisseur  status
+   changeFilterStatusAvoirFour(status:  AvoireFournisseurStatus | null ){
+    this.dropMenu = false
+    this.statusActiveAFournisseur = status
+    this.filterService.callMethodFilterStatus(status);
+
+  }
 
    // bon livraison status
    changeFilterbonlivraison( status : BLStatus|null)
@@ -260,6 +282,15 @@ export class DropMenuComponent implements OnInit {
     this.filterService.callMethodFilterStatus(status);
 
    }
+
+    // bon commande status
+    changeFilterbonCommade( status : BCStatus|null)
+    {
+     this.dropMenu = false;
+     this.statusActiveBC = status;
+     this.filterService.callMethodFilterStatus(status);
+
+    }
 
 
   // sort by date
@@ -292,6 +323,10 @@ export class DropMenuComponent implements OnInit {
 
     //++
     if(this.for == 'SF') this.deleteSimpleFournisseur(id,deletepopup)
+    if(this.for == 'AF') this.deleteAvoirFournisseur(id,deletepopup)
+    if(this.for == 'BC') this.deleteBonCommande(id,deletepopup)
+
+
   }
 
 
@@ -351,11 +386,16 @@ export class DropMenuComponent implements OnInit {
      if(this.for == 'O') this.updateOpportunite(OppStatus.CANCLED)
      //++
      if(this.for == 'SF') this.updateSimpleFournisseur(SimpleFournisseurStatus.CANCELLED)
+     if(this.for == 'AF') this.updateAvoirFournisseur(AvoireFournisseurStatus.CANCELLED)
+
    }
 
   toPayIt() {
     var date = new Date()
     if(this.for == 'F') this.updateFacture(FactureSimpleStatus.TOPAYED)
+    if(this.for == 'AF') this.updateAvoirFournisseur(AvoireFournisseurStatus.TOBEPAID)
+
+
 
   }
 
@@ -516,23 +556,17 @@ export class DropMenuComponent implements OnInit {
         },
       });
   }
-
-  addPay(fullPayPopup: any) {
-
-    this.devise = this.detais.getCurrencySymbol((this.data as SimpleFournisseur).devise);
-    //var mont = (this.data as SimpleFournisseur).totalTTC
-
-    let mont: number = (this.data as SimpleFournisseur).totalTTC;
-
-
-    if((this.data as SimpleFournisseur).paiementList && (this.data as SimpleFournisseur).paiementList.length>0){
-      const paiements = (this.data as SimpleFournisseur).paiementList
-      paiements.forEach(pay => {
-        mont -= pay.montant;
-      });
-       mont = Math.round(mont * 100) / 100; // Round mont to 2 decimal places
-    }
-
+  addPay(addPayPopup: any) {
+    if (this.for==='SF') {
+       this.devise = this.detais.getCurrencySymbol((this.data as SimpleFournisseur).devise);
+     let mont: number = (this.data as SimpleFournisseur).totalTTC;
+     if((this.data as SimpleFournisseur).paiementList && (this.data as SimpleFournisseur).paiementList.length>0){
+        const paiements = (this.data as SimpleFournisseur).paiementList
+        paiements.forEach(pay => {
+           mont -= pay.montant;
+         });
+        mont = Math.round(mont * 100) / 100; // Round mont to 2 decimal places
+      }
     // Set the initial value of montant in the form
     this.payForm.patchValue({
       montant:this.detais.formatNumber3(mont),
@@ -540,18 +574,41 @@ export class DropMenuComponent implements OnInit {
       compteBanc:this.compBancList[0]
     });
 
-    const modalRef = this.modalService.open(fullPayPopup, {windowClass: 'my-modal',
+   }
+   else if (this.for==='AF'){
+    this.devise = this.detais.getCurrencySymbol((this.data as AvoireFournisseur).devise);
+    let mont: number = (this.data as AvoireFournisseur).totalTTC;
+    if((this.data as AvoireFournisseur).paiementList && (this.data as AvoireFournisseur).paiementList.length>0){
+       const paiements = (this.data as AvoireFournisseur).paiementList
+       paiements.forEach(pay => {
+          mont -= pay.montant;
+        });
+       mont = Math.round(mont * 100) / 100;
+     }
+     // Set the initial value of montant in the form
+     this.payForm.patchValue({
+      montant:this.detais.formatNumber3(mont),
+      modeReglement :this.modeRegList[0],
+      compteBanc:this.compBancList[0],
+      type:"Credit",
+    });
+
+   }
+
+   const modalRef = this.modalService.open(addPayPopup, {windowClass: 'my-modal',
     backdropClass: 'modal-backdrop'});
     this.closeMenu()
     modalRef.result.then((result) => {
-        if (result === 'Create pay') {
+        if (result === 'Create pay')
           this.addPayCard(this.data as SimpleFournisseur, modalRef);
-        }
+
+        if (result === 'Create refund')
+          this.addRefundCard(this.data as AvoireFournisseur,modalRef)
 
     })
     .catch(() => {});
 
-    }
+  }
 
   addPayCard(data: SimpleFournisseur, modal: any) {
       const paiement = new Paiement();
@@ -571,8 +628,8 @@ export class DropMenuComponent implements OnInit {
 
         paiement.dateRemise = this.payForm.get('dateRemise')?.value;
       }
-    // Update the status
 
+    // Update the status
     if((this.data as SimpleFournisseur).paiementList.length<=0){
       if(paiement.montant == (this.data as SimpleFournisseur).totalTTC)
         this.updateSimpleFournisseur(SimpleFournisseurStatus.PAID);
@@ -589,7 +646,6 @@ export class DropMenuComponent implements OnInit {
       if(mont==(this.data as SimpleFournisseur).totalTTC)
         this.updateSimpleFournisseur(SimpleFournisseurStatus.PAID);
       else this.updateSimpleFournisseur(SimpleFournisseurStatus.PARTIAL);
-
     }
 
     // Chain the updateSimpleFournisseur and addPaiement operations using switchMap
@@ -610,6 +666,62 @@ export class DropMenuComponent implements OnInit {
       }
     );
    }
+
+  addRefundCard(data: AvoireFournisseur, modal: any) {
+    const paiement = new Paiement();
+    paiement.type = this.payForm.get('type')?.value;
+    paiement.montant = this.payForm.get('montant')?.value;
+    paiement.reference = this.payForm.get('reference')?.value;
+    paiement.note = this.payForm.get('note')?.value;
+    paiement.dateReglement = this.payForm.get('dateReglement')?.value;
+    paiement.modeReglement = this.payForm.get('modeReglement')?.value;
+    paiement.avoirFournisseur = data;
+    if (this.payForm.get('iSmiseBanc')?.value) {
+      if (paiement.type === 'Debit')
+        paiement.compteDebiteur = this.payForm.get('compteBanc')?.value as CompteBanc;
+      else
+        paiement.compteCrediteur = this.payForm.get('compteBanc')?.value as CompteBanc;
+
+      paiement.dateRemise = this.payForm.get('dateRemise')?.value;
+    }
+     // Update the status
+     if((this.data as AvoireFournisseur).paiementList.length<=0){
+      if(paiement.montant == (this.data as AvoireFournisseur).totalTTC)
+        this.updateAvoirFournisseur(AvoireFournisseurStatus.PAID);
+      else this.updateAvoirFournisseur(AvoireFournisseurStatus.PARTIAL);
+    }
+    else{
+       const paiements = (this.data as AvoireFournisseur).paiementList
+       let mont: number =0
+       paiements.forEach(pay => {
+        mont += pay.montant;
+      });
+
+      mont+=paiement.montant
+      if(mont==(this.data as AvoireFournisseur).totalTTC)
+        this.updateAvoirFournisseur(AvoireFournisseurStatus.PAID);
+      else this.updateAvoirFournisseur(AvoireFournisseurStatus.PARTIAL);
+
+    }
+    this.avoirFournisseurService.updateAvoirFourById(this.data.id, this.data as AvoireFournisseur)
+    .pipe(
+      switchMap(() => this.paiementService.addPaiement(paiement))
+    )
+    .subscribe(
+      (createdPaiement) => {
+        modal.dismiss('Create pay');
+        this.refreshListPage.emit();
+        this.translate.get('MODAL.INPUT.SS').subscribe((msg) => {
+          this.toastr.success(msg);
+        });
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+
   resolveIt() {
     if(this.for == 'SF') this.updateSimpleFournisseur(SimpleFournisseurStatus.TOBERESOLVED)
     }
@@ -703,6 +815,15 @@ export class DropMenuComponent implements OnInit {
     (this.data as SimpleFournisseur).status = status
 
     this.simpleFournisseurService.updateSimpleFourById(this.data.id, this.data as SimpleFournisseur).subscribe({
+      error : e => console.log(e),
+      complete: () => this.refreshListPage.emit()
+    })
+  }
+
+  updateAvoirFournisseur(status: AvoireFournisseurStatus) {
+    (this.data as AvoireFournisseur).status = status
+
+    this.avoirFournisseurService.updateAvoirFourById(this.data.id, this.data as AvoireFournisseur).subscribe({
       error : e => console.log(e),
       complete: () => this.refreshListPage.emit()
     })
@@ -913,10 +1034,53 @@ export class DropMenuComponent implements OnInit {
   }
 
 
+ deleteAvoirFournisseur(id:number,deletepopup:any)
+  {
+     const modalRef: NgbModalRef = this.modalService.open(this.deletepopup, {
+      windowClass: 'my-modal',
+      backdropClass: 'modal-backdrop'
+    });
+
+    modalRef.result
+      .then((result: string) => {
+        if (result === 'supprimer') {
+          this.avoirFournisseurService.deleteAvoirFourById(id).subscribe({
+            error:e => console.log(e),
+            complete: () => this.refreshListPage.emit()
+
+           });
+        }
+      })
+      .catch((reason: any) => {
+        console.log(reason); // Handle the error or cancellation
+      });
+
+  }
 
   deleteConfirmed(modal: NgbModalRef) {
     modal.close('supprimer');
   }
+
+  deleteBonCommande(id: number, deletepopup: any) {
+    const modalRef: NgbModalRef = this.modalService.open(this.deletepopup, {
+      windowClass: 'my-modal',
+      backdropClass: 'modal-backdrop'
+    });
+
+    modalRef.result
+      .then((result: string) => {
+        if (result === 'supprimer') {
+          this.bonCommandeService.deleteBonCommandeById(id).subscribe({
+            error:e => console.log(e),
+            complete: () => this.refreshListPage.emit()
+
+           });
+        }
+      })
+      .catch((reason: any) => {
+        console.log(reason); // Handle the error or cancellation
+      });  }
+
 
 
 

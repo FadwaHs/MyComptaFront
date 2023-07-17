@@ -22,6 +22,7 @@ import { DatePipe, DecimalPipe } from '@angular/common';
 import { Opportunite } from 'src/app/private/gestion-facturation/models/opportunite';
 import { SimpleFournisseur } from 'src/app/private/gestion-facturation/models/simple-fournisseur';
 import { BonLivraison } from 'src/app/private/gestion-facturation/models/bons-livraison';
+import { BonsCommande } from 'src/app/private/gestion-facturation/models/bons-commande';
 
 
 interface Card {
@@ -47,10 +48,10 @@ export class CardComponent implements OnInit {
   refreshListPage : EventEmitter<void> = new EventEmitter();
 
   @Input()
-  data: Societe | Client | Devis | FactureSimple | FactureAvoir | FactureAcompte|Facture|Opportunite | Fournisseur|SimpleFournisseur|AvoireFournisseur|BonLivraison;
+  data: Societe | Client | Devis | FactureSimple | FactureAvoir | FactureAcompte|Facture|Opportunite | Fournisseur|SimpleFournisseur|AvoireFournisseur|BonLivraison|BonsCommande;
 
   @Input()
-  for: 'C' | 'S' | 'D' | 'F'|'A'|'FA'|'O'|'FR'|'SF'|'AF'|'BL';
+  for: 'C' | 'S' | 'D' | 'F'|'A'|'FA'|'O'|'FR'|'SF'|'AF'|'BL'|'BC';
 
 
 
@@ -88,6 +89,8 @@ export class CardComponent implements OnInit {
 
     else if (this.for =='SF') this.getFromSimpleFournisseur()
     else if (this.for =='AF') this.getFromAvoirFournisseur()
+    else if (this.for =='BC') this.getFromBonCommande()
+
 
 
   }
@@ -287,7 +290,19 @@ export class CardComponent implements OnInit {
   }
 
 
-
+  getFromBonCommande() {
+    var bonCommande: BonsCommande = this.data as BonsCommande
+    this.card.mainIcon = 'factures'
+    this.card.primaryTitle1 = bonCommande.numero_interne
+    this.card.primaryTitle2 = bonCommande.bcStatus
+    this.setFournisseurToCard(bonCommande.fournisseur)
+    this.setStatusToCard2(bonCommande.bcStatus, bonCommande.livraisonStatusBc);
+    this.card.line = true
+    this.card.primaryData = [];
+    this.card.paragraph= bonCommande.note
+     this.setHTAndTTC(bonCommande.totalHT,bonCommande.totalTTC);
+    this.setDate(bonCommande.date_creation)
+    this.setMotCleToCard(bonCommande.motCleList);  }
 
 
   setDate(date : Date ){
@@ -448,7 +463,7 @@ export class CardComponent implements OnInit {
 
     else if(status == "Draft"){
       this.card.primaryTitle2 =  await firstValueFrom(this.translate.get('STATUS.Draft'))
-      this.textColor = 'text-red'
+      this.textColor = 'text-gray-4'
     }
     else if(status == "Partially_Invoiced"){
       this.card.primaryTitle2 =  await firstValueFrom(this.translate.get('STATUS.Partially_Invoiced'))
@@ -457,6 +472,27 @@ export class CardComponent implements OnInit {
     else if(status == "Invoiced"){
       this.card.primaryTitle2 =  await firstValueFrom(this.translate.get('STATUS.Invoiced'))
       this.textColor = 'text-green'
+    }
+    else if(status=="DRAFT"){
+      this.card.primaryTitle2 = await firstValueFrom(this.translate.get('STATUS.DRAFT'));
+      this.textColor  = 'text-gray-4';
+
+    }
+    else if(status=="TOBEPAID"){
+      this.card.primaryTitle2 = await firstValueFrom(this.translate.get('STATUS.AS'));
+      this.textColor  = 'text-blue';
+    }
+    else if(status=="PARTIAL"){
+      this.card.primaryTitle2 = await firstValueFrom(this.translate.get('STATUS.PARTIAL'));
+      this.textColor  = 'text-yellow';
+    }
+    else if(status=="PAID"){
+      this.card.primaryTitle2 = await firstValueFrom(this.translate.get('STATUS.S'));
+      this.textColor  = 'text-green';
+    }
+    else if(status=="CANCELLED"){
+      this.card.primaryTitle2 = await firstValueFrom(this.translate.get('STATUS.CANCELLED'));
+      this.textColor  = 'text-red';
     }
 
 
@@ -475,7 +511,7 @@ export class CardComponent implements OnInit {
     } else if (status == "PAID") {
       translatedStatus = await firstValueFrom(this.translate.get('STATUS.PAID'));
       textColor = 'text-green';
-    } else if (status == "CANCELLED") {
+    } else if (status == "CANCELLED" ) {
       translatedStatus = await firstValueFrom(this.translate.get('STATUS.CANCLED'));
       textColor = 'text-red';
     } else if (status == "PARTIAL") {
@@ -488,7 +524,38 @@ export class CardComponent implements OnInit {
       translatedStatus = await firstValueFrom(this.translate.get('STATUS.TOBERESOLVED'));
       textColor = 'text-blue';
     }
-
+    else if(status == "Draft"){
+      translatedStatus =  await firstValueFrom(this.translate.get('STATUS.Draft'))
+      textColor = 'text-gray-4'
+    }
+    else if(status == "Partially_Invoiced"){
+      translatedStatus =  await firstValueFrom(this.translate.get('STATUS.Partially_Invoiced'))
+      textColor = 'text-blue'
+    }
+    else if(status == "Invoiced"){
+      translatedStatus =  await firstValueFrom(this.translate.get('STATUS.Invoiced'))
+      textColor= 'text-green'
+    }
+    else if(status=="Sent"){
+      translatedStatus = await firstValueFrom(this.translate.get('STATUS.Sent'));
+      textColor  = 'text-[lightblue]';
+    }
+    else if(status=="Read"){
+      translatedStatus = await firstValueFrom(this.translate.get('STATUS.Read'));
+      textColor  = 'text-yellow';
+    }
+    else if(status=="Accepted"){
+      translatedStatus = await firstValueFrom(this.translate.get('STATUS.Accepted'));
+      textColor  = 'text-purple';
+    }
+    else if(status=="Expired"){
+      translatedStatus = await firstValueFrom(this.translate.get('STATUS.Expired'));
+      textColor  = 'text-orange';
+    }
+   else if (status == "Canceled" ) {
+    translatedStatus = await firstValueFrom(this.translate.get('STATUS.CANCELLED'));
+    textColor = 'text-red';
+   }
     if (livraisonStatus == "PENDING") {
       translatedDeliveryStatus = await firstValueFrom(this.translate.get('STATUS.PENDING'));
       deliveryTextColor = 'text-gray-4';

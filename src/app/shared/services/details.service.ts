@@ -106,10 +106,19 @@ import { FactureSimple } from "src/app/private/gestion-facturation/models/factur
        this.translate.get('STATUS.DELIVERED').subscribe((translation: string) => {
        this.statusTr = translation});
 
-
+     if(status == 'TOBEPAID')
+       this.translate.get('STATUS.AS').subscribe((translation: string) => {
+       this.statusTr = translation});
 
        return this.statusTr
 
+   }
+   transStatus2(status: string ) :string{
+    if(status == 'PAID')
+    this.translate.get('STATUS.S').subscribe((translation: string) => {
+    this.statusTr = translation});
+
+    return this.statusTr
    }
 
     formatDate(date:Date): string{

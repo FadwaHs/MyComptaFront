@@ -1,1 +1,675 @@
-<p>show-avoir works!</p>
+<app-top-bar for="AF" type="show" sizeMenu="sm" [data]="this.avoir" ></app-top-bar>
+
+<section class="grid grid-cols-2 md:grid-cols-2 gap-5">
+	<!-- Informations column -->
+
+	<div class="grid grid-col gap-2 text-sm">
+		<div class="mt-[30px]">
+			<span class="secondary-title text-base">{{'FORM.TITLE.INF'|translate}}</span>
+		</div>
+		<div class="flex flex-col space-y-4 mt-[-30px]" >
+      <div class="flex flex-col space-y-3  " *ngIf="avoir.numero_externe" >
+				<div class=" grid grid-cols-4 ">
+					<span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.NE'| translate}} </span>
+          <span >{{avoir.numero_externe}}</span>
+        </div>
+				<hr>
+			</div>
+			<div class="flex flex-col space-y-3  " *ngIf="avoir.status" >
+				<div class=" grid grid-cols-4 ">
+					<span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.ST'| translate}} </span>
+          <span [ngClass]="getStatutsColor(avoir.status)">
+            <ng-container *ngIf="avoir.status === 'PAID'; else elseBlock">
+              {{ this.details.transStatus2(avoir.status) }}
+            </ng-container>
+            <ng-template #elseBlock>
+              {{ this.details.transStatus(avoir.status) }}
+            </ng-template>
+          </span>
+        </div>
+				<hr>
+			</div>
+      <div class="flex flex-col space-y-3 " >
+				<div class=" grid grid-cols-4 gap-4">
+					<span class="text-gray-2  col-span-2">{{'DROP_MENU.SHOW.CLE'| translate}} </span>
+          <span class="col-span-2">{{this.details.formatDate(avoir.date_creation)}}</span>
+				</div>
+				<hr>
+			</div>
+
+			<div class="flex flex-col space-y-3 " >
+				<div class=" grid grid-cols-4 gap-4">
+					<span class="text-gray-2  col-span-2">{{'DROP_MENU.SHOW.PDF'| translate}} </span>
+          <span class="col-span-2">{{this.details.formatDate(avoir.date_creation)}}</span>
+				</div>
+				<hr>
+			</div>
+			<div class="flex flex-col space-y-3 " *ngIf="avoir.motCleList" >
+				<div class=" grid grid-cols-4 gap-4">
+				<span class="text-gray-2  col-span-2">{{'DROP_MENU.SHOW.MC'| translate}} </span>
+          <div class="flex space-x-1">
+            <span class="rounded-full-black" *ngFor="let word of avoir.motCleList| slice:0:3 ">{{word.mot}}</span>
+            <span class="rounded-full-black" *ngIf="avoir.motCleList.length > 3">+{{ avoir.motCleList.length - 3 }}</span>
+          </div>
+				</div>
+				<hr>
+			</div>
+		</div>
+
+	</div>
+
+  <div class="flex flex-col gap-6 text-sm ">
+		<div class="mt-[30px]">
+			<span class="secondary-title text-base">{{'DROP_MENU.SHOW.DVL'|translate}}</span>
+		</div>
+    <div>
+
+        <div class="justify-center items-center p-40 mt-[-30px]">
+          <span class="secondary-title text-base text-gray-4">{{'DROP_MENU.SHOW.ADVL'|translate}}</span>
+        </div>
+    </div>
+	</div>
+</section>
+
+<div class="flex flex-col gap-6 text-sm mt-2">
+  <div>
+    <div class="secondary-title text-base" >
+      <span>{{'DROP_MENU.SHOW.LR' | translate}}</span>
+     (<span *ngIf="avoir.paiementList">{{avoir.paiementList.length}}</span>)
+    </div>
+  </div>
+  <div *ngIf= "avoir.paiementList && avoir.paiementList.length>0;else emptyPaiement ">
+
+    <table class="pipeline-table">
+      <thead>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <tr>
+          <th>{{'TABLE.DA' | translate}}</th>
+          <th>{{'TABLE.R' | translate}}</th>
+          <th>{{'TABLE.D' | translate}}</th>
+          <th>{{'TABLE.C' | translate}}</th>
+          <th> {{'TABLE.M' | translate}}</th>
+          <th> {{'TABLE.B' | translate}}</th>
+          <th>View</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of avoir.paiementList">
+          <td>{{ item.dateReglement }}</td>
+          <td>{{ item.reference }}</td>
+          <td>
+            <span *ngIf= "item.type==='Debit'"> {{ item.montant }} {{this.details.getCurrencySymbol(this.avoir.devise)}}
+            </span>
+          </td>
+          <td>
+          <span *ngIf="item.type==='Credit'">
+            {{ item.montant }} {{this.details.getCurrencySymbol(this.avoir.devise)}}
+          </span>
+        </td>
+          <td>{{item.modeReglement.name}}</td>
+          <td class=" hover:bg-gray-3">
+            <button (click)="selectedPaiement = item;remiseDetails(remisePopup)" >
+               <span *ngIf="item.compteDebiteur" class="text-blue">{{item.compteDebiteur.libelleCompte}} - {{item.compteDebiteur.iban}}</span>
+               <span *ngIf="item.compteCrediteur" class="text-blue">{{item.compteCrediteur.libelleCompte}} - {{item.compteCrediteur.iban}}</span>
+               <div *ngIf="item.dateRemise" class="text-blue">{{ 'TABLE.RL' | translate }} {{ item.dateRemise }}</div>
+
+            </button>
+             </td>
+          <td  class=" hover:bg-gray-3">
+            <a class="flex space-x-3 "(click)="selectedPaiement = item;payDetails(payDetailsPopup)"  >
+              <div class="view-icon"></div>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+
+
+  </div>
+
+
+
+  <ng-template #emptyPaiement>
+      <div class="justify-center items-center p-20 ml-96">
+        <span class="secondary-title text-base text-gray-4">{{'DROP_MENU.SHOW.AR'|translate}}</span>
+      </div>
+  </ng-template>
+</div>
+
+<section class="grid grid-cols-2 md:grid-cols-2 gap-5 mt-10">
+  <!-- Destinataire -->
+  <div class="grid grid-col gap-6 text-sm">
+    <div>
+      <span class="secondary-title text-base">{{'DROP_MENU.SHOW.DE'|translate}}</span>
+    </div>
+  <div class="flex flex-col space-y-4 " >
+      <div class="flex flex-col space-y-3  " *ngIf="avoir.fournisseur">
+          <div class=" grid grid-cols-4 "  >
+        <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.DE'| translate}} </span>
+        <span >{{avoir.fournisseur.firstName}} {{ avoir.fournisseur.lastName}}</span>
+             </div>
+     <hr>
+    </div>
+    <div class="flex flex-col space-y-3  " *ngIf= "avoir.fournisseur?.societe">
+      <div class=" grid grid-cols-4 "  >
+       <span class="text-gray-2 col-span-2">{{'DATA_NAME.S'| translate}} </span>
+             <span >{{avoir.fournisseur.societe?.name}}</span>
+         </div>
+     <hr>
+    </div>
+    <!--Num tel -->
+    <div class="flex flex-col space-y-3  " *ngIf= "avoir.fournisseur?.societe?.phoneList" >
+      <div class=" grid grid-cols-4 "  >
+          <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.NUE'| translate}}  </span>
+                <div *ngFor=" let phone of avoir.fournisseur?.societe?.phoneList" >
+                <span>{{phone.phoneNumber}}</span>
+         </div>
+          </div>
+      <hr>
+    </div>
+    <!--Num TVA-->
+    <div class="flex flex-col space-y-3  " *ngIf= "avoir.fournisseur?.societe?.ntva" >
+      <div class=" grid grid-cols-4 "  >
+       <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.NTVA'| translate}} </span>
+             <span *ngIf= "avoir.fournisseur?.societe?.ntva" >{{avoir.fournisseur.societe?.ntva}}</span>
+         </div>
+     <hr>
+    </div>
+    <!--Adresse-->
+    <div class="flex flex-col space-y-3" *ngIf="!avoir.fournisseur?.societe?.address">
+      <div class="grid grid-cols-4 gap-4">
+        <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.ADD' | translate}}</span>
+        <div class="col-span-2 flex flex-col">
+          <span *ngIf= "avoir.fournisseur?.address?.address">{{avoir.fournisseur.address.address}}</span>
+          <div *ngIf= "avoir.fournisseur?.address?.complementAddress && avoir.fournisseur?.address?.complementAddress?.length">
+            <span>
+              <ng-container *ngFor= "let complementAddress of avoir.fournisseur?.address?.complementAddress ; let last = last ">
+                {{complementAddress}}{{!last ? ', ' : ''}}
+              </ng-container>
+            </span>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div>
+    <div class="flex flex-col space-y-3" *ngIf= "avoir.fournisseur?.societe?.address">
+      <div class="grid grid-cols-4 gap-4">
+        <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.ADD' | translate}}</span>
+        <div class="col-span-2 flex flex-col">
+          <span *ngIf= "avoir.fournisseur?.societe?.address?.address">{{avoir.fournisseur.societe?.address?.address}}</span>
+          <div *ngIf= "avoir.fournisseur?.societe?.address?.complementAddress && avoir.fournisseur?.societe?.address?.complementAddress?.length">
+            <span>
+              <ng-container *ngFor= "let complementAddress of avoir.fournisseur?.societe?.address?.complementAddress; let last = last">
+                {{complementAddress}}{{!last ? ', ' : ''}}
+              </ng-container>
+            </span>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div>
+    <!--Pays -->
+    <div class="flex flex-col space-y-3" *ngIf= "avoir.fournisseur?.societe?.address" >
+      <div class=" grid grid-cols-4 gap-4 " >
+        <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.PA' | translate}} </span>
+        <span >{{avoir.fournisseur.societe?.address?.country}} </span>
+      </div>
+      <hr>
+    </div>
+    <div class="flex flex-col space-y-3" *ngIf= "avoir.fournisseur?.address?.country">
+        <div class=" grid grid-cols-4 gap-4 " >
+        <span class="text-gray-2 col-span-2" >{{'DROP_MENU.SHOW.PA' | translate}} </span>
+        <span >{{avoir.fournisseur.address.country}} </span>
+      </div>
+      <hr>
+    </div>
+      <!--Num tel Personnel-->
+    <div class="flex flex-col space-y-3  " *ngIf= "avoir.fournisseur?.phoneList" >
+      <div class=" grid grid-cols-4 "  >
+          <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.NUM'| translate}}  </span>
+                <div *ngFor= " let phone of avoir.fournisseur?.phoneList" >
+                <span>{{phone.phoneNumber}}</span>
+         </div>
+          </div>
+      <hr>
+    </div>
+     <!--email-->
+     <div class="flex flex-col space-y-3  " *ngIf= "avoir.fournisseur?.societe?.website">
+      <div class=" grid grid-cols-4 "  >
+      <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.SI'| translate}} </span>
+            <span >{{avoir.fournisseur.societe?.website}}</span>
+        </div>
+    <hr>
+    </div>
+    <div class="flex flex-col space-y-3  " *ngIf= "avoir.fournisseur?.email ">
+      <div class=" grid grid-cols-4 "  >
+      <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.EM'| translate}} </span>
+            <span >{{avoir.fournisseur.email}}</span>
+        </div>
+        <hr>
+    </div>
+  </div>
+  </div>
+
+ <div class="flex flex-col gap-6 text-sm ">
+		<div>
+			<span class="secondary-title text-base">{{'DROP_MENU.SHOW.CON'|translate}}</span>
+		</div>
+
+    <div class="flex flex-col space-y-4 " >
+			<div class="flex flex-col space-y-3  ">
+		      <div class=" grid grid-cols-4 "  >
+				<span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.CONR'| translate}} </span>
+        <span>{{avoir.conditionReglement?.name }}</span>
+      </div>
+		 <hr >
+	  </div>
+	  <div class="flex flex-col space-y-3  " >
+		  <div class=" grid grid-cols-4 "  >
+			 <span class="text-gray-2 col-span-2">{{'DROP_MENU.SHOW.MOR'| translate}} </span>
+             <span >{{avoir.modeReglement?.name}}</span>
+         </div>
+		 <hr >
+	  </div>
+
+
+	</div>
+
+	</div>
+</section>
+
+<div class="flex flex-col gap-6 text-sm mt-10">
+  <div>
+    <span class="secondary-title text-base" >{{'DROP_MENU.SHOW.DET' | translate}}</span>
+  </div>
+
+  <div class="grid grid-col gap-6 text-sm ">
+
+    <table >
+      <tr class="border-b-gray-3">
+        <th>{{'DROP_MENU.SHOW.T' | translate}}</th>
+        <th >{{'DROP_MENU.SHOW.DEC' | translate}}</th>
+        <th>{{'DROP_MENU.SHOW.PHT' | translate}}</th>
+        <th>{{'DROP_MENU.SHOW.Q' | translate}}</th>
+        <th>{{'DROP_MENU.SHOW.TVA' | translate}}</th>
+        <th>{{'DROP_MENU.SHOW.R' | translate}}</th>
+        <th>{{'DROP_MENU.SHOW.THT' | translate}}</th>
+      </tr>
+
+      <tr *ngFor= "let article of avoir.articleList" class="text-gray-2 ">
+        <td >{{article.typeArticle.name_fr}} </td>
+        <td class="w-80 text-justify">{{article.description}} </td>
+        <td >{{this.details.formatNumber(article.prixHT)}} <span class="ml-1">{{this.details.getCurrencySymbol(avoir.devise)}}</span></td>
+        <td>{{article.quantity}} </td>
+        <td>{{this.details.formatNumber(article.tva)}} % </td>
+        <td>{{this.details.formatNumber(article.reduction)}} {{this.details.getReductionSymbol(avoir,article.redIsPercentage)}} </td>
+        <td>{{this.details. formatNumber(this.details.calulTotlHT(article))}} {{this.details.getCurrencySymbol(avoir.devise)}} </td>
+      </tr>
+
+    </table>
+
+
+
+  <table class=" justify-self-end mr-16 ">
+      <tr>
+        <td class="font-bold ">{{'DROP_MENU.SHOW.THT' | translate}}</td>
+        <td class="text-gray-2">{{this.details.formatNumber(avoir.totalHT)}} {{this.details.getCurrencySymbol(avoir.devise)}}</td>
+      </tr>
+      <tr *ngFor= "let article of avoir.articleList">
+        <td >{{'DROP_MENU.SHOW.TVA' | translate}} ({{article.tva}}%)</td>
+        <td class="text-gray-2"> {{this.details.formatNumber(this.details.calulTVA(article))}} {{this.details.getCurrencySymbol(avoir.devise)}}</td>
+     </tr>
+     <tr>
+      <td class="font-bold">{{'DROP_MENU.SHOW.RG' | translate}}</td>
+        <td class="text-gray-2">{{this.details.formatNumber(avoir.remise)}}{{this.details.getReductionSymbol(avoir,avoir.remIsPercentage)}}</td>
+      </tr>
+     <tr>
+      <td class="font-bold">{{'DROP_MENU.SHOW.TTC' | translate}}</td>
+        <td class="text-gray-2" >{{this.details.formatNumber(avoir.totalTTC)}} {{this.details.getCurrencySymbol(avoir.devise)}}</td>
+      </tr>
+
+
+
+    </table>
+
+
+
+
+	</div>
+
+
+
+</div>
+
+
+
+
+<ng-template #payDetailsPopup let-modal >
+  <div class="space-y-5" >
+      <div class="flex flex-col-2 gap-x-52 " >
+        <span class="secondary-title text-base">{{'MODAL.TITLE.P'| translate}}  </span>
+        <button type="button" class="close ml-64" aria-label="Close" (click)= "modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class=" text-sm grid grid-cols-1 gap-3 ">
+        <div class="grid flex-cols gap-2 px-3 py-6 ring-1 ring-gray-4 rounded-xl relative">
+          <span class="span-title">{{'MODAL.TITLE.DP' | translate}} </span>
+          <div class="grid grid-cols-4 gap-2">
+            <span class="col-span-2">{{'MODAL.INPUT.TR' | translate}} :</span>
+
+            <div class="radio-group gap-x-16">
+              <label>
+              <input type="radio" id="type" value="Debit" [checked]= "selectedPaiement.type === 'Debit'">
+              {{ 'MODAL.INPUT.D' | translate }}
+            </label>
+            <label>
+              <input type="radio" id="type" value="Credit" [checked]= "selectedPaiement.type === 'Credit'">
+              {{ 'MODAL.INPUT.C' | translate }}
+            </label>
+            </div>
+          </div>
+
+          <div class="flex flex-row items-center gap-28">
+            <span >{{'MODAL.INPUT.MR' | translate}} :</span>
+            <div class="gap-2">
+              <label   class="common-input-white w-48" disabled>{{selectedPaiement.montant}}</label>
+              <span>{{this.details.getCurrencySymbol(this.avoir.devise)}}</span>
+            </div>
+
+          </div>
+
+          <div class="flex flex-row items-center gap-32">
+            <span>{{'MODAL.INPUT.MP' | translate}} :</span>
+              <label  bindLabel="name" id="modeReglement">{{selectedPaiement.modeReglement.name}}</label>
+          </div>
+
+          <div class="flex flex-row items-center gap-32">
+            <label>{{'MODAL.INPUT.DR' | translate}} :</label>
+            <label class="common-input-white w-52"  >{{selectedPaiement.dateReglement}}</label>
+          </div>
+
+          <div class="flex flex-row items-center gap-48">
+            <label>{{'MODAL.INPUT.R' | translate}} :</label>
+            <label class="common-input-white w-52" >{{selectedPaiement.reference}}</label>
+          </div>
+
+          <div class="flex flex-row items-center gap-56">
+            <label>{{'MODAL.INPUT.N' | translate}} :</label>
+            <textarea class="common-textarea-white resize-none w-60" rows="3" id="note" disabled>{{selectedPaiement.note}}
+            </textarea>
+          </div>
+        </div>
+
+          <div class="flex flex-row-reverse gap-2 mt-5">
+
+              <button class="drop-btn-white" data-dismiss="modal" appDebounceClick (debounceClick)= "openPayPopup(payDeletePopup)">
+                  <span><svg-icon name="delete" svgClass="w-4" ></svg-icon></span>
+              </button>
+              <button class="drop-btn-white" data-dismiss="modal" appDebounceClick (debounceClick)= "openPayPopup(payEditPopup)">
+                <span><svg-icon name="edit" svgClass="w-4" ></svg-icon></span>
+              </button>
+
+            </div>
+
+    </div>
+ </div>
+</ng-template>
+
+<!-- ng-container with ngTemplateOutlet to render the selected popup -->
+<ng-container *ngIf= "showPayPopup">
+  <div class="popup-overlay">
+    <div class="popup-container">
+      <ng-container *ngTemplateOutlet= "selectedPayPopup"></ng-container>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #payEditPopup let-modal >
+  <div class="space-y-5" >
+    <form [formGroup]="payForm" >
+      <div class="flex flex-col-2 gap-x-52 mb-3" >
+        <span class="secondary-title text-base">{{'MODAL.TITLE.P'| translate}}  </span>
+        <button type="button" class="close ml-64" aria-label="Close" (click)="modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class=" text-sm grid grid-cols-1 gap-3 ">
+        <div class="grid flex-cols gap-2 px-3 py-6 mt-5 ring-1 ring-gray-4 rounded-xl relative">
+          <span class="span-title">{{'MODAL.TITLE.DP' | translate}} </span>
+          <div class="grid grid-cols-4 gap-2">
+            <span class="col-span-2">{{'MODAL.INPUT.TR' | translate}} :</span>
+
+            <div class="radio-group gap-x-16">
+              <label>
+                <input type="radio"  formControlName="type" value="Debit" checked>
+                {{'MODAL.INPUT.D' | translate}}
+              </label>
+              <label>
+                <input type="radio"  formControlName="type" value="Credit">
+                {{'MODAL.INPUT.C' | translate}}
+              </label>
+            </div>
+          </div>
+
+          <div class="flex flex-row items-center gap-28">
+            <span >{{'MODAL.INPUT.MR' | translate}} :</span>
+            <div class="gap-2">
+              <input type="number" appAllowInput allow="float" class="common-input-white w-48" formControlName="montant" value="selectedPaiement.montant" readonly/>
+              <span>{{this.details.getCurrencySymbol(avoir.devise)}}</span>
+            </div>
+
+          </div>
+
+
+          <div class="flex flex-row items-center gap-32">
+            <span>{{'MODAL.INPUT.MP' | translate}} :</span>
+             <ng-select class="custom-select-white text-xs w-52"  [items]= "modeRegList" bindLabel="name" formControlName="modeReglement">
+                  <ng-template ng-option-tmp let-item="item">
+                    <div class="flex gap-2 items-center">
+                        <span>{{item.name}}</span>
+                    </div>
+                  </ng-template>
+              </ng-select>
+
+          </div>
+
+          <div class="flex flex-row items-center gap-32">
+            <label>{{'MODAL.INPUT.DR' | translate}} :</label>
+            <input type="date" class="common-input-white w-52" formControlName="dateReglement">
+          </div>
+
+          <div class="flex flex-row items-center gap-48">
+            <label>{{'MODAL.INPUT.R' | translate}} :</label>
+            <input type="text" class="common-input-white w-52" formControlName="reference">
+          </div>
+
+          <div class="flex flex-row items-center gap-56">
+            <label>{{'MODAL.INPUT.N' | translate}} :</label>
+            <textarea class="common-textarea-white resize-none w-60" rows="3" formControlName="note">
+            </textarea>
+          </div>
+        </div>
+
+        <div class="grid flex-cols-3 gap-2 px-3 py-6 mt-5 ring-1 ring-gray-4 rounded-xl relative">
+          <span class="span-title">{{'MODAL.TITLE.RB' | translate}} </span>
+          <span class="text-xs" >{{'MODAL.INPUT.RB1' | translate}}</span>
+          <span class="text-xs" >{{'MODAL.INPUT.RB2' | translate}}</span>
+
+          <div class="flex items-center gap-3">
+            <input type="checkbox" class="w-4 h-4 accent-black-1 cursor-pointer"
+             formControlName="iSmiseBanc">
+             <span>{{'MODAL.INPUT.MB' | translate}} </span>
+          </div>
+
+          <ng-container *ngIf= "payForm.get('iSmiseBanc')?.value">
+            <div class="flex flex-row items-center gap-28">
+                <span>{{'MODAL.INPUT.CB' | translate}} :</span>
+                  <ng-select class="custom-select-white text-xs w-52"  [items]= "compBancList" bindLabel="libelleCompte" formControlName="compteBanc">
+                      <ng-template ng-option-tmp let-item="item">
+                        <div class="flex gap-2 items-center">
+                            <span>{{item.libelleCompte}} - {{item.iban}}</span>
+                        </div>
+                      </ng-template>
+                  </ng-select>
+              </div>
+
+              <div class="flex flex-row items-center gap-16">
+                <label >{{'MODAL.INPUT.DRB' | translate}} :</label>
+                <input type="date" class="common-input-white w-52" formControlName="dateRemise">
+              </div>
+            </ng-container>
+
+
+        </div>
+
+         <div  class="my-dialog-actions" >
+
+        <button class=" common-btn-black col-span-2 " data-dismiss="modal" appDebounceClick (debounceClick)= "updatePay()">
+              {{'FORM.BUTTON.MAJ' | translate}}
+             </button>
+
+          <button class=" common-btn-gray-3 " (click)= "modal.dismiss('Cross click')"  >
+               <span>{{'FORM.BUTTON.A' | translate}} </span>
+          </button>
+          </div>
+
+    </div>
+  </form>
+ </div>
+</ng-template>
+
+<ng-template #payDeletePopup let-modal >
+  <div class="space-y-5" >
+      <div class="flex flex-col-2  mb-3 " >
+        <span class="secondary-title text-base">{{'MODAL.TITLE.SP'| translate}}  </span>
+        <button type="button" class="close ml-64" aria-label="Close" (click)= "modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class=" text-sm grid grid-cols-1 gap-3 ">
+        <div class="flex flex-col gap-2 px-3 py-6 mt-5 ring-1 ring-gray-4 rounded-xl relative">
+
+            <div>{{'MODAL.INPUT.M6' | translate}}.</div>
+            <div>{{'MODAL.INPUT.M7' | translate}} </div>
+
+        </div>
+
+         <div  class="my-dialog-actions" >
+
+        <button class=" common-btn-black col-span-2 " data-dismiss="modal" appDebounceClick (debounceClick)= "deletePay()">
+              {{'FORM.BUTTON.S' | translate}}
+             </button>
+
+          <button class=" common-btn-gray-3 " (click)="modal.dismiss('Cross click')"  >
+               <span>{{'FORM.BUTTON.A' | translate}} </span>
+          </button>
+          </div>
+
+    </div>
+ </div>
+</ng-template>
+
+
+<ng-template #remisePopup let-modal >
+  <div class="space-y-5" >
+      <div class="flex flex-col-2 gap-x-6" >
+        <span class="secondary-title text-base">{{'MODAL.TITLE.DR'| translate}}  </span>
+        <button type="button" class="close ml-56" aria-label="Close" (click)= "modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class=" text-sm grid grid-cols-1 gap-3 ">
+        <div class="grid flex-cols gap-2 px-3 py-6 ring-1 ring-gray-4 rounded-xl relative bg-white-1">
+          <span class="span-title">{{'MODAL.TITLE.IN' | translate}} </span>
+
+          <div class="flex flex-row items-center gap-44">
+            <span class="text-gray-4">{{'MODAL.INPUT.DT' | translate}} </span>
+              <label >{{selectedPaiement.dateRemise}}</label>
+          </div>
+          <ng-container *ngIf= "selectedPaiement.compteDebiteur">
+            <div class="flex flex-row items-center gap-40" >
+              <span class="text-gray-4">{{'MODAL.INPUT.B' | translate}} </span>
+              <label >{{selectedPaiement.compteDebiteur.libelleCompte}}</label>
+           </div>
+
+           <div class="flex flex-row items-center gap-44" >
+              <span class="text-gray-4">{{'MODAL.INPUT.IB' | translate}} </span>
+              <label >{{selectedPaiement.compteDebiteur.iban}}</label>
+           </div>
+          </ng-container>
+
+          <ng-container *ngIf= "selectedPaiement.compteCrediteur">
+            <div class="flex flex-row items-center gap-32" >
+              <span class="text-gray-4">{{'MODAL.INPUT.B' | translate}} </span>
+              <label >{{selectedPaiement.compteCrediteur.libelleCompte}}</label>
+           </div>
+
+           <div class="flex flex-row items-center gap-32" >
+              <span class="text-gray-4">{{'MODAL.INPUT.IB' | translate}} </span>
+              <label >{{selectedPaiement.compteCrediteur.iban}}</label>
+           </div>
+          </ng-container>
+
+
+          <!--
+            <div class="flex flex-row items-center gap-28">
+            <span >{{'MODAL.INPUT.MR' | translate}} :</span>
+            <div class="gap-2">
+              <label   class="common-input-white w-48" disabled>{{selectedPaiement.montant}}</label>
+              <span>{{this.details.getCurrencySymbol(this.facture.devise)}}</span>
+            </div>
+
+          </div>
+            -->
+        </div>
+
+        <div class="grid flex-cols gap-2 px-3 py-6 ring-1 ring-gray-4 rounded-xl relative bg-white-1 mt-4">
+          <span class="span-title">{{'MODAL.TITLE.P' | translate}} </span>
+
+          <table>
+            <tr>
+              <th>{{'MODAL.INPUT.DT' | translate}}</th>
+              <th>{{'MODAL.INPUT.CL' | translate}}</th>
+              <th>{{'MODAL.INPUT.MP' | translate}}</th>
+              <th>{{'MODAL.INPUT.MT' | translate}}</th>
+            </tr>
+            <tr>
+              <td>{{selectedPaiement.dateRemise}}</td>
+              <td>{{avoir.fournisseur.lastName}}</td>
+              <td>{{selectedPaiement.modeReglement.name}}</td>
+              <td class="text-red">{{this.details.formatNumber(selectedPaiement.montant)}}</td>
+            </tr>
+          </table>
+
+       </div>
+
+       <div class=" flex flex-row justify-self-end mr-5 gap-1 ">
+          <span >{{'MODAL.INPUT.T' | translate}} </span>
+
+              <label>{{this.details.formatNumber(selectedPaiement.montant)}}</label>
+              <span>{{this.details.getCurrencySymbol(this.avoir.devise)}}</span>
+
+        </div>
+       <div  class="my-dialog-actions" >
+            <button class=" common-btn-black col-span-2 " data-dismiss="modal" >
+              {{'FORM.BUTTON.I' | translate}}
+             </button>
+
+          <button class=" common-btn-gray-3 " (click)= "modal.dismiss('Cross click')"  >
+               <span>{{'FORM.BUTTON.A' | translate}} </span>
+          </button>
+
+          </div>
+
+    </div>
+ </div>
+</ng-template>
+
+

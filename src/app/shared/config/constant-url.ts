@@ -1,3 +1,4 @@
+import { Livraison } from './../../private/gestion-facturation/models/livraison';
 // export const baseUrl = "http://localhost:8082/api";
 // export const societeUrl = baseUrl+"/societes";
 
@@ -63,9 +64,14 @@ export class ConstantUrl {
 
      //bons
      public readonly bonLivraisonUrl : string = this.baseUrl+"bonLivraison";
+     public readonly bonCommandeUrl : string = this.baseUrl+"bonCommande";
 
      //paiement
      public readonly paiementUrl : string = this.baseUrl+"paiements";
+
+     //livraison
+     public readonly livraisonUrl : string = this.baseUrl+"livraisons";
+
 
 
 

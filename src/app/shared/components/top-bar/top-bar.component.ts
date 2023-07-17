@@ -1,3 +1,4 @@
+import { AvoireFournisseur } from './../../../private/gestion-facturation/models/avoir-fournisseur';
 import { Opportunite } from './../../../private/gestion-facturation/models/opportunite';
 import { Component, Input, OnInit } from '@angular/core';
 import { DevisStatus } from 'src/app/private/gestion-facturation/enums/devis-status';
@@ -16,6 +17,7 @@ import { Fournisseur } from 'src/app/private/gestion-facturation/models/fourniss
 import { FactureFournisseur } from 'src/app/private/gestion-facturation/models/facture-fournisseur';
 import { SimpleFournisseur } from 'src/app/private/gestion-facturation/models/simple-fournisseur';
 import { BonLivraison } from 'src/app/private/gestion-facturation/models/bons-livraison';
+import { BonsCommande } from 'src/app/private/gestion-facturation/models/bons-commande';
 
 
 
@@ -41,10 +43,10 @@ export class TopBarComponent implements OnInit {
 
 
   @Input()
-  data: Societe | Client | Devis | Facture | Opportunite | Pipeline | Fournisseur|FactureFournisseur| BonLivraison;
+  data: Societe | Client | Devis | Facture | Opportunite | Pipeline | Fournisseur|FactureFournisseur| BonLivraison|BonsCommande;
 
   @Input()
-  for: 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'FG' |'P' |'FR'|'FF'|'SF'|'AF'|'BL'
+  for: 'C'|'S'|'D'|'F'|'A'|'FA'|'O'|'FG' |'P' |'FR'|'FF'|'SF'|'AF'|'BL'|'BC'
 
 
   @Input()
@@ -136,11 +138,22 @@ export class TopBarComponent implements OnInit {
       else if( this.for == 'BL' ){
 
         var bonlivraison :BonLivraison = this.data as BonLivraison;
-        this.showData[0] = "Bon Livraison "
+        this.showData[0] = "Bon de Livraison "
         this.showData[1] = bonlivraison.numero_interne
 
       }
+      else if(this.for == 'AF'){
+        var avoirFournisseur : AvoireFournisseur = this.data as AvoireFournisseur
+        this.showData[0] = "Avoir fournisseur "
+        this.showData[1] = avoirFournisseur.numero_interne
+      }
+      else if( this.for == 'BC' ){
 
+        var bonCommande :BonsCommande = this.data as BonsCommande;
+        this.showData[0] = "Bon de Commande "
+        this.showData[1] = bonCommande.numero_interne
+
+      }
     }
 
   }

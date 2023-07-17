@@ -14,6 +14,7 @@ import { Societe } from 'src/app/private/gestion-facturation/models/societe';
 import { FormGroupService } from 'src/app/shared/services/form-group.service';
 import { AddressService } from '../../../private/gestion-facturation/http/address.service';
 import { Fournisseur } from 'src/app/private/gestion-facturation/models/fournisseur';
+import { Livraison } from 'src/app/private/gestion-facturation/models/livraison';
 
 @Component({
   selector: 'app-address-form',
@@ -23,8 +24,7 @@ import { Fournisseur } from 'src/app/private/gestion-facturation/models/fourniss
 export class AddressFormComponent implements OnInit {
 
   @Input()
-  for : 'C' | 'S'| 'FR'; //added fr here
-
+  for : 'C' | 'S'| 'FR'|'L';
   addressForm: FormGroup;
   controls: Array<string> = ['complementAddress0'];
   readonly max = 4;
@@ -72,7 +72,7 @@ export class AddressFormComponent implements OnInit {
   }
 
   // added fournisseur here
-  async onSubmit(data: Societe | Client | Fournisseur, isAddMode : boolean){
+  async onSubmit(data: Societe | Client | Fournisseur|Livraison, isAddMode : boolean){
 
 
 
@@ -82,6 +82,8 @@ export class AddressFormComponent implements OnInit {
       if (this.for =='S') this.address.societe = data as Societe
       else if (this.for =='C') this.address.client = data as Client
       else if (this.for == 'FR') this.address.fournisseur = data as Fournisseur
+      else if (this.for == 'L') this.address.livraison = data as Livraison
+
       else return
       this.getFormValue()
 

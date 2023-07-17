@@ -108,7 +108,7 @@ export class ShowSimpleComponent {
   }
  getStatutsColor(statuts :any):string{
   if (statuts ==="LATE")
-     return 'text-red';
+     return 'text-orange';
   else if (statuts ==="CANCELLED")
      return 'text-red';
   else if (statuts === "PARTIAL"||statuts ==="PARTIAL_DELIVERY")

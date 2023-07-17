@@ -1,5 +1,6 @@
 import { Client } from "./client";
 import { Fournisseur } from "./fournisseur";
+import { Livraison } from "./livraison";
 import { Societe } from "./societe";
 
 export class Address {
@@ -12,4 +13,5 @@ export class Address {
   societe : Societe
   client : Client
   fournisseur: Fournisseur // added this
+  livraison :Livraison |null
 }

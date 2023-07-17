@@ -10,6 +10,7 @@ import { Facture } from "./facture"
 import { FactureAvoir } from "./facture-avoir"
 import { FactureSimple } from "./facture-simple"
 import { TypeArticle } from "./type-article"
+import { BonsCommande } from './bons-commande';
 
 export class Article {
 
@@ -31,5 +32,7 @@ export class Article {
 
     //+
     bonLivraison :BonLivraison
+    bonsCommande :BonsCommande
+
 
 }

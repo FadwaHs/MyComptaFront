@@ -352,7 +352,7 @@
         <td class="text-gray-2">{{this.details.formatNumber(devis.totalHT)}} {{this.details.getCurrencySymbol(devis.devise)}}</td>
       </tr>
       <tr *ngFor= "let article of devis.articleList">
-        <td >{{'DROP_MENU.SHOW.TVA' | translate}} ({{article.tva}}%)</td>
+        <td class="font-bold" >{{'DROP_MENU.SHOW.TVA' | translate}} ({{article.tva}}%)</td>
         <td class="text-gray-2"> {{this.details.formatNumber(this.details.calulTVA(article))}} {{this.details.getCurrencySymbol(devis.devise)}}</td>
      </tr>
      <tr>

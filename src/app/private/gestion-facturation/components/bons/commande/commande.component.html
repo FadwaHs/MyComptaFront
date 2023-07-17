@@ -1,0 +1,22 @@
+<section>
+  <app-top-bar for="BC" type="list"  ></app-top-bar>
+  <app-empty-data-message for="BC" *ngIf= "isEmpty"></app-empty-data-message>
+
+  <div>
+
+    <div class=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
+      <app-card *ngFor="let bc of bonCommande | paginate : {
+          itemsPerPage: pageSize,
+          currentPage: page,
+          totalItems: count
+        }; let i = index"
+      for= "BC" [data]= "bc" (refreshListPage)= "onRefresh()"></app-card>
+  </div>
+
+  <app-pagination (pageChange)= "pageChange($event)" (pageSizeChange)= "pageSizeChange($event)"></app-pagination>
+
+
+</div>
+
+
+</section>

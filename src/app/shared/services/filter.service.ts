@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { BCStatus } from 'src/app/private/gestion-facturation/enums/BCStatus';
 import { BLStatus } from 'src/app/private/gestion-facturation/enums/BLStatus';
 import { OppStatus } from 'src/app/private/gestion-facturation/enums/OppStatus';
 import { AvoireFournisseurStatus } from 'src/app/private/gestion-facturation/enums/avoire-fournisseur-status';
@@ -29,7 +30,7 @@ import { BonLivraison } from 'src/app/private/gestion-facturation/models/bons-li
 
 
     callMethodFilterStatus(filterStatus : DevisStatus  | FactureSimpleStatus |FactureAvoirStatus|FactureAcompteStatus
-      |SimpleFournisseurStatus|AvoireFournisseurStatus | OppStatus| BLStatus| null ){
+      |SimpleFournisseurStatus|AvoireFournisseurStatus | OppStatus| BLStatus| BCStatus|null ){
 
       this.callMethodFilterStatusSource.next(filterStatus);
     }

@@ -1,3 +1,4 @@
+import { BonsCommande } from './../../../private/gestion-facturation/models/bons-commande';
 import { AvoireFournisseur } from './../../../private/gestion-facturation/models/avoir-fournisseur';
 import { DecimalPipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
@@ -35,7 +36,7 @@ export class ArticlePanelComponent implements OnInit {
 
   @Input()
 
-  for : 'D' | 'F'|'A'|'SF'|'AF'|'BL'
+  for : 'D' | 'F'|'A'|'SF'|'AF'|'BL'|'BC'
 
 
   tvaNotApplicable : boolean
@@ -295,6 +296,8 @@ export class ArticlePanelComponent implements OnInit {
         else if (this.for == 'AF') article.avoireFournisseur = data as AvoireFournisseur;
 
         else if (this.for == 'BL') article.bonLivraison =  data as BonLivraison;
+        else if (this.for == 'BC') article.bonsCommande =  data as BonsCommande;
+
 
 
         else return
