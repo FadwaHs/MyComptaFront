@@ -55,10 +55,6 @@ export class ShowAcompteComponent {
           error: (err) => console.log(err),
           complete: () => {
             this.devis = this.facture.devis
-
-            console.log(this.devis ,"devvvv")
-            console.log(this.facture.devis ,"fffdevvvv")
-
             this.clientId =this.devis.client?.id
             this.getSocieteForDevisClient()
             this.checkSlug();

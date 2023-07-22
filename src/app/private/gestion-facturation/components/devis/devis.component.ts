@@ -4,6 +4,9 @@ import { FilterService } from 'src/app/shared/services/filter.service';
 import { DevisStatus } from '../../enums/devis-status';
 import { DevisService } from '../../http/devis.service';
 import { Devis } from '../../models/devis';
+import { ShareDataService } from 'src/app/shared/services/shareData.service';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-devis',
@@ -23,7 +26,10 @@ export class DevisComponent implements OnInit {
   count :number = 0;
   pageSize :number = 8;
 
-  constructor(private devisService : DevisService, private filterService : FilterService) {
+
+
+  constructor(private devisService : DevisService, private filterService : FilterService
+    ) {
     this.filterService.methodSearchCalled$.subscribe(
       (res) => {
         this.data = res

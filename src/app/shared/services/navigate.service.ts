@@ -50,6 +50,15 @@ export class NavigateService {
   public readonly f_livraisonPath = this.f_bonsPath+'/livraison'
   public readonly f_commandePath = this.f_bonsPath+'/commande'
 
+  //pdf
+  public readonly f_pdfPath = this.facturationPath+'/pdf'
+  public readonly devisPath = '/devis/'
+  public readonly factSimpPath = '/facture-simple/'
+  public readonly avoirPath = '/avoir/'
+  public readonly acomptePath = '/acompte/'
+
+
+
 
 
   constructor(){ }
@@ -159,5 +168,16 @@ export class NavigateService {
     else return ''
   }
 
+  toPdfPath(from :'D'|'F'|'A'|'FA', id : number ,slug : string) : string {
+    if(from == 'D')
+       return this.f_pdfPath+this.devisPath+id+'-'+slug
+    else if(from == 'F')
+       return this.f_pdfPath+this.factSimpPath+id+'-'+slug
+    else if(from == 'A')
+       return this.f_pdfPath+this.avoirPath+id+'-'+slug
+       else if(from == 'FA')
+       return this.f_pdfPath+this.acomptePath+id+'-'+slug
+   else return ''
+  }
 
 }

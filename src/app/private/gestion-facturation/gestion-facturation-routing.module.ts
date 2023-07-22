@@ -79,7 +79,11 @@ const routes: Routes = [
     loadChildren: ()=>
     import('./components/facture-fournisseur/facture-fournisseur.module').then((m) => m.FactureFournisseurModule),
   },
-
+  {
+    path: 'pdf',
+    loadChildren: ()=>
+    import('./components/pdf/pdf.module').then((m) => m.PdfModule),
+  },
 
 ];
 

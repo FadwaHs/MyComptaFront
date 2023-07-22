@@ -1,0 +1,13 @@
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { PdfComponent } from './pdf.component';
+
+const routes: Routes = [{ path: '', component: PdfComponent },
+{ path: 'devis/:id-slug', component: PdfComponent },
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
+})
+export class PdfRoutingModule { }

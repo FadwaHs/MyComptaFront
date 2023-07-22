@@ -35,6 +35,8 @@ const routes: Routes = [
   { path: 'bons', loadChildren: () => import('./private/gestion-facturation/components/bons/bons.module').then(m => m.BonsModule) },
   { path: 'livraison', loadChildren: () => import('./private/gestion-facturation/components/bons/livraison/livraison.module').then(m => m.LivraisonModule) },
   { path: 'commande', loadChildren: () => import('./private/gestion-facturation/components/bons/commande/commande.module').then(m => m.CommandeModule) },
+
+  { path: 'pdf', loadChildren: () => import('./private/gestion-facturation/components/pdf/pdf.module').then(m => m.PdfModule) },
   ];
 
 

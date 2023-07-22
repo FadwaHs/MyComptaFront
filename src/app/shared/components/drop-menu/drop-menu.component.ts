@@ -1,3 +1,4 @@
+import { ShareDataService } from './../../services/shareData.service';
 import { AvoirFournisseurService } from './../../../private/gestion-facturation/http/avoir-fournisseur.service';
 import { ModeReglementService } from 'src/app/private/gestion-facturation/http/mode-reglement.service';
 import { Paiement } from './../../../private/gestion-facturation/models/paiement';
@@ -55,6 +56,8 @@ import { AvoireFournisseurStatus } from 'src/app/private/gestion-facturation/enu
 import { BonsCommande } from 'src/app/private/gestion-facturation/models/bons-commande';
 import { BCStatus } from 'src/app/private/gestion-facturation/enums/BCStatus';
 import { BonCommandeService } from 'src/app/private/gestion-facturation/http/bonCommande.service';
+import { PdfService } from '../../services/pdf.service';
+import { identifierName } from '@angular/compiler';
 
 
 @Component({
@@ -155,6 +158,7 @@ export class DropMenuComponent implements OnInit {
 
    @ViewChild('addPayPopup') addPayPopup: TemplateRef<any>;
 
+   pdfSrc: string | null = null;
 
 
 
@@ -199,6 +203,8 @@ export class DropMenuComponent implements OnInit {
     private compteBcService: CompteBcService,
     private toastr: ToastrService,
     private translate : TranslateService,
+    private pdfService: PdfService,
+    private shareDataService:ShareDataService
 
 
   ){
@@ -1081,7 +1087,37 @@ export class DropMenuComponent implements OnInit {
         console.log(reason); // Handle the error or cancellation
       });  }
 
+      // getPdf(id:number) {
+      //   this.pdfService.getDevisPdfData(id).subscribe((data: Blob) => {
+      //     this.showPdf(data);
+      //   });
+      // }
 
+      // showPdf(data: Blob) {
+      //   const blob = new Blob([data], { type: 'application/pdf' });
+      //   const url = window.URL.createObjectURL(blob);
+
+      //   // Open the PDF in a new tab
+      //   window.open(url, '_blank');
+      // }
+
+      viewPdf(id: number) {
+         console.log('Calling viewPdf with id:', id);
+       if(this.for==="D"){
+          this.pdfService.getDevisPdfData(id).subscribe(
+            (data: Blob) => {
+              console.log('Received PDF data:', data);
+              this.shareDataService.showPdf(data);
+              // this.router.navigate(['/environment/1/facturation/pdf']);
+              this.router.navigateByUrl(this.navigate.toPdfPath('D',id,this.data.slug));
+            },
+          (error) => {
+            console.error('Failed to fetch PDF data:', error);
+          }
+        );
+       }
+
+    }
 
 
 
