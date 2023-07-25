@@ -132,13 +132,14 @@ export class AddEditClientComponent implements OnInit{
     this.clientForm = this.formBuilder.group({
       firstName: [null, Validators.required],
       lastName: [null, Validators.required],
-      email: null,
+      email: ['', [Validators.required, Validators.email]],
       function: null,
       prospect:false,
+      website: ['', [Validators.pattern(this.getWebsiteUrlRegex())]],
       language: [this.defaultLang, Validators.required],
-      twitter:null,
-      facebook:null,
-      linkedin:null,
+      twitter: ['', [Validators.pattern(this.getSocialUrlRegex('twitter'))]],
+      facebook: ['', [Validators.pattern(this.getSocialUrlRegex('facebook'))]],
+      linkedin: ['', [Validators.pattern(this.getSocialUrlRegex('linkedin'))]],
       compteTiers:null,
       clientType:null,
       note: null
@@ -419,4 +420,37 @@ export class AddEditClientComponent implements OnInit{
     }
   }
 
+
+  getSocialUrlRegex(socialMedia: string): string {
+    switch (socialMedia) {
+      case 'twitter':
+        return '^https?://(?:www\\.)?twitter\\.com/(?:(?!home).)*$';
+      
+     
+case 'facebook':
+        
+       
+return '^https?://(?:www\\.)?facebook\\.com/.*$';
+      case 'linkedin':
+        
+       
+return '^https?://(?:www\\.)?linkedin\\.com/in/.*$';
+      default:
+        
+       
+return '';
+    }
+  }
+
+  getWebsiteUrlRegex(): string {
+    
+   
+    return '^https?://(?:www\\.)?[a-zA-Z0-9_-]+\\.[a-zA-Z]{2,}(?:/[a-zA-Z0-9_]+)?$';
+      }
+    
 }
+
+  
+
+
+

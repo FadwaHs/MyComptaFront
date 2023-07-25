@@ -67,8 +67,10 @@
 
       <div class="flex flex-col gap-11">
         <input type="text" placeholder="{{ 'FORM.INPUT.FN' | translate }} *"class="common-input" formControlName="firstName"  required/>
-        <input type="text" placeholder="{{ 'FORM.INPUT.LN' | translate }} *"  class="common-input"  formControlName="lastName" />
-        <input type="text" placeholder="{{ 'FORM.INPUT.EMAIL' | translate }}" class="common-input" formControlName="email" />
+        <input type="text" placeholder="{{ 'FORM.INPUT.LN' | translate }} *"  class="common-input"  formControlName="lastName" />  <input type="email" placeholder="{{ 'FORM.INPUT.EMAIL' | translate }}" class="common-input" formControlName="email">
+        <div *ngIf="fournisseurForm.get('email')?.hasError('email')" style="color: red; font-size: 12px;">
+          L'Email n'est pas valide
+        </div>
         <input type="text" placeholder="{{ 'FORM.INPUT.F' | translate }}" class="common-input" formControlName="function"/>
         <input type="text" placeholder="{{ 'FORM.INPUT.RF' | translate }}" class="common-input" formControlName="reference"/>
         <input type="text" placeholder="{{ 'FORM.INPUT.SI' | translate }} "class="common-input"  formControlName="website" *ngIf="isPar"/>
@@ -77,47 +79,58 @@
     </div>
 
           <!-- Social -->
-          <div class="flex flex-col gap-6 px-3 py-6  ring-1 ring-gray-3 rounded-md relative">
-            <div>
-              <span  class="span-title">{{ "FORM.TITLE.SC" | translate }}</span>
-            </div>
-            <ng-container>
-              <div class="flex">
-                <span class="bg-gray-1 rounded-l-full px-2 flex items-center">
-                  <svg-icon name="twitter" svgClass="w-6"></svg-icon>
-                </span>
-                <input type="text"
-                  placeholder="{{ 'FORM.INPUT.TWT' | translate }}"
-                  class="common-input-social"
-                  formControlName="twitter"
-                />
+          <form [formGroup]="fournisseurForm">
+            <div class="flex flex-col gap-6 px-3 py-6 ring-1 ring-gray-3 rounded-md relative">
+              <div>
+                <span class="span-title">{{ "FORM.TITLE.SC" | translate }}</span>
               </div>
-              <div class="flex">
-                <span class="bg-gray-1 rounded-l-full px-2 flex items-center">
-                  <svg-icon name="facebook" svgClass="w-6"></svg-icon>
-                </span>
-                <input
-                  type="text"
-                  placeholder="{{ 'FORM.INPUT.FB' | translate }}"
-                  class="common-input-social"
-                  formControlName="facebook"
-                />
-              </div>
-
-              <div class="flex">
-                <span class="bg-gray-1 rounded-l-full px-2 flex items-center">
-                  <svg-icon name="linkedin" svgClass="w-6"></svg-icon>
-                </span>
-                <input
-                  type="text"
-                  placeholder="{{ 'FORM.INPUT.LI' | translate }}"
-                  class="common-input-social"
-                  formControlName="linkedin"
-                />
-              </div>
-            </ng-container>
-          </div>
-  </form>
+              <ng-container>
+                <div class="flex">
+                  <span class="bg-gray-1 rounded-l-full px-2 flex items-center">
+                    <svg-icon name="twitter" svgClass="w-6"></svg-icon>
+                  </span>
+                  <input type="text"
+                    placeholder="{{ 'FORM.INPUT.TWT' | translate }}"
+                    class="common-input-social"
+                    formControlName="twitter"
+                  />
+                </div>
+                <div *ngIf="fournisseurForm.get('twitter')?.invalid && fournisseurForm.get('twitter')?.dirty" style="color: red; font-size: 12px;">
+                  Twitter URL is not valid.
+                </div>
+          
+                <div class="flex">
+                  <span class="bg-gray-1 rounded-l-full px-2 flex items-center">
+                    <svg-icon name="facebook" svgClass="w-6"></svg-icon>
+                  </span>
+                  <input
+                    type="text"
+                    placeholder="{{ 'FORM.INPUT.FB' | translate }}"
+                    class="common-input-social"
+                    formControlName="facebook"
+                  />
+                </div>
+                <div *ngIf="fournisseurForm.get('facebook')?.invalid && fournisseurForm.get('facebook')?.dirty" style="color: red; font-size: 12px;">
+                  Facebook URL is not valid.
+                </div>
+          
+                <div class="flex">
+                  <span class="bg-gray-1 rounded-l-full px-2 flex items-center">
+                    <svg-icon name="linkedin" svgClass="w-6"></svg-icon>
+                  </span>
+                  <input
+                    type="text"
+                    placeholder="{{ 'FORM.INPUT.LI' | translate }}"
+                    class="common-input-social"
+                    formControlName="linkedin"
+                  />
+                </div>
+                <div *ngIf="fournisseurForm.get('linkedin')?.invalid && fournisseurForm.get('linkedin')?.dirty" style="color: red; font-size: 12px;">
+                  LinkedIn URL is not valid.
+                </div>
+              </ng-container>
+            </div></form>
+          </form>
 
 
     <!-- Coordonnées du fournisseurs column -->

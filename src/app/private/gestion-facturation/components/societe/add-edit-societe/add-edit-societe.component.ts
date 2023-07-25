@@ -106,12 +106,12 @@ export class AddEditSocieteComponent implements OnInit {
       ntva: null,
       siren: null,
       codeNaf: null,
-      website: null,
+      website: ['', [Validators.pattern(this.getWebsiteUrlRegex())]],
       prospect:false,
       language: [this.defaultLang, Validators.required],
-      twitter:null,
-      facebook:null,
-      linkedin:null,
+      twitter: [null, [Validators.pattern(this.getSocialUrlRegex('twitter'))]],
+      facebook: ['', [Validators.pattern(this.getSocialUrlRegex('facebook'))]],
+      linkedin: ['', [Validators.pattern(this.getSocialUrlRegex('linkedin'))]],
       secteur:null,
       societeType:null,
       note:null
@@ -347,4 +347,32 @@ export class AddEditSocieteComponent implements OnInit {
     });
 
   }
+
+  getSocialUrlRegex(socialMedia: string): string {
+    switch (socialMedia) {
+      case 'twitter':
+        return '^https?://(?:www\\.)?twitter\\.com/(?:(?!home).)*$';
+      
+     
+case 'facebook':
+        
+       
+return '^https?://(?:www\\.)?facebook\\.com/.*$';
+      case 'linkedin':
+        
+       
+return '^https?://(?:www\\.)?linkedin\\.com/in/.*$';
+      default:
+        
+       
+return '';
+    }
+  }
+
+  getWebsiteUrlRegex(): string {
+    
+   
+    return '^https?://(?:www\\.)?[a-zA-Z0-9_-]+\\.[a-zA-Z]{2,}(?:/[a-zA-Z0-9_]+)?$';
+      }
+    
 }

@@ -32,6 +32,9 @@
                     formControlName="codeNaf">
                 <input type="text" placeholder="{{'FORM.INPUT.SI' | translate}} " class="common-input"
                     formControlName="website">
+                    <div *ngIf="societeForm.get('website')?.invalid && societeForm.get('website')?.dirty" style="color: red;">
+                      Website URL is not valid.
+              </div>
 
 
                 <div class="relative">
@@ -53,47 +56,59 @@
             </div>
         </div>
          <!-- Social -->
-         <div class="flex flex-col gap-6 p-3 ring-1 ring-gray-3 rounded-md relative h-fit">
-          <div>
-            <span class="span-title">{{ "FORM.TITLE.SC" | translate }}</span>
+         <form [formGroup]="societeForm">
+          <div class="flex flex-col gap-6 px-3 py-6 ring-1 ring-gray-3 rounded-md relative">
+            <div>
+              <span class="span-title">{{ "FORM.TITLE.SC" | translate }}</span>
+            </div>
+            <ng-container>
+              <div class="flex">
+                <span class="bg-gray-1 rounded-l-full px-2 flex items-center">
+                  <svg-icon name="twitter" svgClass="w-6"></svg-icon>
+                </span>
+                <input type="text"
+                  placeholder="{{ 'FORM.INPUT.TWT' | translate }}"
+                  class="common-input-social"
+                  formControlName="twitter"
+                />
+              </div>
+              <div *ngIf="societeForm.get('twitter')?.invalid && societeForm.get('twitter')?.dirty" style="color: red; font-size: 12px;">
+                Twitter URL is not valid.
+              </div>
+        
+              <div class="flex">
+                <span class="bg-gray-1 rounded-l-full px-2 flex items-center">
+                  <svg-icon name="facebook" svgClass="w-6"></svg-icon>
+                </span>
+                <input
+                  type="text"
+                  placeholder="{{ 'FORM.INPUT.FB' | translate }}"
+                  class="common-input-social"
+                  formControlName="facebook"
+                />
+              </div>
+              <div *ngIf="societeForm.get('facebook')?.invalid && societeForm.get('facebook')?.dirty" style="color: red; font-size: 12px;">
+                Facebook URL is not valid.
+              </div>
+        
+              <div class="flex">
+                <span class="bg-gray-1 rounded-l-full px-2 flex items-center">
+                  <svg-icon name="linkedin" svgClass="w-6"></svg-icon>
+                </span>
+                <input
+                  type="text"
+                  placeholder="{{ 'FORM.INPUT.LI' | translate }}"
+                  class="common-input-social"
+                  formControlName="linkedin"
+                />
+              </div>
+              <div *ngIf="societeForm.get('linkedin')?.invalid && societeForm.get('linkedin')?.dirty" style="color: red; font-size: 12px;">
+                LinkedIn URL is not valid.
+              </div>
+            </ng-container>
           </div>
-          <ng-container>
-            <div class="flex">
-              <span class="bg-gray-1 rounded-l-full px-2 flex items-center">
-                <svg-icon name="twitter" svgClass="w-6"></svg-icon>
-              </span>
-              <input type="text"
-                placeholder="{{ 'FORM.INPUT.TWT' | translate }}"
-                class="common-input-social"
-                formControlName="twitter"
-              />
-            </div>
-            <div class="flex">
-              <span class="bg-gray-1 rounded-l-full px-2 flex items-center">
-                <svg-icon name="facebook" svgClass="w-6"></svg-icon>
-              </span>
-              <input
-                type="text"
-                placeholder="{{ 'FORM.INPUT.FB' | translate }}"
-                class="common-input-social"
-                formControlName="facebook"
-              />
-            </div>
-
-            <div class="flex">
-              <span class="bg-gray-1 rounded-l-full px-2 flex items-center">
-                <svg-icon name="linkedin" svgClass="w-6"></svg-icon>
-              </span>
-              <input
-                type="text"
-                placeholder="{{ 'FORM.INPUT.LI' | translate }}"
-                class="common-input-social"
-                formControlName="linkedin"
-              />
-            </div>
-          </ng-container>
-
-       </div>
+        </form>
+      
 
     </div>
 

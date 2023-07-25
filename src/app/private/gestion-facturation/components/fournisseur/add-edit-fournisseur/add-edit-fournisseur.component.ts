@@ -140,16 +140,18 @@ export class AddEditFournisseurComponent {
     this.fournisseurForm = this.formBuilder.group({
       firstName: [null, Validators.required],
       lastName: [null, Validators.required],
-      email: null,
+      email: ['', [Validators.required, Validators.email]],
       function: null,
       reference: null,
       note: null,
-      twitter:null,
-      facebook:null,
-      linkedin:null,
+      website: ['', [Validators.pattern(this.getWebsiteUrlRegex())]],
+      twitter: ['', [Validators.pattern(this.getSocialUrlRegex('twitter'))]],
+      facebook: ['', [Validators.pattern(this.getSocialUrlRegex('facebook'))]],
+      linkedin: ['', [Validators.pattern(this.getSocialUrlRegex('linkedin'))]],
       societe:null,
       compteTiers:null,
       compteCharge : null
+      
     });
   }
 
@@ -434,5 +436,33 @@ export class AddEditFournisseurComponent {
       }
     }
   }
+
+
+  getSocialUrlRegex(socialMedia: string): string {
+    switch (socialMedia) {
+      case 'twitter':
+        return '^https?://(?:www\\.)?twitter\\.com/(?:(?!home).)*$';
+      
+     
+case 'facebook':
+        
+       
+return '^https?://(?:www\\.)?facebook\\.com/.*$';
+      case 'linkedin':
+        
+       
+return '^https?://(?:www\\.)?linkedin\\.com/in/.*$';
+      default:
+        
+       
+return '';
+    }
+  }
+
+  getWebsiteUrlRegex(): string {
+    
+   
+    return '^https?://(?:www\\.)?[a-zA-Z0-9_-]+\\.[a-zA-Z]{2,}(?:/[a-zA-Z0-9_]+)?$';
+      }
 
 }
