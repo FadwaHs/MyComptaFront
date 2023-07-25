@@ -104,6 +104,15 @@ export class FormGroupService {
     return value;
   }
 
+   // Custom validation for checking if a control value is a valid phone number
+   static validPhoneNumber(control: AbstractControl): { [key: string]: any } | null {
+    const phoneNumberRegex = /^[0-9]{10}$/; // Replace with your desired phone number validation regex
+    const value = control.value;
+    if (value && !phoneNumberRegex.test(value)) {
+      return { invalidPhoneNumber: true };
+    }
+    return null;
+  }
 
 }
 

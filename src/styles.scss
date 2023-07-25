@@ -65,7 +65,7 @@
     /* MODAL STYLES
 -------------------------------*/
 modal {
-  /* modals are hidden by default */
+  /* modals are hidden by  default */
   // display: none;
 
   .modal {
@@ -136,9 +136,8 @@ modal {
 }
 
 .modal-content{
-  @apply grid-flow-row justify-center p-6 bg-gray-1 ring-1 ring-black-1 m-3  w-full;
-  max-height: 460px; /* Set a maximum height for the modal content */
-  max-width: 595px;
+  @apply grid-flow-row justify-center p-6 bg-gray-1 ring-1 ring-black-1 m-3 rounded-4xl w-full;
+  max-height: 480px; /* Set a maximum height for the modal content */
   overflow-y: auto; /* Add scrollable feature */
 
 }
@@ -594,5 +593,4 @@ nav{
 }
 
 //
-
 
