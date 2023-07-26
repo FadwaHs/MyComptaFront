@@ -1,8 +1,9 @@
-import { Component, Injector } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 import { NgSelectConfig } from '@ng-select/ng-select';
 import { TranslateService } from '@ngx-translate/core';
 import { SvgIconRegistryService } from 'angular-svg-icon';
 import { forkJoin } from 'rxjs';
+import { AuthService } from './public/http/auth.service';
 const listIconsvg: string[] = [
   'dashboard',
   'clients',
@@ -75,13 +76,14 @@ const listIconsvg: string[] = [
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent  implements OnInit{
   title = 'MyCompta-Front';
 
   constructor(
     private svgIconRegistryService: SvgIconRegistryService,
     private config: NgSelectConfig,
     private translateService: TranslateService,
+    private authService : AuthService,
   ) {
 
     listIconsvg.forEach((name) => {
@@ -100,5 +102,13 @@ export class AppComponent {
       },
       error: (e) => console.log(e),
     });
+  }
+
+
+  // READ LOCALSTORAGE TO GET the accessToken
+  ngOnInit(): void {
+
+    this.authService.loadJwtTokenFromLocalStorage()
+
   }
 }

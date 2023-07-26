@@ -33,7 +33,7 @@ childReglementForm: ReglementFormComponent;
 @ViewChild(KeyWordFormComponent)
 childKeyWord: KeyWordFormComponent;
 
-//adresse de livraison
+
 @ViewChild(AddressFormComponent)
 childAddress: AddressFormComponent;
 
@@ -131,13 +131,15 @@ tvaApplicableChanged(){
   this.childArticlePanel.setTvaNotApplicable(this.bonCForm.controls['tvaNotApplicable'].value)
 }
 
-async setOtherForms() {
+ setOtherForms() {
+
   if (this.isDraft || this.isRead || this.isSent || this.isExpired) {
     if (this.bonCommande.motCleList.length)
       this.childKeyWord.setFormValues(this.bonCommande.motCleList);
 
     this.childArticlePanel.setFormValues(this.bonCommande.articleList);
-    await this.childAddress.setFormValues(this.bonCommande.livraison.adresseLivraison);
+    this.childAddress.setFormValues(this.bonCommande.livraison.adresseLivraison);
+
   } else {
     setTimeout(() => {
       if (this.bonCommande.motCleList.length)
