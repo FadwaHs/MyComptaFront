@@ -5,7 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -21,6 +21,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { FournisseurRoutingModule } from './private/gestion-facturation/components/fournisseur/fournisseur-routing.module';
 import { ToastrModule } from 'ngx-toastr';
+import { AppHttpInterceptor } from './public/interceptors/app-http.interceptor';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -92,6 +93,7 @@ function getCurrentLocal(){
 
   providers: [
     { provide: LOCALE_ID, useValue: getCurrentLocal() },
+    { provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptor, multi : true }
   ],
   bootstrap: [AppComponent],
 })

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Inject, Input, OnInit, Output, ViewChild } fro
 import { ActivatedRoute, NavigationEnd, Route, Router } from '@angular/router';
 import { FilterService } from 'src/app/shared/services/filter.service';
 import { NavigateService } from '../../../shared/services/navigate.service';
+import { AuthService } from 'src/app/public/http/auth.service';
 // import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
 
 // import { CdkOverlayOrigin } from '@angular/cdk/overlay';
@@ -13,6 +14,7 @@ import { NavigateService } from '../../../shared/services/navigate.service';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
+
   // @ViewChild('menuTrigger', { static: true, read: CdkOverlayOrigin })
   // menuTrigger!: CdkOverlayOrigin;
   @Input() isdropMenuMobile: boolean;
@@ -26,13 +28,24 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private filterService: FilterService,
-    public navigate: NavigateService, private router: Router
+    public navigate: NavigateService, private router: Router,
+    private authService : AuthService
     // @Inject('ajoutToken') ajout: boolean,
-  ) {}
+  ){}
 
   ngOnInit(): void {
+
     this.setNavBarType();
+
   }
+
+
+  handelerlogout() {
+
+    this.authService.logout();
+
+  }
+
 
 
   checkfacturesRouteIsActive() : boolean{
@@ -121,7 +134,6 @@ closeNestedMenu2(): void {
 isMobileLinkActive(link: string): boolean {
   return this.router.isActive(link, false);
 }
-
 
 
 
