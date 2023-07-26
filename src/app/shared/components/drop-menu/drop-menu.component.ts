@@ -1102,11 +1102,9 @@ export class DropMenuComponent implements OnInit {
       // }
 
       viewPdf(id: number) {
-         console.log('Calling viewPdf with id:', id);
        if(this.for==="D"){
           this.pdfService.getDevisPdfData(id).subscribe(
             (data: Blob) => {
-              console.log('Received PDF data:', data);
               this.shareDataService.showPdf(data);
               // this.router.navigate(['/environment/1/facturation/pdf']);
               this.router.navigateByUrl(this.navigate.toPdfPath('D',id,this.data.slug));
@@ -1117,7 +1115,50 @@ export class DropMenuComponent implements OnInit {
         );
        }
 
+       else if(this.for==="F"){
+        this.pdfService.getSimplePdfData(id).subscribe(
+          (data: Blob) => {
+            this.shareDataService.showPdf(data);
+            // this.router.navigate(['/environment/1/facturation/pdf']);
+            this.router.navigateByUrl(this.navigate.toPdfPath('F',id,this.data.slug));
+          },
+        (error) => {
+          console.error('Failed to fetch PDF data:', error);
+        }
+      );
+     }
+
+     else if(this.for==="FA"){
+      console.log('Calling viewPdf with id:', id);
+      this.pdfService.getAcomptePdfData(id).subscribe(
+        (data: Blob) => {
+          console.log('Received PDF data:', data);
+
+          this.shareDataService.showPdf(data);
+          // this.router.navigate(['/environment/1/facturation/pdf']);
+          this.router.navigateByUrl(this.navigate.toPdfPath('FA',id,this.data.slug));
+        },
+      (error) => {
+        console.error('Failed to fetch PDF data:', error);
+      }
+    );
+   }
+   else if(this.for==="A"){
+    console.log('Calling viewPdf with id:', id);
+    this.pdfService.getAvoirPdfData(id).subscribe(
+      (data: Blob) => {
+        console.log('Received PDF data:', data);
+
+        this.shareDataService.showPdf(data);
+        // this.router.navigate(['/environment/1/facturation/pdf']);
+        this.router.navigateByUrl(this.navigate.toPdfPath('A',id,this.data.slug));
+      },
+    (error) => {
+      console.error('Failed to fetch PDF data:', error);
     }
+  );
+ }
+  }
 
 
 

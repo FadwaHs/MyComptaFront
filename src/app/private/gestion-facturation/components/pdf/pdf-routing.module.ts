@@ -4,6 +4,12 @@ import { PdfComponent } from './pdf.component';
 
 const routes: Routes = [{ path: '', component: PdfComponent },
 { path: 'devis/:id-slug', component: PdfComponent },
+{ path: 'facture-simple/:id-slug', component: PdfComponent },
+{ path: 'acompte/:id-slug', component: PdfComponent },
+{ path: 'avoir/:id-slug', component: PdfComponent },
+
+
+
 ];
 
 @NgModule({

@@ -8,7 +8,7 @@ export class ShareDataService {
   pdfData$ = this.pdfDataSubject.asObservable();
 
   showPdf(data: Blob) {
-    console.log('Received PDF data in ShareDataService:', data);
+  //  console.log('Received PDF data in ShareDataService:', data);
     this.pdfDataSubject.next(data);
   }
 }
