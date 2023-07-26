@@ -74,7 +74,7 @@ const routes: Routes = [
       ),
   },
 
-  {
+  { 
     path: 'factures-fournisseur',
     loadChildren: ()=>
     import('./components/facture-fournisseur/facture-fournisseur.module').then((m) => m.FactureFournisseurModule),
