@@ -14,3 +14,4 @@ describe('AppHttpInterceptor', () => {
     expect(interceptor).toBeTruthy();
   });
 });
+
